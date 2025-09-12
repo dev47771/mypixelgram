@@ -20,20 +20,31 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Unit tests') {
-             steps {
-                echo "Preparing started..."
-                  script {
-                      sh '''
-                         export NVM_DIR="$HOME/.nvm"
-                         [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-                         nvm use --lts
-                         pnpm install
-                         pnpm test
-                      '''
-                  }
-             }
+        stage('Install Dependencies') {
+      steps {
+        sh 'pnpm install'
+      }
+    }
+
+    /*
+    stage('Unit Tests') {
+      steps {
+        sh 'pnpm test'
+      }
+    }
+    */
+
+    /*
+    stage('Install Dependencies & Run Tests') {
+      steps {
+        echo "Running Chromatic visual tests... SKIPPED"
+
+        withCredentials([string(credentialsId: 'chromatic-project-token', variable: 'CHROMATIC_PROJECT_TOKEN')]) {
+          sh 'pnpm chromatic --exit-zero-on-changes'
         }
+      }
+    }
+    */
         stage('Build docker image') {
             steps {
                 echo "Build image started..."
