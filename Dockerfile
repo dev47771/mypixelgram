@@ -2,7 +2,7 @@
 FROM node:20.11-alpine as dependencies
 WORKDIR /app
 COPY package*.json ./
-RUN pnpm install
+RUN npm install
 
 #Билдим приложение
 #Кэширование зависимостей — если файлы в проекте изменились,
@@ -19,4 +19,4 @@ WORKDIR /app
 ENV NODE_ENV production
 COPY --from=builder /app/ ./
 EXPOSE 3000
-CMD ["pnpm", "start"]
+CMD ["npm", "start"]
