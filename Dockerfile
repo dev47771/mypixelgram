@@ -23,7 +23,7 @@ COPY . .
 
 # Копируем зависимости из предыдущего стейджа
 COPY --from=dependencies /app/node_modules ./node_modules
-COPY --from=dependencies /app/.pnpm-store /app/.pnpm-store
+# COPY --from=dependencies /app/.pnpm-store /app/.pnpm-store
 
 # Билдим
 RUN pnpm run build:production
