@@ -1,3 +1,14 @@
+@import '../styles/index.css';
+
 @import 'tailwindcss';
 
-@import '../styles/index.css';
+/*
+Example custom styles:
+background-color add className: 'bg-danger-900',
+color text add className: 'text-danger-900',
+font-size text add className: 'text-xxl',
+line-height text add className: 'leading-l',
+font-weight text add className: 'font-bold',
+*/
+@config '../../tailwind.config.ts'
+
