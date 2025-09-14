@@ -30,7 +30,7 @@ export const NotificationIcon = ({ count, ...rest }: Props) => {
             fill="currentColor"
             fillRule="evenodd"
          />
-         {count && (
+         {count && count > 0 && (
             <>
                <circle cx="17.5" cy="6.5" r="6.5" fill="rgb(204,20.4,57.1201)" />
                <text
