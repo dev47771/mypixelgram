@@ -1,5 +1,6 @@
 import { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react'
 import { TypographyVariant } from '@/shared/lib'
+import { clsx } from 'clsx'
 
 export type TypographyProps<T extends ElementType = 'p'> = {
    as?: T
@@ -32,11 +33,9 @@ export const Typography = <T extends ElementType = 'p'>({
    ...rest
 }: TypographyProps<T>) => {
    const Component = as || 'p'
-   const baseClass = variantClasses[variant]
-   const mergedClass = className ? `${baseClass} ${className}` : baseClass
 
    return (
-      <Component className={mergedClass} {...rest}>
+      <Component className={clsx(variantClasses[variant], className)} {...rest}>
          {children}
       </Component>
    )
