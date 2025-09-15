@@ -1,29 +1,16 @@
-import { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react'
+import { ComponentPropsWithRef, ElementType, ReactNode } from 'react'
 import { TypographyVariant } from '@/shared/lib'
 import { clsx } from 'clsx'
+import { resolveTypographyTag } from '@/shared/components/Typography/resolveTag'
+import { variantClasses } from '@/shared/components/Typography/variantClasses'
+import Link from 'next/link'
 
-export type TypographyProps<T extends ElementType = 'p'> = {
+export type TypographyProps<T extends ElementType> = {
    as?: T
    children?: ReactNode
    className?: string
    variant?: TypographyVariant
-} & ComponentPropsWithoutRef<T>
-
-const variantClasses: Record<TypographyVariant, string> = {
-   large: 'text-xxl font-semibold leading-l',
-   h1: 'text-xl font-bold leading-l',
-   h2: 'text-l font-bold leading-m',
-   h3: 'text-m font-semibold leading-m',
-   bodyRegular: 'text-m font-regular leading-m',
-   bodyBold: 'text-m font-bold leading-m',
-   captionRegular: 'text-s font-regular leading-m',
-   captionMedium: 'text-s font-medium leading-m',
-   captionBold: 'text-s font-bold leading-m',
-   smallRegular: 'text-xs font-regular  leading-s',
-   smallBold: 'text-xs font-semibold leading-s',
-   linkRegular: 'cursor-pointer text-s font-regular text-accent-500 underline leading-m',
-   linkSmall: 'cursor-pointer text-s font-regular text-accent-500 underline leading-s',
-}
+} & (T extends typeof Link ? ComponentPropsWithRef<typeof Link> : ComponentPropsWithRef<T>)
 
 export const Typography = <T extends ElementType = 'p'>({
    as,
@@ -32,10 +19,14 @@ export const Typography = <T extends ElementType = 'p'>({
    variant = 'bodyRegular',
    ...rest
 }: TypographyProps<T>) => {
-   const Component = as || 'p'
+   const Component = resolveTypographyTag(as, variant)
+   const mergedClass =
+      variant in variantClasses
+         ? clsx(variantClasses[variant as TypographyVariant], className)
+         : className
 
    return (
-      <Component className={clsx(variantClasses[variant], className)} {...rest}>
+      <Component className={mergedClass} {...rest}>
          {children}
       </Component>
    )
