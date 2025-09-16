@@ -1,19 +1,23 @@
 import React, { ComponentPropsWithRef } from 'react'
 import * as LabelRadix from '@radix-ui/react-label'
 import { clsx } from 'clsx'
+import { Typography } from '@/shared/components/Typography'
 
 type Props = {
-   children?: React.ReactNode
+   disabled?: boolean
 } & ComponentPropsWithRef<typeof LabelRadix.Root>
 
-export const Label = ({ children, className, htmlFor, ...rest }: Props) => {
+export const Label = ({ children, className, htmlFor, disabled, ...rest }: Props) => {
    return (
       <LabelRadix.Root
-         className={clsx(htmlFor && 'cursor-pointer', className)}
-         htmlFor={htmlFor}
+         className={clsx(disabled ? 'text-dark-100' : 'text-light-900', className)}
+         htmlFor={disabled ? '' : htmlFor}
+         asChild
          {...rest}
       >
-         {children}
+         <Typography as={'label'} variant={'captionRegular'}>
+            {children}
+         </Typography>
       </LabelRadix.Root>
    )
 }

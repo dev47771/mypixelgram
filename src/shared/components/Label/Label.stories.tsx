@@ -1,6 +1,5 @@
 import { Label } from '@/shared/components/Label'
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { Typography } from '@/shared/components/Typography'
 
 const meta = {
    component: Label,
@@ -31,14 +30,14 @@ export const LabelWithInput: Story = {
    },
 }
 
-export const WithLabelTypography: Story = {
+export const LabelDisabled: Story = {
    render: () => {
       return (
          <div className="flex items-center gap-2">
-            <Label htmlFor={'input2'}>
-               <Typography variant="bodyBold">Email</Typography>
+            <Label htmlFor={'input3'} disabled>
+               hello
             </Label>
-            <input id={'input2'} type="text" className="border-dark-100 rounded-[2px] border p-1" />
+            <input id={'input3'} type="text" className="border-dark-100 rounded-[2px] border p-1" />
          </div>
       )
    },
