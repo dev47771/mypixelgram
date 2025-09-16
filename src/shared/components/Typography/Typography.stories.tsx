@@ -33,12 +33,18 @@ export const H1: Story = {
 export const AllVariants: Story = {
    render: () => (
       <div className="flex flex-col">
-         {typographyVariants.map(variant => (
-            <div key={variant} className="flex items-center gap-5">
-               <span className="text-m text-gray-500">{variant}:</span>
-               <Typography variant={variant}>Card content</Typography>
-            </div>
-         ))}
+         {typographyVariants.map(variant => {
+            const isLink = variant.includes('link')
+
+            return (
+               <div key={variant} className="flex items-center gap-5">
+                  <span className="text-m text-gray-500">{variant}:</span>
+                  <Typography variant={variant} {...(isLink ? { href: '#' } : {})}>
+                     Card content
+                  </Typography>
+               </div>
+            )
+         })}
       </div>
    ),
 }
