@@ -22,7 +22,7 @@ export const UICheckbox: React.FC<UICheckboxProps> = ({
             tabIndex={0}
             className={`force-hover relative flex h-9 w-9 items-center justify-center rounded-full border-none bg-transparent shadow-none ring-0 outline-none ${
                disabled
-                  ? 'hover:bg-transparent focus-visible:bg-transparent active:bg-transparent'
+                  ? 'hover:bg-transparent active:bg-transparent focus-visible:bg-transparent'
                   : 'hover:bg-dark-300 active:bg-dark-100 focus-visible:bg-dark-500'
             } `}
          >
