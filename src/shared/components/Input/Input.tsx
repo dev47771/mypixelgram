@@ -9,13 +9,13 @@ import { Typography } from '@/shared/components/Typography'
 type Props = {
    errorMessage?: string
    label?: string
-   onChange?: (value: string) => void
+   onValueChange?: (value: string) => void
    type?: 'password' | 'search' | 'text'
 } & ComponentPropsWithRef<'input'>
 
 export const Input = ({
    type = 'text',
-   onChange,
+   onValueChange,
    label,
    errorMessage,
    className,
@@ -28,8 +28,8 @@ export const Input = ({
    const isShowButton = type === 'password'
 
    const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-      if (onChange) {
-         onChange(e.currentTarget.value)
+      if (onValueChange) {
+         onValueChange(e.currentTarget.value)
       }
    }
 
