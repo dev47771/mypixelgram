@@ -44,7 +44,7 @@ export const Input = ({
       type === 'search' && 'pl-[38px]',
       errorMessage ? 'border-danger-500' : 'border-dark-100',
       'hover:border-light-900',
-      'focus:border-accent-500 focus:text-light-100 focus-visible:border-accent-500 focus-visible:text-light-100 active:border-light-100',
+      'focus:ring-2 focus:ring-accent-500 focus:border-transparent focus:text-light-100 focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:text-light-100 active:ring-light-100',
       disabled
          ? 'pointer-events-none border-dark-300 text-dark-300 placeholder:text-dark-300'
          : 'text-light-900 placeholder:text-light-900',
