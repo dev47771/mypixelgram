@@ -16,6 +16,7 @@ type Props = {
 export const Input = ({
    type = 'text',
    onValueChange,
+   onChange,
    label,
    errorMessage,
    className,
@@ -30,6 +31,9 @@ export const Input = ({
    const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
       if (onValueChange) {
          onValueChange(e.currentTarget.value)
+      }
+      if (onChange) {
+         onChange(e)
       }
    }
 
