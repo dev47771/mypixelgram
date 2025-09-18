@@ -12,8 +12,10 @@ font-weight text add className: 'font-bold',
 */
 @config '../../tailwind.config.ts';
 
-input[type='search']::-webkit-search-cancel-button {
-   visibility: visible;
-   filter: brightness(0) invert(1);
-   cursor: pointer;
+@layer base {
+   input[type='search']::-webkit-search-cancel-button {
+      visibility: visible;
+      filter: brightness(0) invert(1);
+      cursor: pointer;
+   }
 }
