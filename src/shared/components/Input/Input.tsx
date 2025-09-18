@@ -1,6 +1,6 @@
 'use client'
 
-import React, { ChangeEvent, ComponentPropsWithRef, useEffect, useRef, useState } from 'react'
+import React, { ChangeEvent, ComponentPropsWithRef, useState } from 'react'
 import { clsx } from 'clsx'
 import { SearchIcon, VisibilityIcon, VisibilityOffIcon } from '@/shared/icons'
 import { Label } from '@/shared/components/Label'
@@ -23,16 +23,6 @@ export const Input = ({
    ...rest
 }: Props) => {
    const [showPassword, setShowPassword] = useState(false)
-   const [isTruncated, setIsTruncated] = useState(false)
-   const errorRef = useRef<HTMLDivElement>(null)
-
-   useEffect(() => {
-      if (errorRef.current) {
-         const { scrollWidth, clientWidth } = errorRef.current
-         console.log(scrollWidth, clientWidth)
-         setIsTruncated(scrollWidth > clientWidth)
-      }
-   }, [errorMessage])
 
    const isShowSearch = type === 'search'
    const isShowButton = type === 'password'
@@ -62,7 +52,7 @@ export const Input = ({
    )
 
    return (
-      <div className={clsx('flex w-full min-w-[250px] flex-col pb-3')}>
+      <div className={clsx('flex w-full min-w-[250px] flex-col')}>
          {label && <Label disabled={disabled}>{label}</Label>}
          <div className={'relative flex flex-col'}>
             <input
@@ -73,26 +63,14 @@ export const Input = ({
                {...rest}
             />
 
-            <div className={'absolute bottom-[-19px] min-h-[15px] w-full'}>
+            <div className={'relative min-h-[24px] w-full'}>
                {errorMessage && !disabled && (
-                  <div className="group relative max-w-full">
-                     <Typography
-                        variant={'captionRegular'}
-                        className={clsx(
-                           'text-danger-500 max-w-full truncate',
-                           isTruncated && 'cursor-help'
-                        )}
-                        ref={errorRef}
-                     >
-                        {errorMessage}
-                     </Typography>
-
-                     {isTruncated && (
-                        <div className="bg-light-300 text-dark-900 absolute z-10 hidden max-w-[300px] rounded px-2 py-1 text-xs break-words whitespace-normal group-hover:block">
-                           {errorMessage}
-                        </div>
-                     )}
-                  </div>
+                  <Typography
+                     variant={'captionRegular'}
+                     className={clsx('text-danger-500 break-words whitespace-normal')}
+                  >
+                     {errorMessage}
+                  </Typography>
                )}
             </div>
 
