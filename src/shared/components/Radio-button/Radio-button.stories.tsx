@@ -16,7 +16,6 @@ const meta = {
       onValueChange: { action: 'valueChanged' }, // ← Правильное событие
    },
    args: {
-      // Аргументы для ГРУППЫ радио-кнопок
       options: arr,
       defaultValue: 'option 1',
       groupDisabled: false,
@@ -36,7 +35,7 @@ export const DefaultWithGroupLabel: Story = {
 
 export const NoDefaultSelection: Story = {
    args: {
-      defaultValue: '', // ← Ничего не выбрано по умолчанию
+      defaultValue: '',
    },
 }
 
