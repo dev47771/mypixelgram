@@ -18,7 +18,7 @@ const meta = {
    args: {
       // Аргументы для ГРУППЫ радио-кнопок
       options: arr,
-      defaultValue: 'option1',
+      defaultValue: 'option 1',
       groupDisabled: false,
    },
 } satisfies Meta<typeof RadioButton>
@@ -66,7 +66,7 @@ export const ActiveState: Story = {
       ),
    ],
    args: {
-      options: [{ value: 'option1', label: 'Option 1' }],
+      options: [{ value: 'option 1', label: 'Option 1' }],
    },
 }
 
@@ -79,7 +79,7 @@ export const HoverState: Story = {
       ),
    ],
    args: {
-      options: [{ value: 'option1', label: 'Option 1' }],
+      options: [{ value: 'option 1', label: 'Option 1' }],
    },
 }
 
@@ -92,7 +92,7 @@ export const FocusState: Story = {
       ),
    ],
    args: {
-      options: [{ value: 'option1', label: 'Option 1' }],
+      options: [{ value: 'option 1', label: 'Option 1' }],
    },
 }
 
