@@ -1,10 +1,11 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import RadioButton from './Radio-button'
+import { useState } from 'react'
 
 const arr = [
-   { value: 'option1', label: 'Option 1' },
-   { value: 'option2', label: 'Option 2' },
-   { value: 'option3', label: 'Option 3' },
+   { value: 'option 1', label: 'Option 1' },
+   { value: 'option 2', label: 'Option 2' },
+   { value: 'option 3', label: 'Option 3' },
 ]
 
 const meta = {
@@ -42,9 +43,9 @@ export const NoDefaultSelection: Story = {
 export const WithDisabledOption: Story = {
    args: {
       options: [
-         { value: 'option1', label: 'Option 1' },
-         { value: 'option2', label: 'Option 2', disabled: true },
-         { value: 'option3', label: 'Option 3' },
+         { value: 'option 1', label: 'Option 1' },
+         { value: 'option 2', label: 'Option 2', disabled: true },
+         { value: 'option 3', label: 'Option 3' },
       ],
    },
 }
@@ -92,5 +93,24 @@ export const FocusState: Story = {
    ],
    args: {
       options: [{ value: 'option1', label: 'Option 1' }],
+   },
+}
+
+export const DefaultGetValue: Story = {
+   args: {
+      options: arr,
+      defaultValue: '',
+   },
+   render: args => {
+      const [selectedValue, setSelectedValue] = useState(args.defaultValue)
+      const handleValueChange = (value: string) => {
+         setSelectedValue(value)
+      }
+      return (
+         <div>
+            <RadioButton {...args} defaultValue={selectedValue} onValueChange={handleValueChange} />
+            <div className="mt-4">Выбранное значение: {selectedValue}</div>
+         </div>
+      )
    },
 }
