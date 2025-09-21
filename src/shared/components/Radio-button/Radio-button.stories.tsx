@@ -40,7 +40,6 @@ export const DefaultSelection: Story = {
 }
 
 export const NoDefaultSelection: Story = {
-   args: {},
    render: args => (
       <RadioButton {...args}>
          <RadioItem value="1" label="Первый вариант" />
@@ -91,7 +90,6 @@ export const WithDisabledOption: Story = {
 }
 
 export const DefaultGetValue: Story = {
-   args: {},
    render: args => {
       const [selectedValue, setSelectedValue] = useState(args.defaultValue)
 

@@ -12,11 +12,6 @@ import { Label } from '../Label'
  * @param disabled - Disable this specific radio item
  * @param groupDisabled - Inherited disabled state from parent RadioButton
  *
- * @example
- * ```tsx
- * <RadioItem value="option1" label="First Option" />
- * <RadioItem value="option2" label="Second Option" disabled />
- * ```
  */
 
 type Props = ComponentPropsWithRef<typeof RadioGroupPrimitive.Item> & {
@@ -32,7 +27,21 @@ export const RadioItem = (props: Props) => {
 
    return (
       <div className="group flex items-center gap-3">
-         <div className="relative">
+         <div
+            className={clsx(
+               'relative',
+               !isDisabled &&
+                  [
+                     'before:absolute before:-inset-2 before:rounded-full',
+                     'before:scale-0 before:opacity-0',
+                     'before:transition-all before:duration-200',
+                     'before:-z-10',
+                     'hover:before:bg-dark-300 hover:before:scale-100 hover:before:opacity-100',
+                     'active:before:bg-dark-100 active:before:scale-100 active:before:opacity-100',
+                     'group-focus-within:before:bg-dark-500 group-focus-within:before:scale-100 group-focus-within:before:opacity-100',
+                  ].join(' ')
+            )}
+         >
             <RadioGroupPrimitive.Item
                disabled={isDisabled}
                className={clsx(
@@ -53,20 +62,6 @@ export const RadioItem = (props: Props) => {
                   )}
                />
             </RadioGroupPrimitive.Item>
-
-            {!isDisabled && (
-               <div
-                  className={clsx(
-                     'absolute -inset-2 rounded-full',
-                     'scale-0 opacity-0',
-                     'transition-all duration-200',
-
-                     'group-hover:bg-dark-300 group-hover:scale-100 group-hover:opacity-100',
-                     'group-active:bg-dark-100 group-active:scale-100 group-active:opacity-100',
-                     'group-focus-within:bg-dark-500 group-focus-within:scale-100 group-focus-within:opacity-100'
-                  )}
-               />
-            )}
          </div>
 
          <Label

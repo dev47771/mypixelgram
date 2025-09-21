@@ -13,14 +13,6 @@ import { RadioItem } from './RadioItem'
  * @param value - Controlled selected value
  * @param onValueChange - Callback function when selected value changes
  *
- * @example
- * ```tsx
- * // Basic usage
- * <RadioButton defaultValue="option1">
- *   <RadioItem value="option1" label="Option 1" />
- *   <RadioItem value="option2" label="Option 2" disabled/>
- * </RadioButton>
- * ```
  */
 type Props = ComponentPropsWithRef<typeof RadioGroupPrimitive.Root> & {
    groupLabel?: string
