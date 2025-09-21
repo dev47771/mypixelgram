@@ -1,7 +1,10 @@
+'use client'
+
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
-import { ComponentPropsWithRef } from 'react'
 import clsx from 'clsx'
+import { ComponentPropsWithRef, useContext } from 'react'
 import { Label } from '../Label'
+import { RadioGroupContext } from './Radio-button'
 
 /**
  * Individual radio item component for use within RadioButton
@@ -21,7 +24,8 @@ type Props = ComponentPropsWithRef<typeof RadioGroupPrimitive.Item> & {
 }
 
 export const RadioItem = (props: Props) => {
-   const { disabled, label, id, value, groupDisabled, ...rest } = props
+   const { groupDisabled } = useContext(RadioGroupContext)
+   const { disabled, label, id, value, ...rest } = props
 
    const isDisabled = disabled || groupDisabled
 

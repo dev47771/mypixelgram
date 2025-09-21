@@ -1,7 +1,8 @@
+'use client'
+
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
-import { ComponentPropsWithRef, ReactNode, Children, cloneElement, isValidElement } from 'react'
+import { ComponentPropsWithRef, createContext, ReactNode } from 'react'
 import { Typography } from '../Typography'
-import { RadioItem } from './RadioItem'
 
 /**
  * A customizable radio group component built with Radix UI
@@ -14,6 +15,9 @@ import { RadioItem } from './RadioItem'
  * @param onValueChange - Callback function when selected value changes
  *
  */
+
+export const RadioGroupContext = createContext({ groupDisabled: false })
+
 type Props = ComponentPropsWithRef<typeof RadioGroupPrimitive.Root> & {
    groupLabel?: string
    groupDisabled?: boolean
@@ -24,7 +28,7 @@ export const RadioButton = (props: Props) => {
    const { children, groupLabel, groupDisabled, ...rest } = props
 
    return (
-      <fieldset className="space-y-3" disabled={groupDisabled}>
+      <div className="space-y-3">
          {groupLabel && (
             <Typography
                as="legend"
@@ -35,15 +39,11 @@ export const RadioButton = (props: Props) => {
             </Typography>
          )}
 
-         <RadioGroupPrimitive.Root className="space-y-3" disabled={groupDisabled} {...rest}>
-            {/**transfer props groupDisabled to all nested RadioItems (disabling all buttons at once)*/}
-            {Children.map(children, child => {
-               if (!isValidElement(child)) return child
-               return cloneElement(child, { groupDisabled } as Partial<
-                  React.ComponentProps<typeof RadioItem>
-               >)
-            })}
-         </RadioGroupPrimitive.Root>
-      </fieldset>
+         <RadioGroupContext.Provider value={{ groupDisabled: !!groupDisabled }}>
+            <RadioGroupPrimitive.Root className="space-y-3" disabled={groupDisabled} {...rest}>
+               {children}
+            </RadioGroupPrimitive.Root>
+         </RadioGroupContext.Provider>
+      </div>
    )
 }
