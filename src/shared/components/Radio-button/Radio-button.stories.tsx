@@ -10,12 +10,15 @@ import { useState } from 'react'
 const meta = {
    title: 'Components/RadioButton',
    component: RadioButton,
+   parameters: {
+      layout: 'centered',
+      backgrounds: { default: 'dark' },
+   },
    tags: ['autodocs'],
    argTypes: {
       onValueChange: { action: 'valueChanged' },
    },
    args: {
-      groupDisabled: false,
       children: null,
    },
 } satisfies Meta<typeof RadioButton>
