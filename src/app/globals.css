@@ -10,5 +10,4 @@ font-size text add className: 'text-xxl',
 line-height text add className: 'leading-l',
 font-weight text add className: 'font-bold',
 */
-@config '../../tailwind.config.ts'
-
+@config '../../tailwind.config.ts';
