@@ -1,113 +1,110 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
-import RadioButton from './Radio-button'
+import { RadioButton } from './Radio-button'
+import { RadioItem } from './RadioItem'
 import { useState } from 'react'
 
-const arr = [
-   { value: 'option 1', label: 'Option 1' },
-   { value: 'option 2', label: 'Option 2' },
-   { value: 'option 3', label: 'Option 3' },
-]
+/**
+ * children: null - error is disabled because Storybook tries to include all component props in the args type, including children
+ */
 
 const meta = {
    title: 'Components/RadioButton',
    component: RadioButton,
    tags: ['autodocs'],
    argTypes: {
-      onValueChange: { action: 'valueChanged' }, // ← Правильное событие
+      onValueChange: { action: 'valueChanged' },
    },
    args: {
-      options: arr,
-      defaultValue: 'option 1',
       groupDisabled: false,
+      children: null,
    },
 } satisfies Meta<typeof RadioButton>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {}
-
-export const DefaultWithGroupLabel: Story = {
+export const DefaultSelection: Story = {
    args: {
-      groupLabel: 'Choose an option',
+      defaultValue: '3',
    },
+   render: args => (
+      <RadioButton {...args}>
+         <RadioItem value="1" label="Первый вариант" />
+         <RadioItem value="2" label="Второй вариант" />
+         <RadioItem value="3" label="Третий вариант" />
+      </RadioButton>
+   ),
 }
 
 export const NoDefaultSelection: Story = {
+   args: {},
+   render: args => (
+      <RadioButton {...args}>
+         <RadioItem value="1" label="Первый вариант" />
+         <RadioItem value="2" label="Второй вариант" />
+         <RadioItem value="3" label="Третий вариант" />
+      </RadioButton>
+   ),
+}
+
+export const WithGroupLabel: Story = {
    args: {
-      defaultValue: '',
+      defaultValue: '3',
+      groupLabel: 'Список вариантов:',
    },
+   render: args => (
+      <RadioButton {...args}>
+         <RadioItem value="1" label="Первый вариант" />
+         <RadioItem value="2" label="Второй вариант" />
+         <RadioItem value="3" label="Третий вариант" />
+      </RadioButton>
+   ),
+}
+
+export const FullDisabled: Story = {
+   args: {
+      groupDisabled: true,
+   },
+   render: args => (
+      <RadioButton {...args}>
+         <RadioItem value="1" label="Первый вариант" />
+         <RadioItem value="2" label="Второй вариант" />
+         <RadioItem value="3" label="Третий вариант" />
+      </RadioButton>
+   ),
 }
 
 export const WithDisabledOption: Story = {
    args: {
-      options: [
-         { value: 'option 1', label: 'Option 1' },
-         { value: 'option 2', label: 'Option 2', disabled: true },
-         { value: 'option 3', label: 'Option 3' },
-      ],
+      defaultValue: '3',
    },
-}
-
-export const FullyDisabled: Story = {
-   args: {
-      options: arr,
-      groupDisabled: true,
-   },
-}
-
-export const ActiveState: Story = {
-   decorators: [
-      Story => (
-         <div className="[&_.group]:[&>div>div:last-child]:bg-dark-100 [&_.group]:[&>div>div:last-child]:scale-100 [&_.group]:[&>div>div:last-child]:opacity-100">
-            <Story />
-         </div>
-      ),
-   ],
-   args: {
-      options: [{ value: 'option 1', label: 'Option 1' }],
-   },
-}
-
-export const HoverState: Story = {
-   decorators: [
-      Story => (
-         <div className="[&_.group]:[&>div>div:last-child]:bg-dark-300 [&_.group]:[&>div>div:last-child]:scale-100 [&_.group]:[&>div>div:last-child]:opacity-100">
-            <Story />
-         </div>
-      ),
-   ],
-   args: {
-      options: [{ value: 'option 1', label: 'Option 1' }],
-   },
-}
-
-export const FocusState: Story = {
-   decorators: [
-      Story => (
-         <div className="[&_.group]:[&>div>div:last-child]:bg-dark-500 [&_.group]:[&>div>div:last-child]:scale-100 [&_.group]:[&>div>div:last-child]:opacity-100">
-            <Story />
-         </div>
-      ),
-   ],
-   args: {
-      options: [{ value: 'option 1', label: 'Option 1' }],
-   },
+   render: args => (
+      <RadioButton {...args}>
+         <RadioItem value="1" label="Первый вариант" />
+         <RadioItem value="2" label="Второй вариант" disabled />
+         <RadioItem value="3" label="Третий вариант" />
+      </RadioButton>
+   ),
 }
 
 export const DefaultGetValue: Story = {
-   args: {
-      options: arr,
-      defaultValue: '',
-   },
+   args: {},
    render: args => {
       const [selectedValue, setSelectedValue] = useState(args.defaultValue)
-      const handleValueChange = (value: string) => {
-         setSelectedValue(value)
-      }
+
       return (
          <div>
-            <RadioButton {...args} defaultValue={selectedValue} onValueChange={handleValueChange} />
+            <RadioButton
+               {...args}
+               value={selectedValue}
+               onValueChange={setSelectedValue}
+               groupLabel="Выберите вариант:"
+            >
+               <RadioItem value="1" label="Первый вариант" />
+               <RadioItem value="2" label="Второй вариант" />
+               <RadioItem value="3" label="Третий вариант" />
+            </RadioButton>
+
             <div className="mt-4">Выбранное значение: {selectedValue}</div>
          </div>
       )

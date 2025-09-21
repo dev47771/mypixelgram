@@ -1,0 +1,83 @@
+import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
+import { ComponentPropsWithRef } from 'react'
+import clsx from 'clsx'
+import { Label } from '../Label'
+
+/**
+ * Individual radio item component for use within RadioButton
+ *
+ * @param label - Display text for the radio option
+ * @param value - Unique value for the radio option
+ * @param id - Optional custom id (defaults to value)
+ * @param disabled - Disable this specific radio item
+ * @param groupDisabled - Inherited disabled state from parent RadioButton
+ *
+ * @example
+ * ```tsx
+ * <RadioItem value="option1" label="First Option" />
+ * <RadioItem value="option2" label="Second Option" disabled />
+ * ```
+ */
+
+type Props = ComponentPropsWithRef<typeof RadioGroupPrimitive.Item> & {
+   label: string
+   id?: string
+   groupDisabled?: boolean
+}
+
+export const RadioItem = (props: Props) => {
+   const { disabled, label, id, value, groupDisabled, ...rest } = props
+
+   const isDisabled = disabled || groupDisabled
+
+   return (
+      <div className="group flex items-center gap-3">
+         <div className="relative">
+            <RadioGroupPrimitive.Item
+               disabled={isDisabled}
+               className={clsx(
+                  'relative z-10 flex h-5 w-5 items-center justify-center',
+                  'rounded-full border-2 transition-all duration-200 focus:outline-none',
+                  isDisabled
+                     ? 'border-dark-100 cursor-not-allowed'
+                     : 'border-light-100 cursor-pointer'
+               )}
+               value={value}
+               id={id || value}
+               {...rest}
+            >
+               <RadioGroupPrimitive.Indicator
+                  className={clsx(
+                     'h-[10px] w-[10px] rounded-full transition-all duration-200',
+                     isDisabled ? 'bg-dark-100' : 'bg-light-100'
+                  )}
+               />
+            </RadioGroupPrimitive.Item>
+
+            {!isDisabled && (
+               <div
+                  className={clsx(
+                     'absolute -inset-2 rounded-full',
+                     'scale-0 opacity-0',
+                     'transition-all duration-200',
+
+                     'group-hover:bg-dark-300 group-hover:scale-100 group-hover:opacity-100',
+                     'group-active:bg-dark-100 group-active:scale-100 group-active:opacity-100',
+                     'group-focus-within:bg-dark-500 group-focus-within:scale-100 group-focus-within:opacity-100'
+                  )}
+               />
+            )}
+         </div>
+
+         <Label
+            htmlFor={id || value}
+            className={clsx(
+               'flex items-center',
+               isDisabled ? '!text-light-900 cursor-default' : '!text-light-100 cursor-pointer'
+            )}
+         >
+            {label}
+         </Label>
+      </div>
+   )
+}
