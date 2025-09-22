@@ -10,5 +10,12 @@ font-size text add className: 'text-xxl',
 line-height text add className: 'leading-l',
 font-weight text add className: 'font-bold',
 */
-@config '../../tailwind.config.ts'
+@config '../../tailwind.config.ts';
 
+@layer base {
+   input[type='search']::-webkit-search-cancel-button {
+      visibility: visible;
+      filter: brightness(0) invert(1);
+      cursor: pointer;
+   }
+}
