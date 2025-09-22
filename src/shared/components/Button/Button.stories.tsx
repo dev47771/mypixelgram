@@ -1,12 +1,13 @@
 import { LogoutIcon } from '@/shared/icons'
 import { Button } from '.'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
+import Link from 'next/link'
 
 const meta = {
    argTypes: {
       variant: {
          control: { type: 'radio' },
-         options: ['primary', 'secondary', 'tertiary', 'link'],
+         options: ['primary', 'secondary', 'outlined', 'textButton'],
       },
    },
    component: Button,
@@ -24,6 +25,24 @@ export const Primary: Story = {
       variant: 'primary',
    },
 }
+
+export const PrimaryAsLink: Story = {
+   args: {
+      children: <Link href={'#'}>Button as link</Link>,
+      disabled: false,
+      variant: 'primary',
+      asChild: true,
+   },
+}
+
+export const PrimaryDisabled: Story = {
+   args: {
+      children: 'Button primary',
+      disabled: true,
+      variant: 'primary',
+   },
+}
+
 export const PrimaryWithIcon: Story = {
    args: {
       children: (
@@ -44,6 +63,15 @@ export const Secondary: Story = {
       variant: 'secondary',
    },
 }
+
+export const SecondaryDisabled: Story = {
+   args: {
+      children: 'Button secondary',
+      disabled: true,
+      variant: 'secondary',
+   },
+}
+
 export const SecondaryWithIcon: Story = {
    args: {
       children: (
@@ -53,10 +81,6 @@ export const SecondaryWithIcon: Story = {
          </>
       ),
       disabled: false,
-      style: {
-         display: 'flex',
-         gap: '10px',
-      },
       variant: 'secondary',
    },
 }
@@ -67,5 +91,21 @@ export const FullWidth: Story = {
       disabled: false,
       fullWidth: true,
       variant: 'primary',
+   },
+}
+
+export const Outlined: Story = {
+   args: {
+      children: 'Button outlined',
+      disabled: false,
+      variant: 'outlined',
+   },
+}
+
+export const TextButton: Story = {
+   args: {
+      children: 'Button text',
+      disabled: false,
+      variant: 'textButton',
    },
 }

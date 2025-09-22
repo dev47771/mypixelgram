@@ -8,30 +8,54 @@ type Props = {
    fullWidth?: boolean
 } & ComponentPropsWithRef<'button'>
 
-export const Button = ({ asChild, variant = 'primary', className, fullWidth, ...rest }: Props) => {
+export const Button = ({
+   asChild = false,
+   variant = 'primary',
+   className,
+   fullWidth = false,
+   ...rest
+}: Props) => {
+   const baseClasses = clsx(
+      'cursor-pointer inline-flex justify-center items-center box-border px-5.75 py-1.25 rounded-sm  text-m font-semibold leading-m transition-all duration-200 ease-in-out gap-2.5',
+      'focus:outline-none',
+      'disabled:cursor-not-allowed',
+      {
+         'w-full': fullWidth,
+      }
+   )
+
    const variantClasses: Record<string, string> = {
-      button: 'unset cursor-pointer flex justify-center items-center bg-success-300',
-      /*large: 'text-xxl font-semibold leading-l',
-      h1: 'text-xl font-bold leading-l',
-      h2: 'text-l font-bold leading-m',
-      h3: 'text-m font-semibold leading-m',
-      bodyRegular: 'text-m font-regular leading-m',
-      bodyBold: 'text-m font-bold leading-m',
-      captionRegular: 'text-s font-regular leading-m',
-      captionMedium: 'text-s font-medium leading-m',
-      captionBold: 'text-s font-bold leading-m',
-      smallRegular: 'text-xs font-regular  leading-s',
-      smallBold: 'text-xs font-semibold leading-s',
-      linkRegular: 'cursor-pointer text-s font-regular text-accent-500 underline leading-m',
-      linkSmall: 'cursor-pointer text-s font-regular text-accent-500 underline leading-s',*/
+      primary: clsx(
+         'text-light-100 bg-accent-500 border border-transparent',
+         'hover:bg-accent-100',
+         'active:bg-accent-700 active:text-light-500',
+         'focus:ring-2 focus:ring-accent-700',
+         'disabled:bg-accent-900 disabled:text-light-900'
+      ),
+      secondary: clsx(
+         'text-light-100 bg-dark-300 border border-transparent',
+         'hover:bg-dark-100',
+         'active:bg-[#212121] ',
+         'focus:ring focus:ring-accent-300',
+         'disabled:bg-dark-500 disabled:text-light-900'
+      ),
+      outlined: clsx(
+         'border border-accent-500 text-accent-500 bg-transparent',
+         'hover:border-accent-100 hover:text-accent-100',
+         'active:border-accent-700 active:text-accent-700',
+         'focus:ring focus:ring-accent-700  focus:border-accent-700 focus:text-accent-700',
+         'disabled:border-accent-900 disabled:text-accent-900'
+      ),
+      textButton: clsx(
+         'text-accent-500 bg-transparent border border-transparent',
+         'hover:text-accent-100',
+         'active:text-accent-700',
+         'focus:ring-2 focus:ring-accent-700',
+         'disabled:text-accent-900'
+      ),
    }
 
    const Component = asChild ? Slot : 'button'
 
-   return (
-      <Component
-         className={clsx(variantClasses['button'], variantClasses[variant], className)}
-         {...rest}
-      />
-   )
+   return <Component className={clsx(baseClasses, variantClasses[variant], className)} {...rest} />
 }
