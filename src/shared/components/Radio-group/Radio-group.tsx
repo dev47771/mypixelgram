@@ -1,7 +1,7 @@
 'use client'
 
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
-import { ComponentPropsWithRef, createContext, ReactNode } from 'react'
+import { ComponentPropsWithRef, createContext } from 'react'
 import { Typography } from '../Typography'
 
 /**
@@ -14,6 +14,9 @@ import { Typography } from '../Typography'
  * @param value - Controlled selected value
  * @param onValueChange - Callback function when selected value changes
  *
+ * @prop groupDisabled - Disables all RadioItems when true
+ * @default false - Safe fallback for standalone usage
+
  */
 
 export const RadioGroupContext = createContext({ groupDisabled: false })
@@ -21,10 +24,9 @@ export const RadioGroupContext = createContext({ groupDisabled: false })
 type Props = ComponentPropsWithRef<typeof RadioGroupPrimitive.Root> & {
    groupLabel?: string
    groupDisabled?: boolean
-   children: ReactNode
 }
 
-export const RadioButton = (props: Props) => {
+export const RadioGroup = (props: Props) => {
    const { children, groupLabel, groupDisabled, ...rest } = props
 
    return (

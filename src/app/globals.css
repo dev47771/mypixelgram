@@ -18,4 +18,11 @@ font-weight text add className: 'font-bold',
       filter: brightness(0) invert(1);
       cursor: pointer;
    }
+
+   html {
+      line-height: var(--line-height-m);
+      color: var(--color-light-100);
+      background-color: var(--color-dark-700);
+   }
+
 }

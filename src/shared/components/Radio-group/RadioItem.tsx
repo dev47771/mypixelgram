@@ -4,7 +4,7 @@ import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 import clsx from 'clsx'
 import { ComponentPropsWithRef, useContext } from 'react'
 import { Label } from '../Label'
-import { RadioGroupContext } from './Radio-button'
+import { RadioGroupContext } from './Radio-group'
 
 /**
  * Individual radio item component for use within RadioButton
