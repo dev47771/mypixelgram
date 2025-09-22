@@ -15,7 +15,6 @@ import {
 } from '@/shared/icons'
 import { DropDownMenuItem } from '@/shared/components/dropDownMenu/dropDownMenuItem'
 import { Separator } from '@/shared/components/dropDownMenu/separator'
-import { DropDownMenuLabel } from '@/shared/components/dropDownMenu/dropDownMenuItem/dropDownMenuLabel'
 import { Typography } from '@/shared/components/Typography'
 import { Fragment } from 'react'
 
