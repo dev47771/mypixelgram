@@ -40,6 +40,21 @@ const RadioGroupWrapper = (args: ComponentPropsWithRef<typeof RadioGroup>) => {
    )
 }
 
+const RadioGroupWithDisabledItem = (args: ComponentPropsWithRef<typeof RadioGroup>) => {
+   const [selectedValue, setSelectedValue] = useState(args.defaultValue || '')
+   return (
+      <div>
+         <RadioGroup {...args} onValueChange={setSelectedValue}>
+            <RadioItem value="1" label="Первый вариант" />
+            <RadioItem value="2" label="Второй вариант" disabled />
+            <RadioItem value="3" label="Третий вариант" />
+         </RadioGroup>
+
+         <div className="text-s mt-4">Выбранное значение: {selectedValue}</div>
+      </div>
+   )
+}
+
 export const DefaultSelection: Story = {
    args: {
       defaultValue: '1',
@@ -70,18 +85,5 @@ export const WithDisabledItem: Story = {
       defaultValue: '1',
       groupLabel: 'Выберете вариант',
    },
-   render: args => {
-      const [selectedValue, setSelectedValue] = useState(args.defaultValue || '')
-      return (
-         <div>
-            <RadioGroup {...args} onValueChange={setSelectedValue}>
-               <RadioItem value="1" label="Первый вариант" />
-               <RadioItem value="2" label="Второй вариант" disabled />
-               <RadioItem value="3" label="Третий вариант" />
-            </RadioGroup>
-
-            <div className="text-s mt-4">Выбранное значение: {selectedValue}</div>
-         </div>
-      )
-   },
+   render: args => <RadioGroupWithDisabledItem {...args} />,
 }
