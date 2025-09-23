@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { fn } from 'storybook/test'
 import { Textarea } from '@/shared/components/Textarea/'
-import { useState } from 'react'
+import { ComponentPropsWithRef, useState } from 'react'
 
 const meta = {
    title: 'Components/Textarea',
@@ -52,11 +52,12 @@ export const Disabled: Story = {
    },
 }
 
+const ControlledTextarea = (args: ComponentPropsWithRef<typeof Textarea>) => {
+   const [value, setValue] = useState('')
+
+   return <Textarea {...args} label="Controlled Textarea" value={value} onValueChange={setValue} />
+}
+
 export const Controlled: Story = {
-   render: args => {
-      const [value, setValue] = useState('')
-      return (
-         <Textarea {...args} label="Controlled Textarea" value={value} onValueChange={setValue} />
-      )
-   },
+   render: args => <ControlledTextarea {...args} />,
 }
