@@ -1,4 +1,4 @@
-import { DropDownMenu, DropDownMenuProps } from '@/shared/components/dropDownMenu/index'
+import { DropDownMenu, DropDownMenuLabel } from '@/shared/components/dropDownMenu/index'
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import {
    CopyIcon,
@@ -12,24 +12,17 @@ import {
 import { DropDownMenuItem } from '@/shared/components/dropDownMenu/dropDownMenuItem'
 import { DropDownSeparator } from '@/shared/components/dropDownMenu/dropDownSeparator'
 import { Typography } from '@/shared/components/Typography'
-import { Fragment } from 'react'
 import { DropDownMenuArrow } from '@/shared/components/dropDownMenu/dropDownMenuArrow'
 
 const meta = {
    component: DropDownMenu,
    parameters: {
       layout: 'centered',
-      controls: {
-         exclude: ['trigger', 'children'],
-      },
    },
    argTypes: {
       align: {
          control: { type: 'radio' },
          options: ['end', 'start', 'center'],
-      },
-      label: {
-         control: { type: 'text' },
       },
    },
    tags: ['autodocs'],
@@ -39,64 +32,76 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-const generateNotifications = (count: number) =>
-   Array.from({ length: count }, (_, i) => ({
-      id: i,
-      title: 'Новое уведомление!',
-      subtitle: 'Новое',
-      description: 'Следующий платеж у вас спишется через 1 день',
-      timestamp: '1 час назад',
-   }))
+export const NotificationDropDownWithScroll: Story = {
+   render: () => {
+      const trigger = <NotificationIcon count={3} />
 
-const NotificationDropDownTemplate = ({
-   count,
-   label,
-   align = 'end',
-   className,
-   ...rest
-}: { count: number } & Omit<DropDownMenuProps, 'trigger'>) => {
-   const trigger = <NotificationIcon count={count} />
-   const notifications = generateNotifications(count)
+      return (
+         <DropDownMenu
+            trigger={trigger}
+            align={'end'}
+            label={'Notification'}
+            className={'px-2 py-1'}
+            sideOffset={-5}
+         >
+            <DropDownMenuArrow>
+               <span></span>
+            </DropDownMenuArrow>
 
-   return (
-      <DropDownMenu
-         trigger={trigger}
-         align={align}
-         label={label}
-         className={className}
-         sideOffset={-5}
-         {...rest}
-      >
-         <DropDownMenuArrow>
-            <span></span>
-         </DropDownMenuArrow>
-         {notifications.map(({ id, title, subtitle, description, timestamp }) => (
-            <Fragment key={id}>
-               {label && <DropDownSeparator />}
-               <DropDownMenuItem>
-                  <Typography variant="h3">{title}</Typography>
-                  <Typography as="span">{subtitle}</Typography>
-                  <Typography>{description}</Typography>
-                  <Typography variant="captionRegular">{timestamp}</Typography>
-               </DropDownMenuItem>
-            </Fragment>
-         ))}
-      </DropDownMenu>
-   )
-}
+            <DropDownSeparator />
 
-export const NotificationDropDownManyNotifications: Story = {
-   args: {
-      label: 'Notification',
+            <DropDownMenuItem>
+               <Typography variant="h3"> Новое уведомление!</Typography>
+               <Typography as="span">новое</Typography>
+               <Typography>Следующий платеж у вас спишется через 1 день</Typography>
+               <Typography variant="captionRegular">1 час назад</Typography>
+            </DropDownMenuItem>
+
+            <DropDownSeparator />
+
+            <DropDownMenuItem>
+               <Typography variant="h3"> Новое уведомление!</Typography>
+               <Typography as="span">новое</Typography>
+               <Typography>Следующий платеж у вас спишется через 1 день</Typography>
+               <Typography variant="captionRegular">1 час назад</Typography>
+            </DropDownMenuItem>
+
+            <DropDownSeparator />
+
+            <DropDownMenuItem>
+               <Typography variant="h3"> Новое уведомление!</Typography>
+               <Typography as="span">новое</Typography>
+               <Typography>Следующий платеж у вас спишется через 1 день</Typography>
+               <Typography variant="captionRegular">1 час назад</Typography>
+            </DropDownMenuItem>
+         </DropDownMenu>
+      )
    },
-   render: args => NotificationDropDownTemplate({ count: 7, className: 'px-2 py-1', ...args }),
 }
 
 export const NotificationDropDown: Story = {
-   args: {
-      label: 'Notification',
+   render: () => {
+      const trigger = <NotificationIcon count={2} />
+
+      return (
+         <DropDownMenu trigger={trigger} align={'end'} className={'px-2 py-1'} sideOffset={-5}>
+            <DropDownMenuArrow>
+               <span></span>
+            </DropDownMenuArrow>
+
+            <DropDownMenuLabel>Notification</DropDownMenuLabel>
+
+            <DropDownSeparator />
+
+            <DropDownMenuItem>
+               <Typography variant="h3"> Новое уведомление!</Typography>
+               <Typography as="span">новое</Typography>
+               <Typography>Следующий платеж у вас спишется через 1 день</Typography>
+               <Typography variant="captionRegular">1 час назад</Typography>
+            </DropDownMenuItem>
+         </DropDownMenu>
+      )
    },
-   render: args => NotificationDropDownTemplate({ count: 2, ...args }),
 }
 
 export const MoreDropDown: Story = {
