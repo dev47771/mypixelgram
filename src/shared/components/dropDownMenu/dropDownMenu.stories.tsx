@@ -56,12 +56,21 @@ const NotificationDropDownTemplate = ({
    label,
    hideArrow = false,
    align = 'end',
+   className,
+   ...rest
 }: { count: number } & Omit<DropDownMenuProps, 'trigger'>) => {
    const trigger = <NotificationIcon count={count} />
    const notifications = generateNotifications(count)
 
    return (
-      <DropDownMenu trigger={trigger} align={align} label={label} hideArrow={hideArrow}>
+      <DropDownMenu
+         trigger={trigger}
+         align={align}
+         label={label}
+         hideArrow={hideArrow}
+         className={className}
+         {...rest}
+      >
          {notifications.map(({ id, title, subtitle, description, timestamp }) => (
             <Fragment key={id}>
                {label && <Separator />}
@@ -81,7 +90,7 @@ export const NotificationDropDownManyNotifications: Story = {
    args: {
       label: 'Notification',
    },
-   render: args => NotificationDropDownTemplate({ count: 7, ...args }),
+   render: args => NotificationDropDownTemplate({ count: 7, className: 'px-2 py-1', ...args }),
 }
 
 export const NotificationDropDown: Story = {
