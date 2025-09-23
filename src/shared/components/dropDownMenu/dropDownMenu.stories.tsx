@@ -17,6 +17,7 @@ import { DropDownMenuItem } from '@/shared/components/dropDownMenu/dropDownMenuI
 import { DropDownSeparator } from '@/shared/components/dropDownMenu/dropDownSeparator'
 import { Typography } from '@/shared/components/Typography'
 import { Fragment } from 'react'
+import { DropDownMenuArrow } from '@/shared/components/dropDownMenu/dropDownMenuArrow'
 
 const meta = {
    component: DropDownMenu,
@@ -54,7 +55,6 @@ const generateNotifications = (count: number) =>
 const NotificationDropDownTemplate = ({
    count,
    label,
-   hideArrow = false,
    align = 'end',
    className,
    ...rest
@@ -67,10 +67,13 @@ const NotificationDropDownTemplate = ({
          trigger={trigger}
          align={align}
          label={label}
-         hideArrow={hideArrow}
          className={className}
+         sideOffset={-5}
          {...rest}
       >
+         <DropDownMenuArrow>
+            <span></span>
+         </DropDownMenuArrow>
          {notifications.map(({ id, title, subtitle, description, timestamp }) => (
             <Fragment key={id}>
                {label && <DropDownSeparator />}
@@ -112,7 +115,7 @@ export const MoreDropDown: Story = {
       ]
 
       return (
-         <DropDownMenu trigger={trigger} alignOffset={0} hideArrow>
+         <DropDownMenu trigger={trigger} alignOffset={0}>
             {dropDownItems.map(({ icon, value }) => (
                <DropDownMenuBaseItem key={value} icon={icon} value={value} />
             ))}

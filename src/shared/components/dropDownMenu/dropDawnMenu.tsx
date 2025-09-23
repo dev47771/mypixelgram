@@ -6,7 +6,6 @@ import { clsx } from 'clsx'
 export type DropDownMenuProps = {
    trigger?: ReactNode
    label?: string
-   hideArrow?: boolean
 } & ComponentPropsWithRef<typeof DropdownMenu.Content>
 
 export const DropDownMenu = ({
@@ -14,7 +13,6 @@ export const DropDownMenu = ({
    children,
    align = 'end',
    label,
-   hideArrow,
    className,
    ...rest
 }: DropDownMenuProps) => {
@@ -34,23 +32,12 @@ export const DropDownMenu = ({
                )}
                align={align}
                alignOffset={-24}
-               sideOffset={hideArrow ? 5 : -5}
+               sideOffset={5}
                {...rest}
             >
                {label && <DropDownMenuLabel>{label}</DropDownMenuLabel>}
 
                <div className={'scrollbar-custom max-h-[376px] overflow-y-auto'}>{children}</div>
-
-               {!hideArrow && (
-                  <DropdownMenu.Arrow
-                     asChild
-                     className={
-                        'bg-dark-500 border-dark-100 relative top-[-8px] block h-[16px] w-[16px] rotate-45 border border-t-0 border-l-0'
-                     }
-                  >
-                     <span></span>
-                  </DropdownMenu.Arrow>
-               )}
             </DropdownMenu.Content>
          </DropdownMenu.Portal>
       </DropdownMenu.Root>
