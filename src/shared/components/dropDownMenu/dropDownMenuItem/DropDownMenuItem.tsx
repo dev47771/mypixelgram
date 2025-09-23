@@ -8,7 +8,7 @@ export const DropDownMenuItem = ({ className, ...rest }: Props) => {
    return (
       <DropdownMenu.Item
          className={clsx(
-            'text-light-100 hover:bg-dark-300 relative z-20 max-w-[355px] cursor-pointer bg-transparent bg-clip-padding px-3 py-2 wrap-break-word outline-none',
+            'text-light-100 hover:bg-dark-300 z-20 w-full cursor-pointer bg-transparent bg-clip-content px-2 py-3 wrap-break-word outline-none',
             className
          )}
          {...rest}
