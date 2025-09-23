@@ -1,3 +1,5 @@
+'use client'
+
 import React, { ChangeEvent, ComponentPropsWithRef, useId } from 'react'
 import { Label } from '@/shared/components/Label'
 import { clsx } from 'clsx'
@@ -15,10 +17,12 @@ export const Textarea = ({
    onValueChange,
    onChange,
    disabled,
+   id,
    className,
    ...rest
 }: Props) => {
-   const textareaId = useId()
+   const generateId = useId()
+   const textareaId = id ?? generateId
 
    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
       if (onValueChange) {
