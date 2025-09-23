@@ -17,7 +17,7 @@ export const AllIcons: Story = {
       <div className="bg-light-700 grid grid-cols-6 gap-6 p-6">
          {Object.entries(Icons).map(([name, Icon]) => (
             <div key={name} className="flex flex-col items-center" title={name}>
-               <Icon className="h-6 w-6" count={3} disabled={false} />
+               <Icon className="h-6 w-6" count={3} />
                <span className={'cursor-text text-sm'}>{name}</span>
             </div>
          ))}

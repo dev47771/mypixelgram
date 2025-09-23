@@ -1,15 +1,15 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { UICheckbox } from './Checkbox'
+import { Checkbox } from './Checkbox'
 import { useState } from 'react'
 
 const meta = {
-   component: UICheckbox,
+   component: Checkbox,
    parameters: {
       layout: 'centered',
    },
    tags: ['autodocs'],
    title: 'Components/Checkbox',
-} satisfies Meta<typeof UICheckbox>
+} satisfies Meta<typeof Checkbox>
 
 export default meta
 type Story = StoryObj<typeof meta>
@@ -17,9 +17,9 @@ type Story = StoryObj<typeof meta>
 export const States: Story = {
    render: () => (
       <div className="bg-dark-700 flex flex-col gap-4 p-4">
-         <UICheckbox label="Default" />
-         <UICheckbox label="Disabled and unchecked" disabled />
-         <UICheckbox label="Disabled and checked" checked disabled />
+         <Checkbox label="Default" />
+         <Checkbox label="Disabled and unchecked" disabled />
+         <Checkbox label="Disabled and checked" checked disabled />
       </div>
    ),
 }
@@ -43,19 +43,19 @@ export const Controlled: Story = {
 
       return (
          <div className="bg-dark-700 flex flex-col gap-4 rounded border p-4">
-            <UICheckbox
+            <Checkbox
                label="Принять условия использования"
                checked={agreements.terms}
                onCheckedChange={handleAgreementChange('terms')}
             />
 
-            <UICheckbox
+            <Checkbox
                label="Подписаться на рассылку"
                checked={agreements.newsletter}
                onCheckedChange={handleAgreementChange('newsletter')}
             />
 
-            <UICheckbox
+            <Checkbox
                label="Получать уведомления"
                checked={agreements.notifications}
                onCheckedChange={handleAgreementChange('notifications')}

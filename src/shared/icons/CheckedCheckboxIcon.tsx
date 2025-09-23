@@ -4,7 +4,7 @@ type Props = {
    disabled?: boolean
 } & ComponentPropsWithoutRef<'svg'>
 
-export const CheckedCheckboxIcon = ({ disabled, ...rest }: Props) => {
+export const CheckedCheckboxIcon = ({ disabled = false, ...rest }: Props) => {
    return (
       <svg
          width="18"
