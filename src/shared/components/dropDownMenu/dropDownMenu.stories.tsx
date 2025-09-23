@@ -14,7 +14,7 @@ import {
    UnfollowIcon,
 } from '@/shared/icons'
 import { DropDownMenuItem } from '@/shared/components/dropDownMenu/dropDownMenuItem'
-import { Separator } from '@/shared/components/dropDownMenu/separator'
+import { DropDownSeparator } from '@/shared/components/dropDownMenu/dropDownSeparator'
 import { Typography } from '@/shared/components/Typography'
 import { Fragment } from 'react'
 
@@ -73,7 +73,7 @@ const NotificationDropDownTemplate = ({
       >
          {notifications.map(({ id, title, subtitle, description, timestamp }) => (
             <Fragment key={id}>
-               {label && <Separator />}
+               {label && <DropDownSeparator />}
                <DropDownMenuItem>
                   <Typography variant="h3">{title}</Typography>
                   <Typography as="span">{subtitle}</Typography>
