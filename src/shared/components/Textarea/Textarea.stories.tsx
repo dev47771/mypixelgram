@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { fn } from 'storybook/test'
 import { Textarea } from '@/shared/components/Textarea/'
+import { useState } from 'react'
 
 const meta = {
    title: 'Components/Textarea',
@@ -48,5 +49,14 @@ export const Focus: Story = {
 export const Disabled: Story = {
    args: {
       disabled: true,
+   },
+}
+
+export const Controlled: Story = {
+   render: args => {
+      const [value, setValue] = useState('')
+      return (
+         <Textarea {...args} label="Controlled Textarea" value={value} onValueChange={setValue} />
+      )
    },
 }
