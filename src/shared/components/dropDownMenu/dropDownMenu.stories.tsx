@@ -1,8 +1,4 @@
-import {
-   DropDownMenu,
-   DropDownMenuBaseItem,
-   DropDownMenuProps,
-} from '@/shared/components/dropDownMenu/index'
+import { DropDownMenu, DropDownMenuProps } from '@/shared/components/dropDownMenu/index'
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import {
    CopyIcon,
@@ -117,7 +113,12 @@ export const MoreDropDown: Story = {
       return (
          <DropDownMenu trigger={trigger} alignOffset={0}>
             {dropDownItems.map(({ icon, value }) => (
-               <DropDownMenuBaseItem key={value} icon={icon} value={value} />
+               <DropDownMenuItem key={value} className={'flex items-center gap-3 p-3'}>
+                  {icon}
+                  <Typography variant={'captionRegular'} as={'span'}>
+                     {value}
+                  </Typography>
+               </DropDownMenuItem>
             ))}
          </DropDownMenu>
       )
