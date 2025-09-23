@@ -12,45 +12,44 @@ const Table = ({ className, ...rest }: ComponentPropsWithRef<'table'>) => {
       />
    )
 }
-
 Table.displayName = 'Table'
 
 const TableHead = ({ className, ...rest }: ComponentPropsWithRef<'thead'>) => {
    return <thead className={clsx('bg-dark-500 text-light-100', className)} {...rest} />
 }
-
 TableHead.displayName = 'TableHead'
 
-const TableBody = ({ className, ...rest }: ComponentPropsWithRef<'tbody'>) => {
-   return <tbody className={clsx('', className)} {...rest} />
+const TableBody = ({ ...rest }: ComponentPropsWithRef<'tbody'>) => {
+   return <tbody {...rest} />
 }
-
 TableBody.displayName = 'TableBody'
 
 const TableCell = ({ className, ...rest }: ComponentPropsWithRef<'td'>) => {
    return (
       <td
          className={clsx(
-            'border-dark-500 font-regular leading-s h-full border-b-1 px-4 py-6 text-xs',
+            'border-dark-500 font-regular leading-m text-s h-full border-b-1 px-4 py-6',
             className
          )}
          {...rest}
       />
    )
 }
-
 TableCell.displayName = 'TableCell'
 
-const TableRow = ({ className, ...rest }: ComponentPropsWithRef<'tr'>) => {
-   return <tr className={clsx('', className)} {...rest} />
+const TableRow = ({ ...rest }: ComponentPropsWithRef<'tr'>) => {
+   return <tr {...rest} />
 }
-
 TableRow.displayName = 'TableRow'
 
 const TableHeadCell = ({ className, ...rest }: ComponentPropsWithRef<'th'>) => {
-   return <th className={clsx('leading-s px-4 py-6 text-xs font-semibold', className)} {...rest} />
+   return (
+      <th
+         className={clsx('leading-m text-s px-4 py-6 text-left font-semibold', className)}
+         {...rest}
+      />
+   )
 }
-
 TableHeadCell.displayName = 'TableHeadCell'
 
 export { TableHeadCell, TableBody, TableHead, TableCell, TableRow, Table }
