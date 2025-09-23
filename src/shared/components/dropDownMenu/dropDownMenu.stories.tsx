@@ -42,7 +42,7 @@ export const NotificationDropDownWithScroll: Story = {
             align={'end'}
             label={'Notification'}
             className={'px-2 py-1'}
-            sideOffset={-5}
+            sideOffset={-4}
          >
             <DropDownMenuArrow>
                <span></span>
@@ -84,7 +84,7 @@ export const NotificationDropDown: Story = {
       const trigger = <NotificationIcon count={2} />
 
       return (
-         <DropDownMenu trigger={trigger} align={'end'} className={'px-2 py-1'} sideOffset={-5}>
+         <DropDownMenu trigger={trigger} align={'end'} className={'px-2 py-1'} sideOffset={-4}>
             <DropDownMenuArrow>
                <span></span>
             </DropDownMenuArrow>
