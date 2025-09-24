@@ -5,6 +5,8 @@ import {
    SelectItem,
    SelectTrigger,
    SelectValue,
+   SelectLabel,
+   SelectGroup,
 } from '@/shared/components/Select/Select'
 import { FlagRussiaIcon, FlagUKIcon } from '@/shared/icons'
 
@@ -44,7 +46,7 @@ export const SelectWithSideRight: Story = {
    args: {
       children: (
          <>
-            <SelectTrigger className="w-[180px]" size={'default'}>
+            <SelectTrigger className="w-[180px]">
                <SelectValue placeholder="Select-box" />
             </SelectTrigger>
             <SelectContent side="right" align="start">
@@ -83,5 +85,31 @@ export const SelectWithLanguage: Story = {
          </>
       ),
       defaultValue: '1',
+   },
+}
+
+export const SelectWithGroup: Story = {
+   args: {
+      children: (
+         <>
+            <SelectTrigger className="w-[180px]">
+               <SelectValue placeholder="Select item" />
+            </SelectTrigger>
+            <SelectContent>
+               <SelectGroup>
+                  <SelectLabel>Group 1</SelectLabel>
+                  <SelectItem value="1">Item 1</SelectItem>
+                  <SelectItem value="2">Item 2</SelectItem>
+                  <SelectItem value="3">Item 3</SelectItem>
+                  <SelectItem value="4">Item 4</SelectItem>
+               </SelectGroup>
+               <SelectGroup>
+                  <SelectLabel>Group 2</SelectLabel>
+                  <SelectItem value="5">Item 5</SelectItem>
+                  <SelectItem value="6">Item 6</SelectItem>
+               </SelectGroup>
+            </SelectContent>
+         </>
+      ),
    },
 }
