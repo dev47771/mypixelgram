@@ -1,3 +1,5 @@
+'use client'
+
 import React, { ComponentPropsWithRef, useId } from 'react'
 import { ArrowDownIcon, ArrowUpIcon } from '@/shared/icons'
 import * as SelectPrimitive from '@radix-ui/react-select'
