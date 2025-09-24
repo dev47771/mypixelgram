@@ -10,7 +10,7 @@ type Props = {
 export const Label = ({ children, className, htmlFor, disabled, ...rest }: Props) => {
    return (
       <LabelRadix.Root
-         className={clsx(disabled ? 'text-dark-100' : 'text-light-900', className)}
+         className={clsx(disabled ? 'text-light-300' : 'text-light-900', className)}
          htmlFor={disabled ? '' : htmlFor}
          asChild
          {...rest}

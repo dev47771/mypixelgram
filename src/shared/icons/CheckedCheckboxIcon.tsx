@@ -1,0 +1,20 @@
+import React, { ComponentPropsWithoutRef } from 'react'
+
+type Props = {
+   disabled?: boolean
+} & ComponentPropsWithoutRef<'svg'>
+
+export const CheckedCheckboxIcon = ({ disabled = false, ...rest }: Props) => {
+   return (
+      <svg
+         width="18"
+         height="18"
+         viewBox="0 0 18 18"
+         fill={disabled ? 'var(--color-dark-100)' : 'var(--color-light-100)'}
+         xmlns="http://www.w3.org/2000/svg "
+         {...rest}
+      >
+         <path d="M16 0H2C0.89 0 0 0.9 0 2V16C0 17.1 0.89 18 2 18H16C17.11 18 18 17.1 18 16V2C18 0.9 17.11 0 16 0ZM7 14L2 9L3.41 7.59L7 11.17L14.59 3.58L16 5L7 14Z" />
+      </svg>
+   )
+}
