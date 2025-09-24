@@ -7,14 +7,11 @@ import { Label } from '@/shared/components/Label'
 type Props = {
    label?: string
    id?: string
-} & ComponentPropsWithRef<typeof SelectPrimitive.Root>
+} & ComponentPropsWithRef<typeof SelectPrimitive.Trigger>
 
-function Select({ label, id, disabled, ...props }: Props) {
-   const selectId = useId()
-
+function Select({ disabled, ...props }: React.ComponentProps<typeof SelectPrimitive.Root>) {
    return (
       <>
-         {label && <Label htmlFor={selectId}>{label}</Label>}
          <SelectPrimitive.Root disabled={disabled} data-slot="select" {...props} />
       </>
    )
@@ -28,29 +25,28 @@ function SelectValue({ ...props }: React.ComponentProps<typeof SelectPrimitive.V
    return <SelectPrimitive.Value data-slot="select-value" {...props} />
 }
 
-function SelectTrigger({
-   className,
-   size = 'default',
-   children,
-   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Trigger> & {
-   size?: 'sm' | 'default'
-}) {
+function SelectTrigger({ id, label, className, children, ...props }: Props) {
+   const generateId = useId()
+   const selectId = id ?? generateId
+
    return (
-      <SelectPrimitive.Trigger
-         data-slot="select-trigger"
-         data-size={size}
-         className={clsx(
-            'active:bg-dark-500 data-[state=open]:border-light-100 hover:text-light-900 text-light-100 focus:text-light-900 border-input border-dark-100 focus:border-accent-500 focus-visible:border-accent-500 data-[placeholder]:text-muted-foreground aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 disabled:border-dark-100 disabled:text-dark-100 flex w-fit items-center justify-between gap-20 rounded-xs border px-3 py-2 text-base whitespace-nowrap transition-[color,box-shadow] outline-none focus:border-2 focus-visible:border-2 disabled:cursor-not-allowed data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2',
-            className || ''
-         )}
-         {...props}
-      >
-         {children}
-         <SelectPrimitive.Icon asChild>
-            <ArrowDownIcon color={'var(--color-light-100)'} />
-         </SelectPrimitive.Icon>
-      </SelectPrimitive.Trigger>
+      <>
+         {label && <Label htmlFor={selectId}>{label}</Label>}
+         <SelectPrimitive.Trigger
+            id={selectId}
+            data-slot="select-trigger"
+            className={clsx(
+               'active:bg-dark-500 data-[state=open]:border-light-100 hover:text-light-900 text-light-100 focus-visible:text-light-900 border-dark-100 focus-visible:border-accent-500 disabled:border-dark-100 disabled:text-dark-100 flex w-fit items-center justify-between gap-20 rounded-xs border px-3 py-1.5 text-base outline-none focus-visible:border-2 disabled:cursor-not-allowed *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2',
+               className || ''
+            )}
+            {...props}
+         >
+            {children}
+            <SelectPrimitive.Icon asChild>
+               <ArrowDownIcon color={'var(--color-light-100)'} />
+            </SelectPrimitive.Icon>
+         </SelectPrimitive.Trigger>
+      </>
    )
 }
 
@@ -65,7 +61,7 @@ function SelectContent({
          <SelectPrimitive.Content
             data-slot="select-content"
             className={clsx(
-               'active:bg-dark-500 bg-dark-500 border-light-100 bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-(--radix-select-content-available-height) min-w-[8rem] origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-xs border',
+               'active:bg-dark-500 bg-dark-500 border-light-100 bg-popover relative z-50 min-w-[164px] overflow-x-hidden overflow-y-auto rounded-xs border',
                className || ''
             )}
             position={position}
@@ -88,7 +84,7 @@ function SelectLabel({ className, ...props }: React.ComponentProps<typeof Select
    return (
       <SelectPrimitive.Label
          data-slot="select-label"
-         className={clsx('text-muted-foreground px-2 py-1.5 text-xs', className)}
+         className={clsx('text-light-100 px-2 py-1.5 text-xs', className)}
          {...props}
       />
    )
