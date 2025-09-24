@@ -12,6 +12,7 @@ font-weight text add className: 'font-bold',
 */
 @config '../../tailwind.config.ts';
 
+
 @layer base {
    input[type='search']::-webkit-search-cancel-button {
       visibility: visible;
@@ -26,3 +27,4 @@ font-weight text add className: 'font-bold',
    }
 
 }
+
