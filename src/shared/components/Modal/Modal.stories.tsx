@@ -16,10 +16,6 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-// const ModalDefaultWrapper = (args: ComponentPropsWithRef<typeof Modal>) => {
-//    const [show, setShow] = useState(false)
-// }
-
 export const Default: Story = {
    render: args => {
       const DefaultModal = () => {
