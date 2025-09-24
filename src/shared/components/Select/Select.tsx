@@ -9,6 +9,7 @@ import { Label } from '@/shared/components/Label'
 type Props = {
    label?: string
    id?: string
+   size?: 'xs' | 'default'
 } & ComponentPropsWithRef<typeof SelectPrimitive.Trigger>
 
 function Select({ disabled, ...props }: React.ComponentProps<typeof SelectPrimitive.Root>) {
@@ -27,7 +28,7 @@ function SelectValue({ ...props }: React.ComponentProps<typeof SelectPrimitive.V
    return <SelectPrimitive.Value data-slot="select-value" {...props} />
 }
 
-function SelectTrigger({ id, label, className, children, ...props }: Props) {
+function SelectTrigger({ id, label, className, size = 'default', children, ...props }: Props) {
    const generateId = useId()
    const selectId = id ?? generateId
 
@@ -37,8 +38,13 @@ function SelectTrigger({ id, label, className, children, ...props }: Props) {
          <SelectPrimitive.Trigger
             id={selectId}
             data-slot="select-trigger"
+            data-size={size}
             className={clsx(
-               'group active:bg-dark-500 data-[state=open]:border-light-100 hover:text-light-900 text-light-100 focus-visible:text-light-900 border-dark-100 focus-visible:border-accent-500 disabled:border-dark-100 disabled:text-dark-100 flex h-9 w-fit items-center justify-between gap-20 rounded-xs border px-3 py-1.5 text-base outline-none disabled:cursor-not-allowed *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2',
+               'group active:bg-dark-500 data-[state=open]:border-light-100 hover:text-light-900 text-light-100 focus-visible:text-light-900 border-dark-100 focus-visible:border-accent-500 disabled:border-dark-100 disabled:text-dark-100 flex w-fit items-center justify-between rounded-xs border py-1.5 text-base outline-none disabled:cursor-not-allowed *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2',
+               {
+                  'h-6 gap-0 px-1.5': size === 'xs',
+                  'h-9 gap-20 px-3': size === 'default',
+               },
                className || ''
             )}
             {...props}
@@ -68,7 +74,7 @@ function SelectContent({
          <SelectPrimitive.Content
             data-slot="select-content"
             className={clsx(
-               'active:bg-dark-500 bg-dark-500 border-light-100 bg-popover relative z-50 min-w-[164px] overflow-x-hidden overflow-y-auto rounded-xs border',
+               'active:bg-dark-500 bg-dark-500 border-light-100 bg-popover relative z-50 overflow-x-hidden overflow-y-auto rounded-xs border',
                className || ''
             )}
             position={position}
@@ -91,7 +97,7 @@ function SelectLabel({ className, ...props }: React.ComponentProps<typeof Select
    return (
       <SelectPrimitive.Label
          data-slot="select-label"
-         className={clsx('text-light-100 px-2 py-1.5 text-xs', className)}
+         className={clsx('text-light-100 px-2 py-1.5 text-xs', className || '')}
          {...props}
       />
    )
@@ -100,13 +106,18 @@ function SelectLabel({ className, ...props }: React.ComponentProps<typeof Select
 function SelectItem({
    className,
    children,
+   size = 'default',
    ...props
-}: React.ComponentProps<typeof SelectPrimitive.Item>) {
+}: React.ComponentProps<typeof SelectPrimitive.Item> & { size?: 'xs' | 'default' }) {
    return (
       <SelectPrimitive.Item
          data-slot="select-item"
          className={clsx(
-            "text-light-900 hover:text-accent-500 hover:bg-dark-300 focus:bg-accent focus:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex w-full cursor-default items-center gap-2 py-1.5 pl-3 text-base outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
+            "focus:bg-accent focus:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex w-full cursor-default items-center gap-2 py-1.5 text-base outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
+            {
+               'text-light-100 hover:bg-dark-100 h-6 px-1.5': size === 'xs',
+               'text-light-900 hover:text-accent-500 hover:bg-dark-300 px-3': size === 'default',
+            },
             className || ''
          )}
          {...props}

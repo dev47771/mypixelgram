@@ -30,7 +30,7 @@ export const Default: Story = {
       children: (
          <>
             <SelectTrigger className="w-[180px]" label={'Select-box'}>
-               <SelectValue placeholder="Select-box" />
+               <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
                <SelectItem value="1">Select-box 1</SelectItem>
@@ -123,5 +123,35 @@ export const SelectWithGroup: Story = {
             </SelectContent>
          </>
       ),
+   },
+}
+
+export const SelectForPagination: Story = {
+   args: {
+      children: (
+         <>
+            <SelectTrigger size={'xs'}>
+               <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+               <SelectItem value="10" size={'xs'}>
+                  10
+               </SelectItem>
+               <SelectItem value="20" size={'xs'}>
+                  20
+               </SelectItem>
+               <SelectItem value="30" size={'xs'}>
+                  30
+               </SelectItem>
+               <SelectItem value="50" size={'xs'}>
+                  50
+               </SelectItem>
+               <SelectItem value="100" size={'xs'}>
+                  100
+               </SelectItem>
+            </SelectContent>
+         </>
+      ),
+      defaultValue: '10',
    },
 }
