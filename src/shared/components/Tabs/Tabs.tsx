@@ -41,6 +41,7 @@ const TabsTrigger = ({
             'hover:[&:not([data-state=active]):not([data-disabled])]:bg-accent-100',
             'hover:data-[state=active]:[&:not([data-disabled])]:bg-accent-100',
             'data-[state=active]:text-accent-500 data-[state=active]:border-b-accent-500',
+            'focus-visible:ring-accent-700 focus-visible:rounded focus-visible:ring-2 focus-visible:outline-none',
             className
          )}
          {...rest}
