@@ -1,7 +1,7 @@
 'use client'
 
 import React, { ComponentPropsWithRef, useId } from 'react'
-import { ArrowDownIcon, ArrowUpIcon } from '@/shared/icons'
+import { ArrowDownIcon } from '@/shared/icons'
 import * as SelectPrimitive from '@radix-ui/react-select'
 import { clsx } from 'clsx'
 import { Label } from '@/shared/components/Label'
@@ -38,14 +38,19 @@ function SelectTrigger({ id, label, className, children, ...props }: Props) {
             id={selectId}
             data-slot="select-trigger"
             className={clsx(
-               'active:bg-dark-500 data-[state=open]:border-light-100 hover:text-light-900 text-light-100 focus-visible:text-light-900 border-dark-100 focus-visible:border-accent-500 disabled:border-dark-100 disabled:text-dark-100 flex w-fit items-center justify-between gap-20 rounded-xs border px-3 py-1.5 text-base outline-none disabled:cursor-not-allowed *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2',
+               'group active:bg-dark-500 data-[state=open]:border-light-100 hover:text-light-900 text-light-100 focus-visible:text-light-900 border-dark-100 focus-visible:border-accent-500 disabled:border-dark-100 disabled:text-dark-100 flex h-9 w-fit items-center justify-between gap-20 rounded-xs border px-3 py-1.5 text-base outline-none disabled:cursor-not-allowed *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2',
                className || ''
             )}
             {...props}
          >
             {children}
             <SelectPrimitive.Icon asChild>
-               <ArrowDownIcon color={'var(--color-light-100)'} />
+               <ArrowDownIcon
+                  className={clsx(
+                     'transition-transform duration-200 ease-in-out group-data-[state=open]:rotate-180'
+                  )}
+                  color={'var(--color-light-100)'}
+               />
             </SelectPrimitive.Icon>
          </SelectPrimitive.Trigger>
       </>
