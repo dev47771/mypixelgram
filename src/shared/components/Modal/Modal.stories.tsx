@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { Modal } from '@/shared/components/Modal'
+import { Modal, ModalBody, ModalClose, ModalTitle } from '@/shared/components/Modal'
 import { ComponentPropsWithRef, useState } from 'react'
 import { Typography } from '@/shared/components/Typography'
 
@@ -16,7 +16,10 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-const ModalWrapper = (args: ComponentPropsWithRef<typeof Modal>) => {
+const ModalWrapper = ({
+   showTitle,
+   ...args
+}: { showTitle?: boolean } & ComponentPropsWithRef<typeof Modal>) => {
    const [show, setShow] = useState(false)
 
    return (
@@ -24,27 +27,36 @@ const ModalWrapper = (args: ComponentPropsWithRef<typeof Modal>) => {
          <button onClick={() => setShow(true)}>Open modal</button>
 
          <Modal onOpenChange={setShow} open={show} {...args}>
-            <div className={'flex max-w-[378px] flex-col px-6 py-3'}>
-               <Typography>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</Typography>
+            {showTitle && (
+               <>
+                  <ModalTitle className={'flex items-center justify-between'}>
+                     <Typography variant={'h1'}>Modal Title</Typography> <ModalClose />
+                  </ModalTitle>
+
+                  <hr className={'text-dark-100 h-[1px]'} />
+               </>
+            )}
+
+            <ModalBody className="flex max-w-[378px] flex-col gap-4 px-6 py-3">
+               <Typography>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, quidem.
+               </Typography>
                <button
                   className={'bg-accent-300 cursor-pointer self-end rounded-sm px-4 py-1.5'}
                   onClick={() => setShow(false)}
                >
                   ok
                </button>
-            </div>
+            </ModalBody>
          </Modal>
       </>
    )
 }
 
 export const Default: Story = {
-   render: args => <ModalWrapper {...args} />,
+   render: args => <ModalWrapper {...args} showTitle={false} />,
 }
 
 export const WithTitle: Story = {
-   args: {
-      title: 'Title modal',
-   },
-   render: args => <ModalWrapper {...args} />,
+   render: args => <ModalWrapper {...args} showTitle={true} />,
 }
