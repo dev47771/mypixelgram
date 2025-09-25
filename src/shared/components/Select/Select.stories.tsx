@@ -30,7 +30,7 @@ export const Default: Story = {
    args: {
       children: (
          <>
-            <SelectTrigger className="w-[180px]" label={'Select-box'}>
+            <SelectTrigger className="w-[210px]" label={'Select-box'}>
                <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
@@ -82,7 +82,7 @@ export const SelectWithLanguage: Story = {
    args: {
       children: (
          <>
-            <SelectTrigger className="w-[180px] !gap-6">
+            <SelectTrigger className="w-[160px]">
                <SelectValue />
             </SelectTrigger>
             <SelectContent>

@@ -5,6 +5,7 @@ import { ArrowDownIcon } from '@/shared/icons'
 import * as SelectPrimitive from '@radix-ui/react-select'
 import { clsx } from 'clsx'
 import { Label } from '@/shared/components/Label'
+import { twMerge } from 'tailwind-merge'
 
 type Props = {
    label?: string
@@ -34,7 +35,7 @@ function SelectTrigger({ id, label, className, isPagination = false, children, .
          <SelectPrimitive.Trigger
             id={selectId}
             data-slot="select-trigger"
-            className={clsx(
+            className={twMerge(
                'group text-light-100 border-dark-100 flex w-fit cursor-pointer items-center justify-between rounded-xs border py-1.5 text-base outline-none',
 
                'focus-visible:ring-accent-500 focus-visible:text-light-900 focus-visible:border-accent-500 focus-visible:ring-2',
@@ -43,10 +44,9 @@ function SelectTrigger({ id, label, className, isPagination = false, children, .
                'hover:text-light-900',
 
                'data-[state=open]:border-light-100 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2',
-               {
-                  'h-6 gap-0 px-1': isPagination,
-                  'h-9 gap-20 px-3': !isPagination,
-               },
+
+               isPagination ? 'h-6 gap-0 px-1' : 'h-9 gap-2 px-3',
+
                className || ''
             )}
             {...props}
