@@ -37,18 +37,10 @@ export const DisabledVariant: Story = {
                My payments
             </TabsTrigger>
          </TabsList>
-         <TabsContent style={{ marginTop: '12px', opacity: '0.6' }} value="general">
-            General content
-         </TabsContent>
-         <TabsContent style={{ marginTop: '12px', opacity: '0.6' }} value="devices">
-            Devices content
-         </TabsContent>
-         <TabsContent style={{ marginTop: '12px', opacity: '0.6' }} value="account">
-            Account
-         </TabsContent>
-         <TabsContent style={{ marginTop: '12px', opacity: '0.6' }} value="payments">
-            Payment info goes here
-         </TabsContent>
+         <TabsContent value="general">General content</TabsContent>
+         <TabsContent value="devices">Devices content</TabsContent>
+         <TabsContent value="account">Account</TabsContent>
+         <TabsContent value="payments">Payment info goes here</TabsContent>
       </Tabs>
    ),
 }
@@ -64,16 +56,16 @@ const TabWrapper = () => {
             <TabsTrigger value="account">Account Management</TabsTrigger>
             <TabsTrigger value="payments">My payments</TabsTrigger>
          </TabsList>
-         <TabsContent style={{ marginTop: '12px' }} value="general">
+         <TabsContent marginTop={24} value="general">
             General content
          </TabsContent>
-         <TabsContent style={{ marginTop: '12px' }} value="devices">
+         <TabsContent marginTop={24} value="devices">
             Devices content
          </TabsContent>
-         <TabsContent style={{ marginTop: '12px' }} value="account">
+         <TabsContent marginTop={30} value="account">
             Account
          </TabsContent>
-         <TabsContent aria-disabled style={{ marginTop: '12px' }} value="payments">
+         <TabsContent marginTop={30} aria-disabled value="payments">
             Payment info goes here
          </TabsContent>
       </Tabs>
