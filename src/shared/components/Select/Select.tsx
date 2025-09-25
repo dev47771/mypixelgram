@@ -37,7 +37,7 @@ function SelectTrigger({ id, label, className, isPagination = false, children, .
             className={clsx(
                'group active:bg-dark-500 data-[state=open]:border-light-100 hover:text-light-900 text-light-100 focus-visible:text-light-900 border-dark-100 focus-visible:border-accent-500 disabled:border-dark-100 disabled:text-dark-100 flex w-fit cursor-pointer items-center justify-between rounded-xs border py-1.5 text-base outline-none disabled:cursor-not-allowed *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2',
                {
-                  'h-6 gap-0 px-1.5': isPagination,
+                  'h-6 gap-0 px-1': isPagination,
                   'h-9 gap-20 px-3': !isPagination,
                },
                className || ''
@@ -51,6 +51,8 @@ function SelectTrigger({ id, label, className, isPagination = false, children, .
                      'transition-transform duration-200 ease-in-out group-data-[state=open]:rotate-180'
                   )}
                   color={'var(--color-light-100)'}
+                  width={isPagination ? '16px' : '24px'}
+                  height={isPagination ? '16px' : '24px'}
                />
             </SelectPrimitive.Icon>
          </SelectPrimitive.Trigger>
