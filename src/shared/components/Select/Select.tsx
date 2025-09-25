@@ -1,6 +1,6 @@
 'use client'
 
-import React, { ComponentPropsWithRef, useId } from 'react'
+import { ComponentPropsWithRef, useId } from 'react'
 import { ArrowDownIcon } from '@/shared/icons'
 import * as SelectPrimitive from '@radix-ui/react-select'
 import { clsx } from 'clsx'
@@ -12,15 +12,15 @@ type Props = {
    size?: 'xs' | 'default'
 } & ComponentPropsWithRef<typeof SelectPrimitive.Trigger>
 
-function Select({ disabled, ...props }: React.ComponentProps<typeof SelectPrimitive.Root>) {
+function Select({ disabled, ...props }: ComponentPropsWithRef<typeof SelectPrimitive.Root>) {
    return <SelectPrimitive.Root disabled={disabled} data-slot="select" {...props} />
 }
 
-function SelectGroup({ ...props }: React.ComponentProps<typeof SelectPrimitive.Group>) {
+function SelectGroup({ ...props }: ComponentPropsWithRef<typeof SelectPrimitive.Group>) {
    return <SelectPrimitive.Group data-slot="select-group" {...props} />
 }
 
-function SelectValue({ ...props }: React.ComponentProps<typeof SelectPrimitive.Value>) {
+function SelectValue({ ...props }: ComponentPropsWithRef<typeof SelectPrimitive.Value>) {
    return <SelectPrimitive.Value data-slot="select-value" {...props} />
 }
 
@@ -64,7 +64,7 @@ function SelectContent({
    children,
    position = 'popper',
    ...props
-}: React.ComponentProps<typeof SelectPrimitive.Content>) {
+}: ComponentPropsWithRef<typeof SelectPrimitive.Content>) {
    return (
       <SelectPrimitive.Portal>
          <SelectPrimitive.Content
@@ -89,7 +89,7 @@ function SelectContent({
    )
 }
 
-function SelectLabel({ className, ...props }: React.ComponentProps<typeof SelectPrimitive.Label>) {
+function SelectLabel({ className, ...props }: ComponentPropsWithRef<typeof SelectPrimitive.Label>) {
    return (
       <SelectPrimitive.Label
          data-slot="select-label"
@@ -104,7 +104,7 @@ function SelectItem({
    children,
    size = 'default',
    ...props
-}: React.ComponentProps<typeof SelectPrimitive.Item> & { size?: 'xs' | 'default' }) {
+}: ComponentPropsWithRef<typeof SelectPrimitive.Item> & { size?: 'xs' | 'default' }) {
    return (
       <SelectPrimitive.Item
          data-slot="select-item"
