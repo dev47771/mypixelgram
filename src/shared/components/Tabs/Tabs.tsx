@@ -34,7 +34,7 @@ const TabsTrigger = ({
             'hover:data-[state=active]:[&:not([data-disabled])]:bg-accent-900',
             'active:data-[state=active]:[&:not([data-disabled])]:bg-accent-100',
             'data-[state=active]:text-accent-500 data-[state=active]:border-b-accent-500',
-            'focus-visible:ring-accent-700 focus-visible:rounded focus-visible:ring-2 focus-visible:outline-none',
+            'focus-visible:ring-accent-700 focus-visible:rounded-xs focus-visible:ring-2 focus-visible:outline-none',
             'data-[disabled]:text-dark-300 data-[disabled]:border-b-dark-300 data-[disabled]:cursor-not-allowed',
             'data-[state=active]:data-[disabled]:text-accent-900 data-[state=active]:data-[disabled]:border-b-accent-900',
             className
