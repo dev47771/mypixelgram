@@ -1,6 +1,5 @@
 import React, { ComponentPropsWithRef } from 'react'
 import { clsx } from 'clsx'
-import { CrossIcon } from '@/shared/icons'
 import * as Dialog from '@radix-ui/react-dialog'
 
 type ModalProps = {
@@ -19,10 +18,14 @@ const ModalTitle = ({
    )
 }
 
-const ModalClose = ({ className, ...rest }: ComponentPropsWithRef<typeof Dialog.Close>) => {
+const ModalClose = ({
+   className,
+   children,
+   ...rest
+}: ComponentPropsWithRef<typeof Dialog.Close>) => {
    return (
-      <Dialog.Close asChild className={clsx('cursor-pointer', className)} {...rest}>
-         <CrossIcon />
+      <Dialog.Close className={clsx('cursor-pointer', className)} {...rest}>
+         {children}
       </Dialog.Close>
    )
 }

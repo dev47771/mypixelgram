@@ -2,6 +2,7 @@ import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { Modal, ModalBody, ModalClose, ModalTitle } from '@/shared/components/Modal'
 import { ComponentPropsWithRef, useState } from 'react'
 import { Typography } from '@/shared/components/Typography'
+import { CrossIcon } from '@/shared/icons'
 
 const meta = {
    argTypes: {},
@@ -30,7 +31,10 @@ const ModalWrapper = ({
             {showTitle && (
                <>
                   <ModalTitle className={'flex items-center justify-between'}>
-                     <Typography variant={'h1'}>Modal Title</Typography> <ModalClose />
+                     <Typography variant={'h1'}>Modal Title</Typography>{' '}
+                     <ModalClose asChild>
+                        <CrossIcon />
+                     </ModalClose>
                   </ModalTitle>
 
                   <hr className={'text-dark-100 h-[1px]'} />
@@ -41,12 +45,12 @@ const ModalWrapper = ({
                <Typography>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, quidem.
                </Typography>
-               <button
+
+               <ModalClose
                   className={'bg-accent-300 cursor-pointer self-end rounded-sm px-4 py-1.5'}
-                  onClick={() => setShow(false)}
                >
                   ok
-               </button>
+               </ModalClose>
             </ModalBody>
          </Modal>
       </>
