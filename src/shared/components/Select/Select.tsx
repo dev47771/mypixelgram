@@ -35,7 +35,14 @@ function SelectTrigger({ id, label, className, isPagination = false, children, .
             id={selectId}
             data-slot="select-trigger"
             className={clsx(
-               'focus-visible:ring-accent-500 group active:bg-dark-500 data-[state=open]:border-light-100 hover:text-light-900 text-light-100 focus-visible:text-light-900 border-dark-100 focus-visible:border-accent-500 disabled:border-dark-100 disabled:text-dark-100 flex w-fit cursor-pointer items-center justify-between rounded-xs border py-1.5 text-base outline-none focus-visible:ring-2 disabled:cursor-not-allowed *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2',
+               'group text-light-100 border-dark-100 flex w-fit cursor-pointer items-center justify-between rounded-xs border py-1.5 text-base outline-none',
+
+               'focus-visible:ring-accent-500 focus-visible:text-light-900 focus-visible:border-accent-500 focus-visible:ring-2',
+               'disabled:border-dark-100 disabled:text-dark-100 disabled:cursor-not-allowed',
+               'active:bg-dark-500',
+               'hover:text-light-900',
+
+               'data-[state=open]:border-light-100 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2',
                {
                   'h-6 gap-0 px-1': isPagination,
                   'h-9 gap-20 px-3': !isPagination,
@@ -110,7 +117,13 @@ function SelectItem({
       <SelectPrimitive.Item
          data-slot="select-item"
          className={clsx(
-            "focus:bg-accent active:text-light-100 focus:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex w-full cursor-default cursor-pointer items-center gap-2 py-1.5 text-base outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
+            'relative flex w-full cursor-pointer items-center gap-2 py-1.5 text-base outline-hidden select-none',
+
+            'focus:bg-accent active:text-light-100 focus:text-accent-foreground',
+
+            'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+
+            "[&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
             {
                'text-light-100 hover:bg-dark-100 h-6 px-1.5': isPagination,
                'text-light-900 hover:text-accent-500 hover:bg-dark-300 px-3': !isPagination,
