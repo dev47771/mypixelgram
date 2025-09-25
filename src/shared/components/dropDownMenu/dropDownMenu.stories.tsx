@@ -13,6 +13,7 @@ import { DropDownMenuItem } from '@/shared/components/dropDownMenu/dropDownMenuI
 import { DropDownSeparator } from '@/shared/components/dropDownMenu/dropDownSeparator'
 import { Typography } from '@/shared/components/Typography'
 import { DropDownMenuArrow } from '@/shared/components/dropDownMenu/dropDownMenuArrow'
+import { DropDownMenuTrigger } from '@/shared/components/dropDownMenu/dropDownMenuTrigger'
 
 const meta = {
    component: DropDownMenu,
@@ -24,6 +25,9 @@ const meta = {
          control: { type: 'radio' },
          options: ['end', 'start', 'center'],
       },
+      trigger: {
+         control: false,
+      },
    },
    tags: ['autodocs'],
    title: 'Components/DropDownMenu',
@@ -33,12 +37,18 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const NotificationDropDownWithScroll: Story = {
-   render: () => {
-      const trigger = <NotificationIcon count={3} />
+   args: {
+      trigger: (
+         <DropDownMenuTrigger>
+            <NotificationIcon count={3} />
+         </DropDownMenuTrigger>
+      ),
+   },
 
+   render: args => {
       return (
          <DropDownMenu
-            trigger={trigger}
+            trigger={args.trigger}
             align={'end'}
             label={'Notification'}
             className={'px-2 py-1'}
@@ -80,11 +90,17 @@ export const NotificationDropDownWithScroll: Story = {
 }
 
 export const NotificationDropDown: Story = {
-   render: () => {
-      const trigger = <NotificationIcon count={2} />
+   args: {
+      trigger: (
+         <DropDownMenuTrigger>
+            <NotificationIcon count={2} />
+         </DropDownMenuTrigger>
+      ),
+   },
 
+   render: args => {
       return (
-         <DropDownMenu trigger={trigger} align={'end'} className={'px-2 py-1'} sideOffset={-4}>
+         <DropDownMenu trigger={args.trigger} align={'end'} className={'px-2 py-1'} sideOffset={-4}>
             <DropDownMenuArrow>
                <span></span>
             </DropDownMenuArrow>
@@ -105,8 +121,15 @@ export const NotificationDropDown: Story = {
 }
 
 export const MoreDropDown: Story = {
-   render: () => {
-      const trigger = <MoreIcon />
+   args: {
+      trigger: (
+         <DropDownMenuTrigger className={'data-[state=open]:text-accent-500'}>
+            <MoreIcon />
+         </DropDownMenuTrigger>
+      ),
+   },
+
+   render: args => {
       const dropDownItems = [
          { icon: <EditIcon />, value: 'Edit post' },
          { icon: <TrashIcon />, value: 'Delete post' },
@@ -116,7 +139,7 @@ export const MoreDropDown: Story = {
       ]
 
       return (
-         <DropDownMenu trigger={trigger} alignOffset={0}>
+         <DropDownMenu trigger={args.trigger} alignOffset={0}>
             {dropDownItems.map(({ icon, value }) => (
                <DropDownMenuItem key={value} className={'flex items-center gap-3 p-3'}>
                   {icon}

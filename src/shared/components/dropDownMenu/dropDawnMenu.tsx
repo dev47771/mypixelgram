@@ -4,7 +4,7 @@ import { DropDownMenuLabel } from '@/shared/components/dropDownMenu'
 import { clsx } from 'clsx'
 
 export type DropDownMenuProps = {
-   trigger?: ReactNode
+   trigger: ReactNode
    label?: string
 } & ComponentPropsWithRef<typeof DropdownMenu.Content>
 
@@ -18,11 +18,7 @@ export const DropDownMenu = ({
 }: DropDownMenuProps) => {
    return (
       <DropdownMenu.Root>
-         <DropdownMenu.Trigger
-            className={'text-light-100 cursor-pointer bg-transparent outline-none'}
-         >
-            {trigger}
-         </DropdownMenu.Trigger>
+         {trigger}
 
          <DropdownMenu.Portal>
             <DropdownMenu.Content
