@@ -28,3 +28,18 @@ font-weight text add className: 'font-bold',
 
 }
 
+@layer utilities {
+   .scrollbar-custom::-webkit-scrollbar {
+      width: 6px;
+   }
+
+   .scrollbar-custom::-webkit-scrollbar-track {
+      background: var(--color-dark-300);
+      border-radius: 2px;
+   }
+
+   .scrollbar-custom::-webkit-scrollbar-thumb {
+      background-color: var(--color-dark-100);
+      border-radius: 2px;
+   }
+}
