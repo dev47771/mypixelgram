@@ -131,23 +131,23 @@ export const SelectForPagination: Story = {
    args: {
       children: (
          <>
-            <SelectTrigger size={'xs'}>
+            <SelectTrigger isPagination>
                <SelectValue />
             </SelectTrigger>
             <SelectContent>
-               <SelectItem value="10" size={'xs'}>
+               <SelectItem value="10" isPagination>
                   10
                </SelectItem>
-               <SelectItem value="20" size={'xs'}>
+               <SelectItem value="20" isPagination>
                   20
                </SelectItem>
-               <SelectItem value="30" size={'xs'}>
+               <SelectItem value="30" isPagination>
                   30
                </SelectItem>
-               <SelectItem value="50" size={'xs'}>
+               <SelectItem value="50" isPagination>
                   50
                </SelectItem>
-               <SelectItem value="100" size={'xs'}>
+               <SelectItem value="100" isPagination>
                   100
                </SelectItem>
             </SelectContent>
