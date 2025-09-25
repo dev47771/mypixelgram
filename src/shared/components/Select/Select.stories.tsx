@@ -9,6 +9,7 @@ import {
    SelectGroup,
 } from '@/shared/components/Select/Select'
 import { FlagRussiaIcon, FlagUKIcon } from '@/shared/icons'
+import { ComponentPropsWithRef, useState } from 'react'
 
 const meta = {
    title: 'Components/Select',
@@ -153,5 +154,29 @@ export const SelectForPagination: Story = {
          </>
       ),
       defaultValue: '10',
+   },
+}
+
+const ControlledSelect = (args: ComponentPropsWithRef<typeof Select>) => {
+   const [value, setValue] = useState(args.value ?? '1')
+
+   return (
+      <Select {...args} value={value} onValueChange={setValue}>
+         <SelectTrigger className="w-[180px]" label={'Select-box'}>
+            <SelectValue />
+         </SelectTrigger>
+         <SelectContent>
+            <SelectItem value="1">Select-box 1</SelectItem>
+            <SelectItem value="2">Select-box 2</SelectItem>
+            <SelectItem value="3">Select-box 3</SelectItem>
+         </SelectContent>
+      </Select>
+   )
+}
+
+export const Controlled: Story = {
+   render: args => <ControlledSelect {...args} />,
+   args: {
+      value: '3',
    },
 }
