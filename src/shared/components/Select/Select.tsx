@@ -69,7 +69,7 @@ function SelectContent({
          <SelectPrimitive.Content
             data-slot="select-content"
             className={clsx(
-               'active:bg-dark-500 bg-dark-500 border-light-100 bg-popover relative z-50 overflow-x-hidden overflow-y-auto rounded-xs border',
+               'active:bg-dark-500 bg-dark-500 border-light-100 bg-popover relative z-50 min-w-[var(--radix-select-trigger-width)] overflow-x-hidden overflow-y-auto rounded-xs border',
                className || ''
             )}
             position={position}
@@ -78,7 +78,7 @@ function SelectContent({
             <SelectPrimitive.Viewport
                className={clsx(
                   position === 'popper' &&
-                     'h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)] scroll-my-1'
+                     'h-[var(--radix-select-trigger-height)] w-full scroll-my-1'
                )}
             >
                {children}
