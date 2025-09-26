@@ -12,10 +12,34 @@ font-weight text add className: 'font-bold',
 */
 @config '../../tailwind.config.ts';
 
+
 @layer base {
    input[type='search']::-webkit-search-cancel-button {
       visibility: visible;
       filter: brightness(0) invert(1);
       cursor: pointer;
+   }
+
+   html {
+      line-height: var(--line-height-m);
+      color: var(--color-light-100);
+      background-color: var(--color-dark-700);
+   }
+
+}
+
+@layer utilities {
+   .scrollbar-custom::-webkit-scrollbar {
+      width: 6px;
+   }
+
+   .scrollbar-custom::-webkit-scrollbar-track {
+      background: var(--color-dark-300);
+      border-radius: 2px;
+   }
+
+   .scrollbar-custom::-webkit-scrollbar-thumb {
+      background-color: var(--color-dark-100);
+      border-radius: 2px;
    }
 }
