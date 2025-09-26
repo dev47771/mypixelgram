@@ -9,7 +9,7 @@ export const Alert = () => (
             bottom: '24px'
         }}
         toastOptions={{
-            duration: 5000,
+            duration: 4000,
             style: {
                 width: '387px',
                 height: '48px',
@@ -22,7 +22,6 @@ export const Alert = () => (
                 fontSize: 'var(--font-size-m)',
                 fontWeight: 'var(--font-weight-regular)',
                 lineHeight: 'var(--line-height-m)',
-                transition: 'all 0.1s ease-in-out',
             },
             success: {
                 style: {
@@ -39,23 +38,12 @@ export const Alert = () => (
         }}
     >
         {(t) => (
-            <div style={t.style} className="flex items-center justify-between w-full">
+            <div className={t.className} style={t.style}>
                 <span>{t.message as string}</span>
                 <button
                     onClick={() => toast.remove(t.id)} 
                     style={{
                         cursor: 'pointer',
-                        background: 'none',
-                        border: 'none',
-                        padding: 0,
-                        marginLeft: '16px',
-                        transition: 'opacity 0.1s'
-                    }}
-                    onMouseEnter={(e) => {
-                        e.currentTarget.style.opacity = '0.7';
-                    }}
-                    onMouseLeave={(e) => {
-                        e.currentTarget.style.opacity = '1';
                     }}
                 >
                     <CloseAlertIcon />
@@ -69,11 +57,11 @@ export const alert = {
     success: (message: string = 'Your settings are saved') =>
         toast.success(message),
 
-    error: (message: string = 'Error! Server is not available') =>
-        toast.error(
-            <span>
-                <span style={{ fontWeight: 'var(--font-weight-bold)' }}>Error!</span>
-                {message.replace('Error!', '')}
-            </span>
-        )
+    error: (message: string = 'Server is not available') =>
+    toast.error(
+        <span>
+            <span style={{ fontWeight: 'var(--font-weight-bold)' }}>Error! </span>
+            {message}
+        </span>
+    )
 };
