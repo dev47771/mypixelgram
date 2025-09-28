@@ -30,6 +30,10 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
    const [isLoggedIn, setIsLoggedIn] = useState(false)
    const [isClient, setIsClient] = useState(false)
 
+   /**
+    *setIsClient - flag synchronizes rendering between the server and the client (eliminating blinking on reboot)
+    *setIsLoggedIn - authentication token check
+    */
    useEffect(() => {
       setIsClient(true)
       setIsLoggedIn(!!localStorage.getItem('accessToken'))
@@ -53,6 +57,7 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
       </Select>
    )
 
+   //removes the incorrect state (blinking)
    if (!isClient) {
       return null
    }
