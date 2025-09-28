@@ -68,7 +68,7 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
             <Typography as={'h1'} variant="large">
                Inctagram
             </Typography>
-            {isLoggedIn ? ( // ← просто проверяем наличие токена
+            {isLoggedIn ? (
                <div className="flex items-center">
                   <div className="mr-[50px]">
                      {notificationCount > 0 && (
