@@ -37,7 +37,7 @@ export const SidebarItem = ({
    )
 
    const classesForItem = cn(
-      'text-light-100 text-s flex items-center gap-3 rounded-xs font-medium outline-none transition-colors duration-200',
+      'text-light-100 text-sm flex items-center gap-3 rounded-xs font-medium outline-none transition-colors duration-200',
       'focus-visible:ring-accent-700 hover:text-accent-100 active:text-accent-500 focus-visible:ring-2',
       {
          'text-dark-100 pointer-events-none': disabled,
