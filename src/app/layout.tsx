@@ -21,7 +21,7 @@ export default function RootLayout({
    return (
       <html lang="en">
          <body className={`${inter.variable}`}>
-            <Header notificationCount={4} />
+            <Header />
             {children}
          </body>
       </html>

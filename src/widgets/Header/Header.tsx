@@ -1,11 +1,6 @@
 'use client'
 
 import { Button } from '@/shared/components/Button'
-import { Typography } from '@/shared/components/Typography'
-import { FlagRussiaIcon, FlagUKIcon, NotificationIcon } from '@/shared/icons'
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import { usePathname } from 'next/navigation'
 import {
    Select,
    SelectContent,
@@ -13,6 +8,7 @@ import {
    SelectTrigger,
    SelectValue,
 } from '@/shared/components/Select'
+import { Typography } from '@/shared/components/Typography'
 import {
    DropDownMenu,
    DropDownMenuItem,
@@ -21,6 +17,9 @@ import {
 } from '@/shared/components/dropDownMenu'
 import { DropDownMenuArrow } from '@/shared/components/dropDownMenu/dropDownMenuArrow'
 import { DropDownMenuTrigger } from '@/shared/components/dropDownMenu/dropDownMenuTrigger'
+import { FlagRussiaIcon, FlagUKIcon, NotificationIcon } from '@/shared/icons'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 type Props = {
    notificationCount?: number
@@ -28,34 +27,13 @@ type Props = {
 }
 
 export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props) => {
-   const pathname = usePathname()
-   const [token, setToken] = useState<string | null>(null)
+   const [isLoggedIn, setIsLoggedIn] = useState(false)
+   const [isClient, setIsClient] = useState(false)
 
    useEffect(() => {
-      const checkAuth = () => {
-         if (typeof window !== 'undefined') {
-            setToken(localStorage.getItem('accessToken'))
-         }
-      }
-
-      checkAuth()
-
-      const handleStorageChange = () => {
-         checkAuth()
-      }
-
-      window.addEventListener('storage', handleStorageChange)
-
-      return () => {
-         window.removeEventListener('storage', handleStorageChange)
-      }
+      setIsClient(true)
+      setIsLoggedIn(!!localStorage.getItem('accessToken'))
    }, [])
-
-   useEffect(() => {
-      if (typeof window !== 'undefined') {
-         setToken(localStorage.getItem('accessToken'))
-      }
-   }, [pathname])
 
    const selectComponent = (
       <Select defaultValue={selectedLanguage}>
@@ -75,13 +53,17 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
       </Select>
    )
 
+   if (!isClient) {
+      return null
+   }
+
    return (
       <header className="border-dark-300 border-b">
          <div className="container flex h-[60px] items-center justify-between">
             <Typography as={'h1'} variant="large">
                Inctagram
             </Typography>
-            {token ? ( // ← просто проверяем наличие токена
+            {isLoggedIn ? ( // ← просто проверяем наличие токена
                <div className="flex items-center">
                   <div className="mr-[50px]">
                      {notificationCount > 0 && (
