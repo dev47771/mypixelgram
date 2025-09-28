@@ -9,12 +9,7 @@ import {
    SelectValue,
 } from '@/shared/components/Select'
 import { Typography } from '@/shared/components/Typography'
-import {
-   DropDownMenu,
-   DropDownMenuItem,
-   DropDownMenuLabel,
-   DropDownSeparator,
-} from '@/shared/components/dropDownMenu'
+import { DropDownMenu, DropDownMenuItem, DropDownSeparator } from '@/shared/components/dropDownMenu'
 import { DropDownMenuArrow } from '@/shared/components/dropDownMenu/dropDownMenuArrow'
 import { DropDownMenuTrigger } from '@/shared/components/dropDownMenu/dropDownMenuTrigger'
 import { FlagRussiaIcon, FlagUKIcon, NotificationIcon } from '@/shared/icons'
@@ -81,12 +76,11 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
                            align={'end'}
                            className={'px-2 py-1'}
                            sideOffset={-4}
+                           label="Notification"
                         >
                            <DropDownMenuArrow>
                               <span></span>
                            </DropDownMenuArrow>
-
-                           <DropDownMenuLabel>Notification</DropDownMenuLabel>
 
                            <DropDownSeparator />
 
