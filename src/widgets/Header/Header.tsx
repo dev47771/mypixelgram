@@ -2,45 +2,130 @@
 
 import { Button } from '@/shared/components/Button'
 import { Typography } from '@/shared/components/Typography'
-import { NotificationIcon } from '@/shared/icons'
+import { FlagRussiaIcon, FlagUKIcon, NotificationIcon } from '@/shared/icons'
 import Link from 'next/link'
-/* import { useState } from 'react' */
+import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
+import {
+   Select,
+   SelectContent,
+   SelectItem,
+   SelectTrigger,
+   SelectValue,
+} from '@/shared/components/Select'
+import {
+   DropDownMenu,
+   DropDownMenuItem,
+   DropDownMenuLabel,
+   DropDownSeparator,
+} from '@/shared/components/dropDownMenu'
+import { DropDownMenuArrow } from '@/shared/components/dropDownMenu/dropDownMenuArrow'
+import { DropDownMenuTrigger } from '@/shared/components/dropDownMenu/dropDownMenuTrigger'
 
 type Props = {
    notificationCount?: number
+   selectedLanguage?: string
 }
 
-export const Header = ({ notificationCount = 0 }: Props) => {
-   /*   const [isLogged, setIsLogged] = useState<string | null>(null) */
-   const IS_LOGGED_IN = false
+export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props) => {
+   const pathname = usePathname()
+   const [token, setToken] = useState<string | null>(null)
+
+   useEffect(() => {
+      const checkAuth = () => {
+         if (typeof window !== 'undefined') {
+            setToken(localStorage.getItem('accessToken'))
+         }
+      }
+
+      checkAuth()
+
+      const handleStorageChange = () => {
+         checkAuth()
+      }
+
+      window.addEventListener('storage', handleStorageChange)
+
+      return () => {
+         window.removeEventListener('storage', handleStorageChange)
+      }
+   }, [])
+
+   useEffect(() => {
+      if (typeof window !== 'undefined') {
+         setToken(localStorage.getItem('accessToken'))
+      }
+   }, [pathname])
+
+   const selectComponent = (
+      <Select defaultValue={selectedLanguage}>
+         <SelectTrigger className="w-[160px]">
+            <SelectValue />
+         </SelectTrigger>
+         <SelectContent>
+            <SelectItem value="RU">
+               <FlagRussiaIcon />
+               Russian
+            </SelectItem>
+            <SelectItem value="EN">
+               <FlagUKIcon />
+               English
+            </SelectItem>
+         </SelectContent>
+      </Select>
+   )
 
    return (
-      <header className="flex justify-between">
-         <Typography as={'h1'} variant="large">
-            Inctagram
-         </Typography>
-         {IS_LOGGED_IN ? (
-            <div className="flex">
-               <NotificationIcon count={notificationCount} />
-               <select id="fruits" name="language">
-                  <option value="english">English</option>
-                  <option value="russian">Russian</option>
-               </select>
-            </div>
-         ) : (
-            <div className="flex">
-               <select id="fruits" name="language">
-                  <option value="english">English</option>
-                  <option value="russian">Russian</option>
-               </select>
-               <Button variant="textButton">
-                  <Link href={'#'}>Log in</Link>
-               </Button>
-               <Button variant="primary">
-                  <Link href={'#'}>Sign up</Link>
-               </Button>
-            </div>
-         )}
+      <header className="border-dark-300 border-b">
+         <div className="container flex h-[60px] items-center justify-between">
+            <Typography as={'h1'} variant="large">
+               Inctagram
+            </Typography>
+            {token ? ( // ← просто проверяем наличие токена
+               <div className="flex items-center">
+                  <div className="mr-[50px]">
+                     {notificationCount > 0 && (
+                        <DropDownMenu
+                           trigger={
+                              <DropDownMenuTrigger>
+                                 <NotificationIcon count={notificationCount} />
+                              </DropDownMenuTrigger>
+                           }
+                           align={'end'}
+                           className={'px-2 py-1'}
+                           sideOffset={-4}
+                        >
+                           <DropDownMenuArrow>
+                              <span></span>
+                           </DropDownMenuArrow>
+
+                           <DropDownMenuLabel>Notification</DropDownMenuLabel>
+
+                           <DropDownSeparator />
+
+                           <DropDownMenuItem>
+                              <Typography variant="h3"> Новое уведомление!</Typography>
+                              <Typography as="span">новое</Typography>
+                              <Typography>Следующий платеж у вас спишется через 1 день</Typography>
+                              <Typography variant="captionRegular">1 час назад</Typography>
+                           </DropDownMenuItem>
+                        </DropDownMenu>
+                     )}
+                  </div>
+                  {selectComponent}
+               </div>
+            ) : (
+               <div className="flex gap-[24px]">
+                  {selectComponent}
+                  <Button asChild variant="textButton">
+                     <Link href={'#'}>Log in</Link>
+                  </Button>
+                  <Button asChild variant="primary">
+                     <Link href={'#'}>Sign up</Link>
+                  </Button>
+               </div>
+            )}
+         </div>
       </header>
    )
 }
