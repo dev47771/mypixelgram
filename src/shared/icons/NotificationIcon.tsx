@@ -1,10 +1,11 @@
 import React, { ComponentPropsWithoutRef } from 'react'
+import { clsx } from 'clsx'
 
 type Props = {
    count?: number
 } & ComponentPropsWithoutRef<'svg'>
 
-export const NotificationIcon = ({ count, ...rest }: Props) => {
+export const NotificationIcon = ({ count, className, ...rest }: Props) => {
    return (
       <svg
          viewBox="0 0 24.0007 24"
@@ -13,6 +14,7 @@ export const NotificationIcon = ({ count, ...rest }: Props) => {
          width="24.000732"
          height="24.000000"
          fill="none"
+         className={clsx('translate-x-[3.5px]', className)}
          {...rest}
       >
          <rect
