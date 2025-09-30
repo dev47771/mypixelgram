@@ -1,5 +1,6 @@
 import type { Preview } from '@storybook/nextjs-vite'
 import '../src/app/globals.css'
+import '@fontsource-variable/roboto'
 
 const preview: Preview = {
    parameters: {
