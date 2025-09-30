@@ -4,7 +4,7 @@ import React, { ComponentPropsWithRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/shared/lib'
-import { SidebarItemType } from '@/shared/components/Sidebar/sidebarData'
+import { SidebarItemType } from '@/widgets/Sidebar/sidebarData'
 
 export type Props = SidebarItemType & ComponentPropsWithRef<'li'>
 

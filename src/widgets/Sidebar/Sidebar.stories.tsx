@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { Sidebar, SidebarItem } from '@/shared/components/Sidebar/Sidebar'
+import { Sidebar, SidebarItem } from '@/widgets/Sidebar/Sidebar'
 import {
    CreateIcon,
    CreateOutlineIcon,
@@ -7,7 +7,7 @@ import {
    HomeOutlineIcon,
    LogoutIcon,
 } from '@/shared/icons'
-import { sidebarData } from '@/shared/components/Sidebar/sidebarData'
+import { sidebarData } from '@/widgets/Sidebar/sidebarData'
 import { action } from 'storybook/actions'
 
 const meta = {
