@@ -11,7 +11,7 @@ import { sidebarData } from '@/widgets/Sidebar/sidebarData'
 import { action } from 'storybook/actions'
 
 const meta = {
-   title: 'Components/Sidebar',
+   title: 'Widgets/Sidebar',
    component: Sidebar,
    globals: {
       backgrounds: { value: 'dark' },
