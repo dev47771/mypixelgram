@@ -28,6 +28,9 @@ const preview: Preview = {
          test: 'todo',
       },
    },
+   initialGlobals: {
+      backgrounds: { value: 'dark' },
+   },
 }
 
 export default preview
