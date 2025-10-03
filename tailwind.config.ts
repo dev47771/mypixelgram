@@ -68,6 +68,13 @@ const config: Config = {
             bold: 'var(--font-weight-bold)',
          },
       },
+      container: {
+         center: true,
+         padding: '60px',
+         screens: {
+            xl: '1280px',
+         },
+      },
    },
    plugins: [],
 }
