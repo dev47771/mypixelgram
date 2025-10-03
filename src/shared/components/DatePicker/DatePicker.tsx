@@ -1,6 +1,7 @@
 import { ArrowLeftIcon, ArrowRightIcon, CalendarIcon, CalendarOutlineIcon } from '@/shared/icons'
 import React, { useState } from 'react'
 import ReactDatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 import './styles/datePicker.css'
 
 export type DatePickerInputProps = {
