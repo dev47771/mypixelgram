@@ -4,14 +4,20 @@ import React, { ComponentPropsWithRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/shared/lib'
-import { SidebarItemType } from '@/widgets/Sidebar/sidebarData'
+import { sidebarData, SidebarItemType } from '@/widgets/Sidebar/sidebarData'
 
-export type Props = SidebarItemType & ComponentPropsWithRef<'li'>
+export type SidebarProps = {
+   items?: SidebarItemType[]
+} & ComponentPropsWithRef<'nav'>
 
-export const Sidebar = ({ children, className, ...rest }: ComponentPropsWithRef<'nav'>) => {
+export type SidebarItemProps = SidebarItemType & ComponentPropsWithRef<'li'>
+
+export const Sidebar = ({ items = sidebarData, children, className, ...rest }: SidebarProps) => {
    return (
-      <nav {...rest} className={cn('fixed top-[72px] min-w-[220px] pl-15', className)}>
-         <ul className={cn('border-dark-300 flex flex-col border-r')}>{children}</ul>
+      <nav {...rest} className={cn('fixed top-[72px] min-w-[220px] pl-[60px]', className)}>
+         <ul className={cn('border-dark-300 flex flex-col border-r')}>
+            {children ? children : items.map(item => <SidebarItem key={item.id} {...item} />)}
+         </ul>
       </nav>
    )
 }
@@ -25,7 +31,7 @@ export const SidebarItem = ({
    onClick,
    className,
    ...rest
-}: Props) => {
+}: SidebarItemProps) => {
    const currentPath = usePathname()
    const IconToRender = currentPath === path && ActiveIcon ? ActiveIcon : Icon
 
