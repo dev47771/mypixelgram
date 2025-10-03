@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { StoreProvider } from '@/app/providers'
+import { Header } from '@/widgets/Header'
 
 const inter = Inter({
    variable: '--font-inter',
@@ -47,7 +48,10 @@ export default function RootLayout({
    return (
       <StoreProvider>
          <html lang="en">
-            <body className={`${inter.variable}`}>{children}</body>
+            <body className={`${inter.variable}`}>
+               <Header notificationCount={4} />
+               {children}
+            </body>
          </html>
       </StoreProvider>
    )
