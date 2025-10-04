@@ -1,3 +1,1 @@
-export default function MainPage() {
-   return <div>MainPage</div>
-}
+export default function Home() {}
