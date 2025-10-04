@@ -6,7 +6,10 @@ import Link from 'next/link'
 export default function TermsOfServicePage() {
    return (
       <PageContainer>
-         <Link href={'/sign-up'} className="font-regular text-s leading-m flex gap-3 self-start">
+         <Link
+            href={'/sign-up'}
+            className="font-regular text-s leading-m flex gap-3 self-start pb-6"
+         >
             <ArrowBackIcon />
             Back to Sign Up
          </Link>
