@@ -1,4 +1,3 @@
-'use client'
 import { type ComponentPropsWithRef } from 'react'
 import { cn } from '@/shared/lib'
 
