@@ -7,6 +7,12 @@ type Props = ComponentPropsWithRef<'main'> & {
 
 export function PageContainer({ className, ...rest }: Props) {
    return (
-      <main className={cn('mx-auto w-full max-w-[1280px] px-[60px] py-6', className)} {...rest} />
+      <main
+         className={cn(
+            'mx-auto flex w-full max-w-[1280px] flex-col items-center px-[60px] pt-6',
+            className
+         )}
+         {...rest}
+      />
    )
 }

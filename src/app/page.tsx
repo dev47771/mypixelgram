@@ -3,7 +3,7 @@ import { RadioGroup, RadioItem } from '@/shared/components/Radio-group'
 
 export default function Home() {
    return (
-      <PageContainer className="flex flex-col items-center">
+      <PageContainer>
          <RadioGroup>
             <RadioItem value="1" label="Первый вариант" />
             <RadioItem value="2" label="Второй вариант" />
