@@ -10,6 +10,7 @@ export type DatePickerInputProps = {
    error?: boolean
    disabled?: boolean
    isCalendarOpen?: boolean
+   selectsRange?: true | undefined
 }
 
 export type DatePickerHeaderProps = {
@@ -20,31 +21,28 @@ export type DatePickerHeaderProps = {
    nextMonthButtonDisabled: boolean
 }
 
-export type DatePickerProps = {
-   startDate: Date | null
-   endDate: Date | null
-   onChange: (dates: [Date | null, Date | null]) => void
-   selectsRange?: boolean
+export type DatePickerWithSingleDateProps = {
+   selected: Date | null
    error?: boolean
    disabled?: boolean
+   onChange: (date: Date | null) => void
+   selectsRange?: undefined
+   endDate?: undefined
 }
 
+export type DatePickerWithRangeDateProps = {
+   startDate: Date | null
+   error?: boolean
+   disabled?: boolean
+   onChange: (dates: [Date | null, Date | null]) => void
+   selectsRange: true
+   endDate: Date | null
+}
+
+export type DatePickerProps = DatePickerWithSingleDateProps | DatePickerWithRangeDateProps
+
 const DatePickerInput = React.forwardRef<HTMLButtonElement, DatePickerInputProps>(
-   ({ value, onClick, error, disabled, isCalendarOpen }, ref) => {
-      let displayValue = 'dd/mm/yyyy'
-      let isBigData = false
-
-      if (value) {
-         const [startDate, endDate] = value.split(' - ')
-         if (endDate && startDate === endDate) {
-            displayValue = startDate
-            isBigData = false
-         } else {
-            displayValue = endDate ? `${startDate} - ${endDate}` : startDate
-            isBigData = !!endDate
-         }
-      }
-
+   ({ value, onClick, error, disabled, isCalendarOpen, selectsRange }, ref) => {
       return (
          <>
             <button
@@ -52,36 +50,35 @@ const DatePickerInput = React.forwardRef<HTMLButtonElement, DatePickerInputProps
                ref={ref}
                onClick={disabled ? undefined : onClick}
                onMouseDown={e => {
-                  if (disabled) return
-                  e.preventDefault()
+                  if (disabled) return e.preventDefault()
                   ;(e.currentTarget as HTMLButtonElement).blur()
                }}
                disabled={disabled}
-               className={`bg-dark-500 border-dark-300 hover:border-dark-100 focus:border-accent-700 flex h-9 w-fit cursor-pointer items-center gap-[23px] rounded-[2px] border-[1px] px-[12px] py-[6px] transition-all duration-200 ease-in-out focus:border-[2px] focus:ring-0 focus:ring-offset-0 focus:outline-none ${!isBigData && 'bg-dark-700 hover:bg-dark-500 active:bg-dark-500 focus:bg-dark-500'} ${error && 'bg-dark-500 border-danger-500'} `}
+               className={`bg-dark-500 border-dark-300 hover:border-dark-100 focus:border-accent-700 flex h-9 w-fit cursor-pointer items-center gap-[23px] rounded-[2px] border-[1px] px-[12px] py-[6px] transition-all duration-200 ease-in-out focus:border-[2px] focus:ring-0 focus:ring-offset-0 focus:outline-none ${!selectsRange && 'bg-dark-700 hover:bg-dark-500 active:bg-dark-500 focus:bg-dark-500'} ${error && !disabled && 'bg-dark-500 border-danger-500'} `}
             >
                <span
                   className={`font-weight-regular text-font-size-m leading-line-height-m disabled:text-light-900 ${
-                     error ? 'text-danger-500' : 'text-light-100'
+                     error && !disabled ? 'text-danger-500' : 'text-light-100'
                   }`}
                >
-                  {displayValue}
+                  {value || 'dd/mm/yyyy'}
                </span>
                {isCalendarOpen ? (
                   <CalendarIcon
-                     className={`h-[24px] w-[24px] ${error ? 'text-danger-500' : 'text-light-100'}`}
+                     className={`h-[24px] w-[24px] ${error && !disabled ? 'text-danger-500' : 'text-light-100'}`}
                   />
                ) : (
                   <CalendarOutlineIcon
-                     className={`h-[24px] w-[24px] ${error ? 'text-danger-500' : 'text-light-100'}`}
+                     className={`h-[24px] w-[24px] ${error && !disabled ? 'text-danger-500' : 'text-light-100'}`}
                   />
                )}
             </button>
-            {error && !isBigData && !isCalendarOpen && (
+            {error && !disabled && !selectsRange && !isCalendarOpen && (
                <span className="text-danger-500 text-[0.75rem] leading-[16px] font-[400]">
                   Error!
                </span>
             )}
-            {error && isBigData && !isCalendarOpen && (
+            {error && !disabled && selectsRange && !isCalendarOpen && (
                <span className="text-danger-500 text-[0.75rem] leading-[16px] font-[400]">
                   Error, select current month or last month
                </span>
@@ -134,54 +131,113 @@ const DatePickerHeader = ({
    </div>
 )
 
-export const DatePicker = ({
-   startDate,
-   endDate,
-   onChange,
-   error = false,
-   disabled,
-}: DatePickerProps) => {
-   const [dateRange, setDateRange] = useState([startDate, endDate])
-   const [start, end] = dateRange
+export const DatePicker = (props: DatePickerProps) => {
    const [isOpen, setIsOpen] = useState(false)
 
-   const handleChange = (update: [Date | null, Date | null]) => {
-      if (disabled) return
-      setDateRange(update)
-      if (onChange) {
-         onChange(update)
+   const handleChange = (dates: Date | [Date | null, Date | null] | null) => {
+      if ('selectsRange' in props && props.selectsRange) {
+         props.onChange(dates as [Date | null, Date | null])
+      } else {
+         props.onChange(dates as Date | null)
       }
    }
 
-   return (
-      <div className="w-full">
-         <ReactDatePicker
-            selectsRange={true}
-            startDate={start}
-            endDate={end}
-            onChange={handleChange}
-            customInput={
-               <DatePickerInput error={error} isCalendarOpen={isOpen} disabled={disabled} />
-            }
-            renderCustomHeader={DatePickerHeader}
-            calendarStartDay={1}
-            calendarClassName=""
-            wrapperClassName="w-full"
-            popperClassName=""
-            showMonthDropdown
-            showYearDropdown
-            dropdownMode="select"
-            dateFormat="dd/MM/yyyy"
-            popperProps={{
-               strategy: 'fixed',
-            }}
-            popperPlacement="bottom-start"
-            monthsShown={1}
-            withPortal={false}
-            onCalendarOpen={() => setIsOpen(true)}
-            onCalendarClose={() => setIsOpen(false)}
-            disabled={disabled}
-         />
-      </div>
-   )
+   const getErrorState = () => {
+      if ('selectsRange' in props && props.selectsRange) {
+         return (!isOpen && !!props.startDate && !props.endDate) || !!props.error
+      } else {
+         return !!props.error
+      }
+   }
+
+   if ('selectsRange' in props && props.selectsRange) {
+      return (
+         <div className="w-full">
+            <ReactDatePicker
+               selectsRange={true}
+               startDate={props.startDate}
+               endDate={props.endDate}
+               filterDate={date => {
+                  if (props.startDate && !props.endDate) {
+                     return date.getTime() !== props.startDate.getTime()
+                  } else {
+                     return true
+                  }
+               }}
+               onChange={handleChange}
+               customInput={
+                  <DatePickerInput
+                     error={getErrorState()}
+                     isCalendarOpen={isOpen}
+                     disabled={props.disabled}
+                     selectsRange={props.selectsRange}
+                  />
+               }
+               renderCustomHeader={DatePickerHeader}
+               calendarStartDay={1}
+               calendarClassName=""
+               wrapperClassName="w-full"
+               popperClassName=""
+               showMonthDropdown
+               showYearDropdown
+               dropdownMode="select"
+               dateFormat="dd/MM/yyyy"
+               popperProps={{
+                  strategy: 'fixed',
+               }}
+               popperPlacement="bottom-start"
+               monthsShown={1}
+               withPortal={false}
+               onCalendarOpen={() => setIsOpen(true)}
+               onCalendarClose={() => setIsOpen(false)}
+               disabled={props.disabled}
+               selectsMultiple={undefined}
+               dayClassName={date => {
+                  if (props.selectsRange && props.startDate && !props.endDate) {
+                     const isStartDate = date.getTime() === props.startDate.getTime()
+                     if (isStartDate) {
+                        return 'no-border-radius'
+                     }
+                  }
+                  return ''
+               }}
+            />
+         </div>
+      )
+   } else {
+      return (
+         <div className="w-full">
+            <ReactDatePicker
+               selected={props.selected}
+               onChange={handleChange}
+               customInput={
+                  <DatePickerInput
+                     error={props.error}
+                     isCalendarOpen={isOpen}
+                     disabled={props.disabled}
+                  />
+               }
+               renderCustomHeader={DatePickerHeader}
+               calendarStartDay={1}
+               calendarClassName=""
+               wrapperClassName="w-full"
+               popperClassName=""
+               showMonthDropdown
+               showYearDropdown
+               dropdownMode="select"
+               dateFormat="dd/MM/yyyy"
+               popperProps={{
+                  strategy: 'fixed',
+               }}
+               popperPlacement="bottom-start"
+               monthsShown={1}
+               withPortal={false}
+               onCalendarOpen={() => setIsOpen(true)}
+               onCalendarClose={() => setIsOpen(false)}
+               disabled={props.disabled}
+               selectsMultiple={undefined}
+            />
+         </div>
+      )
+   }
 }

@@ -477,3 +477,48 @@ h2.react-datepicker__current-month {
 .react-datepicker__day--outside-month:nth-child(7).react-datepicker__day--in-selecting-range {
   color: var(--color-light-900) !important;
 }
+
+.react-datepicker__day.no-border-radius,
+.react-datepicker__day.no-border-radius.react-datepicker__day--selected,
+.react-datepicker__day.no-border-radius.react-datepicker__day--selecting-range-start {
+  border-radius: 0 !important;
+  background-color: var(--color-accent-900) !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.react-datepicker__day.no-border-radius:hover {
+  border-radius: 0 !important;
+  background-color: var(--color-accent-900) !important;
+}
+
+/* Сохраняем цвет accent для сегодняшнего дня в любом состоянии */
+.react-datepicker__day--today,
+.react-datepicker__day--today.react-datepicker__day--outside-month,
+.react-datepicker__day--today.react-datepicker__day--weekend,
+.react-datepicker__day--today.react-datepicker__day--outside-month.react-datepicker__day--weekend,
+.react-datepicker__day--today.react-datepicker__day--in-range,
+.react-datepicker__day--today.react-datepicker__day--in-selecting-range {
+  color: var(--color-accent-500) !important;
+}
+
+/* Исключение - когда сегодняшний день выбран в диапазоне */
+.react-datepicker__day--today.react-datepicker__day--selected,
+.react-datepicker__day--today.react-datepicker__day--range-start,
+.react-datepicker__day--today.react-datepicker__day--range-end {
+  color: var(--color-light-100) !important;
+}
+
+/* Ховер для сегодняшнего дня сохраняет обычное поведение */
+.react-datepicker__day--today:not([aria-disabled="true"]):hover {
+  background-color: var(--color-accent-700) !important;
+  border-radius: 50% !important;
+  color: var(--color-accent-100) !important;
+}
+
+/* Сегодняшний день в диапазоне при ховере */
+.react-datepicker__day--today.react-datepicker__day--selected:not([aria-disabled="true"]):hover,
+.react-datepicker__day--today.react-datepicker__day--in-range:not([aria-disabled="true"]):hover {
+  background-color: var(--color-accent-700) !important;
+  color: var(--color-light-100) !important;
+}
