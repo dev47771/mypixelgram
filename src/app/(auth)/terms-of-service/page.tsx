@@ -1,5 +1,6 @@
 import { PageContainer } from '@/shared/components/PageContainer'
 import { Typography } from '@/shared/components/Typography'
+import { PublicRoutes } from '@/shared/enums'
 import { ArrowBackIcon } from '@/shared/icons'
 import Link from 'next/link'
 
@@ -7,13 +8,13 @@ export default function TermsOfServicePage() {
    return (
       <PageContainer>
          <Link
-            href={'/sign-up'}
+            href={PublicRoutes.signUp}
             className="font-regular text-s leading-m flex gap-3 self-start pb-6"
          >
             <ArrowBackIcon />
             Back to Sign Up
          </Link>
-         <Typography as="h1" variant="h1" className="pb-5">
+         <Typography variant="h1" className="pb-5">
             Terms of Service
          </Typography>
          <Typography as="p" variant="captionRegular" className="text-center">
