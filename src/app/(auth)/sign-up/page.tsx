@@ -1,3 +1,10 @@
+import { SignUp } from '@/features/auth/ui/signUp'
+import { PageContainer } from '@/shared/components/PageContainer'
+
 export default function SignUpPage() {
-   return <div>SignUpPage</div>
+   return (
+      <PageContainer>
+         <SignUp />
+      </PageContainer>
+   )
 }
