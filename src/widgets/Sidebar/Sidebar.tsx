@@ -15,7 +15,7 @@ export type SidebarItemProps = SidebarItemType & ComponentPropsWithRef<'li'>
 export const Sidebar = ({ items = sidebarData, children, className, ...rest }: SidebarProps) => {
    return (
       <nav {...rest} className={cn('fixed top-[72px] min-w-[220px] pl-[60px]', className)}>
-         <ul className={cn('border-dark-300 flex flex-col border-r')}>
+         <ul className={cn('border-dark-300 flex h-screen flex-col border-r pt-[72px]')}>
             {children ? children : items.map(item => <SidebarItem key={item.id} {...item} />)}
          </ul>
       </nav>
