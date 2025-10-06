@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { StoreProvider } from '@/shared/store/providers'
 import { Header } from '@/widgets/Header'
 
 const inter = Inter({
@@ -45,11 +46,13 @@ export default function RootLayout({
    children: React.ReactNode
 }>) {
    return (
-      <html lang="en">
-         <body className={`${inter.variable}`}>
-            <Header notificationCount={4} />
-            {children}
-         </body>
-      </html>
+      <StoreProvider>
+         <html lang="en">
+            <body className={`${inter.variable}`}>
+               <Header notificationCount={4} />
+               {children}
+            </body>
+         </html>
+      </StoreProvider>
    )
 }
