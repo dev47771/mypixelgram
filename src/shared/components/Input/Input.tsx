@@ -6,7 +6,7 @@ import { SearchIcon, VisibilityIcon, VisibilityOffIcon } from '@/shared/icons'
 import { Label } from '@/shared/components/Label'
 import { Typography } from '@/shared/components/Typography'
 
-type Props = {
+export type InputProps = {
    errorMessage?: string
    label?: string
    onValueChange?: (value: string) => void
@@ -22,7 +22,7 @@ export const Input = ({
    className,
    disabled,
    ...rest
-}: Props) => {
+}: InputProps) => {
    const [showPassword, setShowPassword] = useState(false)
 
    const isShowSearch = type === 'search'
