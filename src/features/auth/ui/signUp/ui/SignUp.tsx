@@ -4,11 +4,44 @@ import { Typography } from '@/shared/components/Typography'
 import Link from 'next/link'
 import { GitHubIcon, GoogleIcon } from '@/shared/icons'
 import { Input } from '@/shared/components/Input'
-import { Checkbox } from '@/shared/components/Checkbox'
 import { Button } from '@/shared/components/Button'
 import { PublicRoutes } from '@/shared/enums'
+import { signUpSchema } from '../model/validation'
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ControlledCheckbox } from '@/shared/components/Controlled'
 
-export const SignUp = () => {
+type FormTypes = z.infer<typeof signUpSchema>
+
+type Props = {
+   onSubmit: (data: FormTypes) => void
+}
+
+export const SignUp = ({ onSubmit }: Props) => {
+   const {
+      control,
+      formState: { isSubmitting },
+      handleSubmit,
+      watch,
+      reset,
+   } = useForm<FormTypes>({
+      mode: 'onBlur',
+      defaultValues: {
+         name: '',
+         email: '',
+         password: '',
+         confirmPassword: '',
+         termsAccepted: false,
+      },
+      resolver: zodResolver(signUpSchema),
+   })
+
+   const submitHandler = (data: FormTypes) => {
+      onSubmit(data)
+      reset()
+   }
+
    return (
       <Card className={'max-w-[378px] px-6 pt-6 pb-[30px]'}>
          <div className="w-[330px]">
@@ -23,7 +56,7 @@ export const SignUp = () => {
                   <GitHubIcon className={'h-[36px] w-[36px] text-inherit'} />
                </Link>
             </div>
-            <form>
+            <form onSubmit={handleSubmit(submitHandler)}>
                <Input label={'Username'} placeholder={'Test1'} />
                <Input type={'text'} label={'Email'} placeholder={'Test@test.com'} />
                <Input type={'password'} label={'Password'} placeholder={'Enter your password'} />
@@ -34,7 +67,7 @@ export const SignUp = () => {
                />
 
                <div className={'flex items-center justify-center gap-[8px]'}>
-                  <Checkbox />
+                  <ControlledCheckbox name={'termsAccepted'} control={control} />
                   <Typography variant={'smallRegular'}>
                      I agree to the{' '}
                      <Link
@@ -53,7 +86,13 @@ export const SignUp = () => {
                   </Typography>
                </div>
 
-               <Button className={'mt-3 mb-[18px]'} type={'submit'} variant={'primary'} fullWidth>
+               <Button
+                  className={'mt-3 mb-[18px]'}
+                  type={'submit'}
+                  variant={'primary'}
+                  disabled={!watch('termsAccepted') || isSubmitting}
+                  fullWidth
+               >
                   Sign Up
                </Button>
             </form>
