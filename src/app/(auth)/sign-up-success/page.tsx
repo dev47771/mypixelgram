@@ -12,7 +12,7 @@ export default function SignUpSuccessPage() {
             Congratulations!
          </Typography>
          <Typography className={'mt-5 mb-[54px]'}>Your email has been confirmed</Typography>
-         <Button className={'w-full max-w-[182px]'}>
+         <Button asChild className={'w-full max-w-[182px]'}>
             <Link href={'/sign-in'}>Sign In</Link>
          </Button>
          <Image
