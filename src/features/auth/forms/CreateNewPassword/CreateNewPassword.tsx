@@ -37,7 +37,7 @@ export const CreateNewPassword = ({ onSubmit }: Props) => {
    return (
       <Card
          className={
-            'flex h-[408px] w-[378px] flex-col items-center justify-center pt-[23px] pr-[24px] pb-[36px] pl-[24px]'
+            'flex h-[408px] w-[378px] flex-col items-center justify-center px-6 pt-[23px] pb-[36px]'
          }
       >
          <Typography variant={'h1'} className={'mb-[37px]'}>
