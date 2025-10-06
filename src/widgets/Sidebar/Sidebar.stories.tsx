@@ -7,7 +7,6 @@ import {
    HomeOutlineIcon,
    LogoutIcon,
 } from '@/shared/icons'
-import { sidebarData } from '@/widgets/Sidebar/sidebarData'
 import { action } from 'storybook/actions'
 
 const meta = {
@@ -21,17 +20,7 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {
-   args: {
-      children: (
-         <>
-            {sidebarData.map(item => (
-               <SidebarItem key={item.id} {...item} />
-            ))}
-         </>
-      ),
-   },
-}
+export const Default: Story = {}
 
 export const WithDisabledItem: Story = {
    args: {
