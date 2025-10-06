@@ -4,7 +4,7 @@ type Props = {
    speed?: number
 }
 
-export function Loader({ size = '2.8rem', color = '#183153', speed = 0.9 }: Props) {
+export function Loader({ size = '2.8rem', color = '#397DF6', speed = 0.9 }: Props) {
    return (
       <div
          className="relative flex items-center justify-start"
