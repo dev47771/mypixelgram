@@ -1,17 +1,12 @@
 import { z } from 'zod'
-import {
-   confirmPasswordSchema,
-   emailSchema,
-   passwordSchema,
-   usernameSchema,
-} from '@/shared/lib/zod'
+import { emailSchema, usernameSchema } from '@/shared/schema'
 
 export const signUpSchema = z
    .object({
       name: usernameSchema,
       email: emailSchema,
-      password: passwordSchema,
-      confirmPassword: confirmPasswordSchema,
+      password: z.string(),
+      confirmPassword: z.string(),
       termsAccepted: z.boolean(),
    })
    .refine(date => date.password === date.confirmPassword, {
