@@ -35,9 +35,15 @@ export const CreateNewPassword = ({ onSubmit }: Props) => {
    })
 
    return (
-      <Card>
-         <Typography variant={'h1'}>Create New Password</Typography>
-         <form onSubmit={handleSubmit(onSubmit)}>
+      <Card
+         className={
+            'flex h-[408px] w-[378px] flex-col items-center justify-center pt-[23px] pr-[24px] pb-[36px] pl-[24px]'
+         }
+      >
+         <Typography variant={'h1'} className={'mb-[37px]'}>
+            Create New Password
+         </Typography>
+         <form onSubmit={handleSubmit(onSubmit)} className={'w-full'}>
             <ControlledInput
                autoComplete="new-password"
                errorMessage={errors.password?.message}
@@ -45,6 +51,7 @@ export const CreateNewPassword = ({ onSubmit }: Props) => {
                control={control}
                label={'New password'}
                type="password"
+               className={'mb-6'}
             />
             <ControlledInput
                autoComplete="new-password"
@@ -53,11 +60,16 @@ export const CreateNewPassword = ({ onSubmit }: Props) => {
                name={'confirmPassword'}
                label={'Password confirmation'}
                type="password"
+               className={'mb-[7px]'}
             />
-            <Typography variant={'captionRegular'}>
-               Your password must be between 6 and 20 characters
+            <Typography
+               variant={'captionRegular'}
+               className={'text-light-900 mb-[41px] flex flex-col'}
+            >
+               <span>Your password must be between 6 and 20 </span>
+               <span>characters</span>
             </Typography>
-            <Button fullWidth>Create New Password</Button>
+            <Button fullWidth>Create new password</Button>
          </form>
       </Card>
    )

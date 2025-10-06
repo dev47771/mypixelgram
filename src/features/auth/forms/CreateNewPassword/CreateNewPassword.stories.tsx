@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { CreateNewPassword } from './'
+import { CreateNewPassword } from './CreateNewPassword'
 
 const meta = {
    component: CreateNewPassword,
