@@ -5,10 +5,10 @@ import { Button } from '@/shared/components/Button'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Input } from '@/shared/components/Input'
 import Link from 'next/link'
 import { Recaptcha } from '@/entities/Recaptcha'
 import { PublicRoutes } from '@/shared/enums'
+import { ControlledInput } from '@/shared/components/Controlled/ControlledInput'
 
 const schema = z.object({
    email: z.email(),
@@ -22,6 +22,7 @@ type Props = {
 
 export const ForgotPasswordForm = ({ onSubmitAction, disabled }: Props) => {
    const {
+      control,
       formState: { errors },
       handleSubmit,
    } = useForm<FormTypes>({
@@ -40,7 +41,8 @@ export const ForgotPasswordForm = ({ onSubmitAction, disabled }: Props) => {
             onSubmit={handleSubmit(onSubmitAction)}
             className={'flex w-full flex-col items-center'}
          >
-            <Input
+            <ControlledInput
+               control={control}
                autoComplete="email"
                errorMessage={errors.email?.message}
                name={'email'}

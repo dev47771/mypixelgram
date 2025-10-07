@@ -2,7 +2,7 @@ import { Typography } from '@/shared/components/Typography'
 import { Button } from '@/shared/components/Button'
 import { PageContainer } from '@/shared/components/PageContainer'
 import Image from 'next/image'
-
+import { confirmed } from './assets/confirmed.png'
 import Link from 'next/link'
 
 export default function SignUpSuccessPage() {
@@ -16,7 +16,7 @@ export default function SignUpSuccessPage() {
             <Link href={'/sign-in'}>Sign In</Link>
          </Button>
          <Image
-            src={''}
+            src={confirmed}
             alt="email-confirmed"
             quality={90}
             width={432}
