@@ -6,11 +6,24 @@ import { GitHubIcon, GoogleIcon } from '@/shared/icons'
 import { Input } from '@/shared/components/Input'
 import { Button } from '@/shared/components/Button'
 import { PublicRoutes } from '@/shared/enums'
-import { signUpSchema } from '../model/validation'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ControlledCheckbox } from '@/shared/components/Controlled'
+import { emailSchema, usernameSchema } from '@/shared/schema'
+
+const signUpSchema = z
+   .object({
+      name: usernameSchema,
+      email: emailSchema,
+      password: z.string(),
+      confirmPassword: z.string(),
+      termsAccepted: z.boolean(),
+   })
+   .refine(date => date.password === date.confirmPassword, {
+      message: 'Passwords must match',
+      path: ['confirmPassword'],
+   })
 
 type FormTypes = z.infer<typeof signUpSchema>
 
@@ -18,7 +31,7 @@ type Props = {
    onSubmit: (data: FormTypes) => void
 }
 
-export const SignUp = ({ onSubmit }: Props) => {
+export const SignUpForm = ({ onSubmit }: Props) => {
    const {
       control,
       formState: { isSubmitting },
