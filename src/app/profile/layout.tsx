@@ -20,11 +20,17 @@ import {
    SearchIcon,
    StatisticIcon,
 } from '@/shared/icons'
+import { Typography } from '@/shared/components/Typography'
+import { Button } from '@/shared/components/Button'
 export default function ProfileLayout({ children }: { children: ReactNode }) {
    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
 
    const handleLogoutClick = () => {
       setIsLogoutModalOpen(true)
+   }
+
+   const handleCloseModal = () => {
+      setIsLogoutModalOpen(false)
    }
 
    return (
@@ -73,7 +79,7 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
 
          <Modal open={isLogoutModalOpen} onOpenChange={setIsLogoutModalOpen}>
             <ModalTitle className={'flex items-center justify-between'}>
-               Log Out
+               <Typography variant={'h1'}>Log Out</Typography>
                <ModalClose asChild>
                   <CrossIcon />
                </ModalClose>
@@ -82,16 +88,16 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
             <hr className={'text-dark-100 h-[1px]'} />
 
             <ModalBody className="flex max-w-[378px] flex-col gap-4 px-6 py-3">
-               Are you really want to log out of your account ___email___?
+               <Typography>Are you really want to log out of your account ___email___?</Typography>
                <span className="flex gap-2 self-end">
-                  <ModalClose
-                     className={'border-dark-100 h-[36px] w-[96px] rounded-sm border px-4 py-1.5'}
+                  <Button
+                     onClick={handleCloseModal}
+                     variant="outlined"
+                     className={'h-[36px] w-[96px]'}
                   >
                      No
-                  </ModalClose>
-                  <ModalClose className={'bg-accent-300 h-[36px] w-[96px] rounded-sm px-4 py-1.5'}>
-                     Yes
-                  </ModalClose>
+                  </Button>
+                  <Button className={'h-[36px] w-[96px]'}>Yes</Button>
                </span>
             </ModalBody>
          </Modal>
