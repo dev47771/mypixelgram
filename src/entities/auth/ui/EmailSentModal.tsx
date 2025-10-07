@@ -9,7 +9,7 @@ type Props = {
    onClose: (email: string | null) => void
 }
 
-export const SignUpEmailSentModal = ({ email, onClose }: Props) => {
+export const EmailSentModal = ({ email, onClose }: Props) => {
    const handleCloseModal = () => onClose(null)
 
    return (

@@ -3,7 +3,7 @@
 import { PageContainer } from '@/shared/components/PageContainer'
 import { useState } from 'react'
 import { SignUpForm } from '@/features/auth/forms/SignUpForm'
-import { SignUpEmailSentModal } from '@/features/auth/ui/signUp/ui/SignUpEmailSentModal'
+import { EmailSentModal } from '@/entities/auth/ui/EmailSentModal'
 
 export default function SignUpPage() {
    const [confirmationEmail, setConfirmationEmail] = useState<string | null>(null)
@@ -12,7 +12,7 @@ export default function SignUpPage() {
       <PageContainer>
          <SignUpForm onSubmit={() => {}} />
          {confirmationEmail && (
-            <SignUpEmailSentModal email={confirmationEmail} onClose={setConfirmationEmail} />
+            <EmailSentModal email={confirmationEmail} onClose={setConfirmationEmail} />
          )}
       </PageContainer>
    )
