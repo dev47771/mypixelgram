@@ -6,7 +6,7 @@ import { SearchIcon, VisibilityIcon, VisibilityOffIcon } from '@/shared/icons'
 import { Label } from '@/shared/components/Label'
 import { Typography } from '@/shared/components/Typography'
 
-type Props = {
+export type InputProps = {
    errorMessage?: string
    label?: string
    onValueChange?: (value: string) => void
@@ -22,7 +22,7 @@ export const Input = ({
    className,
    disabled,
    ...rest
-}: Props) => {
+}: InputProps) => {
    const [showPassword, setShowPassword] = useState(false)
 
    const isShowSearch = type === 'search'
@@ -51,12 +51,11 @@ export const Input = ({
       'focus:ring-2 focus:ring-accent-500 focus:border-transparent focus:text-light-100 focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:text-light-100 active:ring-light-100',
       disabled
          ? 'pointer-events-none border-dark-300 text-dark-300 placeholder:text-dark-300'
-         : 'text-light-900 placeholder:text-light-900',
-      className
+         : 'text-light-900 placeholder:text-light-900'
    )
 
    return (
-      <div className={clsx('flex w-full min-w-[250px] flex-col')}>
+      <div className={clsx('flex w-full min-w-[250px] flex-col', className)}>
          {label && <Label disabled={disabled}>{label}</Label>}
          <div className={'relative flex flex-col'}>
             <input
@@ -67,16 +66,18 @@ export const Input = ({
                {...rest}
             />
 
-            <div className={'relative min-h-[24px] w-full'}>
-               {errorMessage && !disabled && (
-                  <Typography
-                     variant={'captionRegular'}
-                     className={clsx('text-danger-500 break-words whitespace-normal')}
-                  >
-                     {errorMessage}
-                  </Typography>
-               )}
-            </div>
+            {errorMessage && (
+               <div className={'relative min-h-[24px] w-full'}>
+                  {errorMessage && !disabled && (
+                     <Typography
+                        variant={'captionRegular'}
+                        className={clsx('text-danger-500 break-words whitespace-normal')}
+                     >
+                        {errorMessage}
+                     </Typography>
+                  )}
+               </div>
+            )}
 
             {isShowButton && (
                <button
