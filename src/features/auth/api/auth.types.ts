@@ -4,3 +4,7 @@ export type SignUpArgs = {
    password: string
    isAgreeWithPrivacy: boolean
 }
+
+export type RecoveryPasswordArgs = {
+   email: string
+}

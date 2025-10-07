@@ -1,6 +1,6 @@
 import { baseApi } from '@/shared/store'
 import { AuthEndpoints } from '@/shared/enums'
-import { SignUpArgs } from '@/features/auth/api'
+import { type RecoveryPasswordArgs, SignUpArgs } from '@/features/auth/api'
 
 export const authService = baseApi.injectEndpoints({
    endpoints: builder => ({
@@ -11,7 +11,14 @@ export const authService = baseApi.injectEndpoints({
             body: args,
          }),
       }),
+      passwordRecovery: builder.mutation<void, RecoveryPasswordArgs>({
+         query: args => ({
+            method: 'POST',
+            url: AuthEndpoints.passwordRecovery,
+            body: args,
+         }),
+      }),
    }),
 })
 
-export const { useSignUpMutation } = authService
+export const { useSignUpMutation, usePasswordRecoveryMutation } = authService
