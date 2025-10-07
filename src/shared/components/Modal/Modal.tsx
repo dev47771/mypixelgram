@@ -12,8 +12,8 @@ const ModalTitle = ({
    ...rest
 }: ComponentPropsWithRef<typeof Dialog.Title>) => {
    return (
-      <Dialog.Title className={clsx('px-6 py-3', className)} {...rest}>
-         {children}
+      <Dialog.Title asChild className={clsx('px-6 py-3', className)} {...rest}>
+         <div>{children}</div>
       </Dialog.Title>
    )
 }
@@ -31,7 +31,11 @@ const ModalClose = ({
 }
 
 const ModalBody = ({ children, ...rest }: ComponentPropsWithRef<typeof Dialog.Description>) => {
-   return <Dialog.Description {...rest}>{children}</Dialog.Description>
+   return (
+      <Dialog.Description asChild {...rest}>
+         <div>{children}</div>
+      </Dialog.Description>
+   )
 }
 
 const Modal = ({ children, className, ...rest }: ModalProps) => {
