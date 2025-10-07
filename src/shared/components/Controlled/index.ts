@@ -1,1 +1,1 @@
-export * from './ControlledInput'
+export { ControlledCheckbox } from './ControlledCheckbox'
