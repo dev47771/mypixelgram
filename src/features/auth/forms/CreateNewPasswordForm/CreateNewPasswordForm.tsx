@@ -1,3 +1,4 @@
+'use client'
 import { Card } from '@/shared/components/Card'
 import { Typography } from '@/shared/components/Typography'
 import { Button } from '@/shared/components/Button'
@@ -16,12 +17,13 @@ const schema = z
       message: 'The passwords must match',
       path: ['confirmPassword'],
    })
+
 type FormTypes = z.infer<typeof schema>
 type Props = {
-   onSubmit: (data: FormTypes) => void
+   onSubmitAction: (data: FormTypes) => void
 }
 
-export const CreateNewPassword = ({ onSubmit }: Props) => {
+export const CreateNewPasswordForm = ({ onSubmitAction }: Props) => {
    const {
       control,
       formState: { errors },
@@ -36,14 +38,12 @@ export const CreateNewPassword = ({ onSubmit }: Props) => {
 
    return (
       <Card
-         className={
-            'flex h-[408px] w-[378px] flex-col items-center justify-center px-6 pt-[23px] pb-[36px]'
-         }
+         className={'flex w-[378px] flex-col items-center justify-center px-6 pt-[23px] pb-[36px]'}
       >
          <Typography variant={'h1'} className={'mb-[37px]'}>
             Create New Password
          </Typography>
-         <form onSubmit={handleSubmit(onSubmit)} className={'w-full'}>
+         <form onSubmit={handleSubmit(onSubmitAction)} className={'w-full'}>
             <ControlledInput
                autoComplete="new-password"
                errorMessage={errors.password?.message}
