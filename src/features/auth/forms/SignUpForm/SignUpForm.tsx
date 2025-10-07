@@ -70,41 +70,43 @@ export const SignUpForm = ({ onSubmit }: Props) => {
                </Link>
             </div>
             <form onSubmit={handleSubmit(submitHandler)}>
-               <div className={clsx('flex flex-col')}>
-                  <ControlledInput
-                     errorMessage={errors.login?.message}
-                     name={'login'}
-                     control={control}
-                     label={'Username'}
-                     type="text"
-                     placeholder={'Test1'}
-                  />
-                  <ControlledInput
-                     errorMessage={errors.email?.message}
-                     name={'email'}
-                     control={control}
-                     label={'Email'}
-                     type={'text'}
-                     placeholder={'Test@test.com'}
-                  />
-                  <ControlledInput
-                     errorMessage={errors.password?.message}
-                     name={'password'}
-                     control={control}
-                     type={'password'}
-                     label={'Password'}
-                     placeholder={'Enter your password'}
-                  />
+               <ControlledInput
+                  errorMessage={errors.login?.message}
+                  name={'login'}
+                  control={control}
+                  label={'Username'}
+                  type="text"
+                  placeholder={'Test1'}
+                  className={clsx(errors.login ? 'mb-0' : 'mb-6')}
+               />
+               <ControlledInput
+                  errorMessage={errors.email?.message}
+                  name={'email'}
+                  control={control}
+                  label={'Email'}
+                  type={'text'}
+                  placeholder={'Test@test.com'}
+                  className={clsx(errors.email ? 'mb-0' : 'mb-6')}
+               />
+               <ControlledInput
+                  errorMessage={errors.password?.message}
+                  name={'password'}
+                  control={control}
+                  type={'password'}
+                  label={'Password'}
+                  placeholder={'Enter your password'}
+                  className={clsx(errors.password ? 'mb-0' : 'mb-6')}
+               />
 
-                  <ControlledInput
-                     errorMessage={errors.confirmPassword?.message}
-                     name={'confirmPassword'}
-                     control={control}
-                     type={'password'}
-                     label={'Password confirmation'}
-                     placeholder={'Enter your password'}
-                  />
-               </div>
+               <ControlledInput
+                  errorMessage={errors.confirmPassword?.message}
+                  name={'confirmPassword'}
+                  control={control}
+                  type={'password'}
+                  label={'Password confirmation'}
+                  placeholder={'Enter your password'}
+                  className={clsx(errors.confirmPassword ? 'mb-0' : 'mb-2')}
+               />
 
                <div className={'flex items-center justify-center gap-[8px]'}>
                   <ControlledCheckbox name={'termsAccepted'} control={control} />
