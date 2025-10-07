@@ -3,21 +3,21 @@ import { Card } from '@/shared/components/Card'
 import { Typography } from '@/shared/components/Typography'
 import Link from 'next/link'
 import { GitHubIcon, GoogleIcon } from '@/shared/icons'
-import { Input } from '@/shared/components/Input'
 import { Button } from '@/shared/components/Button'
 import { PublicRoutes } from '@/shared/enums'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ControlledCheckbox } from '@/shared/components/Controlled'
-import { emailSchema, usernameSchema } from '@/shared/schema'
+import { ControlledCheckbox, ControlledInput } from '@/shared/components/Controlled'
+import { emailSchema, passwordSchema, usernameSchema } from '@/shared/schema'
+import { clsx } from 'clsx'
 
 const signUpSchema = z
    .object({
-      name: usernameSchema,
+      login: usernameSchema,
       email: emailSchema,
-      password: z.string(),
-      confirmPassword: z.string(),
+      password: passwordSchema,
+      confirmPassword: passwordSchema,
       termsAccepted: z.boolean(),
    })
    .refine(date => date.password === date.confirmPassword, {
@@ -34,14 +34,14 @@ type Props = {
 export const SignUpForm = ({ onSubmit }: Props) => {
    const {
       control,
-      formState: { isSubmitting },
+      formState: { errors, isValid, isSubmitting },
       handleSubmit,
       watch,
       reset,
    } = useForm<FormTypes>({
       mode: 'onBlur',
       defaultValues: {
-         name: '',
+         login: '',
          email: '',
          password: '',
          confirmPassword: '',
@@ -56,7 +56,7 @@ export const SignUpForm = ({ onSubmit }: Props) => {
    }
 
    return (
-      <Card className={'max-w-[378px] px-6 pt-6 pb-[30px]'}>
+      <Card className={'max-w-[378px] px-6 py-6'}>
          <div className="w-[330px]">
             <Typography className={'text-center'} variant={'h1'}>
                Sign Up
@@ -70,14 +70,41 @@ export const SignUpForm = ({ onSubmit }: Props) => {
                </Link>
             </div>
             <form onSubmit={handleSubmit(submitHandler)}>
-               <Input label={'Username'} placeholder={'Test1'} />
-               <Input type={'text'} label={'Email'} placeholder={'Test@test.com'} />
-               <Input type={'password'} label={'Password'} placeholder={'Enter your password'} />
-               <Input
-                  type={'password'}
-                  label={'Password confirmation'}
-                  placeholder={'Enter your password'}
-               />
+               <div className={clsx('flex flex-col')}>
+                  <ControlledInput
+                     errorMessage={errors.login?.message}
+                     name={'login'}
+                     control={control}
+                     label={'Username'}
+                     type="text"
+                     placeholder={'Test1'}
+                  />
+                  <ControlledInput
+                     errorMessage={errors.email?.message}
+                     name={'email'}
+                     control={control}
+                     label={'Email'}
+                     type={'text'}
+                     placeholder={'Test@test.com'}
+                  />
+                  <ControlledInput
+                     errorMessage={errors.password?.message}
+                     name={'password'}
+                     control={control}
+                     type={'password'}
+                     label={'Password'}
+                     placeholder={'Enter your password'}
+                  />
+
+                  <ControlledInput
+                     errorMessage={errors.confirmPassword?.message}
+                     name={'confirmPassword'}
+                     control={control}
+                     type={'password'}
+                     label={'Password confirmation'}
+                     placeholder={'Enter your password'}
+                  />
+               </div>
 
                <div className={'flex items-center justify-center gap-[8px]'}>
                   <ControlledCheckbox name={'termsAccepted'} control={control} />
@@ -103,7 +130,7 @@ export const SignUpForm = ({ onSubmit }: Props) => {
                   className={'mt-3 mb-[18px]'}
                   type={'submit'}
                   variant={'primary'}
-                  disabled={!watch('termsAccepted') || isSubmitting}
+                  disabled={!watch('termsAccepted') || isSubmitting || !isValid}
                   fullWidth
                >
                   Sign Up
