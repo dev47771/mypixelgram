@@ -10,7 +10,7 @@ type Props = {
    errorMessage?: string
    label?: string
    onValueChange?: (value: string) => void
-   type?: 'password' | 'search' | 'text'
+   type?: 'password' | 'search' | 'text' | 'email'
 } & ComponentPropsWithRef<'input'>
 
 export const Input = ({
