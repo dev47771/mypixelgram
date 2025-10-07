@@ -1,10 +1,10 @@
 'use client'
 
-import React, { ComponentPropsWithRef } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { cn } from '@/shared/lib'
 import { sidebarData, SidebarItemType } from '@/widgets/Sidebar/sidebarData'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { ComponentPropsWithRef } from 'react'
 
 export type SidebarProps = {
    items?: SidebarItemType[]
@@ -52,16 +52,18 @@ export const SidebarItem = ({
    )
 
    return (
-      <li {...rest} className={cn('mb-6 last:mb-9', className)}>
-         {onClick ? (
-            <button disabled={disabled} onClick={onClick} className={classesForItem}>
-               {content}
-            </button>
-         ) : (
-            <Link href={path} className={classesForItem}>
-               {content}
-            </Link>
-         )}
-      </li>
+      <>
+         <li {...rest} className={cn('mb-6 last:mb-9', className)}>
+            {onClick ? (
+               <button disabled={disabled} onClick={onClick} className={classesForItem}>
+                  {content}
+               </button>
+            ) : (
+               <Link href={path} className={classesForItem}>
+                  {content}
+               </Link>
+            )}
+         </li>
+      </>
    )
 }
