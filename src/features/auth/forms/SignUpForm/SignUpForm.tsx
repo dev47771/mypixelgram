@@ -20,7 +20,7 @@ const signUpSchema = z
       email: emailSchema,
       password: passwordSchema,
       confirmPassword: passwordSchema,
-      termsAccepted: z.boolean(),
+      isAgreeWithPrivacy: z.boolean(),
    })
    .refine(date => date.password === date.confirmPassword, {
       message: 'Passwords must match',
@@ -30,7 +30,7 @@ const signUpSchema = z
 type FormTypes = z.infer<typeof signUpSchema>
 
 type Props = {
-   onSubmitAction: (data: FormTypes) => void
+   onSubmitAction: (data: FormTypes) => Promise<boolean>
 }
 
 export const SignUpForm = ({ onSubmitAction }: Props) => {
@@ -47,14 +47,14 @@ export const SignUpForm = ({ onSubmitAction }: Props) => {
          email: '',
          password: '',
          confirmPassword: '',
-         termsAccepted: false,
+         isAgreeWithPrivacy: false,
       },
       resolver: zodResolver(signUpSchema),
    })
 
-   const submitHandler = (data: FormTypes) => {
-      onSubmitAction(data)
-      reset()
+   const submitHandler = async (data: FormTypes) => {
+      const shouldResetForm = await onSubmitAction(data)
+      if (shouldResetForm) reset()
    }
 
    return (
@@ -111,7 +111,7 @@ export const SignUpForm = ({ onSubmitAction }: Props) => {
                />
 
                <div className={'flex items-center justify-center gap-[8px]'}>
-                  <ControlledCheckbox name={'termsAccepted'} control={control} />
+                  <ControlledCheckbox name={'isAgreeWithPrivacy'} control={control} />
                   <Typography variant={'smallRegular'}>
                      I agree to the{' '}
                      <Link
@@ -134,7 +134,7 @@ export const SignUpForm = ({ onSubmitAction }: Props) => {
                   className={'mt-3 mb-[18px]'}
                   type={'submit'}
                   variant={'primary'}
-                  disabled={!watch('termsAccepted') || isSubmitting || !isValid}
+                  disabled={!watch('isAgreeWithPrivacy') || isSubmitting || !isValid}
                   fullWidth
                >
                   Sign Up

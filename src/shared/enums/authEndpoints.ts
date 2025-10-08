@@ -1,3 +1,3 @@
 export enum AuthEndpoints {
-   signUp = '/v1/auth/sign-up',
+   signUp = '/v1/auth/register',
 }
