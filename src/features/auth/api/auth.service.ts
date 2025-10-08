@@ -11,7 +11,14 @@ export const authService = baseApi.injectEndpoints({
             body: args,
          }),
       }),
+      confirmEmail: builder.mutation<void, { code: string }>({
+         query: args => ({
+            method: 'POST',
+            url: AuthEndpoints.confirmEmail,
+            body: args,
+         }),
+      }),
    }),
 })
 
-export const { useSignUpMutation } = authService
+export const { useSignUpMutation, useConfirmEmailMutation } = authService
