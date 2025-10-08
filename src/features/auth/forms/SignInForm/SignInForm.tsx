@@ -10,7 +10,9 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/shared/components/Button'
 import Link from 'next/link'
-import { PublicRoutes } from '@/shared/enums'
+import { PrivateRoutes, PublicRoutes } from '@/shared/enums'
+import { useLoginMutation } from '@/features/auth/api'
+import { useRouter } from 'next/navigation'
 
 const signInSchema = z.object({
    email: z.email({ error: 'The email must match the format example@example.com' }),
@@ -19,19 +21,26 @@ const signInSchema = z.object({
 
 type Inputs = z.infer<typeof signInSchema>
 
-type Props = {
-   onSubmitAction: (data: Inputs) => void
-}
+export const SignInForm = () => {
+   const [login] = useLoginMutation()
+   const router = useRouter()
 
-export const SignInForm = ({ onSubmitAction }: Props) => {
    const {
       control,
       handleSubmit,
       formState: { errors },
    } = useForm<Inputs>({ resolver: zodResolver(signInSchema) })
 
-   const onSubmit: SubmitHandler<Inputs> = data => {
-      onSubmitAction(data)
+   const onSubmit: SubmitHandler<Inputs> = async data => {
+      const result = await login(data)
+      if (result.data) {
+         localStorage.setItem('accessToken', result.data.accessToken)
+         router.push(PrivateRoutes.feed)
+      }
+      // else if (result.error?.data?.errorsMessages?.length) {
+      //    //обработка ошибок
+      //    alert.error(result.error.data.errorsMessages[0].message)
+      // }
    }
    return (
       <Card className={'flex w-full max-w-[378px] flex-col items-center p-6'}>
@@ -61,7 +70,9 @@ export const SignInForm = ({ onSubmitAction }: Props) => {
                <Link href={PublicRoutes.forgotPassword}>Forgot Password</Link>
             </Typography>
 
-            <Button fullWidth>Sign In</Button>
+            <Button type="submit" fullWidth>
+               Sign In
+            </Button>
             <Typography className={'my-4.5'}>Don’t have an account?</Typography>
             <Typography variant={'h3'} className={'text-accent-500'}>
                <Link href={PublicRoutes.signUp}>Sign Up</Link>
