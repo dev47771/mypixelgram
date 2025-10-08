@@ -47,6 +47,7 @@ export const SignInForm = ({ onSubmitAction }: Props) => {
                label={'Email'}
                errorMessage={errors.email?.message}
                className={'mb-6'}
+               autoComplete="email"
                placeholder={'example@example.com'}
             />
             <ControlledInput
