@@ -4,3 +4,9 @@ export type SignUpArgs = {
    password: string
    isAgreeWithPrivacy: boolean
 }
+
+export type MeResponse = {
+   userId: string
+   email: string
+   login: string
+}

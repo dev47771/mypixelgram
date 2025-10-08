@@ -22,8 +22,14 @@ import {
 } from '@/shared/icons'
 import { Typography } from '@/shared/components/Typography'
 import { Button } from '@/shared/components/Button'
+import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
+import { useRouter } from 'next/navigation'
+import { PublicRoutes } from '@/shared/enums'
 export default function ProfileLayout({ children }: { children: ReactNode }) {
    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
+   const { data: user, isLoading, isError } = useMeQuery()
+   const [logout] = useLogoutMutation()
+   const router = useRouter()
 
    const handleLogoutClick = () => {
       setIsLogoutModalOpen(true)
@@ -32,6 +38,18 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
    const handleCloseModal = () => {
       setIsLogoutModalOpen(false)
    }
+
+   const handleConfirmLogout = async () => {
+      try {
+         await logout().unwrap()
+         router.push(PublicRoutes.signIn)
+      } catch (e) {
+         console.error('Logout error', e)
+      }
+   }
+
+   if (isLoading) return <p>Loading...</p>
+   if (isError) return <p>Error loading user</p>
 
    return (
       <PageContainer className="items-start">
@@ -88,7 +106,9 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
             <hr className={'text-dark-100 h-[1px]'} />
 
             <ModalBody className="flex max-w-[378px] flex-col gap-4 px-6 py-3">
-               <Typography>Are you really want to log out of your account ___email___?</Typography>
+               <Typography>
+                  Are you really want to log out of your account {user?.email}?
+               </Typography>
                <span className="flex gap-2 self-end">
                   <Button
                      onClick={handleCloseModal}
@@ -97,7 +117,9 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
                   >
                      No
                   </Button>
-                  <Button className={'h-[36px] w-[96px]'}>Yes</Button>
+                  <Button onClick={handleConfirmLogout} className={'h-[36px] w-[96px]'}>
+                     Yes
+                  </Button>
                </span>
             </ModalBody>
          </Modal>
