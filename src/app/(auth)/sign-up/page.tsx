@@ -3,7 +3,7 @@
 import { PageContainer } from '@/shared/components/PageContainer'
 import { useState } from 'react'
 import { SignUpForm } from '@/features/auth/forms/SignUpForm'
-import { EmailSentModal } from '@/entities/auth/ui/EmailSentModal/EmailSentModal'
+import { EmailSentModal } from '@/entities/auth/ui/EmailSentModal'
 
 export default function SignUpPage() {
    const [confirmationEmail, setConfirmationEmail] = useState<string | null>(null)
