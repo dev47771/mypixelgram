@@ -39,12 +39,23 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
       setIsLogoutModalOpen(false)
    }
 
-   const handleConfirmLogout = async () => {
+   /* const handleConfirmLogout = async () => {
       try {
          await logout().unwrap()
          router.push(PublicRoutes.signIn)
       } catch (e) {
          console.error('Logout error', e)
+      }
+   } */
+
+   const handleConfirmLogout = async () => {
+      try {
+         await logout().unwrap()
+      } catch (e) {
+         console.error('Logout error', e)
+      } finally {
+         localStorage.removeItem('accessToken')
+         router.push(PublicRoutes.signIn)
       }
    }
 
