@@ -13,3 +13,15 @@ export type SignInArgs = {
 export type SignInResponse = {
    accessToken: string
 }
+
+export type ErrorResponse = {
+   status: number
+   data: {
+      errorsMessages: FieldError[]
+   }
+}
+
+type FieldError = {
+   field: string
+   message: string
+}

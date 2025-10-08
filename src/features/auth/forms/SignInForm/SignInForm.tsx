@@ -4,7 +4,7 @@ import React from 'react'
 import { Card } from '@/shared/components/Card'
 import { Typography } from '@/shared/components/Typography'
 import { GitHubIcon, GoogleIcon } from '@/shared/icons'
-import { type SubmitHandler, useForm } from 'react-hook-form'
+import { type SubmitHandler, useForm, type UseFormSetError } from 'react-hook-form'
 import { ControlledInput } from '@/shared/components/Controlled'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -20,18 +20,19 @@ const signInSchema = z.object({
 export type Inputs = z.infer<typeof signInSchema>
 
 type Props = {
-   onSubmitAction: (data: Inputs) => void
+   onSubmitAction: (data: Inputs, setError: UseFormSetError<Inputs>) => void
 }
 
 export const SignInForm = ({ onSubmitAction }: Props) => {
    const {
       control,
       handleSubmit,
+      setError,
       formState: { errors },
    } = useForm<Inputs>({ resolver: zodResolver(signInSchema) })
 
    const onSubmit: SubmitHandler<Inputs> = data => {
-      onSubmitAction(data)
+      onSubmitAction(data, setError)
    }
    return (
       <Card className={'flex w-full max-w-[378px] flex-col items-center p-6'}>
