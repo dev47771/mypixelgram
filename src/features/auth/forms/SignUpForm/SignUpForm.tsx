@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { Card } from '@/shared/components/Card'
 import { Typography } from '@/shared/components/Typography'
@@ -28,10 +30,10 @@ const signUpSchema = z
 type FormTypes = z.infer<typeof signUpSchema>
 
 type Props = {
-   onSubmit: (data: FormTypes) => void
+   onSubmitAction: (data: FormTypes) => void
 }
 
-export const SignUpForm = ({ onSubmit }: Props) => {
+export const SignUpForm = ({ onSubmitAction }: Props) => {
    const {
       control,
       formState: { errors, isValid, isSubmitting },
@@ -51,7 +53,7 @@ export const SignUpForm = ({ onSubmit }: Props) => {
    })
 
    const submitHandler = (data: FormTypes) => {
-      onSubmit(data)
+      onSubmitAction(data)
       reset()
    }
 

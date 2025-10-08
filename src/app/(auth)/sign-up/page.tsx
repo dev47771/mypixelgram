@@ -10,7 +10,7 @@ export default function SignUpPage() {
 
    return (
       <PageContainer>
-         <SignUpForm onSubmit={() => {}} />
+         <SignUpForm onSubmitAction={() => {}} />
          {confirmationEmail && (
             <EmailSentModal email={confirmationEmail} onClose={setConfirmationEmail} />
          )}
