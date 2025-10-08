@@ -1,5 +1,5 @@
 import { usePathname, useRouter } from 'next/navigation'
-import { ComponentType, useEffect, useState } from 'react'
+import { ComponentType, useCallback, useEffect, useState } from 'react'
 import { TOKEN } from '@/shared/constants'
 import { PrivateRoutes, PublicRoutes } from '@/shared/enums'
 import { Loader } from '@/shared/components/Loader'
@@ -32,45 +32,54 @@ export const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) =
       const pathname = usePathname()
       const [authStatus, setAuthStatus] = useState<'checking' | 'auth' | 'unauth'>('checking')
 
-      useEffect(() => {
-         const checkAuth = () => !!localStorage.getItem(TOKEN)
+      const isPublicPath = PUBLIC_PATHS.some(p => pathname.startsWith(p))
+      const isProtectedPath = PROTECTED_PATHS.some(p => pathname.startsWith(p))
 
-         const verifyAuth = () => {
-            const isAuthenticated = checkAuth()
-
-            const isPublic = PUBLIC_PATHS.some(p => pathname.startsWith(p))
-            const isProtected = PROTECTED_PATHS.some(p => pathname.startsWith(p))
-
-            if (isAuthenticated) {
-               if (isPublic) {
-                  setAuthStatus('auth')
-               } else {
-                  setAuthStatus('auth')
-               }
-            } else {
-               if (isProtected) {
-                  router.replace(PublicRoutes.signIn)
-                  setAuthStatus('unauth')
-               } else {
-                  setAuthStatus('unauth')
-               }
-            }
+      const checkAuth = useCallback((): boolean => {
+         if (typeof window === 'undefined') return false
+         try {
+            return !!localStorage.getItem(TOKEN)
+         } catch (error) {
+            console.error('Error accessing localStorage:', error)
+            return false
          }
+      }, [])
 
+      const verifyAuth = useCallback(() => {
+         const isAuthenticated = checkAuth()
+
+         if (isAuthenticated) {
+            if (isPublicPath && !pathname?.includes(PublicRoutes.createNewPassword)) {
+               router.replace(PrivateRoutes.profile)
+               return
+            }
+            setAuthStatus('auth')
+         } else {
+            if (isProtectedPath) {
+               router.replace(PublicRoutes.signIn)
+               return
+            }
+            setAuthStatus('unauth')
+         }
+      }, [checkAuth, isPublicPath, isProtectedPath, pathname, router])
+
+      useEffect(() => {
          verifyAuth()
-      }, [pathname, router])
+      }, [pathname, router, verifyAuth])
 
       if (authStatus === 'checking') {
          return <Loader />
       }
 
-      if (
-         (authStatus === 'auth' && !PUBLIC_PATHS.includes(pathname)) ||
-         (authStatus === 'unauth' && PUBLIC_PATHS.includes(pathname))
-      ) {
-         return <WrappedComponent {...props} />
+      const shouldRender =
+         (authStatus === 'auth' &&
+            (!isPublicPath || pathname?.includes(PublicRoutes.createNewPassword))) ||
+         (authStatus === 'unauth' && isPublicPath)
+
+      if (!shouldRender) {
+         return null
       }
 
-      return null
+      return <WrappedComponent {...props} />
    }
 }
