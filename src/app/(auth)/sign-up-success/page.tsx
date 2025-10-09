@@ -13,7 +13,7 @@ import { Loader } from '@/shared/components/Loader'
 
 export default function SignUpSuccessPage() {
    const [confirmEmail, { isLoading }] = useConfirmEmailMutation()
-   const [isEmailConfirmed, setIsEmailConfirmed] = useState(false)
+   const [isEmailConfirmed, setIsEmailConfirmed] = useState(true)
 
    const searchParams = useSearchParams()
    const code = searchParams.get('code')
@@ -24,11 +24,10 @@ export default function SignUpSuccessPage() {
          try {
             if (code) {
                await confirmEmail({ code }).unwrap()
+               setIsEmailConfirmed(false)
             }
          } catch {
             router.replace(PublicRoutes.verificationExpired)
-         } finally {
-            setIsEmailConfirmed(true)
          }
       }
 
