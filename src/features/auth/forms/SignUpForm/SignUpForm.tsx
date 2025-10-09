@@ -120,7 +120,7 @@ export const SignUpForm = ({ onSubmit }: Props) => {
                      </Link>{' '}
                      and{' '}
                      <Link
-                        href={PublicRoutes.privicePolicy}
+                        href={PublicRoutes.privacyPolicy}
                         className={'text-accent-500 underline'}
                      >
                         Privacy Policy

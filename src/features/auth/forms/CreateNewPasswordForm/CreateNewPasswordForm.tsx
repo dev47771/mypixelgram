@@ -2,11 +2,11 @@
 import { Card } from '@/shared/components/Card'
 import { Typography } from '@/shared/components/Typography'
 import { Button } from '@/shared/components/Button'
-import { ControlledInput } from '@/shared/components/Controlled'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { passwordSchema } from '@/shared/schema'
+import { ControlledInput } from '@/shared/components/Controlled'
 
 const schema = z
    .object({

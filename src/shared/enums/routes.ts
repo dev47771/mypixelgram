@@ -1,7 +1,7 @@
 export enum PublicRoutes {
    createNewPassword = '/create-new-password',
    forgotPassword = '/forgot-password',
-   privicePolicy = '/privacy-policy',
+   privacyPolicy = '/privacy-policy',
    signIn = '/sign-in',
    signUp = '/sign-up',
    signUpSuccess = '/sign-up-success',
