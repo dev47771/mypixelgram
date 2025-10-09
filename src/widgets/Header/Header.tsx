@@ -16,6 +16,7 @@ import { FlagRussiaIcon, FlagUKIcon, NotificationIcon } from '@/shared/icons'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { PublicRoutes } from '@/shared/enums'
+import { TOKEN } from '@/shared/constants'
 
 type Props = {
    notificationCount?: number
@@ -32,7 +33,7 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
     */
    useEffect(() => {
       setIsClient(true)
-      setIsLoggedIn(!!localStorage.getItem('accessToken'))
+      setIsLoggedIn(!!localStorage.getItem(TOKEN))
    }, [])
 
    const selectComponent = (
