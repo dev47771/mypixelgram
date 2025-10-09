@@ -12,10 +12,9 @@ export const authService = baseApi.injectEndpoints({
          }),
       }),
       me: builder.query<MeResponse, void>({
-         query: args => ({
+         query: () => ({
             method: 'GET',
             url: AuthEndpoints.me,
-            body: args,
          }),
       }),
       logout: builder.mutation<void, void>({

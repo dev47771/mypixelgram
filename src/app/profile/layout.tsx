@@ -2,7 +2,7 @@
 
 import { PageContainer } from '@/shared/components/PageContainer'
 import { Sidebar, SidebarItem } from '@/widgets/Sidebar'
-import { ReactNode, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { Modal, ModalBody, ModalClose, ModalTitle } from '@/shared/components/Modal'
 import {
    CreateIcon,
@@ -31,6 +31,15 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
    const [logout] = useLogoutMutation()
    const router = useRouter()
 
+   useEffect(() => {
+      const token = localStorage.getItem('accessToken')
+
+      // если токена нет или /me вернул ошибку → редирект на логин
+      if (!token || isError) {
+         router.push(PublicRoutes.signIn)
+      }
+   }, [isError, router])
+
    const handleLogoutClick = () => {
       setIsLogoutModalOpen(true)
    }
@@ -38,15 +47,6 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
    const handleCloseModal = () => {
       setIsLogoutModalOpen(false)
    }
-
-   /* const handleConfirmLogout = async () => {
-      try {
-         await logout().unwrap()
-         router.push(PublicRoutes.signIn)
-      } catch (e) {
-         console.error('Logout error', e)
-      }
-   } */
 
    const handleConfirmLogout = async () => {
       try {
@@ -60,7 +60,7 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
    }
 
    if (isLoading) return <p>Loading...</p>
-   if (isError) return <p>Error loading user</p>
+   /*   if (isError) return <p>Error loading user</p> */
 
    return (
       <PageContainer className="items-start">
