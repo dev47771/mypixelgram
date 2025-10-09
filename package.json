@@ -11,6 +11,7 @@
       "format": "prettier --write .",
       "prepare": "husky install",
       "storybook": "storybook dev -p 6006",
+      "sb": "pnpm storybook",
       "build-storybook": "storybook build"
    },
    "dependencies": {

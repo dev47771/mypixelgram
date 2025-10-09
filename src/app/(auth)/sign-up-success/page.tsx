@@ -36,8 +36,8 @@ export default function SignUpSuccessPage() {
          }
       }
 
-      confirmEmailCode()
-   }, [code])
+      void confirmEmailCode()
+   }, [code, confirmEmail, router])
 
    if (isLoading || isPendingConfirmation) {
       return (

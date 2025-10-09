@@ -25,7 +25,9 @@ export const Recaptcha = ({ status }: Props) => {
 
    const content = (
       <Card
-         className={'m-[8px 7px] relative flex w-[300px] items-center justify-between px-5 py-3'}
+         className={
+            'm-[8px 7px] relative flex w-[300px] items-center justify-between px-5 pt-[14.5px] pb-[14.5px]'
+         }
       >
          {expiredStatus && (
             <p
@@ -33,7 +35,7 @@ export const Recaptcha = ({ status }: Props) => {
                   'absolute top-[10px] text-[10px] leading-[10px] font-[400] text-[#FF0000]'
                }
             >
-               Verifiction expired. Check the checkbox again.
+               Verification expired. Check the checkbox again.
             </p>
          )}
          <Checkbox
@@ -41,9 +43,9 @@ export const Recaptcha = ({ status }: Props) => {
             variant={'recaptcha'}
             checked={getCheckedStatus(status)}
          />
-         <div className={'flex flex-col items-center gap-0.5'}>
+         <div className={'flex flex-col items-center'}>
             <ReCaptchaIcon className={'mb-[7px]'} />
-            <span className={'text-[6px] leading-[6px] font-[500]'}>reCAPTCHA</span>
+            <span className={'mb-0.5 text-[8px] leading-[8px] font-[500]'}>reCAPTCHA</span>
             <div className={'flex'}>
                <Link href={'#'} className={'!text-[6px] !leading-[6px] !font-[500]'}>
                   Privacy
