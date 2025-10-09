@@ -3,7 +3,7 @@ import { Typography } from '@/shared/components/Typography'
 import { Button } from '@/shared/components/Button'
 import { PageContainer } from '@/shared/components/PageContainer'
 import Image from 'next/image'
-import { confirmed } from './assets/confirmed.png'
+import confirmed from './assets/confirmed.png'
 import Link from 'next/link'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useConfirmEmailMutation } from '@/features/auth/api'
@@ -28,8 +28,8 @@ export default function SignUpSuccessPage() {
          }
       }
 
-      confirmEmailCode()
-   }, [code])
+      void confirmEmailCode()
+   }, [code, confirmEmail, router])
 
    return (
       <PageContainer>
@@ -38,7 +38,7 @@ export default function SignUpSuccessPage() {
          </Typography>
          <Typography className={'mt-5 mb-[54px]'}>Your email has been confirmed</Typography>
          <Button asChild className={'w-full max-w-[182px]'}>
-            <Link href={'/sign-in'}>Sign In</Link>
+            <Link href={PublicRoutes.signIn}>Sign In</Link>
          </Button>
          <Image
             src={confirmed}
