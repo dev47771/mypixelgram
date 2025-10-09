@@ -6,6 +6,8 @@ import {
    SignInResponse,
    RecoveryPasswordArgs,
    SignUpArgs,
+   CheckRecoveryCodeArgs,
+   type NewPasswordArgs,
 } from '@/features/auth/api'
 
 export const authService = baseApi.injectEndpoints({
@@ -38,6 +40,20 @@ export const authService = baseApi.injectEndpoints({
             body,
          }),
       }),
+      checkRecoveryCode: builder.mutation<void, CheckRecoveryCodeArgs>({
+         query: body => ({
+            method: 'POST',
+            url: AuthEndpoints.checkRecoveryCode,
+            body,
+         }),
+      }),
+      newPassword: builder.mutation<void, NewPasswordArgs>({
+         query: body => ({
+            method: 'POST',
+            url: AuthEndpoints.newPassword,
+            body,
+         }),
+      }),
    }),
 })
 
@@ -46,4 +62,6 @@ export const {
    useConfirmEmailMutation,
    usePasswordRecoveryMutation,
    useLoginMutation,
+   useCheckRecoveryCodeMutation,
+   useNewPasswordMutation,
 } = authService

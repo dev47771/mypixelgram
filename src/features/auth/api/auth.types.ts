@@ -39,3 +39,11 @@ type FieldError = {
 export type RecoveryPasswordArgs = {
    email: string
 }
+
+export type CheckRecoveryCodeArgs = {
+   code: string
+}
+export type NewPasswordArgs = {
+   newPassword: string
+   recoveryCode: string
+}
