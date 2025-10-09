@@ -20,6 +20,10 @@ export default function SignUpSuccessPage() {
    const router = useRouter()
 
    useEffect(() => {
+      if (!code) {
+         router.replace(PublicRoutes.signIn)
+      }
+
       const confirmEmailCode = async () => {
          try {
             if (code) {
@@ -49,7 +53,7 @@ export default function SignUpSuccessPage() {
          </Typography>
          <Typography className={'mt-5 mb-[54px]'}>Your email has been confirmed</Typography>
          <Button asChild className={'w-full max-w-[182px]'}>
-            <Link href={'/sign-in'}>Sign In</Link>
+            <Link href={PublicRoutes.signIn}>Sign In</Link>
          </Button>
          <Image
             src={confirmed}
