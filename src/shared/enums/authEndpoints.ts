@@ -1,5 +1,5 @@
 export enum AuthEndpoints {
-   signUp = '/v1/auth/register',
-   confirmEmail = '/v1/auth/registration-confirmation',
-   login = '/v1/auth/login',
+   signUp = '/auth/register',
+   confirmEmail = '/auth/registration-confirmation',
+   login = '/auth/login',
 }
