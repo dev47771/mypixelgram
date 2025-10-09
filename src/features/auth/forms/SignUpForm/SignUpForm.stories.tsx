@@ -14,5 +14,5 @@ export default meta
 type Story = StoryObj<typeof SignUpForm>
 
 export const Default: Story = {
-   args: { onSubmit: x => x },
+   args: { onSubmitAction: async () => true },
 }
