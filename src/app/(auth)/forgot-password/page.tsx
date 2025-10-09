@@ -4,6 +4,7 @@ import { usePasswordRecoveryMutation } from '@/features/auth/api'
 import { useState } from 'react'
 import { EmailSentModal } from '@/entities/auth/ui/EmailSentModal'
 import { PageContainer } from '@/shared/components/PageContainer'
+import { alert } from '@/shared/components/Alert'
 
 export default function ForgotPasswordPage() {
    const [showModal, setShowModal] = useState(false)
@@ -18,7 +19,7 @@ export default function ForgotPasswordPage() {
          setEmailToRecover(data.email)
          setShowModal(true)
       } catch {
-         //todo fix later
+         alert.error('Something went wrong')
       }
    }
 

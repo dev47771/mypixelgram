@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { Loader } from '@/shared/components/Loader'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { PublicRoutes } from '@/shared/enums'
+import { alert } from '@/shared/components/Alert'
 
 export default function CreateNewPasswordPage() {
    const router = useRouter()
@@ -33,7 +34,7 @@ export default function CreateNewPasswordPage() {
          await newPassword({ newPassword: data.password, recoveryCode }).unwrap()
          router.push(PublicRoutes.signIn)
       } catch {
-         //todo fix later
+         alert.error('Something went wrong')
       }
    }
 
