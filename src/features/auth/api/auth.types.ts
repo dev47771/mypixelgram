@@ -14,3 +14,24 @@ export type SignUpValidationError = {
       }[]
    }
 }
+
+export type SignInArgs = {
+   email: string
+   password: string
+}
+
+export type SignInResponse = {
+   accessToken: string
+}
+
+export type ErrorResponse = {
+   status: number
+   data: {
+      errorsMessages: FieldError[]
+   }
+}
+
+type FieldError = {
+   field: string
+   message: string
+}
