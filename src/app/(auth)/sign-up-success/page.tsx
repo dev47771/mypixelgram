@@ -13,7 +13,7 @@ import { Loader } from '@/shared/components/Loader'
 
 export default function SignUpSuccessPage() {
    const [confirmEmail, { isLoading }] = useConfirmEmailMutation()
-   const [isEmailConfirmed, setIsEmailConfirmed] = useState(true)
+   const [isPendingConfirmation, setIsPendingConfirmation] = useState(true)
 
    const searchParams = useSearchParams()
    const code = searchParams.get('code')
@@ -22,13 +22,14 @@ export default function SignUpSuccessPage() {
    useEffect(() => {
       if (!code) {
          router.replace(PublicRoutes.signIn)
+         return
       }
 
       const confirmEmailCode = async () => {
          try {
             if (code) {
                await confirmEmail({ code }).unwrap()
-               setIsEmailConfirmed(false)
+               setIsPendingConfirmation(false)
             }
          } catch {
             router.replace(PublicRoutes.verificationExpired)
@@ -38,7 +39,7 @@ export default function SignUpSuccessPage() {
       confirmEmailCode()
    }, [code])
 
-   if (isLoading || isEmailConfirmed) {
+   if (isLoading || isPendingConfirmation) {
       return (
          <div className={'flex h-[100vh] w-full items-center justify-center'}>
             <Loader />
