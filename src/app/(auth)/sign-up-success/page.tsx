@@ -7,12 +7,13 @@ import confirmed from './assets/confirmed.png'
 import Link from 'next/link'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useConfirmEmailMutation } from '@/features/auth/api'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { PublicRoutes } from '@/shared/enums'
 import { Loader } from '@/shared/components/Loader'
 
 export default function SignUpSuccessPage() {
    const [confirmEmail, { isLoading }] = useConfirmEmailMutation()
+   const [isEmailConfirmed, setIsEmailConfirmed] = useState(false)
 
    const searchParams = useSearchParams()
    const code = searchParams.get('code')
@@ -25,14 +26,16 @@ export default function SignUpSuccessPage() {
                await confirmEmail({ code }).unwrap()
             }
          } catch {
-            router.replace(PublicRoutes.signUpSuccess)
+            router.replace(PublicRoutes.verificationExpired)
+         } finally {
+            setIsEmailConfirmed(true)
          }
       }
 
       confirmEmailCode()
    }, [code])
 
-   if (isLoading) {
+   if (isLoading || isEmailConfirmed) {
       return (
          <div className={'flex h-[100vh] w-full items-center justify-center'}>
             <Loader />
