@@ -9,9 +9,10 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import { useConfirmEmailMutation } from '@/features/auth/api'
 import { useEffect } from 'react'
 import { PublicRoutes } from '@/shared/enums'
+import { Loader } from '@/shared/components/Loader'
 
 export default function SignUpSuccessPage() {
-   const [confirmEmail] = useConfirmEmailMutation()
+   const [confirmEmail, { isLoading }] = useConfirmEmailMutation()
 
    const searchParams = useSearchParams()
    const code = searchParams.get('code')
@@ -30,6 +31,14 @@ export default function SignUpSuccessPage() {
 
       confirmEmailCode()
    }, [code])
+
+   if (isLoading) {
+      return (
+         <div className={'flex h-[100vh] w-full items-center justify-center'}>
+            <Loader />
+         </div>
+      )
+   }
 
    return (
       <PageContainer>
