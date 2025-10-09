@@ -5,6 +5,37 @@ export type SignUpArgs = {
    isAgreeWithPrivacy: boolean
 }
 
+export type SignUpValidationError = {
+   status: number
+   data: {
+      errorsMessages: {
+         field: string
+         message: string
+      }[]
+   }
+}
+
+export type SignInArgs = {
+   email: string
+   password: string
+}
+
+export type SignInResponse = {
+   accessToken: string
+}
+
+export type ErrorResponse = {
+   status: number
+   data: {
+      errorsMessages: FieldError[]
+   }
+}
+
+type FieldError = {
+   field: string
+   message: string
+}
+
 export type RecoveryPasswordArgs = {
    email: string
 }

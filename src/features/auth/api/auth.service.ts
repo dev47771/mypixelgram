@@ -1,6 +1,12 @@
 import { baseApi } from '@/shared/store'
 import { AuthEndpoints } from '@/shared/enums'
-import { type RecoveryPasswordArgs, SignUpArgs } from '@/features/auth/api'
+
+import {
+   type SignInArgs,
+   SignInResponse,
+   RecoveryPasswordArgs,
+   SignUpArgs,
+} from '@/features/auth/api'
 
 export const authService = baseApi.injectEndpoints({
    endpoints: builder => ({
@@ -18,7 +24,26 @@ export const authService = baseApi.injectEndpoints({
             body: args,
          }),
       }),
+      confirmEmail: builder.mutation<void, { code: string }>({
+         query: args => ({
+            method: 'POST',
+            url: AuthEndpoints.confirmEmail,
+            body: args,
+         }),
+      }),
+      login: builder.mutation<SignInResponse, SignInArgs>({
+         query: body => ({
+            method: 'POST',
+            url: AuthEndpoints.login,
+            body,
+         }),
+      }),
    }),
 })
 
-export const { useSignUpMutation, usePasswordRecoveryMutation } = authService
+export const {
+   useSignUpMutation,
+   useConfirmEmailMutation,
+   usePasswordRecoveryMutation,
+   useLoginMutation,
+} = authService

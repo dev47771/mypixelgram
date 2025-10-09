@@ -1,11 +1,36 @@
+'use client'
 import { Typography } from '@/shared/components/Typography'
 import { Button } from '@/shared/components/Button'
 import { PageContainer } from '@/shared/components/PageContainer'
 import Image from 'next/image'
 import { confirmed } from './assets/confirmed.png'
 import Link from 'next/link'
+import { useSearchParams, useRouter } from 'next/navigation'
+import { useConfirmEmailMutation } from '@/features/auth/api'
+import { useEffect } from 'react'
+import { PublicRoutes } from '@/shared/enums'
 
 export default function SignUpSuccessPage() {
+   const [confirmEmail] = useConfirmEmailMutation()
+
+   const searchParams = useSearchParams()
+   const code = searchParams.get('code')
+   const router = useRouter()
+
+   useEffect(() => {
+      const confirmEmailCode = async () => {
+         try {
+            if (code) {
+               await confirmEmail({ code }).unwrap()
+            }
+         } catch {
+            router.replace(PublicRoutes.signUpSuccess)
+         }
+      }
+
+      confirmEmailCode()
+   }, [code])
+
    return (
       <PageContainer>
          <Typography variant="h1" className={'mt-3'}>
