@@ -1,5 +1,10 @@
 export enum AuthEndpoints {
-   signUp = '/v1/auth/sign-up',
-   me = '/v1/auth/me',
-   logout = '/v1/auth/logout',
+   me = '/auth/me',
+   logout = '/auth/logout',
+   signUp = '/auth/register',
+   confirmEmail = '/auth/registration-confirmation',
+   login = '/auth/login',
+   passwordRecovery = `/auth/recover-password`,
+   checkRecoveryCode = `/auth/check-recovery-code`,
+   newPassword = `/auth/new-password`,
 }

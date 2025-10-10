@@ -1,6 +1,7 @@
 import type { ComponentPropsWithRef } from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { clsx } from 'clsx'
+import { cn } from '@/shared/lib'
 
 type Props = {
    variant?: 'primary' | 'secondary' | 'outlined' | 'textButton'
@@ -57,5 +58,5 @@ export const Button = ({
 
    const Component = asChild ? Slot : 'button'
 
-   return <Component className={clsx(baseClasses, variantClasses[variant], className)} {...rest} />
+   return <Component className={cn(baseClasses, variantClasses[variant], className)} {...rest} />
 }

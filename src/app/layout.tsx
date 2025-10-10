@@ -4,6 +4,7 @@ import './globals.css'
 import { StoreProvider } from '@/shared/store/providers'
 import { Header } from '@/widgets/Header'
 import ClientRootLayout from './ClientRootLayout'
+import { Alert } from '@/shared/components/Alert'
 
 const inter = Inter({
    variable: '--font-inter',
@@ -52,6 +53,7 @@ export default function RootLayout({
             <body className={`${inter.variable}`}>
                <Header notificationCount={4} />
                <ClientRootLayout>{children}</ClientRootLayout>
+               <Alert />
             </body>
          </html>
       </StoreProvider>
