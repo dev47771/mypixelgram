@@ -13,6 +13,7 @@ export const handleError = (
    result: QueryReturnValue<unknown, FetchBaseQueryError, FetchBaseQueryMeta>
 ) => {
    let error = 'Some error occurred'
+   let flag = true
 
    if (result.error) {
       switch (result.error.status) {
@@ -27,11 +28,15 @@ export const handleError = (
             error = '403 Forbidden Error. Check API-KEY.'
             break
          case 400:
+            if (Array.isArray(result.error.data)) {
+               flag = false
+            }
             if (isErrorWithMessage(result.error.data)) {
                error = result.error.data[0].message
             } else {
                error = JSON.stringify(result.error.data)
             }
+
             break
          case 401:
             error = 'You are not authorized.'
@@ -48,6 +53,8 @@ export const handleError = (
             }
             break
       }
-      alert.error(error)
+      if (flag) {
+         alert.error(error)
+      }
    }
 }
