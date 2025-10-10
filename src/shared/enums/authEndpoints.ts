@@ -5,4 +5,5 @@ export enum AuthEndpoints {
    passwordRecovery = `/auth/recover-password`,
    checkRecoveryCode = `/auth/check-recovery-code`,
    newPassword = `/auth/new-password`,
+
 }
