@@ -35,3 +35,11 @@ type FieldError = {
    field: string
    message: string
 }
+
+export type VerificationExpiredArgs = {
+   email: string
+}
+
+export type VerificationExpiredErrorResponse = {
+   errorsMessages: FieldError[]
+}
