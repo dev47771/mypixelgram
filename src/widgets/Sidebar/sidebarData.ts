@@ -33,7 +33,7 @@ export const sidebarData: SidebarItemType[] = [
       name: 'Feed',
       icon: HomeOutlineIcon,
       activeIcon: HomeIcon,
-      path: '/',
+      path: '/feed',
    },
    {
       id: '2',

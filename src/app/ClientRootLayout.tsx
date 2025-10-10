@@ -1,9 +1,11 @@
 'use client'
 
-import { PageContainer } from '@/shared/components/PageContainer'
-import { Sidebar, SidebarItem } from '@/widgets/Sidebar'
-import { ReactNode, useState } from 'react'
+import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
+import { Button } from '@/shared/components/Button'
+import { Loader } from '@/shared/components/Loader'
 import { Modal, ModalBody, ModalClose, ModalTitle } from '@/shared/components/Modal'
+import { Typography } from '@/shared/components/Typography'
+import { PublicRoutes } from '@/shared/enums'
 import {
    CreateIcon,
    CreateOutlineIcon,
@@ -20,11 +22,10 @@ import {
    SearchIcon,
    StatisticIcon,
 } from '@/shared/icons'
-import { Typography } from '@/shared/components/Typography'
-import { Button } from '@/shared/components/Button'
-import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
+import { cn } from '@/shared/lib'
+import { Sidebar, SidebarItem } from '@/widgets/Sidebar'
 import { usePathname, useRouter } from 'next/navigation'
-import { PublicRoutes } from '@/shared/enums'
+import { ReactNode, useState } from 'react'
 
 const PUBLIC_ROUTES = Object.values(PublicRoutes) as string[]
 
@@ -43,24 +44,29 @@ export default function ClientRootLayout({ children }: { children: ReactNode }) 
    }
 
    const handleConfirmLogout = async () => {
-      try {
-         await logout().unwrap()
-      } catch (e) {
-         console.error('Logout error', e)
-      } finally {
-         localStorage.removeItem('accessToken')
-         setIsLogoutModalOpen(false)
-         router.push(PublicRoutes.signIn)
-      }
+      await logout()
+      setIsLogoutModalOpen(false)
+      router.push(PublicRoutes.signIn)
    }
 
    const pathname = usePathname()
    const isPublic = PUBLIC_ROUTES.includes(pathname)
 
-   if (isLoading) return <p>Loading...</p>
+   if (isLoading) {
+      return (
+         <div className="flex h-screen w-full items-center justify-center">
+            <Loader size="8rem" />
+         </div>
+      )
+   }
 
    return (
-      <PageContainer className={isPublic ? 'items-center' : 'items-start'}>
+      <div
+         className={cn(
+            'mx-auto flex w-full max-w-[1280px] flex-col items-center px-[60px]',
+            isPublic ? 'items-center px-[0px]' : 'items-start'
+         )}
+      >
          {!isPublic && (
             <>
                <Sidebar className="top-[60px] min-w-[180px] pl-[0px]">
@@ -69,7 +75,7 @@ export default function ClientRootLayout({ children }: { children: ReactNode }) 
                      name="Feed"
                      icon={HomeOutlineIcon}
                      activeIcon={HomeIcon}
-                     path="/"
+                     path="/feed"
                   />
                   <SidebarItem
                      id="2"
@@ -147,7 +153,7 @@ export default function ClientRootLayout({ children }: { children: ReactNode }) 
                </Modal>
             </>
          )}
-         <div className={isPublic ? '' : 'ml-[180px] pb-6 pl-6'}>{children}</div>
-      </PageContainer>
+         <div className={isPublic ? '' : 'border-dark-300 ml-[180px] border-l'}>{children}</div>
+      </div>
    )
 }
