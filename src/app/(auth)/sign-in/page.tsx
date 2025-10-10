@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { PrivateRoutes } from '@/shared/enums'
 import { alert } from '@/shared/components/Alert'
 import type { UseFormSetError } from 'react-hook-form'
+import { TOKEN } from '@/shared/constants'
 
 export default function SignInPage() {
    const [login] = useLoginMutation()
@@ -15,7 +16,7 @@ export default function SignInPage() {
    const handleLogin = async (data: Inputs, setError: UseFormSetError<Inputs>) => {
       try {
          const result = await login(data).unwrap()
-         localStorage.setItem('accessToken', result.accessToken)
+         localStorage.setItem(TOKEN, result.accessToken)
          router.push(PrivateRoutes.feed)
       } catch (error: unknown) {
          const err = error as ErrorResponse
@@ -26,6 +27,7 @@ export default function SignInPage() {
             err.data.errorsMessages.length > 0
          ) {
             if (err.status === 400) {
+               //'password' 'The email or password are incorrect. Try again please'
                setError('password', {
                   message: 'The email or password are incorrect. Try again please',
                })
