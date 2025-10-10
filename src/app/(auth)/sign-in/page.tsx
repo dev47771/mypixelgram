@@ -9,7 +9,7 @@ import { alert } from '@/shared/components/Alert'
 import type { UseFormSetError } from 'react-hook-form'
 
 export default function SignInPage() {
-   const [login] = useLoginMutation()
+   const [login, { isLoading }] = useLoginMutation()
    const router = useRouter()
 
    const handleLogin = async (data: Inputs, setError: UseFormSetError<Inputs>) => {
@@ -40,7 +40,7 @@ export default function SignInPage() {
 
    return (
       <PageContainer className={'pt-6'}>
-         <SignInForm onSubmitAction={handleLogin} />
+         <SignInForm onSubmitAction={handleLogin} isLoading={isLoading} />
       </PageContainer>
    )
 }
