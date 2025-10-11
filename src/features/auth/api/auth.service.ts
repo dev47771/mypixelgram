@@ -30,15 +30,6 @@ export const authService = baseApi.injectEndpoints({
             url: AuthEndpoints.logout,
             method: 'POST',
          }),
-         async onQueryStarted(_, { queryFulfilled }) {
-            try {
-               await queryFulfilled
-            } catch (e) {
-               console.warn('Logout request failed, continuing...', e)
-            } finally {
-               localStorage.removeItem('accessToken')
-            }
-         },
       }),
       passwordRecovery: builder.mutation<void, RecoveryPasswordArgs>({
          query: args => ({
