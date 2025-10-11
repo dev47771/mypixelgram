@@ -52,10 +52,8 @@ export default function RootLayout({
             <head>
                <script
                   async
-                  src={`https://www.google.com/recaptcha/api.js?render=$
-               {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+                  src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
                />
-               {/* ошибка: так ключ не читается, только если ввести прямо в строку ключ */}
             </head>
             <body className={`${inter.variable}`}>
                <Header notificationCount={4} />

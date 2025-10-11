@@ -1,6 +1,12 @@
 import { baseApi } from '@/shared/store'
 import { AuthEndpoints } from '@/shared/enums'
-import { type SignInArgs, type SignInResponse, SignUpArgs } from '@/features/auth/api'
+import {
+   verifyReCaptchaArgs,
+   verifyReCaptchaResponse,
+   type SignInArgs,
+   type SignInResponse,
+   SignUpArgs,
+} from '@/features/auth/api'
 
 export const authService = baseApi.injectEndpoints({
    endpoints: builder => ({
@@ -25,7 +31,19 @@ export const authService = baseApi.injectEndpoints({
             body,
          }),
       }),
+      verifyReCaptcha: builder.mutation<verifyReCaptchaResponse, verifyReCaptchaArgs>({
+         query: body => ({
+            method: 'POST',
+            url: AuthEndpoints.reCaptcha,
+            body,
+         }),
+      }),
    }),
 })
 
-export const { useSignUpMutation, useConfirmEmailMutation, useLoginMutation } = authService
+export const {
+   useSignUpMutation,
+   useConfirmEmailMutation,
+   useLoginMutation,
+   useVerifyReCaptchaMutation,
+} = authService

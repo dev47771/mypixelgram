@@ -35,3 +35,18 @@ type FieldError = {
    field: string
    message: string
 }
+
+export type verifyReCaptchaArgs = {
+   recaptchaToken: string
+}
+
+export type verifyReCaptchaResponse = {
+   status: number
+}
+
+export type verifyReCaptchaError = {
+   status: number
+   data: {
+      errorsMessages: FieldError[]
+   }
+}
