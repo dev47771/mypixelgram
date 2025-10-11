@@ -31,7 +31,13 @@ const PUBLIC_ROUTES = Object.values(PublicRoutes) as string[]
 
 export default function ClientRootLayout({ children }: { children: ReactNode }) {
    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
-   const { data: user, isLoading } = useMeQuery()
+
+   const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null
+
+   const { data: user, isLoading } = useMeQuery(undefined, {
+      skip: !token,
+   })
+
    const [logout] = useLogoutMutation()
    const router = useRouter()
 
