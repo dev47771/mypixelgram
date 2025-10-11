@@ -65,7 +65,13 @@ export const SidebarMenu = () => {
                path="/favorites"
                className="mb-45"
             />
-            <SidebarItem id="8" name="Log Out" icon={LogoutIcon} onClick={handleLogoutClick} />
+            <SidebarItem
+               id="8"
+               name="Log Out"
+               icon={LogoutIcon}
+               path="/sign-in"
+               onClick={handleLogoutClick}
+            />
          </Sidebar>
 
          <LogoutModal open={isLogoutModalOpen} onOpenChange={setIsLogoutModalOpen} />

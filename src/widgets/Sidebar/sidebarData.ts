@@ -19,7 +19,7 @@ import { PublicRoutes } from '@/shared/enums'
 export type SidebarItemType = {
    id: string
    name: string
-   path?: string
+   path: string
    icon?: React.ElementType
    activeIcon?: React.ElementType
    disabled?: boolean
