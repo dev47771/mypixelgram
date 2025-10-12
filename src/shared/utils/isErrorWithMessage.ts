@@ -1,4 +1,4 @@
-export function isErrorWithMessage(error: unknown): error is { message: string; field: string }[] {
+export function isErrorWithMessage(error: unknown): error is { message: string; meta: string } {
    return (
       typeof error === 'object' && // Проверяем, что error – это объект
       error != null && // Убеждаемся, что это не null

@@ -32,11 +32,10 @@ export const handleError = (
                flag = false
             }
             if (isErrorWithMessage(result.error.data)) {
-               error = result.error.data[0].message
+               error = result.error.data.message
             } else {
                error = JSON.stringify(result.error.data)
             }
-
             break
          case 401:
             error = 'You are not authorized.'
