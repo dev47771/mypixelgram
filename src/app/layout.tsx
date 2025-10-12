@@ -49,7 +49,7 @@ export default function RootLayout({
    return (
       <StoreProvider>
          <html lang="en">
-            <body className={`${inter.variable}`}>
+            <body className={`${inter.variable} flex min-h-screen flex-col`}>
                <Header notificationCount={4} />
                {children}
                <Alert />
