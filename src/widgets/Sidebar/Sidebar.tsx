@@ -42,7 +42,7 @@ export const Sidebar = ({ className, ...rest }: SidebarProps) => {
    const dispatch = useAppDispatch()
    const router = useRouter()
    const [logout] = useLogoutMutation()
-   const { data: user } = useMeQuery()
+   const { data: user, isError } = useMeQuery()
 
    const handleLogoutClick = () => setIsLogoutModalOpen(true)
 
@@ -66,6 +66,8 @@ export const Sidebar = ({ className, ...rest }: SidebarProps) => {
          }
       }
    }
+
+   if (isError || !user) return null
 
    return (
       <>
@@ -115,19 +117,23 @@ export const Sidebar = ({ className, ...rest }: SidebarProps) => {
                   path="/favorites"
                   className="mb-45"
                />
-               <SidebarItem
-                  id="8"
-                  name="Log Out"
-                  icon={LogoutIcon}
-                  path="/sign-in"
-                  onClick={handleLogoutClick}
-               />
+               <SidebarItem id="8" name="Log Out" icon={LogoutIcon} onClick={handleLogoutClick} />
             </ul>
          </nav>
          <YesAndNoModal
             open={isLogoutModalOpen}
             title="Log Out"
-            description={`Are you really want to log out of your account ${user?.email ? user?.email : ''}?`}
+            description={
+               <>
+                  Are you really want to log out of your account{' '}
+                  {user?.email && (
+                     <>
+                        &quot;<strong className="font-bold">{user?.email}</strong>&quot;
+                     </>
+                  )}
+                  ?
+               </>
+            }
             onConfirm={handleConfirmLogout}
             onCancel={() => setIsLogoutModalOpen(false)}
          />
@@ -172,7 +178,7 @@ export const SidebarItem = ({
                   {content}
                </button>
             ) : (
-               <Link href={path} className={classesForItem}>
+               <Link href={path as string} className={classesForItem}>
                   {content}
                </Link>
             )}

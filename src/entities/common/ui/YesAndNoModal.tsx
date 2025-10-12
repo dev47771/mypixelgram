@@ -8,7 +8,7 @@ import { CrossIcon } from '@/shared/icons'
 type YesAndNoModalProps = {
    open: boolean
    title: string
-   description?: string
+   description?: React.ReactNode | string
    onConfirm: () => void
    onCancel: () => void
    confirmText?: string
