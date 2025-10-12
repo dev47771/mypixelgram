@@ -12,7 +12,7 @@ export default function NotFound() {
          <h1 className={'mt-5 mb-3'}>Page not found</h1>
 
          <Button asChild>
-            <Link href="/">На главную</Link>
+            <Link href="/">Back to home page</Link>
          </Button>
       </PageContainer>
    )
