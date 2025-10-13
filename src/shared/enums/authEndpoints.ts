@@ -8,4 +8,5 @@ export enum AuthEndpoints {
    reCaptcha = '/auth/recaptcha',
    checkRecoveryCode = `/auth/check-recovery-code`,
    newPassword = `/auth/new-password`,
+   resendEmail = '/auth/registration-email-resending',
 }

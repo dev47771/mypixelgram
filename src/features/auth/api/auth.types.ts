@@ -32,6 +32,10 @@ type FieldError = {
    message: string
 }
 
+export type VerificationExpiredArgs = {
+   email: string
+}
+
 export type verifyReCaptchaArgs = {
    recaptchaToken: string
 }

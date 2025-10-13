@@ -10,6 +10,7 @@ import type {
    NewPasswordArgs,
    verifyReCaptchaArgs,
    verifyReCaptchaResponse,
+   VerificationExpiredArgs,
 } from '@/features/auth/api'
 
 export const authService = baseApi.injectEndpoints({
@@ -54,6 +55,13 @@ export const authService = baseApi.injectEndpoints({
             body,
          }),
       }),
+      resendEmail: builder.mutation<void, VerificationExpiredArgs>({
+         query: args => ({
+            method: 'POST',
+            url: AuthEndpoints.resendEmail,
+            body: args,
+           }),
+      }),
       verifyReCaptcha: builder.mutation<verifyReCaptchaResponse, verifyReCaptchaArgs>({
          query: body => ({
             method: 'POST',
@@ -88,4 +96,5 @@ export const {
    useVerifyReCaptchaMutation
    useCheckRecoveryCodeMutation,
    useNewPasswordMutation,
+   useResendEmailMutation,
 } = authService
