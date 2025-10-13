@@ -4,7 +4,7 @@ import { PageContainer } from '@/shared/components/PageContainer'
 import { useState } from 'react'
 import { SignUpForm } from '@/features/auth/forms/SignUpForm'
 import { EmailSentModal } from '@/entities/auth/ui/EmailSentModal'
-import { SignUpArgs, SignUpValidationError, useSignUpMutation } from '@/features/auth/api'
+import { ErrorResponse, SignUpArgs, useSignUpMutation } from '@/features/auth/api'
 import { alert } from '@/shared/components/Alert'
 
 export default function SignUpPage() {
@@ -18,9 +18,7 @@ export default function SignUpPage() {
          setConfirmationEmail(data.email)
          return true
       } catch (e) {
-         alert.error(
-            (e as SignUpValidationError).data.errorsMessages[0].message || 'Something went wrong'
-         )
+         alert.error((e as ErrorResponse).data.errorsMessages[0].message || 'Something went wrong')
          setConfirmationEmail(null)
          return false
       }

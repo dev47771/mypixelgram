@@ -14,11 +14,12 @@ import {
    StatisticIcon,
 } from '@/shared/icons'
 import React from 'react'
+import { PublicRoutes } from '@/shared/enums'
 
 export type SidebarItemType = {
    id: string
    name: string
-   path: string
+   path?: string
    icon?: React.ElementType
    activeIcon?: React.ElementType
    disabled?: boolean
@@ -32,7 +33,7 @@ export const sidebarData: SidebarItemType[] = [
       name: 'Feed',
       icon: HomeOutlineIcon,
       activeIcon: HomeIcon,
-      path: '/',
+      path: '/feed',
    },
    {
       id: '2',
@@ -80,6 +81,6 @@ export const sidebarData: SidebarItemType[] = [
       id: '8',
       name: 'Log Out',
       icon: LogoutIcon,
-      path: '/logout',
+      path: `${PublicRoutes.signUp}`,
    },
 ]

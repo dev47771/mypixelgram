@@ -1,19 +1,42 @@
 import { baseApi } from '@/shared/store'
 import { AuthEndpoints } from '@/shared/enums'
-import {
+import type {
+   MeResponse,
+   SignInArgs,
+   SignInResponse,
+   RecoveryPasswordArgs,
+   SignUpArgs,
+   CheckRecoveryCodeArgs,
+   NewPasswordArgs,
    verifyReCaptchaArgs,
    verifyReCaptchaResponse,
-   type SignInArgs,
-   type SignInResponse,
-   SignUpArgs,
 } from '@/features/auth/api'
 
 export const authService = baseApi.injectEndpoints({
    endpoints: builder => ({
+      me: builder.query<MeResponse, void>({
+         query: () => ({
+            method: 'GET',
+            url: AuthEndpoints.me,
+         }),
+      }),
       signUp: builder.mutation<void, SignUpArgs>({
          query: args => ({
             method: 'POST',
             url: AuthEndpoints.signUp,
+            body: args,
+         }),
+      }),
+      logout: builder.mutation<void, void>({
+         query: () => ({
+            url: AuthEndpoints.logout,
+            method: 'POST',
+         }),
+      }),
+      passwordRecovery: builder.mutation<void, RecoveryPasswordArgs>({
+         query: args => ({
+            method: 'POST',
+            url: AuthEndpoints.passwordRecovery,
             body: args,
          }),
       }),
@@ -38,12 +61,31 @@ export const authService = baseApi.injectEndpoints({
             body,
          }),
       }),
+      checkRecoveryCode: builder.mutation<void, CheckRecoveryCodeArgs>({
+         query: body => ({
+            method: 'POST',
+            url: AuthEndpoints.checkRecoveryCode,
+            body,
+         }),
+      }),
+      newPassword: builder.mutation<void, NewPasswordArgs>({
+         query: body => ({
+            method: 'POST',
+            url: AuthEndpoints.newPassword,
+            body,
+         }),
+      }),
    }),
 })
 
 export const {
+   useMeQuery,
    useSignUpMutation,
+   useLogoutMutation,
    useConfirmEmailMutation,
+   usePasswordRecoveryMutation,
    useLoginMutation,
-   useVerifyReCaptchaMutation,
+   useVerifyReCaptchaMutation
+   useCheckRecoveryCodeMutation,
+   useNewPasswordMutation,
 } = authService

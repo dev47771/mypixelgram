@@ -15,6 +15,8 @@ import { DropDownMenuTrigger } from '@/shared/components/dropDownMenu/dropDownMe
 import { FlagRussiaIcon, FlagUKIcon, NotificationIcon } from '@/shared/icons'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { PublicRoutes } from '@/shared/enums'
+import { TOKEN } from '@/shared/constants'
 
 type Props = {
    notificationCount?: number
@@ -31,7 +33,7 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
     */
    useEffect(() => {
       setIsClient(true)
-      setIsLoggedIn(!!localStorage.getItem('accessToken'))
+      setIsLoggedIn(!!localStorage.getItem(TOKEN))
    }, [])
 
    const selectComponent = (
@@ -99,10 +101,10 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
                <div className="flex gap-[24px]">
                   {selectComponent}
                   <Button asChild variant="textButton">
-                     <Link href={'#'}>Log in</Link>
+                     <Link href={PublicRoutes.signIn}>Log in</Link>
                   </Button>
                   <Button asChild variant="primary">
-                     <Link href={'#'}>Sign up</Link>
+                     <Link href={PublicRoutes.signUp}>Sign up</Link>
                   </Button>
                </div>
             )}

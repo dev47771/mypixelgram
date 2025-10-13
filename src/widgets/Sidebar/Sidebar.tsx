@@ -1,10 +1,35 @@
 'use client'
 
-import React, { ComponentPropsWithRef } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { cn } from '@/shared/lib'
-import { sidebarData, SidebarItemType } from '@/widgets/Sidebar/sidebarData'
+import { SidebarItemType } from '@/widgets/Sidebar/sidebarData'
+import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
+import { ComponentPropsWithRef, useState } from 'react'
+import { alert as toastAlert } from '@/shared/components/Alert'
+
+import {
+   CreateIcon,
+   CreateOutlineIcon,
+   FavoriteIcon,
+   FavoriteOutlineIcon,
+   HomeIcon,
+   HomeOutlineIcon,
+   LogoutIcon,
+   MessageIcon,
+   MessageOutlineIcon,
+   PersonIcon,
+   PersonOutlineIcon,
+   SearchIcon,
+   StatisticIcon,
+} from '@/shared/icons'
+import { useAppDispatch } from '@/shared/hook/useAppDispatch'
+
+import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
+import { baseApi } from '@/shared/store'
+import { PublicRoutes } from '@/shared/enums'
+import { YesAndNoModal } from '@/entities/common/ui/YesAndNoModal'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
+import { SerializedError } from '@reduxjs/toolkit'
 
 export type SidebarProps = {
    items?: SidebarItemType[]
@@ -12,13 +37,107 @@ export type SidebarProps = {
 
 export type SidebarItemProps = SidebarItemType & ComponentPropsWithRef<'li'>
 
-export const Sidebar = ({ items = sidebarData, children, className, ...rest }: SidebarProps) => {
+export const Sidebar = ({ className, ...rest }: SidebarProps) => {
+   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
+   const dispatch = useAppDispatch()
+   const router = useRouter()
+   const [logout] = useLogoutMutation()
+   const { data: user, isError } = useMeQuery()
+
+   const handleLogoutClick = () => setIsLogoutModalOpen(true)
+
+   const handleConfirmLogout = async () => {
+      try {
+         await logout().unwrap()
+         localStorage.removeItem('accessToken')
+         dispatch(baseApi.util.resetApiState())
+         setIsLogoutModalOpen(false)
+         router.push(PublicRoutes.signIn)
+      } catch (error: unknown) {
+         const err = error as FetchBaseQueryError | SerializedError
+
+         if ('status' in err && err.status === 'FETCH_ERROR') {
+            console.warn('Logout request failed:', error)
+            toastAlert.error('Не удалось выйти. Проверьте подключение к интернету.')
+         }
+         if ('status' in err && err.status === 401) {
+            console.warn('Unauthorized:', error)
+            toastAlert.error('Сессия истекла. Пожалуйста, войдите снова.')
+         }
+      }
+   }
+
+   if (isError || !user) return null
+
    return (
-      <nav {...rest} className={cn('fixed top-[72px] min-w-[220px] pl-[60px]', className)}>
-         <ul className={cn('border-dark-300 flex flex-col border-r')}>
-            {children ? children : items.map(item => <SidebarItem key={item.id} {...item} />)}
-         </ul>
-      </nav>
+      <>
+         <nav {...rest} className={cn('fixed top-[72px] min-w-[220px]', className)}>
+            <ul className={cn('flex h-screen flex-col pt-[72px]')}>
+               <SidebarItem
+                  id="1"
+                  name="Feed"
+                  icon={HomeOutlineIcon}
+                  activeIcon={HomeIcon}
+                  path="/feed"
+               />
+               <SidebarItem
+                  id="2"
+                  name="Create"
+                  icon={CreateOutlineIcon}
+                  activeIcon={CreateIcon}
+                  path="/create"
+               />
+               <SidebarItem
+                  id="3"
+                  name="My Profile"
+                  icon={PersonOutlineIcon}
+                  activeIcon={PersonIcon}
+                  path="/profile"
+               />
+               <SidebarItem
+                  id="4"
+                  name="Messenger"
+                  icon={MessageOutlineIcon}
+                  activeIcon={MessageIcon}
+                  path="/messenger"
+               />
+               <SidebarItem
+                  id="5"
+                  name="Search"
+                  icon={SearchIcon}
+                  path="/search"
+                  className="mb-15"
+               />
+               <SidebarItem id="6" name="Statistics" icon={StatisticIcon} path="/statistics" />
+               <SidebarItem
+                  id="7"
+                  name="Favorites"
+                  icon={FavoriteOutlineIcon}
+                  activeIcon={FavoriteIcon}
+                  path="/favorites"
+                  className="mb-45"
+               />
+               <SidebarItem id="8" name="Log Out" icon={LogoutIcon} onClick={handleLogoutClick} />
+            </ul>
+         </nav>
+         <YesAndNoModal
+            open={isLogoutModalOpen}
+            title="Log Out"
+            description={
+               <>
+                  Are you really want to log out of your account{' '}
+                  {user?.email && (
+                     <>
+                        &quot;<strong className="font-bold">{user?.email}</strong>&quot;
+                     </>
+                  )}
+                  ?
+               </>
+            }
+            onConfirm={handleConfirmLogout}
+            onCancel={() => setIsLogoutModalOpen(false)}
+         />
+      </>
    )
 }
 
@@ -52,16 +171,18 @@ export const SidebarItem = ({
    )
 
    return (
-      <li {...rest} className={cn('mb-6 last:mb-9', className)}>
-         {onClick ? (
-            <button disabled={disabled} onClick={onClick} className={classesForItem}>
-               {content}
-            </button>
-         ) : (
-            <Link href={path} className={classesForItem}>
-               {content}
-            </Link>
-         )}
-      </li>
+      <>
+         <li {...rest} className={cn('mb-6 last:mb-9', className)}>
+            {onClick ? (
+               <button disabled={disabled} onClick={onClick} className={classesForItem}>
+                  {content}
+               </button>
+            ) : (
+               <Link href={path as string} className={classesForItem}>
+                  {content}
+               </Link>
+            )}
+         </li>
+      </>
    )
 }
