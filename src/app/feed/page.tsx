@@ -1,3 +1,5 @@
+import { PageContainer } from '@/shared/components/PageContainer'
+
 export default function FeedPage() {
-   return <div>FeedPage</div>
+   return <PageContainer>FeedPage</PageContainer>
 }
