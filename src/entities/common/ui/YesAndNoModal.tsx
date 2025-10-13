@@ -4,11 +4,12 @@ import { Modal, ModalTitle, ModalBody, ModalClose } from '@/shared/components/Mo
 import { Button } from '@/shared/components/Button'
 import { Typography } from '@/shared/components/Typography'
 import { CrossIcon } from '@/shared/icons'
+import { ReactNode } from 'react'
 
 type YesAndNoModalProps = {
    open: boolean
    title: string
-   description?: React.ReactNode | string
+   description?: ReactNode
    onConfirm: () => void
    onCancel: () => void
    confirmText?: string
