@@ -1,22 +1,34 @@
 import { baseApi } from '@/shared/store'
 import { AuthEndpoints } from '@/shared/enums'
-
-import {
-   type SignInArgs,
+import type {
+   MeResponse,
+   SignInArgs,
    SignInResponse,
    RecoveryPasswordArgs,
    SignUpArgs,
    CheckRecoveryCodeArgs,
-   type NewPasswordArgs,
+   NewPasswordArgs,
 } from '@/features/auth/api'
 
 export const authService = baseApi.injectEndpoints({
    endpoints: builder => ({
+      me: builder.query<MeResponse, void>({
+         query: () => ({
+            method: 'GET',
+            url: AuthEndpoints.me,
+         }),
+      }),
       signUp: builder.mutation<void, SignUpArgs>({
          query: args => ({
             method: 'POST',
             url: AuthEndpoints.signUp,
             body: args,
+         }),
+      }),
+      logout: builder.mutation<void, void>({
+         query: () => ({
+            url: AuthEndpoints.logout,
+            method: 'POST',
          }),
       }),
       passwordRecovery: builder.mutation<void, RecoveryPasswordArgs>({
@@ -58,7 +70,9 @@ export const authService = baseApi.injectEndpoints({
 })
 
 export const {
+   useMeQuery,
    useSignUpMutation,
+   useLogoutMutation,
    useConfirmEmailMutation,
    usePasswordRecoveryMutation,
    useLoginMutation,

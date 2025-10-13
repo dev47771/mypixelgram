@@ -1,9 +1,9 @@
+import { Alert } from '@/shared/components/Alert'
+import { StoreProvider } from '@/shared/store/providers'
+import { Header } from '@/widgets/Header'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { StoreProvider } from '@/shared/store/providers'
-import { Header } from '@/widgets/Header'
-import { Alert } from '@/shared/components/Alert'
 
 const inter = Inter({
    variable: '--font-inter',

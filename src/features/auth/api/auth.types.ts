@@ -1,3 +1,9 @@
+export type MeResponse = {
+   userId: string
+   email: string
+   login: string
+}
+
 export type SignUpArgs = {
    login: string
    email: string
