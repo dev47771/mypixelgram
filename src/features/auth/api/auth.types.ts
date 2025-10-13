@@ -1,7 +1,7 @@
 export type MeResponse = {
-   userId: string
-   email: string
    login: string
+   email: string
+   createdAt: string
 }
 
 export type SignUpArgs = {
