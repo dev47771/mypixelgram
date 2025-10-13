@@ -8,6 +8,8 @@ import type {
    SignUpArgs,
    CheckRecoveryCodeArgs,
    NewPasswordArgs,
+   verifyReCaptchaArgs,
+   verifyReCaptchaResponse,
 } from '@/features/auth/api'
 
 export const authService = baseApi.injectEndpoints({
@@ -52,6 +54,13 @@ export const authService = baseApi.injectEndpoints({
             body,
          }),
       }),
+      verifyReCaptcha: builder.mutation<verifyReCaptchaResponse, verifyReCaptchaArgs>({
+         query: body => ({
+            method: 'POST',
+            url: AuthEndpoints.reCaptcha,
+            body,
+         }),
+      }),
       checkRecoveryCode: builder.mutation<void, CheckRecoveryCodeArgs>({
          query: body => ({
             method: 'POST',
@@ -76,6 +85,7 @@ export const {
    useConfirmEmailMutation,
    usePasswordRecoveryMutation,
    useLoginMutation,
+   useVerifyReCaptchaMutation
    useCheckRecoveryCodeMutation,
    useNewPasswordMutation,
 } = authService

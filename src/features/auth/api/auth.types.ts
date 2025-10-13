@@ -32,6 +32,14 @@ type FieldError = {
    message: string
 }
 
+export type verifyReCaptchaArgs = {
+   recaptchaToken: string
+}
+
+export type verifyReCaptchaResponse = {
+   status: number
+}
+
 export type RecoveryPasswordArgs = {
    email: string
 }
@@ -39,6 +47,7 @@ export type RecoveryPasswordArgs = {
 export type CheckRecoveryCodeArgs = {
    code: string
 }
+
 export type NewPasswordArgs = {
    newPassword: string
    recoveryCode: string

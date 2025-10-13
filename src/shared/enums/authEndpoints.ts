@@ -5,6 +5,7 @@ export enum AuthEndpoints {
    confirmEmail = '/auth/registration-confirmation',
    login = '/auth/login',
    passwordRecovery = `/auth/recover-password`,
+   reCaptcha = '/auth/recaptcha',
    checkRecoveryCode = `/auth/check-recovery-code`,
    newPassword = `/auth/new-password`,
 }
