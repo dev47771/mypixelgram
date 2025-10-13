@@ -1,12 +1,10 @@
-import { VerificationExpiredForm } from '@/features/auth/forms/VerificationExpiredForm/index'
+'use client'
+import { VerificationExpiredForm } from '@/features/auth/forms/VerificationExpiredForm'
 import Image from 'next/image'
 import verificationExpired from './assets/verification-expired.png'
-import {
-   useResendEmailMutation,
-   VerificationExpiredArgs,
-   VerificationExpiredErrorResponse,
-} from '@/features/auth/api'
+import { useResendEmailMutation, VerificationExpiredArgs, ErrorResponse } from '@/features/auth/api'
 import { alert } from '@/shared/components/Alert'
+import { PageContainer } from '@/shared/components/PageContainer'
 
 export default function VerificationExpiredPage() {
    const [resendEmail] = useResendEmailMutation()
@@ -17,17 +15,17 @@ export default function VerificationExpiredPage() {
          alert.success('The link has been sent to your email')
          return true
       } catch (e) {
-         const error = e as VerificationExpiredErrorResponse
-         const message = error?.errorsMessages?.[0]?.message ?? 'Something went wrong'
+         const error = e as ErrorResponse
+         const message = error?.data.errorsMessages?.[0]?.message ?? 'Something went wrong'
          alert.error(message)
          return false
       }
    }
 
    return (
-      <div className="flex flex-col items-center justify-center">
-         <VerificationExpiredForm onSubmit={VerificationExpiredHandler} />
+      <PageContainer>
+         <VerificationExpiredForm onSubmitAction={VerificationExpiredHandler} />
          <Image src={verificationExpired} alt="verification-expired" width={473} height={353} />
-      </div>
+      </PageContainer>
    )
 }

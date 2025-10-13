@@ -16,10 +16,10 @@ const verificationExpiredSchema = z.object({
 type FormTypes = z.infer<typeof verificationExpiredSchema>
 
 type Props = {
-   onSubmit: (data: FormTypes) => void
+   onSubmitAction: (data: FormTypes) => void
 }
 
-export const VerificationExpiredForm = ({ onSubmit }: Props) => {
+export const VerificationExpiredForm = ({ onSubmitAction }: Props) => {
    const {
       control,
       formState: { errors },
@@ -43,13 +43,14 @@ export const VerificationExpiredForm = ({ onSubmit }: Props) => {
          <Typography variant={'bodyRegular'} className={'mb-[30px] text-center'}>
             Looks like the verification link has expired. Not to worry, we can send the link again
          </Typography>
-         <form onSubmit={handleSubmit(onSubmit)} className={'max-w-[229px]'}>
+         <form onSubmit={handleSubmit(onSubmitAction)} className={'max-w-[229px]'}>
             <ControlledInput
                errorMessage={errors.email?.message}
                name={'email'}
                control={control}
                label={'Email'}
                type={'text'}
+               autoComplete={'email'}
                placeholder={'Test@test.com'}
                className={clsx(errors.email ? 'mb-0' : 'mb-6', 'w-full min-w-0!')}
             />

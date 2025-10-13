@@ -39,7 +39,3 @@ type FieldError = {
 export type VerificationExpiredArgs = {
    email: string
 }
-
-export type VerificationExpiredErrorResponse = {
-   errorsMessages: FieldError[]
-}

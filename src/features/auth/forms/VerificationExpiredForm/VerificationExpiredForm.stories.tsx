@@ -14,5 +14,5 @@ export default meta
 type Story = StoryObj<typeof VerificationExpiredForm>
 
 export const VerificationExpired: Story = {
-   args: { onSubmit: x => x },
+   args: { onSubmitAction: x => x },
 }
