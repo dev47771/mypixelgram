@@ -43,10 +43,3 @@ export type verifyReCaptchaArgs = {
 export type verifyReCaptchaResponse = {
    status: number
 }
-
-export type verifyReCaptchaError = {
-   status: number
-   data: {
-      errorsMessages: FieldError[]
-   }
-}

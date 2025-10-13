@@ -1,4 +1,4 @@
-import { useVerifyReCaptchaMutation, verifyReCaptchaError } from '@/features/auth/api'
+import { useVerifyReCaptchaMutation, ErrorResponse } from '@/features/auth/api'
 import { alert } from '@/shared/components/Alert'
 import { Card } from '@/shared/components/Card'
 import { Checkbox } from '@/shared/components/Checkbox'
@@ -32,10 +32,16 @@ export const Recaptcha = ({ onVerificationComplete }: Props) => {
          onVerificationComplete(true)
       } catch (error) {
          alert.error(
-            (error as verifyReCaptchaError).data.errorsMessages[0].message || 'Something went wrong'
+            (error as ErrorResponse).data.errorsMessages[0].message || 'Something went wrong'
          )
-         setStatus('error')
          onVerificationComplete(false)
+         if (
+            (error as ErrorResponse).data.errorsMessages[0].message.includes('timeout-or-duplicate')
+         ) {
+            setStatus('expired')
+         } else {
+            setStatus('error')
+         }
       }
    }
 
