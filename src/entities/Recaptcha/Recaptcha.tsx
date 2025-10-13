@@ -1,14 +1,51 @@
+import { useVerifyReCaptchaMutation, ErrorResponse } from '@/features/auth/api'
+import { alert } from '@/shared/components/Alert'
 import { Card } from '@/shared/components/Card'
 import { Checkbox } from '@/shared/components/Checkbox'
 import { ReCaptchaIcon } from '@/shared/icons'
 import Link from 'next/link'
+import { useState } from 'react'
 
 type Props = {
-   status?: 'init' | 'loading' | 'success' | 'error' | 'expired'
+   onVerificationComplete: (success: boolean) => void
 }
 
-export const Recaptcha = ({ status }: Props) => {
-   function getCheckedStatus(status: Props['status']) {
+type Status = 'init' | 'loading' | 'success' | 'error' | 'expired'
+
+export const Recaptcha = ({ onVerificationComplete }: Props) => {
+   const [status, setStatus] = useState<Status>('init')
+   const [verifyReCaptchaMutation] = useVerifyReCaptchaMutation()
+
+   const handleCheckboxClick = async () => {
+      if (status === 'loading' || status === 'success') return
+
+      setStatus('loading')
+
+      try {
+         const recaptchaToken = await window.grecaptcha.execute(
+            process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!,
+            { action: 'forgot_password' }
+         )
+
+         await verifyReCaptchaMutation({ recaptchaToken }).unwrap()
+         setStatus('success')
+         onVerificationComplete(true)
+      } catch (error) {
+         alert.error(
+            (error as ErrorResponse).data.errorsMessages[0].message || 'Something went wrong'
+         )
+         onVerificationComplete(false)
+         if (
+            (error as ErrorResponse).data.errorsMessages[0].message.includes('timeout-or-duplicate')
+         ) {
+            setStatus('expired')
+         } else {
+            setStatus('error')
+         }
+      }
+   }
+
+   function getCheckedStatus(status: Status) {
       if (status === 'init' || status === 'error' || status === 'expired') {
          return false
       }
@@ -42,6 +79,7 @@ export const Recaptcha = ({ status }: Props) => {
             label={'I’m not a robot'}
             variant={'recaptcha'}
             checked={getCheckedStatus(status)}
+            onClick={handleCheckboxClick}
          />
          <div className={'flex flex-col items-center'}>
             <ReCaptchaIcon className={'mb-[7px]'} />

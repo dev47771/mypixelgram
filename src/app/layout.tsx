@@ -1,9 +1,9 @@
+import { Alert } from '@/shared/components/Alert'
+import { StoreProvider } from '@/shared/store/providers'
+import { Header } from '@/widgets/Header'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { StoreProvider } from '@/shared/store/providers'
-import { Header } from '@/widgets/Header'
-import { Alert } from '@/shared/components/Alert'
 
 const inter = Inter({
    variable: '--font-inter',
@@ -49,7 +49,13 @@ export default function RootLayout({
    return (
       <StoreProvider>
          <html lang="en">
-            <body className={`${inter.variable} flex min-h-screen flex-col`}>
+            <head>
+               <script
+                  async
+                  src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+               />
+            </head>
+            <body className={`${inter.variable}`}>
                <Header notificationCount={4} />
                {children}
                <Alert />
