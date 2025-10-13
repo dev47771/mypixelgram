@@ -49,7 +49,7 @@ export const VerificationExpiredForm = ({ onSubmitAction }: Props) => {
                name={'email'}
                control={control}
                label={'Email'}
-               type={'text'}
+               type={'email'}
                autoComplete={'email'}
                placeholder={'Test@test.com'}
                className={clsx(errors.email ? 'mb-0' : 'mb-6', 'w-full min-w-0!')}
