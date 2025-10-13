@@ -1,2 +1,2 @@
 export * from './handleError'
-export * from './isErrorWithMessage'
+export * from './typeguards/isErrorWithMessage'

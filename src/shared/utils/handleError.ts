@@ -7,6 +7,7 @@ import {
 
 import { isErrorWithMessage } from '.'
 import { alert } from '@/shared/components/Alert'
+import { isErrorInArray } from '@/shared/utils/typeguards/isErrorInArray'
 
 export const handleError = (
    api: BaseQueryApi,
@@ -28,7 +29,8 @@ export const handleError = (
             error = '403 Forbidden Error. Check API-KEY.'
             break
          case 400:
-            if (Array.isArray(result.error.data)) {
+         case 401:
+            if (isErrorInArray(result.error.data)) {
                flag = false
             }
             if (isErrorWithMessage(result.error.data)) {
@@ -36,9 +38,6 @@ export const handleError = (
             } else {
                error = JSON.stringify(result.error.data)
             }
-            break
-         case 401:
-            error = 'You are not authorized.'
             break
          default:
             if (
@@ -48,7 +47,7 @@ export const handleError = (
             ) {
                error = 'Server error occurred. Please try again later.'
             } else {
-               error = JSON.stringify(result.error)
+               error = JSON.stringify(result.error.data)
             }
             break
       }

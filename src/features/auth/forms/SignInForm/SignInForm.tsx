@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Card } from '@/shared/components/Card'
 import { Typography } from '@/shared/components/Typography'
 import { GitHubIcon, GoogleIcon } from '@/shared/icons'
@@ -21,15 +21,22 @@ export type Inputs = z.infer<typeof signInSchema>
 
 type Props = {
    onSubmitAction: (data: Inputs, setError: UseFormSetError<Inputs>) => void
+   errorsFromApi?: { field: string; message: string }[] | undefined
 }
 
-export const SignInForm = ({ onSubmitAction }: Props) => {
+export const SignInForm = ({ onSubmitAction, errorsFromApi }: Props) => {
    const {
       control,
       handleSubmit,
       setError,
       formState: { errors },
    } = useForm<Inputs>({ resolver: zodResolver(signInSchema) })
+
+   useEffect(() => {
+      errorsFromApi?.forEach(error => {
+         setError(error.field as keyof Inputs, { message: error.message })
+      })
+   }, [errorsFromApi, setError])
 
    const onSubmit: SubmitHandler<Inputs> = data => {
       onSubmitAction(data, setError)
