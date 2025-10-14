@@ -60,7 +60,7 @@ export const authService = baseApi.injectEndpoints({
             method: 'POST',
             url: AuthEndpoints.resendEmail,
             body: args,
-           }),
+         }),
       }),
       verifyReCaptcha: builder.mutation<verifyReCaptchaResponse, verifyReCaptchaArgs>({
          query: body => ({
@@ -100,7 +100,7 @@ export const {
    useConfirmEmailMutation,
    usePasswordRecoveryMutation,
    useLoginMutation,
-   useVerifyReCaptchaMutation
+   useVerifyReCaptchaMutation,
    useCheckRecoveryCodeMutation,
    useNewPasswordMutation,
    useResendEmailMutation,
