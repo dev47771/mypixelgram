@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { Recaptcha } from '@/entities/Recaptcha'
 import { PublicRoutes } from '@/shared/enums'
 import { ControlledInput } from '@/shared/components/Controlled/ControlledInput'
+import { useEffect } from 'react'
 
 const schema = z.object({
    email: z.email(),
@@ -18,13 +19,15 @@ type FormTypes = z.infer<typeof schema>
 type Props = {
    onSubmitAction: (data: FormTypes) => void
    disabled?: boolean
+   errorsFromApi?: { field: string; message: string }[] | undefined
 }
 
-export const ForgotPasswordForm = ({ onSubmitAction, disabled }: Props) => {
+export const ForgotPasswordForm = ({ onSubmitAction, disabled, errorsFromApi }: Props) => {
    const {
       control,
       formState: { errors },
       handleSubmit,
+      setError,
    } = useForm<FormTypes>({
       defaultValues: {
          email: '',
@@ -32,6 +35,11 @@ export const ForgotPasswordForm = ({ onSubmitAction, disabled }: Props) => {
       resolver: zodResolver(schema),
    })
 
+   useEffect(() => {
+      errorsFromApi?.forEach(error => {
+         setError(error.field as keyof FormTypes, { message: error.message })
+      })
+   }, [errorsFromApi, setError])
    return (
       <Card className={'flex w-full max-w-[378px] flex-col items-center justify-center p-6'}>
          <Typography variant={'h1'} className={'mb-[37px]'}>

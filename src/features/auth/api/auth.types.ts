@@ -20,14 +20,16 @@ export type SignInResponse = {
    accessToken: string
 }
 
-export type ErrorResponse = {
+export type ErrorDataResponse = {
    status: number
-   data: {
-      errorsMessages: FieldError[]
-   }
+   data: ErrorResponse
 }
 
-type FieldError = {
+export type ErrorResponse = {
+   errorsMessages: FieldError[]
+}
+
+export type FieldError = {
    field: string
    message: string
 }
