@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 import { Card } from '@/shared/components/Card'
 import { Typography } from '@/shared/components/Typography'
 import { GitHubIcon, GoogleIcon } from '@/shared/icons'
-import { type SubmitHandler, useForm, type UseFormSetError } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { ControlledInput } from '@/shared/components/Controlled'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -17,10 +17,10 @@ const signInSchema = z.object({
    password: z.string({ error: 'The email or password are incorrect. Try again please' }),
 })
 
-export type Inputs = z.infer<typeof signInSchema>
+type FormTypes = z.infer<typeof signInSchema>
 
 type Props = {
-   onSubmitAction: (data: Inputs, setError: UseFormSetError<Inputs>) => void
+   onSubmitAction: (data: FormTypes) => void
    errorsFromApi?: { field: string; message: string }[] | undefined
 }
 
@@ -30,17 +30,14 @@ export const SignInForm = ({ onSubmitAction, errorsFromApi }: Props) => {
       handleSubmit,
       setError,
       formState: { errors },
-   } = useForm<Inputs>({ resolver: zodResolver(signInSchema) })
+   } = useForm<FormTypes>({ resolver: zodResolver(signInSchema) })
 
    useEffect(() => {
       errorsFromApi?.forEach(error => {
-         setError(error.field as keyof Inputs, { message: error.message })
+         setError(error.field as keyof FormTypes, { message: error.message })
       })
    }, [errorsFromApi, setError])
 
-   const onSubmit: SubmitHandler<Inputs> = data => {
-      onSubmitAction(data, setError)
-   }
    return (
       <Card className={'flex w-full max-w-[378px] flex-col items-center p-6'}>
          <Typography variant="h1">Sign In</Typography>
@@ -48,7 +45,10 @@ export const SignInForm = ({ onSubmitAction, errorsFromApi }: Props) => {
             <GoogleIcon width={'36px'} height={'36px'} />
             <GitHubIcon width={'36px'} height={'36px'} />
          </div>
-         <form onSubmit={handleSubmit(onSubmit)} className={'flex w-full flex-col items-center'}>
+         <form
+            onSubmit={handleSubmit(onSubmitAction)}
+            className={'flex w-full flex-col items-center'}
+         >
             <ControlledInput
                name={'email'}
                control={control}

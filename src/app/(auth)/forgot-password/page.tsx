@@ -1,31 +1,31 @@
 'use client'
 import { ForgotPasswordForm } from '@/features/auth/forms/ForgotPasswordForm'
-import { usePasswordRecoveryMutation } from '@/features/auth/api'
+import { type RecoveryPasswordArgs, usePasswordRecoveryMutation } from '@/features/auth/api'
 import { useState } from 'react'
 import { EmailSentModal } from '@/entities/auth/ui/EmailSentModal'
 import { PageContainer } from '@/shared/components/PageContainer'
-import { alert } from '@/shared/components/Alert'
+import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataResponse'
 
 export default function ForgotPasswordPage() {
    const [showModal, setShowModal] = useState(false)
    const [emailToRecover, setEmailToRecover] = useState('')
 
-   const [forgotPassword, { isLoading }] = usePasswordRecoveryMutation()
+   const [forgotPassword, { error, isLoading }] = usePasswordRecoveryMutation()
    const modalHandler = () => setShowModal(false)
 
-   const forgotModalHandler = async (data: { email: string }) => {
-      try {
-         await forgotPassword(data).unwrap()
-         setEmailToRecover(data.email)
-         setShowModal(true)
-      } catch {
-         alert.error('Something went wrong')
-      }
+   const forgotModalHandler = async (data: RecoveryPasswordArgs) => {
+      await forgotPassword(data).unwrap()
+      setEmailToRecover(data.email)
+      setShowModal(true)
    }
 
    return (
       <PageContainer>
-         <ForgotPasswordForm onSubmitAction={forgotModalHandler} disabled={isLoading} />
+         <ForgotPasswordForm
+            errorsFromApi={isErrorInDataResponse(error) ? error?.data.errorsMessages : undefined}
+            onSubmitAction={forgotModalHandler}
+            disabled={isLoading}
+         />
          {showModal && <EmailSentModal email={emailToRecover} onClose={modalHandler} />}
       </PageContainer>
    )
