@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { Recaptcha } from '@/entities/Recaptcha'
 import { PublicRoutes } from '@/shared/enums'
 import { ControlledInput } from '@/shared/components/Controlled/ControlledInput'
+import { useState } from 'react'
 
 const schema = z.object({
    email: z.email(),
@@ -20,7 +21,9 @@ type Props = {
    disabled?: boolean
 }
 
-export const ForgotPasswordForm = ({ onSubmitAction, disabled }: Props) => {
+export const ForgotPasswordForm = ({ onSubmitAction }: Props) => {
+   const [recaptchaReady, setRecaptchaReady] = useState(false)
+
    const {
       control,
       formState: { errors },
@@ -54,14 +57,14 @@ export const ForgotPasswordForm = ({ onSubmitAction, disabled }: Props) => {
             <Typography variant={'captionRegular'} className={'text-light-900 mb-[17px]'}>
                Enter your email address and we will send you further instructions
             </Typography>
-            <Button fullWidth className={'mb-6'} disabled={disabled}>
+            <Button fullWidth className={'mb-6'} disabled={!recaptchaReady}>
                Send Link
             </Button>
             <Button fullWidth asChild variant="textButton" className={'mb-6'}>
                <Link href={PublicRoutes.signIn}>Back to Sign In</Link>
             </Button>
-            <Recaptcha />
          </form>
+         <Recaptcha onVerificationComplete={setRecaptchaReady} />
       </Card>
    )
 }

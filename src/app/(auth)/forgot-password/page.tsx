@@ -10,7 +10,7 @@ export default function ForgotPasswordPage() {
    const [showModal, setShowModal] = useState(false)
    const [emailToRecover, setEmailToRecover] = useState('')
 
-   const [forgotPassword, { isLoading }] = usePasswordRecoveryMutation()
+   const [forgotPassword] = usePasswordRecoveryMutation()
    const modalHandler = () => setShowModal(false)
 
    const forgotModalHandler = async (data: { email: string }) => {
@@ -25,7 +25,7 @@ export default function ForgotPasswordPage() {
 
    return (
       <PageContainer>
-         <ForgotPasswordForm onSubmitAction={forgotModalHandler} disabled={isLoading} />
+         <ForgotPasswordForm onSubmitAction={forgotModalHandler} />
          {showModal && <EmailSentModal email={emailToRecover} onClose={modalHandler} />}
       </PageContainer>
    )
