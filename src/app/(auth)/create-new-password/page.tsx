@@ -6,14 +6,14 @@ import { useEffect, useState } from 'react'
 import { Loader } from '@/shared/components/Loader'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { PublicRoutes } from '@/shared/enums'
-import { alert } from '@/shared/components/Alert'
+import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataResponse'
 
 export default function CreateNewPasswordPage() {
    const router = useRouter()
    const searchParams = useSearchParams()
 
    const [checkCode, { isLoading: checkCodeLoading }] = useCheckRecoveryCodeMutation()
-   const [newPassword] = useNewPasswordMutation()
+   const [newPassword, { error }] = useNewPasswordMutation()
    const recoveryCode = searchParams.get('code') ?? ''
 
    const [recoveryCodeCertificated, setRecoveryCodeCertificated] = useState(false)
@@ -30,12 +30,8 @@ export default function CreateNewPasswordPage() {
    }, [checkCode, recoveryCode, router])
 
    const createNewPasswordFormHandler = async (data: { password: string }) => {
-      try {
-         await newPassword({ newPassword: data.password, recoveryCode }).unwrap()
-         router.push(PublicRoutes.signIn)
-      } catch {
-         alert.error('Something went wrong')
-      }
+      await newPassword({ newPassword: data.password, recoveryCode }).unwrap()
+      router.push(PublicRoutes.signIn)
    }
 
    if (checkCodeLoading || !recoveryCodeCertificated) {
@@ -45,7 +41,10 @@ export default function CreateNewPasswordPage() {
    //todo add delete all sessions
    return (
       <PageContainer>
-         <CreateNewPasswordForm onSubmitAction={createNewPasswordFormHandler} />
+         <CreateNewPasswordForm
+            onSubmitAction={createNewPasswordFormHandler}
+            errorsFromApi={isErrorInDataResponse(error) ? error?.data.errorsMessages : undefined}
+         />
       </PageContainer>
    )
 }

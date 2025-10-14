@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { passwordSchema } from '@/shared/schema'
 import { ControlledInput } from '@/shared/components/Controlled'
+import { useEffect } from 'react'
 
 const schema = z
    .object({
@@ -21,13 +22,15 @@ const schema = z
 type FormTypes = z.infer<typeof schema>
 type Props = {
    onSubmitAction: (data: FormTypes) => void
+   errorsFromApi?: { field: string; message: string }[] | undefined
 }
 
-export const CreateNewPasswordForm = ({ onSubmitAction }: Props) => {
+export const CreateNewPasswordForm = ({ onSubmitAction, errorsFromApi }: Props) => {
    const {
       control,
       formState: { errors },
       handleSubmit,
+      setError,
    } = useForm<FormTypes>({
       defaultValues: {
          password: '',
@@ -35,6 +38,12 @@ export const CreateNewPasswordForm = ({ onSubmitAction }: Props) => {
       },
       resolver: zodResolver(schema),
    })
+
+   useEffect(() => {
+      errorsFromApi?.forEach(error => {
+         setError(error.field as keyof FormTypes, { message: error.message })
+      })
+   }, [errorsFromApi, setError])
 
    return (
       <Card

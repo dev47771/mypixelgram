@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Card } from '@/shared/components/Card'
 import { Typography } from '@/shared/components/Typography'
 import Link from 'next/link'
@@ -31,14 +31,16 @@ type FormTypes = z.infer<typeof signUpSchema>
 
 type Props = {
    onSubmitAction: (data: FormTypes) => Promise<boolean>
+   errorsFromApi?: { field: string; message: string }[] | undefined
 }
 
-export const SignUpForm = ({ onSubmitAction }: Props) => {
+export const SignUpForm = ({ onSubmitAction, errorsFromApi }: Props) => {
    const {
       control,
       formState: { errors, isValid, isSubmitting },
       handleSubmit,
       watch,
+      setError,
       reset,
    } = useForm<FormTypes>({
       mode: 'onBlur',
@@ -51,6 +53,12 @@ export const SignUpForm = ({ onSubmitAction }: Props) => {
       },
       resolver: zodResolver(signUpSchema),
    })
+
+   useEffect(() => {
+      errorsFromApi?.forEach(error => {
+         setError(error.field as keyof FormTypes, { message: error.message })
+      })
+   }, [errorsFromApi, setError])
 
    const submitHandler = async (data: FormTypes) => {
       const shouldResetForm = await onSubmitAction(data)

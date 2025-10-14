@@ -10,6 +10,7 @@ import { Recaptcha } from '@/entities/Recaptcha'
 import { PublicRoutes } from '@/shared/enums'
 import { ControlledInput } from '@/shared/components/Controlled/ControlledInput'
 import { useState } from 'react'
+import { useEffect } from 'react'
 
 const schema = z.object({
    email: z.email(),
@@ -19,6 +20,7 @@ type FormTypes = z.infer<typeof schema>
 type Props = {
    onSubmitAction: (data: FormTypes) => void
    disabled?: boolean
+   errorsFromApi?: { field: string; message: string }[] | undefined
 }
 
 export const ForgotPasswordForm = ({ onSubmitAction }: Props) => {
@@ -28,6 +30,7 @@ export const ForgotPasswordForm = ({ onSubmitAction }: Props) => {
       control,
       formState: { errors },
       handleSubmit,
+      setError,
    } = useForm<FormTypes>({
       defaultValues: {
          email: '',
@@ -35,6 +38,11 @@ export const ForgotPasswordForm = ({ onSubmitAction }: Props) => {
       resolver: zodResolver(schema),
    })
 
+   useEffect(() => {
+      errorsFromApi?.forEach(error => {
+         setError(error.field as keyof FormTypes, { message: error.message })
+      })
+   }, [errorsFromApi, setError])
    return (
       <Card className={'flex w-full max-w-[378px] flex-col items-center justify-center p-6'}>
          <Typography variant={'h1'} className={'mb-[37px]'}>

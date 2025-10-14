@@ -83,6 +83,13 @@ export const authService = baseApi.injectEndpoints({
             body,
          }),
       }),
+      refreshToken: builder.mutation<SignInResponse, void>({
+         query: body => ({
+            method: 'POST',
+            url: AuthEndpoints.refreshToken,
+            body,
+         }),
+      }),
    }),
 })
 
