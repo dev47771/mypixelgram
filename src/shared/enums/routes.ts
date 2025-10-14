@@ -7,6 +7,7 @@ export enum PublicRoutes {
    signUpSuccess = '/sign-up-success',
    termsOfService = '/terms-of-service',
    verificationExpired = '/verification-expired',
+   main = '/',
 }
 
 export enum PrivateRoutes {

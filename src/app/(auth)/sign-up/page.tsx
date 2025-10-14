@@ -5,7 +5,6 @@ import { useState } from 'react'
 import { SignUpForm } from '@/features/auth/forms/SignUpForm'
 import { EmailSentModal } from '@/entities/auth/ui/EmailSentModal'
 import { SignUpArgs, useSignUpMutation } from '@/features/auth/api'
-
 import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataResponse'
 
 export default function SignUpPage() {

@@ -1,18 +1,14 @@
+export type MeResponse = {
+   login: string
+   email: string
+   createdAt: string
+}
+
 export type SignUpArgs = {
    login: string
    email: string
    password: string
    isAgreeWithPrivacy: boolean
-}
-
-export type SignUpValidationError = {
-   status: number
-   data: {
-      errorsMessages: {
-         field: string
-         message: string
-      }[]
-   }
 }
 
 export type SignInArgs = {
@@ -38,6 +34,18 @@ export type FieldError = {
    message: string
 }
 
+export type VerificationExpiredArgs = {
+   email: string
+}
+
+export type verifyReCaptchaArgs = {
+   recaptchaToken: string
+}
+
+export type verifyReCaptchaResponse = {
+   status: number
+}
+
 export type RecoveryPasswordArgs = {
    email: string
 }
@@ -45,6 +53,7 @@ export type RecoveryPasswordArgs = {
 export type CheckRecoveryCodeArgs = {
    code: string
 }
+
 export type NewPasswordArgs = {
    newPassword: string
    recoveryCode: string

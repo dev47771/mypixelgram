@@ -11,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/shared/components/Button'
 import Link from 'next/link'
 import { PublicRoutes } from '@/shared/enums'
+import { Loader } from '@/shared/components/Loader'
 
 const signInSchema = z.object({
    email: z.email({ error: 'The email must match the format example@example.com' }),
@@ -70,9 +71,14 @@ export const SignInForm = ({ onSubmitAction, errorsFromApi }: Props) => {
                <Link href={PublicRoutes.forgotPassword}>Forgot Password</Link>
             </Typography>
 
-            <Button type="submit" fullWidth>
-               Sign In
-            </Button>
+            {isLoading ? (
+               <Loader size={'36px'} />
+            ) : (
+               <Button type="submit" fullWidth>
+                  Sign In
+               </Button>
+            )}
+
             <Typography className={'my-4.5'}>Don’t have an account?</Typography>
             <Typography variant={'h3'} className={'text-accent-500'}>
                <Link href={PublicRoutes.signUp}>Sign Up</Link>
