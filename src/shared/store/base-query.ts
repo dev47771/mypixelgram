@@ -37,7 +37,7 @@ export const baseQueryWithReauth: BaseQueryFn<
    let result = await baseQuery(args, api, extraOptions)
 
    if (
-      result.meta?.request.url === `${process.env.NEXT_PUBLIC_BASE_URL}${PublicRoutes.signIn}` &&
+      result.meta?.request.url === `${process.env.NEXT_PUBLIC_BASE_URL}${AuthEndpoints.login}` &&
       result.meta?.response?.status === 200
    ) {
       const data = result.data as SignInResponse
