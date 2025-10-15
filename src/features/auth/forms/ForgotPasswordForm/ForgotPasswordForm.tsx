@@ -19,11 +19,10 @@ const schema = z.object({
 type FormTypes = z.infer<typeof schema>
 type Props = {
    onSubmitAction: (data: FormTypes) => void
-   disabled?: boolean
    errorsFromApi?: { field: string; message: string }[] | undefined
 }
 
-export const ForgotPasswordForm = ({ onSubmitAction }: Props) => {
+export const ForgotPasswordForm = ({ onSubmitAction, errorsFromApi }: Props) => {
    const [recaptchaReady, setRecaptchaReady] = useState(false)
 
    const {

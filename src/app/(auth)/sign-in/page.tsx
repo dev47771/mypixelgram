@@ -8,7 +8,7 @@ import { PrivateRoutes } from '@/shared/enums'
 import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataResponse'
 
 export default function SignInPage() {
-   const [login, { error }] = useLoginMutation()
+   const [login, { error, isLoading }] = useLoginMutation()
    const router = useRouter()
 
    const handleLogin = async (data: SignInArgs) => {
@@ -21,6 +21,7 @@ export default function SignInPage() {
          <SignInForm
             onSubmitAction={handleLogin}
             errorsFromApi={isErrorInDataResponse(error) ? error?.data.errorsMessages : undefined}
+            isLoading={isLoading}
          />
       </PageContainer>
    )

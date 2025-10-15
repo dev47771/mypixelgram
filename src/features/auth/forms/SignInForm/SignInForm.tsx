@@ -22,10 +22,11 @@ type FormTypes = z.infer<typeof signInSchema>
 
 type Props = {
    onSubmitAction: (data: FormTypes) => void
+   isLoading: boolean
    errorsFromApi?: { field: string; message: string }[] | undefined
 }
 
-export const SignInForm = ({ onSubmitAction, errorsFromApi }: Props) => {
+export const SignInForm = ({ onSubmitAction, isLoading, errorsFromApi }: Props) => {
    const {
       control,
       handleSubmit,

@@ -13,6 +13,3 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
    args: { onSubmitAction: x => x },
 }
-export const DisabledButton: Story = {
-   args: { onSubmitAction: x => x, disabled: true },
-}

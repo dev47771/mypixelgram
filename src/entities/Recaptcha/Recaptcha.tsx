@@ -31,13 +31,9 @@ export const Recaptcha = ({ onVerificationComplete }: Props) => {
          setStatus('success')
          onVerificationComplete(true)
       } catch (error) {
-         alert.error(
-            (error as ErrorResponse).data.errorsMessages[0].message || 'Something went wrong'
-         )
+         alert.error((error as ErrorResponse).errorsMessages[0].message || 'Something went wrong')
          onVerificationComplete(false)
-         if (
-            (error as ErrorResponse).data.errorsMessages[0].message.includes('timeout-or-duplicate')
-         ) {
+         if ((error as ErrorResponse).errorsMessages[0].message.includes('timeout-or-duplicate')) {
             setStatus('expired')
          } else {
             setStatus('error')

@@ -20,7 +20,7 @@ export const ArrowForwardIcon = ({ ...rest }: Props) => {
             x="0.000000"
             y="0.000000"
             fill="rgb(255,255,255)"
-            fill-opacity="0"
+            fillOpacity="0"
          />
          <g id="Layer 2">
             <g id="arrow-forward">

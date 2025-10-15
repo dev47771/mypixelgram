@@ -9,8 +9,8 @@ import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataRe
 export default function ForgotPasswordPage() {
    const [showModal, setShowModal] = useState(false)
    const [emailToRecover, setEmailToRecover] = useState('')
-   
-   const [forgotPassword] = usePasswordRecoveryMutation()
+
+   const [forgotPassword, { error }] = usePasswordRecoveryMutation()
    const modalHandler = () => setShowModal(false)
 
    const forgotModalHandler = async (data: RecoveryPasswordArgs) => {

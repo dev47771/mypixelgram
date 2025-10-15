@@ -16,7 +16,7 @@ export default function VerificationExpiredPage() {
          return true
       } catch (e) {
          const error = e as ErrorResponse
-         const message = error?.data.errorsMessages?.[0]?.message ?? 'Something went wrong'
+         const message = error?.errorsMessages?.[0]?.message ?? 'Something went wrong'
          alert.error(message)
          return false
       }

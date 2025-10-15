@@ -37,7 +37,7 @@ export const Pagination = ({
 
    const paginationRange = usePagination({
       currentPage,
-      pageSize,
+      // pageSize,
       siblingCount,
       totalCount,
    })

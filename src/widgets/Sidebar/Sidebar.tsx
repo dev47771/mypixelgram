@@ -5,7 +5,6 @@ import { SidebarItemType } from '@/widgets/Sidebar/sidebarData'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { ComponentPropsWithRef, useState } from 'react'
-import { alert as toastAlert } from '@/shared/components/Alert'
 
 import {
    CreateIcon,
@@ -28,8 +27,6 @@ import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
 import { baseApi } from '@/shared/store'
 import { PublicRoutes } from '@/shared/enums'
 import { YesAndNoModal } from '@/entities/common/ui/YesAndNoModal'
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
-import { SerializedError } from '@reduxjs/toolkit'
 
 export type SidebarProps = {
    items?: SidebarItemType[]
@@ -47,24 +44,11 @@ export const Sidebar = ({ className, ...rest }: SidebarProps) => {
    const handleLogoutClick = () => setIsLogoutModalOpen(true)
 
    const handleConfirmLogout = async () => {
-      try {
-         await logout().unwrap()
-         localStorage.removeItem('accessToken')
-         dispatch(baseApi.util.resetApiState())
-         setIsLogoutModalOpen(false)
-         router.push(PublicRoutes.signIn)
-      } catch (error: unknown) {
-         const err = error as FetchBaseQueryError | SerializedError
-
-         if ('status' in err && err.status === 'FETCH_ERROR') {
-            console.warn('Logout request failed:', error)
-            toastAlert.error('Не удалось выйти. Проверьте подключение к интернету.')
-         }
-         if ('status' in err && err.status === 401) {
-            console.warn('Unauthorized:', error)
-            toastAlert.error('Сессия истекла. Пожалуйста, войдите снова.')
-         }
-      }
+      await logout().unwrap()
+      localStorage.removeItem('accessToken')
+      dispatch(baseApi.util.resetApiState())
+      setIsLogoutModalOpen(false)
+      router.push(PublicRoutes.signIn)
    }
 
    if (isError || !user) return null

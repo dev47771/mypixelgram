@@ -25,11 +25,6 @@ const CheckboxController = () => {
       setAgreements(prev => ({ ...prev, [key]: checked }))
    }
 
-   const handleSubmit = () => {
-      console.log('Данные для отправки:', agreements)
-      alert(`Данные для бэкенда: ${JSON.stringify(agreements)}`)
-   }
-
    return (
       <div className="bg-dark-700 flex flex-col gap-4 rounded border p-4">
          <Checkbox
@@ -49,11 +44,6 @@ const CheckboxController = () => {
             checked={agreements.notifications}
             onCheckedChange={handleAgreementChange('notifications')}
          />
-
-         <button onClick={handleSubmit} className="rounded bg-blue-500 px-4 py-2 text-white">
-            Отправить на бэкенд
-         </button>
-
          <div className="rounded bg-gray-100 p-2 text-sm">
             <p>Текущие значения для бэкенда:</p>
             <pre>{JSON.stringify(agreements, null, 2)}</pre>
@@ -61,7 +51,6 @@ const CheckboxController = () => {
       </div>
    )
 }
-
 
 export const States: Story = {
    render: () => (

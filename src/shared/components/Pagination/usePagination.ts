@@ -15,13 +15,13 @@ const range = (start: number, end: number) => {
 
 type PaginationParams = {
    currentPage: number
-   pageSize: number
+   // pageSize: number
    siblingCount: number
    totalCount: number
 }
 export const usePagination = ({
    currentPage,
-   pageSize,
+   // pageSize,
    siblingCount = 1,
    totalCount,
 }: PaginationParams): ('...' | number)[] => {
@@ -87,5 +87,10 @@ export const usePagination = ({
       const middleRange = range(leftSiblingIndex, rightSiblingIndex)
 
       return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex]
-   }, [totalCount, pageSize, siblingCount, currentPage])
+   }, [
+      totalCount,
+      // pageSize,
+      siblingCount,
+      currentPage,
+   ])
 }

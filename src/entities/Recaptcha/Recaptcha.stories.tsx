@@ -1,5 +1,7 @@
 import { Recaptcha } from '@/entities/Recaptcha/Recaptcha'
+import { store } from '@/shared/store'
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
+import { Provider } from 'react-redux'
 
 const meta = {
    component: Recaptcha,
@@ -10,12 +12,15 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-const handleResult = (success: boolean) => {
-   console.log(success)
-}
-
-export const RecaptchaResultInConsole: Story = {
+export const Default: Story = {
+   decorators: [
+      Story => (
+         <Provider store={store}>
+            <Story />
+         </Provider>
+      ),
+   ],
    args: {
-      onVerificationComplete: handleResult,
+      onVerificationComplete: () => {},
    },
 }
