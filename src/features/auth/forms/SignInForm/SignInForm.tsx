@@ -68,7 +68,12 @@ export const SignInForm = ({ onSubmitAction, isLoading, errorsFromApi }: Props) 
                errorMessage={errors.password?.message}
                placeholder={'**********'}
             />
-            <Typography variant={'captionRegular'} className={'text-light-900 mt-9 mb-6 self-end'}>
+            <Typography
+               variant={'captionRegular'}
+               className={
+                  'text-light-900 hover:text-light-700 mt-9 mb-6 self-end transition-colors duration-200'
+               }
+            >
                <Link href={PublicRoutes.forgotPassword}>Forgot Password</Link>
             </Typography>
 
@@ -81,9 +86,9 @@ export const SignInForm = ({ onSubmitAction, isLoading, errorsFromApi }: Props) 
             )}
 
             <Typography className={'my-4.5'}>Don’t have an account?</Typography>
-            <Typography variant={'h3'} className={'text-accent-500'}>
+            <Button asChild variant={'textButton'}>
                <Link href={PublicRoutes.signUp}>Sign Up</Link>
-            </Typography>
+            </Button>
          </form>
       </Card>
    )
