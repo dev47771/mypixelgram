@@ -49,12 +49,6 @@ export default function RootLayout({
    return (
       <StoreProvider>
          <html lang="en">
-            <head>
-               <script
-                  async
-                  src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
-               />
-            </head>
             <body className={`${inter.variable}`}>
                <Header notificationCount={4} />
                {children}
