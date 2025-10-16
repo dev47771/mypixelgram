@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { SignInForm } from '@/features/auth/forms/SignInForm/SignInForm'
+import { SignInForm } from './SignInForm'
 
 const meta = {
    title: 'Forms/SignInForm',
