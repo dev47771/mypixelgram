@@ -70,6 +70,7 @@ const config: Config = {
       },
       animation: {
          'pulse-scale': 'pulse-scale 1s ease-in-out infinite',
+         spin: 'spin 1s linear infinite',
       },
       keyframes: {
          'pulse-scale': {
@@ -81,6 +82,10 @@ const config: Config = {
                transform: 'scale(1)',
                opacity: '1',
             },
+         },
+         spin: {
+            '0%': { transform: 'rotate(0deg)' },
+            '100%': { transform: 'rotate(360deg)' },
          },
       },
       container: {
