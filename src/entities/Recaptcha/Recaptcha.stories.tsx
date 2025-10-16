@@ -1,0 +1,26 @@
+import { Recaptcha } from '@/entities/Recaptcha/Recaptcha'
+import { store } from '@/shared/store'
+import { Meta, StoryObj } from '@storybook/nextjs-vite'
+import { Provider } from 'react-redux'
+
+const meta = {
+   component: Recaptcha,
+   tags: ['autodocs'],
+   title: 'Components/Recaptcha',
+} satisfies Meta<typeof Recaptcha>
+
+export default meta
+type Story = StoryObj<typeof meta>
+
+export const Default: Story = {
+   decorators: [
+      Story => (
+         <Provider store={store}>
+            <Story />
+         </Provider>
+      ),
+   ],
+   args: {
+      onVerificationComplete: () => {},
+   },
+}
