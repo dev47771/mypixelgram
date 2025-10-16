@@ -1,6 +1,6 @@
 'use client'
 
-import { SignInForm } from '@/features/auth/forms/SignInForm/SignInForm'
+import { SignInForm } from '@/features/auth/forms/SignInForm'
 import { PageContainer } from '@/shared/components/PageContainer'
 import { type SignInArgs, useLoginMutation } from '@/features/auth/api'
 import { useRouter } from 'next/navigation'
