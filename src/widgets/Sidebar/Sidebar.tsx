@@ -39,7 +39,12 @@ export const Sidebar = ({ className, ...rest }: SidebarProps) => {
    const dispatch = useAppDispatch()
    const router = useRouter()
    const [logout] = useLogoutMutation()
-   const { data: user, isError } = useMeQuery()
+
+   const token = localStorage.getItem('accessToken')
+
+   const { data: user, isError } = useMeQuery(undefined, {
+      skip: !token,
+   })
 
    const handleLogoutClick = () => setIsLogoutModalOpen(true)
 
