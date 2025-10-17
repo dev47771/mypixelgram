@@ -40,7 +40,7 @@ export const Sidebar = ({ className, ...rest }: SidebarProps) => {
    const router = useRouter()
    const [logout] = useLogoutMutation()
 
-   const token = localStorage.getItem('accessToken')
+   const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null
 
    const { data: user, isError } = useMeQuery(undefined, {
       skip: !token,
