@@ -23,19 +23,22 @@ type Props = {
 }
 
 export const ForgotPasswordForm = ({ onSubmitAction, errorsFromApi }: Props) => {
-   const [recaptchaReady, setRecaptchaReady] = useState(false)
+   const [recaptchaReady, setRecaptchaReady] = useState(true)
 
    const {
       control,
       formState: { errors },
       handleSubmit,
       setError,
+      watch,
    } = useForm<FormTypes>({
       defaultValues: {
          email: '',
       },
       resolver: zodResolver(schema),
    })
+
+   const emailValue = watch('email')
 
    useEffect(() => {
       errorsFromApi?.forEach(error => {
@@ -64,7 +67,7 @@ export const ForgotPasswordForm = ({ onSubmitAction, errorsFromApi }: Props) => 
             <Typography variant={'captionRegular'} className={'text-light-900 mb-[17px]'}>
                Enter your email address and we will send you further instructions
             </Typography>
-            <Button fullWidth className={'mb-6'} disabled={!recaptchaReady}>
+            <Button fullWidth className={'mb-6'} disabled={!recaptchaReady || !emailValue}>
                Send Link
             </Button>
             <Button fullWidth asChild variant="textButton" className={'mb-6'}>
