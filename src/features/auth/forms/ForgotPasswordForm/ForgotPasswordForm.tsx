@@ -23,7 +23,7 @@ type Props = {
 }
 
 export const ForgotPasswordForm = ({ onSubmitAction, errorsFromApi }: Props) => {
-   const [recaptchaReady, setRecaptchaReady] = useState(true)
+   const [recaptchaReady, setRecaptchaReady] = useState(false)
 
    const {
       control,
