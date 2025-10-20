@@ -78,7 +78,11 @@ export const SignInForm = ({ onSubmitAction, isLoading, errorsFromApi }: Props) 
             </Typography>
 
             <Button type="submit" fullWidth disabled={isLoading} className="h-[36px]">
-               {isLoading ? <Loader size="24px" fullscreen={false} /> : 'Sign In'}
+               {isLoading ? (
+                  <Loader size="24px" color={'var(--color-light-100)'} fullscreen={false} />
+               ) : (
+                  'Sign In'
+               )}
             </Button>
 
             <Typography className={'my-4.5'}>Don’t have an account?</Typography>
