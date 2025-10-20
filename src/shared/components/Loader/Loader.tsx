@@ -1,12 +1,20 @@
+import { cn } from '@/shared/lib'
+
 type Props = {
    size?: string
    color?: string
    speed?: number
+   fullscreen?: boolean
 }
 
-export function Loader({ size = '2.8rem', color = '#397DF6', speed = 0.9 }: Props) {
+export function Loader({
+   size = '2.8rem',
+   color = '#397DF6',
+   speed = 0.9,
+   fullscreen = true,
+}: Props) {
    return (
-      <div className="fixed inset-0 flex items-center justify-center">
+      <div className={cn('flex items-center justify-center', { 'fixed inset-0': fullscreen })}>
          <div
             className="relative flex items-center justify-center"
             style={{ height: size, width: size }}

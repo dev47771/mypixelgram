@@ -77,13 +77,13 @@ export const SignInForm = ({ onSubmitAction, isLoading, errorsFromApi }: Props) 
                <Link href={PublicRoutes.forgotPassword}>Forgot Password</Link>
             </Typography>
 
-            {isLoading ? (
-               <Loader size={'36px'} />
-            ) : (
-               <Button type="submit" fullWidth>
-                  Sign In
-               </Button>
-            )}
+            <Button type="submit" fullWidth disabled={isLoading} className="h-[36px]">
+               {isLoading ? (
+                  <Loader size="24px" color={'var(--color-light-100)'} fullscreen={false} />
+               ) : (
+                  'Sign In'
+               )}
+            </Button>
 
             <Typography className={'my-4.5'}>Don’t have an account?</Typography>
             <Button asChild variant={'textButton'}>
