@@ -27,6 +27,7 @@ import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
 import { baseApi } from '@/shared/store'
 import { PublicRoutes } from '@/shared/enums'
 import { YesAndNoModal } from '@/entities/common/ui/YesAndNoModal'
+import { TOKEN } from '@/shared/constants'
 
 export type SidebarProps = {
    items?: SidebarItemType[]
@@ -40,7 +41,7 @@ export const Sidebar = ({ className, ...rest }: SidebarProps) => {
    const router = useRouter()
    const [logout] = useLogoutMutation()
 
-   const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null
+   const token = typeof window !== 'undefined' ? localStorage.getItem(TOKEN) : null
 
    const { data: user, isError } = useMeQuery(undefined, {
       skip: !token,
