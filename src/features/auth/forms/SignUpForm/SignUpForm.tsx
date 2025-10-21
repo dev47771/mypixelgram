@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 import { Card } from '@/shared/components/Card'
 import { Typography } from '@/shared/components/Typography'
 import Link from 'next/link'
-import { GitHubIcon, GoogleIcon } from '@/shared/icons'
+import { GitHubIcon } from '@/shared/icons'
 import { Button } from '@/shared/components/Button'
 import { PublicRoutes } from '@/shared/enums'
 import { z } from 'zod'
@@ -13,6 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { ControlledCheckbox, ControlledInput } from '@/shared/components/Controlled'
 import { emailSchema, passwordSchema, usernameSchema } from '@/shared/schema'
 import { clsx } from 'clsx'
+import { GoogleSignInButton } from '@/features/auth/oauth'
 
 const signUpSchema = z
    .object({
@@ -72,9 +73,7 @@ export const SignUpForm = ({ onSubmitAction, errorsFromApi }: Props) => {
                Sign Up
             </Typography>
             <div className={'mt-3 mb-6 flex justify-center gap-[60px]'}>
-               <Link href="#">
-                  <GoogleIcon className={'h-[36px] w-[36px]'} />
-               </Link>
+               <GoogleSignInButton />
                <Link href="#">
                   <GitHubIcon className={'h-[36px] w-[36px] text-inherit'} />
                </Link>
