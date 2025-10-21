@@ -13,7 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { ControlledCheckbox, ControlledInput } from '@/shared/components/Controlled'
 import { emailSchema, passwordSchema, usernameSchema } from '@/shared/schema'
 import { clsx } from 'clsx'
-import { GoogleSignInButton } from '@/features/auth/oauth'
+import { GoogleOAuthButton } from '@/features/auth/oauth'
 
 const signUpSchema = z
    .object({
@@ -73,7 +73,7 @@ export const SignUpForm = ({ onSubmitAction, errorsFromApi }: Props) => {
                Sign Up
             </Typography>
             <div className={'mt-3 mb-6 flex justify-center gap-[60px]'}>
-               <GoogleSignInButton />
+               <GoogleOAuthButton />
                <Link href="#">
                   <GitHubIcon className={'h-[36px] w-[36px] text-inherit'} />
                </Link>

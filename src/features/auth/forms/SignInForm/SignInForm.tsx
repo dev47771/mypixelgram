@@ -12,7 +12,7 @@ import { Button } from '@/shared/components/Button'
 import Link from 'next/link'
 import { PublicRoutes } from '@/shared/enums'
 import { Loader } from '@/shared/components/Loader'
-import { GoogleSignInButton } from '@/features/auth/oauth'
+import { GoogleOAuthButton } from '@/features/auth/oauth'
 
 const signInSchema = z.object({
    email: z.email({ error: 'The email must match the format example@example.com' }),
@@ -45,7 +45,7 @@ export const SignInForm = ({ onSubmitAction, isLoading, errorsFromApi }: Props) 
       <Card className={'flex w-full max-w-[378px] flex-col items-center p-6'}>
          <Typography variant="h1">Sign In</Typography>
          <div className={'mt-3 mb-6 flex gap-15'}>
-            <GoogleSignInButton />
+            <GoogleOAuthButton />
             <GitHubIcon width={'36px'} height={'36px'} />
          </div>
          <form

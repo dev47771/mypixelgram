@@ -1,1 +1,1 @@
-export { GoogleSignInButton } from './GoogleSignInButton'
+export { GoogleOAuthButton } from './GoogleOAuthButton'
