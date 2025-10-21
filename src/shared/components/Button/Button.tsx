@@ -45,6 +45,7 @@ export const Button = ({
          'hover:border-accent-100 hover:text-accent-100',
          'active:border-accent-700 active:text-accent-700',
          'focus:ring focus:ring-accent-700  focus:border-accent-700 focus:text-accent-700',
+         '[$:focus:hover]:text-accent-100',
          'disabled:border-accent-900 disabled:text-accent-900'
       ),
       textButton: clsx(
