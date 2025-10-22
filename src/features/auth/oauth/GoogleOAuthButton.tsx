@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 export const GoogleOAuthButton = () => {
    const router = useRouter()
    const onAuthWithGoogle = () => {
-      router.push(AuthEndpoints.loginGoogle)
+      router.push(`${process.env.NEXT_PUBLIC_BASE_URL}${AuthEndpoints.loginGoogle}`)
    }
    return (
       <Button variant={'textButton'} onClick={onAuthWithGoogle} className={'p-0'}>
