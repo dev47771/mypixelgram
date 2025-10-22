@@ -17,6 +17,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { PublicRoutes } from '@/shared/enums'
 import { TOKEN } from '@/shared/constants'
+import { usePathname } from 'next/navigation'
 
 type Props = {
    notificationCount?: number
@@ -26,6 +27,8 @@ type Props = {
 export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props) => {
    const [isLoggedIn, setIsLoggedIn] = useState(false)
    const [isClient, setIsClient] = useState(false)
+   const pathname = usePathname()
+   const isLoginRoute = pathname === '/sign-in'
 
    /**
     *setIsClient - flag synchronizes rendering between the server and the client (eliminating blinking on reboot)
@@ -34,7 +37,19 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
    useEffect(() => {
       setIsClient(true)
       setIsLoggedIn(!!localStorage.getItem(TOKEN))
-   }, [])
+
+      const handleStorageChange = (e: StorageEvent) => {
+         if (e.key === TOKEN) {
+            setIsLoggedIn(!!localStorage.getItem(TOKEN))
+         }
+      }
+
+      window.addEventListener('storage', handleStorageChange)
+
+      return () => {
+         window.removeEventListener('storage', handleStorageChange)
+      }
+   }, [isLoginRoute])
 
    const selectComponent = (
       <Select defaultValue={selectedLanguage}>
