@@ -28,7 +28,7 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
    const [isLoggedIn, setIsLoggedIn] = useState(false)
    const [isClient, setIsClient] = useState(false)
    const pathname = usePathname()
-   const isLoginRoute = pathname === '/sign-in'
+   const isLoginRoute = pathname === PublicRoutes.signIn
 
    /**
     *setIsClient - flag synchronizes rendering between the server and the client (eliminating blinking on reboot)
