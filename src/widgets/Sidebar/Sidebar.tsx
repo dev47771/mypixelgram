@@ -29,13 +29,13 @@ import { PublicRoutes } from '@/shared/enums'
 import { YesAndNoModal } from '@/entities/common/ui/YesAndNoModal'
 import { TOKEN } from '@/shared/constants'
 
-export type SidebarProps = {
+type Props = {
    items?: SidebarItemType[]
 } & ComponentPropsWithRef<'nav'>
 
 export type SidebarItemProps = SidebarItemType & ComponentPropsWithRef<'li'>
 
-export const Sidebar = ({ className, ...rest }: SidebarProps) => {
+export const Sidebar = ({ className, ...rest }: Props) => {
    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
    const dispatch = useAppDispatch()
    const router = useRouter()

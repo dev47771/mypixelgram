@@ -6,7 +6,7 @@ import { Typography } from '@/shared/components/Typography'
 import { CrossIcon } from '@/shared/icons'
 import { ReactNode } from 'react'
 
-type YesAndNoModalProps = {
+type Props = {
    open: boolean
    title: string
    description?: ReactNode
@@ -24,7 +24,7 @@ export const YesAndNoModal = ({
    onCancel,
    confirmText = 'Yes',
    cancelText = 'No',
-}: YesAndNoModalProps) => {
+}: Props) => {
    return (
       <Modal open={open} onOpenChange={onCancel}>
          <ModalTitle className="flex items-center justify-between">

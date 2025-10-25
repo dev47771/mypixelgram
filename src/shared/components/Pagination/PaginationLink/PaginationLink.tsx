@@ -5,14 +5,14 @@ import { clsx } from 'clsx'
 
 type Direction = 'prev' | 'next'
 
-type PaginationLinkProps = {
+type Props = {
    direction: Direction
    disabled?: boolean
    onClick?: () => void
    children: ReactNode
 }
 
-export const PaginationLink = ({ direction, disabled, onClick, children }: PaginationLinkProps) => {
+export const PaginationLink = ({ direction, disabled, onClick, children }: Props) => {
    const searchParams = useSearchParams()
 
    const parsed = Number(searchParams?.get('page'))
