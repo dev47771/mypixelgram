@@ -36,7 +36,7 @@ export const Button = ({
       secondary: clsx(
          'text-light-100 bg-dark-300 border border-transparent',
          'hover:bg-dark-100',
-         'active:bg-[#212121] ',
+         'active:bg-misc-primary-100 ',
          'focus:ring focus:ring-accent-300',
          'disabled:bg-dark-500 disabled:text-light-900'
       ),
