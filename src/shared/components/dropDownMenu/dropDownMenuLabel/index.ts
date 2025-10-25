@@ -1,1 +1,1 @@
-export { DropDownMenuLabel } from './dropDownMenuLabel'
+export { DropDownMenuLabel } from './DropDownMenuLabel'

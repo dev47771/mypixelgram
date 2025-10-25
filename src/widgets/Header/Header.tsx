@@ -9,9 +9,9 @@ import {
    SelectValue,
 } from '@/shared/components/Select'
 import { Typography } from '@/shared/components/Typography'
-import { DropDownMenu, DropDownMenuItem, DropDownSeparator } from '@/shared/components/dropDownMenu'
-import { DropDownMenuArrow } from '@/shared/components/dropDownMenu/dropDownMenuArrow'
-import { DropDownMenuTrigger } from '@/shared/components/dropDownMenu/dropDownMenuTrigger'
+import { DropDownMenu, DropDownMenuItem, DropDownSeparator } from '@/shared/components/DropDownMenu'
+import { DropDownMenuArrow } from '@/shared/components/DropDownMenu/DropDownMenuArrow'
+import { DropDownMenuTrigger } from '@/shared/components/DropDownMenu/DropDownMenuTrigger'
 import { FlagRussiaIcon, FlagUKIcon, NotificationIcon } from '@/shared/icons'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'

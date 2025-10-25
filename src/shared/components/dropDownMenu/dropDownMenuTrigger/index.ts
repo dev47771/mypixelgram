@@ -1,1 +1,1 @@
-export { DropDownMenuTrigger } from './dropDownMenuTrigger'
+export { DropDownMenuTrigger } from './DropDownMenuTrigger'
