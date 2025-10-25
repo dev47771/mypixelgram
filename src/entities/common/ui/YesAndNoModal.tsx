@@ -39,11 +39,11 @@ export const YesAndNoModal = ({
          <ModalBody className="flex max-w-[378px] flex-col gap-4 px-6 py-3">
             {description && <Typography>{description}</Typography>}
             <span className="flex gap-2 self-end">
-               <Button onClick={onCancel} variant="outlined" className="h-[36px] w-[96px]">
-                  {cancelText}
-               </Button>
-               <Button onClick={onConfirm} className="h-[36px] w-[96px]">
+               <Button onClick={onConfirm} variant="outlined" className="h-[36px] w-[96px]">
                   {confirmText}
+               </Button>
+               <Button onClick={onCancel} className="h-[36px] w-[96px]">
+                  {cancelText}
                </Button>
             </span>
          </ModalBody>
