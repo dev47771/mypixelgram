@@ -5,7 +5,7 @@ import {
    type FetchBaseQueryError,
 } from '@reduxjs/toolkit/query/react'
 import { Mutex } from 'async-mutex'
-import { TOKEN } from '../constants'
+import { apiMap, TOKEN } from '../constants'
 import { AuthEndpoints, PublicRoutes } from '@/shared/enums'
 import type { SignInResponse } from '@/features/auth/api'
 import { handleError } from '@/shared/utils'
@@ -36,10 +36,7 @@ export const baseQueryWithReauth: BaseQueryFn<
 
    let result = await baseQuery(args, api, extraOptions)
 
-   if (
-      result.meta?.request.url === `${process.env.NEXT_PUBLIC_BASE_URL}${AuthEndpoints.login}` &&
-      result.meta?.response?.status === 200
-   ) {
+   if (result.meta?.request.url === apiMap.login && result.meta?.response?.status === 200) {
       const data = result.data as SignInResponse
       localStorage.setItem(TOKEN, data.accessToken as string)
    }
