@@ -13,11 +13,7 @@ import Link from 'next/link'
 import { PublicRoutes } from '@/shared/enums'
 import { Loader } from '@/shared/components/Loader'
 import { GoogleOAuthButton } from '@/features/auth/oauth'
-
-const signInSchema = z.object({
-   email: z.email({ error: 'The email must match the format example@example.com' }),
-   password: z.string({ error: 'The email or password are incorrect. Try again please' }),
-})
+import { signInSchema } from '@/shared/schema'
 
 type FormTypes = z.infer<typeof signInSchema>
 

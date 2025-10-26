@@ -20,3 +20,39 @@ export const passwordSchema = z
    .regex(/^(?=.*[a-z])/, 'Password must contain at least one lowercase letter (a-z)')
    .regex(/^(?=.*[A-Z])/, 'Password must contain at least one uppercase letter (A-Z)')
    .regex(/^[a-zA-Z0-9!@#$%^&*()_+-={};':"|,.<>/?~`]*$/, 'Password contains invalid characters')
+
+export const createNewPasswordSchema = z
+   .object({
+      password: passwordSchema,
+      confirmPassword: passwordSchema,
+   })
+   .refine(data => data.password === data.confirmPassword, {
+      message: 'The passwords must match',
+      path: ['confirmPassword'],
+   })
+
+export const forgotPasswordSchema = z.object({
+   email: z.email(),
+})
+
+export const signInSchema = z.object({
+   email: z.email({ error: 'The email must match the format example@example.com' }),
+   password: z.string({ error: 'The email or password are incorrect. Try again please' }),
+})
+
+export const signUpSchema = z
+   .object({
+      login: usernameSchema,
+      email: emailSchema,
+      password: passwordSchema,
+      confirmPassword: passwordSchema,
+      isAgreeWithPrivacy: z.boolean(),
+   })
+   .refine(date => date.password === date.confirmPassword, {
+      message: 'Passwords must match',
+      path: ['confirmPassword'],
+   })
+
+export const verificationExpiredSchema = z.object({
+   email: emailSchema,
+})

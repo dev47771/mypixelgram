@@ -1,17 +1,13 @@
 'use client'
-import { Card } from '@/shared/components/Card'
-import { Typography } from '@/shared/components/Typography'
 import { Button } from '@/shared/components/Button'
+import { Card } from '@/shared/components/Card'
 import { ControlledInput } from '@/shared/components/Controlled'
+import { Typography } from '@/shared/components/Typography'
+import { verificationExpiredSchema } from '@/shared/schema'
+import { zodResolver } from '@hookform/resolvers/zod'
+import clsx from 'clsx'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { emailSchema } from '@/shared/schema'
-import clsx from 'clsx'
-
-const verificationExpiredSchema = z.object({
-   email: emailSchema,
-})
 
 type FormTypes = z.infer<typeof verificationExpiredSchema>
 

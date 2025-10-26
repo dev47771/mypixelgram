@@ -11,12 +11,9 @@ import { PublicRoutes } from '@/shared/enums'
 import { ControlledInput } from '@/shared/components/Controlled/ControlledInput'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import { forgotPasswordSchema } from '@/shared/schema'
 
-const schema = z.object({
-   email: z.email(),
-})
-
-type FormTypes = z.infer<typeof schema>
+type FormTypes = z.infer<typeof forgotPasswordSchema>
 type Props = {
    onSubmitAction: (data: FormTypes) => void
    errorsFromApi?: { field: string; message: string }[] | undefined
@@ -35,7 +32,7 @@ export const ForgotPasswordForm = ({ onSubmitAction, errorsFromApi }: Props) => 
       defaultValues: {
          email: '',
       },
-      resolver: zodResolver(schema),
+      resolver: zodResolver(forgotPasswordSchema),
    })
 
    const emailValue = watch('email')
