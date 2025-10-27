@@ -9,7 +9,7 @@ import {
    TrashIcon,
    UnfollowIcon,
 } from '@/shared/icons'
-import { DropDownMenuItem } from '@/shared/components/DropDownMenu/DropDownMenuItem'
+import { DropDownMenuItem } from '@/shared/components/DropDownMenu/DDropDownMenuItem'
 import { DropDownSeparator } from '@/shared/components/DropDownMenu/DropDownSeparator'
 import { Typography } from '@/shared/components/Typography'
 import { DropDownMenuArrow } from '@/shared/components/DropDownMenu/DropDownMenuArrow'
