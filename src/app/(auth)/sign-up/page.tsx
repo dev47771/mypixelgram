@@ -25,10 +25,6 @@ export default function SignUpPage() {
       }
    }
 
-   if (oAuthErrorModal) {
-      return oAuthErrorModal
-   }
-
    return (
       <PageContainer>
          <SignUpForm
@@ -38,6 +34,7 @@ export default function SignUpPage() {
          {confirmationEmail && (
             <EmailSentModal email={confirmationEmail} onClose={setConfirmationEmail} />
          )}
+         {oAuthErrorModal}
       </PageContainer>
    )
 }

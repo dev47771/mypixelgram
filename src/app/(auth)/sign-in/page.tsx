@@ -18,10 +18,6 @@ export default function SignInPage() {
       router.push(PrivateRoutes.feed)
    }
 
-   if (oAuthErrorModal) {
-      return oAuthErrorModal
-   }
-
    return (
       <PageContainer className={'pt-6'}>
          <SignInForm
@@ -29,6 +25,7 @@ export default function SignInPage() {
             errorsFromApi={isErrorInDataResponse(error) ? error?.data.errorsMessages : undefined}
             isLoading={isLoading}
          />
+         {oAuthErrorModal}
       </PageContainer>
    )
 }
