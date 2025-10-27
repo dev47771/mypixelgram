@@ -10,7 +10,7 @@ import {
    UnfollowIcon,
 } from '@/shared/icons'
 import { DropDownMenuItem } from '@/shared/components/DropDownMenu/DropDownMenuItem'
-import { DropDownSeparator } from '@/shared/components/DropDownMenu/DropDownSeparator'
+import { DropDownSeparator } from '@/shared/components/DropDownMenu/DDropDownSeparator'
 import { Typography } from '@/shared/components/Typography'
 import { DropDownMenuArrow } from '@/shared/components/DropDownMenu/DropDownMenuArrow'
 import { DropDownMenuTrigger } from '@/shared/components/DropDownMenu/DropDownMenuTrigger'
