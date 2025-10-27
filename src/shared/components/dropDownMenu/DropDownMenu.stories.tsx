@@ -13,7 +13,7 @@ import { DropDownMenuItem } from '@/shared/components/DropDownMenu/DropDownMenuI
 import { DropDownSeparator } from '@/shared/components/DropDownMenu/DropDownSeparator'
 import { Typography } from '@/shared/components/Typography'
 import { DropDownMenuArrow } from '@/shared/components/DropDownMenu/DropDownMenuArrow'
-import { DropDownMenuTrigger } from '@/shared/components/DropDownMenu/DDropDownMenuTrigger'
+import { DropDownMenuTrigger } from '@/shared/components/DropDownMenu/DropDownMenuTrigger'
 
 const meta = {
    component: DropDownMenu,
