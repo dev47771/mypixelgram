@@ -1,4 +1,4 @@
-import { DropDownMenu, DropDownMenuLabel } from '@/shared/components/DropDownMenu/index'
+import { DropDownMenu, DropDownMenuLabel } from '@/shared/components/DDropDownMenu/index'
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import {
    CopyIcon,
@@ -9,11 +9,11 @@ import {
    TrashIcon,
    UnfollowIcon,
 } from '@/shared/icons'
-import { DropDownMenuItem } from '@/shared/components/DropDownMenu/DropDownMenuItem'
-import { DropDownSeparator } from '@/shared/components/DropDownMenu/DropDownSeparator'
+import { DropDownMenuItem } from '@/shared/components/DDropDownMenu/DropDownMenuItem'
+import { DropDownSeparator } from '@/shared/components/DDropDownMenu/DropDownSeparator'
 import { Typography } from '@/shared/components/Typography'
-import { DropDownMenuArrow } from '@/shared/components/DropDownMenu/DropDownMenuArrow'
-import { DropDownMenuTrigger } from '@/shared/components/DropDownMenu/DropDownMenuTrigger'
+import { DropDownMenuArrow } from '@/shared/components/DDropDownMenu/DropDownMenuArrow'
+import { DropDownMenuTrigger } from '@/shared/components/DDropDownMenu/DropDownMenuTrigger'
 
 const meta = {
    component: DropDownMenu,
