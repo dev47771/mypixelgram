@@ -4,7 +4,6 @@ import React, { useEffect } from 'react'
 import { Card } from '@/shared/components/Card'
 import { Typography } from '@/shared/components/Typography'
 import Link from 'next/link'
-import { GitHubIcon } from '@/shared/icons'
 import { Button } from '@/shared/components/Button'
 import { PublicRoutes } from '@/shared/enums'
 import { z } from 'zod'
@@ -14,6 +13,7 @@ import { ControlledCheckbox, ControlledInput } from '@/shared/components/Control
 import { emailSchema, passwordSchema, usernameSchema } from '@/shared/schema'
 import { clsx } from 'clsx'
 import { GoogleOAuthButton } from '@/features/auth/oauth'
+import { GitHubOAuthButton } from '@/features/auth/oauth/GitHubOAuthButton'
 
 const signUpSchema = z
    .object({
@@ -74,9 +74,7 @@ export const SignUpForm = ({ onSubmitAction, errorsFromApi }: Props) => {
             </Typography>
             <div className={'mt-3 mb-6 flex justify-center gap-[60px]'}>
                <GoogleOAuthButton />
-               <Link href="#">
-                  <GitHubIcon className={'h-[36px] w-[36px] text-inherit'} />
-               </Link>
+               <GitHubOAuthButton />
             </div>
             <form onSubmit={handleSubmit(submitHandler)}>
                <ControlledInput
