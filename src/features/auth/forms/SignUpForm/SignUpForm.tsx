@@ -7,13 +7,13 @@ import { ControlledCheckbox, ControlledInput } from '@/shared/components/Control
 import { Typography } from '@/shared/components/Typography'
 import { PublicRoutes } from '@/shared/enums'
 import { GitHubIcon } from '@/shared/icons'
-import { signUpSchema } from '@/shared/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { clsx } from 'clsx'
 import Link from 'next/link'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { signUpSchema } from '../../schema/authSchemas'
 
 type FormTypes = z.infer<typeof signUpSchema>
 

@@ -13,7 +13,7 @@ import Link from 'next/link'
 import { PublicRoutes } from '@/shared/enums'
 import { Loader } from '@/shared/components/Loader'
 import { GoogleOAuthButton } from '@/features/auth/oauth'
-import { signInSchema } from '@/shared/schema'
+import { signInSchema } from '../../schema/authSchemas'
 
 type FormTypes = z.infer<typeof signInSchema>
 

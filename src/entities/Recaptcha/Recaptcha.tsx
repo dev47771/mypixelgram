@@ -54,7 +54,7 @@ export const Recaptcha = ({ onVerificationComplete }: Props) => {
    }
 
    const isError = status === 'error'
-   const isexpired = status === 'expired'
+   const isExpired = status === 'expired'
 
    const content = (
       <Card
@@ -62,7 +62,7 @@ export const Recaptcha = ({ onVerificationComplete }: Props) => {
             'm-[8px 7px] relative flex w-[300px] items-center justify-between px-5 pt-[14.5px] pb-[14.5px]'
          }
       >
-         {isexpired && (
+         {isExpired && (
             <p
                className={
                   'text-misc-error-100 absolute top-[10px] text-[10px] leading-[10px] font-[400]'

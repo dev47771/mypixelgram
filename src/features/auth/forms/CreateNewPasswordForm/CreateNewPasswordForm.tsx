@@ -3,11 +3,11 @@ import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
 import { ControlledInput } from '@/shared/components/Controlled'
 import { Typography } from '@/shared/components/Typography'
-import { createNewPasswordSchema } from '@/shared/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { createNewPasswordSchema } from '../../schema/authSchemas'
 
 type FormTypes = z.infer<typeof createNewPasswordSchema>
 type Props = {

@@ -36,7 +36,7 @@ export const authService = baseApi.injectEndpoints({
          }),
          async onQueryStarted(_, { dispatch, queryFulfilled }) {
             await queryFulfilled
-            localStorage.removeItem('accessToken')
+            localStorage.removeItem(TOKEN)
             dispatch(baseApi.util.resetApiState())
          },
       }),
@@ -60,9 +60,10 @@ export const authService = baseApi.injectEndpoints({
             url: AuthEndpoints.login,
             body,
          }),
-         async onQueryStarted(_, { queryFulfilled }) {
+         async onQueryStarted(_, { dispatch, queryFulfilled }) {
             const { data } = await queryFulfilled
             localStorage.setItem(TOKEN, data.accessToken)
+            dispatch(authService.endpoints.me.initiate())
          },
       }),
       resendEmail: builder.mutation<void, VerificationExpiredArgs>({

@@ -3,11 +3,11 @@ import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
 import { ControlledInput } from '@/shared/components/Controlled'
 import { Typography } from '@/shared/components/Typography'
-import { verificationExpiredSchema } from '@/shared/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import clsx from 'clsx'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { verificationExpiredSchema } from '../../schema/authSchemas'
 
 type FormTypes = z.infer<typeof verificationExpiredSchema>
 
