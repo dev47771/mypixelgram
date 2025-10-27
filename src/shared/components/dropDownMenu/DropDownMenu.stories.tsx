@@ -12,7 +12,7 @@ import {
 import { DropDownMenuItem } from '@/shared/components/DropDownMenu/DropDownMenuItem'
 import { DropDownSeparator } from '@/shared/components/DropDownMenu/DropDownSeparator'
 import { Typography } from '@/shared/components/Typography'
-import { DropDownMenuArrow } from '@/shared/components/DropDownMenu/DDropDownMenuArrow'
+import { DropDownMenuArrow } from '@/shared/components/DropDownMenu/DropDownMenuArrow'
 import { DropDownMenuTrigger } from '@/shared/components/DropDownMenu/DropDownMenuTrigger'
 
 const meta = {

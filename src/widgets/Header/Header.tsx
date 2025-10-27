@@ -10,7 +10,7 @@ import {
 } from '@/shared/components/Select'
 import { Typography } from '@/shared/components/Typography'
 import { DropDownMenu, DropDownMenuItem, DropDownSeparator } from '@/shared/components/DropDownMenu'
-import { DropDownMenuArrow } from '@/shared/components/DropDownMenu/DDropDownMenuArrow'
+import { DropDownMenuArrow } from '@/shared/components/DropDownMenu/DropDownMenuArrow'
 import { DropDownMenuTrigger } from '@/shared/components/DropDownMenu/DropDownMenuTrigger'
 import { FlagRussiaIcon, FlagUKIcon, NotificationIcon } from '@/shared/icons'
 import Link from 'next/link'
