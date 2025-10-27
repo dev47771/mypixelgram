@@ -6,9 +6,11 @@ import { SignUpForm } from '@/features/auth/forms/SignUpForm'
 import { EmailSentModal } from '@/entities/auth/ui/EmailSentModal'
 import { SignUpArgs, useSignUpMutation } from '@/features/auth/api'
 import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataResponse'
+import { useOAuthErrorModal } from '@/features/auth/hooks/useOAuthErrorModal'
 
 export default function SignUpPage() {
    const [confirmationEmail, setConfirmationEmail] = useState<string | null>(null)
+   const { modal: oAuthErrorModal } = useOAuthErrorModal()
 
    const [signUp, { error }] = useSignUpMutation()
 
@@ -21,6 +23,10 @@ export default function SignUpPage() {
          setConfirmationEmail(null)
          return false
       }
+   }
+
+   if (oAuthErrorModal) {
+      return oAuthErrorModal
    }
 
    return (
