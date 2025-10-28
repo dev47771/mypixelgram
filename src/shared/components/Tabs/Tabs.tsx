@@ -47,11 +47,11 @@ const TabsTrigger = ({
 }
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName
 
-type TabsContentProps = {
+type Props = {
    marginTop?: 24 | 30
 } & ComponentPropsWithRef<typeof TabsPrimitive.Content>
 
-const TabsContent = ({ marginTop = 24, children, className, ...rest }: TabsContentProps) => {
+const TabsContent = ({ marginTop = 24, children, className, ...rest }: Props) => {
    return (
       <TabsPrimitive.Content
          className={clsx(

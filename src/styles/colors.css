@@ -34,4 +34,14 @@
     --color-light-500: #EDF3FA;
     --color-light-700: #D5DAE0;
     --color-light-900: #8D9094;
+
+    /* other colors */
+    --color-primary-100: #212121;
+
+    --color-secondary-100: #4D8DF4;
+    --color-secondary-200: #397DF6;
+
+    --color-neutral-100: #B7B7B7;
+
+    --color-error-100: #FF0000;
 }

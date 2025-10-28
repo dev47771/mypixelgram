@@ -79,7 +79,7 @@ function getIconVariant(
 
 function getVariantRootStyle(variant: CheckboxProps['variant']) {
    if (variant === 'recaptcha') {
-      return 'data-[state=checked]:bg-transparent data-[state=indeterminate]:border-0 data-[state=indeterminate]:bg-transparent bg-light-100 flex h-5 w-5 cursor-pointer items-center justify-center rounded-[1px] border border-[#B7B7B7] data-[state=checked]:h-5 data-[state=checked]:w-5 data-[state=checked]:border-none'
+      return 'data-[state=checked]:bg-transparent data-[state=indeterminate]:border-0 data-[state=indeterminate]:bg-transparent bg-light-100 flex h-5 w-5 cursor-pointer items-center justify-center rounded-[1px] border border-misc-neutral-100 data-[state=checked]:h-5 data-[state=checked]:w-5 data-[state=checked]:border-none'
    }
    return 'border-light-100 data-[state=checked]:bg-dark-900 data-[state=checked]:disabled:bg-light-700 data-[state=unchecked]:disabled:border-dark-100 flex h-4.5 w-4.5 cursor-pointer items-center justify-center rounded-[2px] border-2 bg-transparent outline-none data-[state=checked]:h-4 data-[state=checked]:w-4 data-[state=checked]:border-none'
 }
