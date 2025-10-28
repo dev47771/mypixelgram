@@ -26,6 +26,7 @@ import { YesAndNoModal } from '@/entities/common/ui/YesAndNoModal'
 import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
 import { TOKEN } from '@/shared/constants'
 import { PublicRoutes } from '@/shared/enums'
+import { PostCreator } from '@/features/post-creator/PostCreator'
 
 type Props = {
    items?: SidebarItemType[]
@@ -37,6 +38,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
    const router = useRouter()
    const [logout] = useLogoutMutation()
+   const [isPostCreatorOpen, setIsPostCreatorOpen] = useState(false)
 
    const token = typeof window !== 'undefined' ? localStorage.getItem(TOKEN) : null
 
@@ -45,6 +47,10 @@ export const Sidebar = ({ className, ...rest }: Props) => {
    })
 
    const handleLogoutClick = () => setIsLogoutModalOpen(true)
+
+   const handleCreateClick = () => {
+      setIsPostCreatorOpen(true)
+   }
 
    const handleConfirmLogout = async () => {
       await logout().unwrap()
@@ -71,6 +77,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
                   icon={CreateOutlineIcon}
                   activeIcon={CreateIcon}
                   path="/create"
+                  onClick={handleCreateClick} 
                />
                <SidebarItem
                   id="3"
@@ -105,6 +112,9 @@ export const Sidebar = ({ className, ...rest }: Props) => {
                <SidebarItem id="8" name="Log Out" icon={LogoutIcon} onClick={handleLogoutClick} />
             </ul>
          </nav>
+
+         {isPostCreatorOpen && <PostCreator/>}
+         
          <YesAndNoModal
             open={isLogoutModalOpen}
             title="Log Out"
