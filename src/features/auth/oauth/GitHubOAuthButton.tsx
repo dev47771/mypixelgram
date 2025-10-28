@@ -1,13 +1,12 @@
-import React from 'react'
 import { Button } from '@/shared/components/Button'
 import { GitHubIcon } from '@/shared/icons'
 import { useRouter } from 'next/navigation'
-import { AuthEndpoints } from '@/shared/enums'
+import { apiMap } from '@/shared/constants'
 
 export const GitHubOAuthButton = () => {
    const router = useRouter()
    const onAuthWithGitHub = () => {
-      router.push(`${process.env.NEXT_PUBLIC_BASE_URL}${AuthEndpoints.loginGitHub}`)
+      router.push(apiMap.loginGitHub)
    }
    return (
       <Button variant={'textButton'} onClick={onAuthWithGitHub} className={'p-0'}>
