@@ -14,7 +14,7 @@ type Props = {
    onDotClick: (idx: number) => void
 }
 
-export const Dots = ({ slides, currentSlide, onDotClick }: Props) => {
+export const SliderDots = ({ slides, currentSlide, onDotClick }: Props) => {
    return (
       <div className={'absolute bottom-3 left-[50%] flex -translate-x-1/2 justify-center'}>
          <div className="bg-dark-300/50 align-center flex justify-center gap-3 rounded-xs p-2">

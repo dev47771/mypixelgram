@@ -1,1 +1,6 @@
-export * from './Slider'
+export * from './SliderRoot'
+export * from './SliderArrow/SliderArrow'
+export * from './SliderContent/SliderContent'
+export * from './SliderSlide/SliderSlide'
+export * from './SliderDots/SliderDots'
+export * from './useSlider'
