@@ -47,6 +47,21 @@ const config: Config = {
                700: 'var(--color-light-700)',
                900: 'var(--color-light-900)',
             },
+            misc: {
+               primary: {
+                  100: 'var(--color-primary-100)',
+               },
+               secondary: {
+                  100: 'var(--color-secondary-100)',
+                  200: 'var(--color-secondary-100)',
+               },
+               neutral: {
+                  100: 'var(--color-neutral-100)',
+               },
+               error: {
+                  100: 'var(--color-error-100)',
+               },
+            },
          },
          fontSize: {
             xs: 'var(--font-size-xs)',

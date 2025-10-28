@@ -1,25 +1,15 @@
 'use client'
-import { Card } from '@/shared/components/Card'
-import { Typography } from '@/shared/components/Typography'
 import { Button } from '@/shared/components/Button'
+import { Card } from '@/shared/components/Card'
+import { ControlledInput } from '@/shared/components/Controlled'
+import { Typography } from '@/shared/components/Typography'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { passwordSchema } from '@/shared/schema'
-import { ControlledInput } from '@/shared/components/Controlled'
-import { useEffect } from 'react'
+import { createNewPasswordSchema } from '../../schema/authSchemas'
 
-const schema = z
-   .object({
-      password: passwordSchema,
-      confirmPassword: passwordSchema,
-   })
-   .refine(data => data.password === data.confirmPassword, {
-      message: 'The passwords must match',
-      path: ['confirmPassword'],
-   })
-
-type FormTypes = z.infer<typeof schema>
+type FormTypes = z.infer<typeof createNewPasswordSchema>
 type Props = {
    onSubmitAction: (data: FormTypes) => void
    errorsFromApi?: { field: string; message: string }[] | undefined
@@ -36,7 +26,7 @@ export const CreateNewPasswordForm = ({ onSubmitAction, errorsFromApi }: Props) 
          password: '',
          confirmPassword: '',
       },
-      resolver: zodResolver(schema),
+      resolver: zodResolver(createNewPasswordSchema),
    })
 
    useEffect(() => {

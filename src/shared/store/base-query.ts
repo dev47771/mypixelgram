@@ -1,3 +1,6 @@
+import type { SignInResponse } from '@/features/auth/api'
+import { AuthEndpoints, PublicRoutes } from '@/shared/enums'
+import { handleError } from '@/shared/utils'
 import {
    type BaseQueryFn,
    type FetchArgs,
@@ -6,9 +9,6 @@ import {
 } from '@reduxjs/toolkit/query/react'
 import { Mutex } from 'async-mutex'
 import { TOKEN } from '../constants'
-import { AuthEndpoints, PublicRoutes } from '@/shared/enums'
-import type { SignInResponse } from '@/features/auth/api'
-import { handleError } from '@/shared/utils'
 
 const mutex = new Mutex()
 
@@ -36,13 +36,6 @@ export const baseQueryWithReauth: BaseQueryFn<
 
    let result = await baseQuery(args, api, extraOptions)
 
-   if (
-      result.meta?.request.url === `${process.env.NEXT_PUBLIC_BASE_URL}${AuthEndpoints.login}` &&
-      result.meta?.response?.status === 200
-   ) {
-      const data = result.data as SignInResponse
-      localStorage.setItem(TOKEN, data.accessToken as string)
-   }
    if (result.error && result.error.status === 401) {
       if (!mutex.isLocked()) {
          const release = await mutex.acquire()

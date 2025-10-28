@@ -53,8 +53,8 @@ export const Recaptcha = ({ onVerificationComplete }: Props) => {
       }
    }
 
-   const errorStatus = status === 'error'
-   const expiredStatus = status === 'expired'
+   const isError = status === 'error'
+   const isExpired = status === 'expired'
 
    const content = (
       <Card
@@ -62,10 +62,10 @@ export const Recaptcha = ({ onVerificationComplete }: Props) => {
             'm-[8px 7px] relative flex w-[300px] items-center justify-between px-5 pt-[14.5px] pb-[14.5px]'
          }
       >
-         {expiredStatus && (
+         {isExpired && (
             <p
                className={
-                  'absolute top-[10px] text-[10px] leading-[10px] font-[400] text-[#FF0000]'
+                  'text-misc-error-100 absolute top-[10px] text-[10px] leading-[10px] font-[400]'
                }
             >
                Verification expired. Check the checkbox again.
@@ -95,11 +95,11 @@ export const Recaptcha = ({ onVerificationComplete }: Props) => {
       </Card>
    )
 
-   if (errorStatus) {
+   if (isError) {
       return (
-         <div className={'w-[314px] border border-[#FF0000] px-2 pt-2'}>
+         <div className={'border-misc-error-100 w-[314px] border px-2 pt-2'}>
             {content}
-            <p className={'py-3.25 text-[10px] leading-[10px] font-[400] text-[#FF0000]'}>
+            <p className={'text-misc-error-100 py-3.25 text-[10px] leading-[10px] font-[400]'}>
                Please verify that you are not a robot
             </p>
          </div>

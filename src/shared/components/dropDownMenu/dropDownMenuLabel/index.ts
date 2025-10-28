@@ -1,1 +1,0 @@
-export { DropDownMenuLabel } from './dropDownMenuLabel'
