@@ -11,4 +11,5 @@ export enum AuthEndpoints {
    refreshToken = `/auth/refresh-token`,
    resendEmail = '/auth/registration-email-resending',
    loginGoogle = '/auth/google',
+   loginGitHub = '/auth/github',
 }
