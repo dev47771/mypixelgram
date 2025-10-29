@@ -1,11 +1,7 @@
-import React from 'react'
+import React, { ComponentPropsWithRef } from 'react'
 import { cn } from '@/shared/lib'
 
-type Props = {
-   onClick: () => void
-   className?: string
-   children?: React.ReactNode
-}
+type Props = ComponentPropsWithRef<'button'>
 
 export const SliderArrow = ({ children, onClick, className }: Props) => (
    <button
