@@ -3,11 +3,10 @@ import { Typography } from '@/shared/components/Typography'
 import { CrossIcon, PostOutlineIcon } from '@/shared/icons'
 import { Button } from '@/shared/components/Button'
 import { ChangeEvent, useEffect, useRef } from 'react'
-import { imgSchema } from '@/shared/schema/imgSchema'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { alert } from '@/shared/components/Alert'
+import { ACCEPTED_IMAGE_TYPES, imgSchema } from '@/shared/schema'
 
 const schema = z.object({
    postPhoto: imgSchema('postPhoto').shape['postPhoto'],
@@ -19,11 +18,11 @@ type Props = {
    isOpen: boolean
    onClose: () => void
    onPhotoSelected: (file: File) => void
+   onOpenChange: (value: boolean) => void
 }
 
-export const AddPhotoModal = ({ isOpen, onPhotoSelected, onClose }: Props) => {
+export const AddPhotoModal = ({ isOpen, onPhotoSelected, onClose, onOpenChange }: Props) => {
    const fileInputRef = useRef<HTMLInputElement>(null)
-   const hasShownError = useRef(false)
 
    const {
       register,
@@ -47,20 +46,12 @@ export const AddPhotoModal = ({ isOpen, onPhotoSelected, onClose }: Props) => {
       }
    }, [errors.postPhoto, onClose, onPhotoSelected, postPhotoWatcher])
 
-   useEffect(() => {
-      if (errors.postPhoto?.message && !hasShownError.current) {
-         alert.error(errors.postPhoto.message)
-         hasShownError.current = true
-      }
-   }, [errors.postPhoto])
-
    const postPhotoRef = (e: HTMLInputElement | null) => {
       ref(e)
       fileInputRef.current = e
    }
 
    const fileLoaderHandler = (e: ChangeEvent<HTMLInputElement>) => {
-      hasShownError.current = false
       void onChange(e)
       void trigger('postPhoto')
    }
@@ -70,7 +61,7 @@ export const AddPhotoModal = ({ isOpen, onPhotoSelected, onClose }: Props) => {
    }
 
    return (
-      <Modal className={'w-[492px]'} open={isOpen}>
+      <Modal className={'w-[492px]'} open={isOpen} onOpenChange={onOpenChange}>
          <ModalTitle className={'flex items-center justify-between'}>
             <Typography variant={'h1'}>Add Photo</Typography>
             <ModalClose asChild>
@@ -78,25 +69,42 @@ export const AddPhotoModal = ({ isOpen, onPhotoSelected, onClose }: Props) => {
             </ModalClose>
          </ModalTitle>
          <hr className={'text-dark-100 h-[1px]'} />
-         <ModalBody className="flex flex-col gap-15 pt-[72px] pr-[135px] pb-[48px] pl-[135px]">
+         <ModalBody className="flex flex-col items-center">
+            {errors.postPhoto?.message && (
+               <div
+                  className={`border-danger-500 bg-danger-900 leading-m text-light-100 text-m my-1.5 flex w-[445px] items-center justify-center rounded-xs border px-10 py-1.25 font-normal`}
+               >
+                  {
+                     <span className={'text-center'}>
+                        <span className={'font-bold'}>Error! </span>
+                        {errors.postPhoto?.message}
+                     </span>
+                  }
+               </div>
+            )}
             <div
-               className={
-                  'bg-dark-500 flex h-[228px] w-[222px] items-center justify-center rounded-xs'
-               }
+               className={`bg-dark-500 ${errors.postPhoto?.message ? '' : 'mt-[72px]'} mb-15 flex h-[228px] w-[222px] items-center justify-center rounded-xs`}
             >
                <PostOutlineIcon className={'h-12 w-12'} />
             </div>
-            <div className={'flex max-w-[219px] flex-col gap-6'}>
-               <Button onClick={addPhotoButtonHandler}>Select from Computer</Button>
-               <Button variant={'outlined'}>Open Draft</Button>
-            </div>
-            <input
-               type="file"
-               ref={postPhotoRef}
-               className={'hidden'}
-               onChange={fileLoaderHandler}
-               {...restPostPhoto}
-            />
+            <form className={'flex flex-col'}>
+               <div className={'flex max-w-[219px] flex-col gap-6'}>
+                  <Button type="button" onClick={addPhotoButtonHandler}>
+                     Select from Computer
+                  </Button>
+                  <Button type="button" variant={'outlined'} className={'mb-[48px]'}>
+                     Open Draft
+                  </Button>
+               </div>
+               <input
+                  type="file"
+                  ref={postPhotoRef}
+                  accept={ACCEPTED_IMAGE_TYPES.join(',')}
+                  className={'hidden'}
+                  onChange={fileLoaderHandler}
+                  {...restPostPhoto}
+               />
+            </form>
          </ModalBody>
       </Modal>
    )

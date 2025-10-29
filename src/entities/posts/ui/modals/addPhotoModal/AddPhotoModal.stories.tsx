@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { AddPhotoModal } from '.'
-import { Alert } from '@/shared/components/Alert'
 
 const meta = {
    component: AddPhotoModal,
@@ -16,11 +15,11 @@ export const Default: Story = {
       isOpen: true,
       onClose: () => {},
       onPhotoSelected: x => x,
+      onOpenChange: x => x,
    },
    render: args => {
       return (
          <>
-            <Alert />
             <AddPhotoModal {...args} />
          </>
       )
