@@ -2,7 +2,7 @@ import React, { ComponentPropsWithRef } from 'react'
 import { clsx } from 'clsx'
 import * as Dialog from '@radix-ui/react-dialog'
 
-type ModalProps = {
+type Props = {
    className?: string
 } & ComponentPropsWithRef<typeof Dialog.Root>
 
@@ -38,7 +38,7 @@ const ModalBody = ({ children, ...rest }: ComponentPropsWithRef<typeof Dialog.De
    )
 }
 
-const Modal = ({ children, className, ...rest }: ModalProps) => {
+const Modal = ({ children, className, ...rest }: Props) => {
    return (
       <Dialog.Root {...rest}>
          <Dialog.Portal>

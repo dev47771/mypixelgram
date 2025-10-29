@@ -12,6 +12,7 @@ import type {
    verifyReCaptchaResponse,
    VerificationExpiredArgs,
 } from '@/features/auth/api'
+import { TOKEN } from '@/shared/constants'
 
 export const authService = baseApi.injectEndpoints({
    endpoints: builder => ({
@@ -33,6 +34,11 @@ export const authService = baseApi.injectEndpoints({
             url: AuthEndpoints.logout,
             method: 'POST',
          }),
+         async onQueryStarted(_, { dispatch, queryFulfilled }) {
+            await queryFulfilled
+            localStorage.removeItem(TOKEN)
+            dispatch(baseApi.util.resetApiState())
+         },
       }),
       passwordRecovery: builder.mutation<void, RecoveryPasswordArgs>({
          query: args => ({
@@ -54,6 +60,11 @@ export const authService = baseApi.injectEndpoints({
             url: AuthEndpoints.login,
             body,
          }),
+         async onQueryStarted(_, { dispatch, queryFulfilled }) {
+            const { data } = await queryFulfilled
+            localStorage.setItem(TOKEN, data.accessToken)
+            dispatch(authService.endpoints.me.initiate())
+         },
       }),
       resendEmail: builder.mutation<void, VerificationExpiredArgs>({
          query: args => ({

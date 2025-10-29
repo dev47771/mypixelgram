@@ -44,6 +44,7 @@ const CheckboxController = () => {
             checked={agreements.notifications}
             onCheckedChange={handleAgreementChange('notifications')}
          />
+         <Checkbox label="Постоянная загрузка :)" variant={'recaptcha'} checked={'indeterminate'} />
          <div className="rounded bg-gray-100 p-2 text-sm">
             <p>Текущие значения для бэкенда:</p>
             <pre>{JSON.stringify(agreements, null, 2)}</pre>

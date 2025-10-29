@@ -3,7 +3,6 @@
 import React, { useEffect } from 'react'
 import { Card } from '@/shared/components/Card'
 import { Typography } from '@/shared/components/Typography'
-import { GitHubIcon, GoogleIcon } from '@/shared/icons'
 import { useForm } from 'react-hook-form'
 import { ControlledInput } from '@/shared/components/Controlled'
 import { z } from 'zod'
@@ -12,11 +11,9 @@ import { Button } from '@/shared/components/Button'
 import Link from 'next/link'
 import { PublicRoutes } from '@/shared/enums'
 import { Loader } from '@/shared/components/Loader'
-
-const signInSchema = z.object({
-   email: z.email({ error: 'The email must match the format example@example.com' }),
-   password: z.string({ error: 'The email or password are incorrect. Try again please' }),
-})
+import { GoogleOAuthButton } from '@/features/auth/oauth'
+import { signInSchema } from '../../schema/authSchemas'
+import { GitHubOAuthButton } from '@/features/auth/oauth/GitHubOAuthButton'
 
 type FormTypes = z.infer<typeof signInSchema>
 
@@ -44,8 +41,8 @@ export const SignInForm = ({ onSubmitAction, isLoading, errorsFromApi }: Props) 
       <Card className={'flex w-full max-w-[378px] flex-col items-center p-6'}>
          <Typography variant="h1">Sign In</Typography>
          <div className={'mt-3 mb-6 flex gap-15'}>
-            <GoogleIcon width={'36px'} height={'36px'} />
-            <GitHubIcon width={'36px'} height={'36px'} />
+            <GoogleOAuthButton />
+            <GitHubOAuthButton />
          </div>
          <form
             onSubmit={handleSubmit(onSubmitAction)}
@@ -68,22 +65,27 @@ export const SignInForm = ({ onSubmitAction, isLoading, errorsFromApi }: Props) 
                errorMessage={errors.password?.message}
                placeholder={'**********'}
             />
-            <Typography variant={'captionRegular'} className={'text-light-900 mt-9 mb-6 self-end'}>
+            <Typography
+               variant={'captionRegular'}
+               className={
+                  'text-light-900 hover:text-light-700 mt-9 mb-6 self-end transition-colors duration-200'
+               }
+            >
                <Link href={PublicRoutes.forgotPassword}>Forgot Password</Link>
             </Typography>
 
-            {isLoading ? (
-               <Loader size={'36px'} />
-            ) : (
-               <Button type="submit" fullWidth>
-                  Sign In
-               </Button>
-            )}
+            <Button type="submit" fullWidth disabled={isLoading} className="h-[36px]">
+               {isLoading ? (
+                  <Loader size="24px" color={'var(--color-light-100)'} fullscreen={false} />
+               ) : (
+                  'Sign In'
+               )}
+            </Button>
 
             <Typography className={'my-4.5'}>Don’t have an account?</Typography>
-            <Typography variant={'h3'} className={'text-accent-500'}>
+            <Button asChild variant={'textButton'}>
                <Link href={PublicRoutes.signUp}>Sign Up</Link>
-            </Typography>
+            </Button>
          </form>
       </Card>
    )

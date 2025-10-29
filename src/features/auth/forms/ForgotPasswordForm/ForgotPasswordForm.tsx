@@ -11,12 +11,9 @@ import { PublicRoutes } from '@/shared/enums'
 import { ControlledInput } from '@/shared/components/Controlled/ControlledInput'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import { forgotPasswordSchema } from '../../schema/authSchemas'
 
-const schema = z.object({
-   email: z.email(),
-})
-
-type FormTypes = z.infer<typeof schema>
+type FormTypes = z.infer<typeof forgotPasswordSchema>
 type Props = {
    onSubmitAction: (data: FormTypes) => void
    errorsFromApi?: { field: string; message: string }[] | undefined
@@ -30,12 +27,15 @@ export const ForgotPasswordForm = ({ onSubmitAction, errorsFromApi }: Props) => 
       formState: { errors },
       handleSubmit,
       setError,
+      watch,
    } = useForm<FormTypes>({
       defaultValues: {
          email: '',
       },
-      resolver: zodResolver(schema),
+      resolver: zodResolver(forgotPasswordSchema),
    })
+
+   const emailValue = watch('email')
 
    useEffect(() => {
       errorsFromApi?.forEach(error => {
@@ -64,7 +64,7 @@ export const ForgotPasswordForm = ({ onSubmitAction, errorsFromApi }: Props) => 
             <Typography variant={'captionRegular'} className={'text-light-900 mb-[17px]'}>
                Enter your email address and we will send you further instructions
             </Typography>
-            <Button fullWidth className={'mb-6'} disabled={!recaptchaReady}>
+            <Button fullWidth className={'mb-6'} disabled={!recaptchaReady || !emailValue}>
                Send Link
             </Button>
             <Button fullWidth asChild variant="textButton" className={'mb-6'}>

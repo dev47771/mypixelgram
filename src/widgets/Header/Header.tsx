@@ -9,14 +9,15 @@ import {
    SelectValue,
 } from '@/shared/components/Select'
 import { Typography } from '@/shared/components/Typography'
-import { DropDownMenu, DropDownMenuItem, DropDownSeparator } from '@/shared/components/dropDownMenu'
-import { DropDownMenuArrow } from '@/shared/components/dropDownMenu/dropDownMenuArrow'
-import { DropDownMenuTrigger } from '@/shared/components/dropDownMenu/dropDownMenuTrigger'
+import { DropDownMenu, DropDownMenuItem, DropDownSeparator } from '@/shared/components/DropDownMenu'
+import { DropDownMenuArrow } from '@/shared/components/DropDownMenu/DropDownMenuArrow'
+import { DropDownMenuTrigger } from '@/shared/components/DropDownMenu/DropDownMenuTrigger'
 import { FlagRussiaIcon, FlagUKIcon, NotificationIcon } from '@/shared/icons'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { PublicRoutes } from '@/shared/enums'
 import { TOKEN } from '@/shared/constants'
+import { usePathname } from 'next/navigation'
 
 type Props = {
    notificationCount?: number
@@ -26,6 +27,8 @@ type Props = {
 export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props) => {
    const [isLoggedIn, setIsLoggedIn] = useState(false)
    const [isClient, setIsClient] = useState(false)
+   const pathname = usePathname()
+   const isLoginRoute = pathname === PublicRoutes.signIn
 
    /**
     *setIsClient - flag synchronizes rendering between the server and the client (eliminating blinking on reboot)
@@ -34,7 +37,19 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
    useEffect(() => {
       setIsClient(true)
       setIsLoggedIn(!!localStorage.getItem(TOKEN))
-   }, [])
+
+      const handleStorageChange = (e: StorageEvent) => {
+         if (e.key === TOKEN) {
+            setIsLoggedIn(!!localStorage.getItem(TOKEN))
+         }
+      }
+
+      window.addEventListener('storage', handleStorageChange)
+
+      return () => {
+         window.removeEventListener('storage', handleStorageChange)
+      }
+   }, [isLoginRoute])
 
    const selectComponent = (
       <Select defaultValue={selectedLanguage}>

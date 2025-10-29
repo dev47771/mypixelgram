@@ -11,7 +11,7 @@ const meta = {
       backgrounds: { default: 'dark' },
       values: [
          { name: 'dark', value: 'var(--color-dark-700)' },
-         { name: 'light', value: '#ffffff' },
+         { name: 'light', value: 'var(--color-light-100)' },
       ],
    },
    tags: ['autodocs'],

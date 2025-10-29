@@ -12,8 +12,8 @@ const meta = {
       layout: 'centered',
       backgrounds: {
          options: {
-            dark: { name: 'Dark', value: '#000' },
-            light: { name: 'Light', value: '#FFF' },
+            dark: { name: 'Dark', value: 'var(--color-dark-900)' },
+            light: { name: 'Light', value: 'var(--color-light-100)' },
          },
       },
    },

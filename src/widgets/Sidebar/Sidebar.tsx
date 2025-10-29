@@ -21,32 +21,33 @@ import {
    SearchIcon,
    StatisticIcon,
 } from '@/shared/icons'
-import { useAppDispatch } from '@/shared/hook/useAppDispatch'
 
-import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
-import { baseApi } from '@/shared/store'
-import { PublicRoutes } from '@/shared/enums'
 import { YesAndNoModal } from '@/entities/common/ui/YesAndNoModal'
+import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
+import { TOKEN } from '@/shared/constants'
+import { PublicRoutes } from '@/shared/enums'
 
-export type SidebarProps = {
+type Props = {
    items?: SidebarItemType[]
 } & ComponentPropsWithRef<'nav'>
 
 export type SidebarItemProps = SidebarItemType & ComponentPropsWithRef<'li'>
 
-export const Sidebar = ({ className, ...rest }: SidebarProps) => {
+export const Sidebar = ({ className, ...rest }: Props) => {
    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
-   const dispatch = useAppDispatch()
    const router = useRouter()
    const [logout] = useLogoutMutation()
-   const { data: user, isError } = useMeQuery()
+
+   const token = typeof window !== 'undefined' ? localStorage.getItem(TOKEN) : null
+
+   const { data: user, isError } = useMeQuery(undefined, {
+      skip: !token,
+   })
 
    const handleLogoutClick = () => setIsLogoutModalOpen(true)
 
    const handleConfirmLogout = async () => {
       await logout().unwrap()
-      localStorage.removeItem('accessToken')
-      dispatch(baseApi.util.resetApiState())
       setIsLogoutModalOpen(false)
       router.push(PublicRoutes.signIn)
    }

@@ -1,31 +1,19 @@
 'use client'
 
-import React, { useEffect } from 'react'
-import { Card } from '@/shared/components/Card'
-import { Typography } from '@/shared/components/Typography'
-import Link from 'next/link'
-import { GitHubIcon, GoogleIcon } from '@/shared/icons'
+import { GoogleOAuthButton } from '@/features/auth/oauth'
 import { Button } from '@/shared/components/Button'
-import { PublicRoutes } from '@/shared/enums'
-import { z } from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { Card } from '@/shared/components/Card'
 import { ControlledCheckbox, ControlledInput } from '@/shared/components/Controlled'
-import { emailSchema, passwordSchema, usernameSchema } from '@/shared/schema'
+import { Typography } from '@/shared/components/Typography'
+import { PublicRoutes } from '@/shared/enums'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { clsx } from 'clsx'
-
-const signUpSchema = z
-   .object({
-      login: usernameSchema,
-      email: emailSchema,
-      password: passwordSchema,
-      confirmPassword: passwordSchema,
-      isAgreeWithPrivacy: z.boolean(),
-   })
-   .refine(date => date.password === date.confirmPassword, {
-      message: 'Passwords must match',
-      path: ['confirmPassword'],
-   })
+import Link from 'next/link'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { signUpSchema } from '../../schema/authSchemas'
+import { GitHubOAuthButton } from '@/features/auth/oauth/GitHubOAuthButton'
 
 type FormTypes = z.infer<typeof signUpSchema>
 
@@ -72,12 +60,8 @@ export const SignUpForm = ({ onSubmitAction, errorsFromApi }: Props) => {
                Sign Up
             </Typography>
             <div className={'mt-3 mb-6 flex justify-center gap-[60px]'}>
-               <Link href="#">
-                  <GoogleIcon className={'h-[36px] w-[36px]'} />
-               </Link>
-               <Link href="#">
-                  <GitHubIcon className={'h-[36px] w-[36px] text-inherit'} />
-               </Link>
+               <GoogleOAuthButton />
+               <GitHubOAuthButton />
             </div>
             <form onSubmit={handleSubmit(submitHandler)}>
                <ControlledInput

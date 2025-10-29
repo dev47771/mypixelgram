@@ -65,6 +65,18 @@ export const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) =
 
       useEffect(() => {
          verifyAuth()
+
+         const handleStorageChange = (e: StorageEvent) => {
+            if (e.key === TOKEN) {
+               verifyAuth()
+            }
+         }
+
+         window.addEventListener('storage', handleStorageChange)
+
+         return () => {
+            window.removeEventListener('storage', handleStorageChange)
+         }
       }, [pathname, router, verifyAuth])
 
       if (authStatus === 'checking') {

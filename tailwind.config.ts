@@ -47,6 +47,21 @@ const config: Config = {
                700: 'var(--color-light-700)',
                900: 'var(--color-light-900)',
             },
+            misc: {
+               primary: {
+                  100: 'var(--color-primary-100)',
+               },
+               secondary: {
+                  100: 'var(--color-secondary-100)',
+                  200: 'var(--color-secondary-100)',
+               },
+               neutral: {
+                  100: 'var(--color-neutral-100)',
+               },
+               error: {
+                  100: 'var(--color-error-100)',
+               },
+            },
          },
          fontSize: {
             xs: 'var(--font-size-xs)',
@@ -70,6 +85,7 @@ const config: Config = {
       },
       animation: {
          'pulse-scale': 'pulse-scale 1s ease-in-out infinite',
+         spin: 'spin 1s linear infinite',
       },
       keyframes: {
          'pulse-scale': {
@@ -81,6 +97,10 @@ const config: Config = {
                transform: 'scale(1)',
                opacity: '1',
             },
+         },
+         spin: {
+            '0%': { transform: 'rotate(0deg)' },
+            '100%': { transform: 'rotate(360deg)' },
          },
       },
       container: {

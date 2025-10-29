@@ -15,7 +15,7 @@ export const EmailSentModal = ({ email, onClose }: Props) => {
    return (
       <Modal open={!!open} onOpenChange={handleCloseModal}>
          <ModalTitle className={'flex items-center justify-between'}>
-            <Typography variant={'h1'}>Modal Title</Typography>
+            <Typography variant={'h1'}>Email sent</Typography>
             <ModalClose asChild>
                <CrossIcon />
             </ModalClose>

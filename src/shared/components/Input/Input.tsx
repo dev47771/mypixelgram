@@ -18,6 +18,7 @@ export const Input = ({
    onValueChange,
    onChange,
    label,
+   value,
    errorMessage,
    className,
    disabled,
@@ -61,6 +62,7 @@ export const Input = ({
             <input
                className={inputClass}
                onChange={handleChangeInput}
+               value={value ?? ''}
                type={inputType}
                disabled={disabled}
                {...rest}
