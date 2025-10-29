@@ -19,20 +19,16 @@ export const useModalStack = (initialModal: string = MODALS.ADD_PHOTO) => {
     setModalStack(prev => prev.slice(0, -1));
   };
 
-  //закрывает все модалки (для кнопки yes в модалке close) ??? не лучшее решение, нужно передавать в сайдбар состояние close компоненты PostCreator и при открытии вновь отражать initial модальное окно
-  const closeAllModals = () => {
-    setModalStack([]);
+  //сброс PostCreator к первоначальному состоянию
+  const resetModalStack = () => {
+    setModalStack([initialModal]);
   };
-
-  //текущая активная модалка
-  const currentMainModal = modalStack[modalStack.length - 1];
 
   return {
     modalStack,
-    currentMainModal,
     openMainModal,
     openOverlayModal,
     closeTopModal,
-    closeAllModals
+    resetModalStack
   };
 };
