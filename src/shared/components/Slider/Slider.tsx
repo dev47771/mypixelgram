@@ -31,14 +31,22 @@ export const Slider = ({ images, className }: Props) => {
             ))}
          </SliderContent>
 
-         <SliderArrow className={'left-4'} onClick={onPrevSlideHandler}>
-            <ArrowLeftIcon className={'group-hover:text-accent-300'} />
-         </SliderArrow>
-         <SliderArrow className={'right-[4px]'} onClick={onNextSlideHandler}>
-            <ArrowRightIcon className={'group-hover:text-accent-300'} />
-         </SliderArrow>
+         {images.length > 1 && (
+            <>
+               <SliderArrow className={'left-4'} onClick={onPrevSlideHandler}>
+                  <ArrowLeftIcon className={'group-hover:text-accent-300'} />
+               </SliderArrow>
+               <SliderArrow className={'right-[4px]'} onClick={onNextSlideHandler}>
+                  <ArrowRightIcon className={'group-hover:text-accent-300'} />
+               </SliderArrow>
 
-         <SliderDots slides={slides} currentSlide={currentSlide} onDotClick={onDotClickHandler} />
+               <SliderDots
+                  slides={slides}
+                  currentSlide={currentSlide}
+                  onDotClick={onDotClickHandler}
+               />
+            </>
+         )}
       </SliderRoot>
    )
 }

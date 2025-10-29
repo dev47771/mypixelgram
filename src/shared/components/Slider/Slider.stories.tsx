@@ -41,3 +41,9 @@ export const BigSlider: Story = {
    },
    render: () => <Slider images={images} className={'h-[562px] w-[490px]'} />,
 }
+
+export const WithOneSlide: Story = {
+   args: {
+      images: ['./public/404.jpg'],
+   },
+}
