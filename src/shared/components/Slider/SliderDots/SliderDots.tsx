@@ -12,12 +12,26 @@ type Props = {
    slides: SlideMeta[]
    currentSlide: number
    onDotClick: (idx: number) => void
+   withBackground?: boolean
+   className?: string
 }
 
-export const SliderDots = ({ slides, currentSlide, onDotClick }: Props) => {
+export const SliderDots = ({
+   slides,
+   currentSlide,
+   onDotClick,
+   withBackground = true,
+   className,
+}: Props) => {
    return (
       <div className={'absolute bottom-3 left-[50%] flex -translate-x-1/2 justify-center'}>
-         <div className="bg-dark-300/50 align-center flex justify-center gap-3 rounded-xs p-2">
+         <div
+            className={cn(
+               'align-center flex justify-center gap-3 rounded-xs p-2',
+               withBackground && 'bg-dark-300/50',
+               className
+            )}
+         >
             {slides.map((_item, idx) => {
                return (
                   <button
