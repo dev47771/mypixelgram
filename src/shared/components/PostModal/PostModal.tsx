@@ -52,6 +52,11 @@ export const PostModal = ({
 
    return (
       <Modal open {...props} className={clsx(sizeClasses[size], 'outline-none')}>
+         {!hasHeader && (
+            <ModalClose className="absolute -top-[36px] -right-[42px] z-10 cursor-pointer outline-none">
+               <CrossIcon />
+            </ModalClose>
+         )}
          {hasHeader && (
             <>
                {headerVariant === 'close-only' && (
@@ -85,7 +90,9 @@ export const PostModal = ({
          <ModalBody
             className={clsx(
                contentColumns === 'two'
-                  ? 'grid h-[501px] grid-cols-[490px_482px]' //разобраться с высотой, потому что при промотре постов бордер грида будет на высоту 501px, а нужно на всю, как сделать адаптивную высоту
+                  ? !hasHeader
+                     ? 'grid h-[562px] grid-cols-[490px_482px]'
+                     : 'grid h-[501px] grid-cols-[490px_482px]'
                   : 'h-[501px] w-full overflow-hidden rounded-[1px]'
             )}
          >
