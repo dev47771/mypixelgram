@@ -28,7 +28,7 @@ export const ArrowLeftIcon = ({ ...rest }: Props) => {
                   id="Vector"
                   d="M24 0L0 0L0 24L24 24L24 0Z"
                   opacity="0"
-                  fill="rgb(0,0,0)"
+                  fill="currentColor"
                   fillRule="evenodd"
                   transform="matrix(6.12323e-17,1,-1,6.12323e-17,24,0)"
                />
