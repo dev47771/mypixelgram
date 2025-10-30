@@ -39,30 +39,34 @@ export const baseQueryWithReauth: BaseQueryFn<
    if (result.error && result.error.status === 401) {
       if (!mutex.isLocked()) {
          const release = await mutex.acquire()
+         const token = localStorage.getItem(TOKEN)
          // try to get a new token
-         const refreshResult = await baseQuery(
-            {
-               method: 'POST',
-               url: AuthEndpoints.refreshToken,
-            },
-            api,
-            extraOptions
-         )
 
-         if (refreshResult.meta?.response?.status === 200) {
-            // retry the initial query
-            const data = refreshResult.data as SignInResponse
-            if (data.accessToken) {
-               localStorage.setItem(TOKEN, data.accessToken)
-            }
-            result = await baseQuery(args, api, extraOptions)
-         } else {
-            if (typeof window !== 'undefined') {
-               localStorage.removeItem(TOKEN)
-               const isSignInPage = window.location.pathname === PublicRoutes.signIn
+         if (token) {
+            const refreshResult = await baseQuery(
+               {
+                  method: 'POST',
+                  url: AuthEndpoints.refreshToken,
+               },
+               api,
+               extraOptions
+            )
 
-               if (!isSignInPage) {
-                  window.location.href = PublicRoutes.signIn
+            if (refreshResult.meta?.response?.status === 200) {
+               // retry the initial query
+               const data = refreshResult.data as SignInResponse
+               if (data.accessToken) {
+                  localStorage.setItem(TOKEN, data.accessToken)
+               }
+               result = await baseQuery(args, api, extraOptions)
+            } else {
+               if (typeof window !== 'undefined') {
+                  localStorage.removeItem(TOKEN)
+                  const isSignInPage = window.location.pathname === PublicRoutes.signIn
+
+                  if (!isSignInPage) {
+                     window.location.href = PublicRoutes.signIn
+                  }
                }
             }
          }
