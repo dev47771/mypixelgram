@@ -1,10 +1,10 @@
 'use client'
 
 import { type ReactNode } from 'react'
-import { withAuth } from '@/shared/HOC'
+import { withPublicRoute } from '@/shared/HOC/withPublicRoute'
 
 function AuthLayout({ children }: { children: ReactNode }) {
    return <>{children}</>
 }
 
-export default withAuth(AuthLayout)
+export default withPublicRoute(AuthLayout)
