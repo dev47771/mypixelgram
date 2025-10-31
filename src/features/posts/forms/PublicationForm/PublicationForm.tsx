@@ -9,14 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
-
-const publicationSchema = z.object({
-   description: z
-      .string()
-      .max(500, { message: 'Description must be less than 500 characters' })
-      .optional(),
-   location: z.string().max(20, { message: 'Location must be less than 20 characters' }).optional(),
-})
+import { publicationSchema } from '../../schema'
 
 export type PublicationFormData = z.infer<typeof publicationSchema>
 
