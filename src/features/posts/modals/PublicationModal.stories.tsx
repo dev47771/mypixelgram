@@ -11,9 +11,9 @@ type Story = StoryObj<typeof PublicationModal>
 export const Default: Story = {
    args: {
       open: true,
-      confirmText: 'Publish',
-      cancelText: 'Cancel',
-      onConfirm: () => {},
+      onConfirm: async () => {
+         await Promise.resolve()
+      },
       onCancel: () => {},
    },
 }
