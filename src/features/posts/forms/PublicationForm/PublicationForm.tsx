@@ -14,18 +14,13 @@ import { publicationSchema } from '../../schema'
 export type PublicationFormData = z.infer<typeof publicationSchema>
 
 type PublicationFormProps = {
-   onSubmit: (data: PublicationFormData) => Promise<void>
-   onCancel: () => void
-   isSubmitting?: boolean
+   onSubmit: (dataPostData: PublicationFormData) => void
+   onBack: () => void
    images: string[]
+   isLoading: boolean
 }
 
-export const PublicationForm = ({
-   onSubmit,
-   onCancel,
-   isSubmitting = false,
-   images,
-}: PublicationFormProps) => {
+export const PublicationForm = ({ onSubmit, onBack, images, isLoading }: PublicationFormProps) => {
    const {
       control,
       handleSubmit,
@@ -41,11 +36,11 @@ export const PublicationForm = ({
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <ModalTitle className="flex items-center justify-between px-[0px]">
-            <Button variant="textButton" className="text-light-100" onClick={onCancel}>
+            <Button variant="textButton" className="text-light-100" onClick={onBack}>
                <ArrowLeftIcon />
             </Button>
             <Typography variant="h1">Publication</Typography>
-            <Button type="submit" variant="textButton" disabled={isSubmitting}>
+            <Button type="submit" variant="textButton" disabled={isLoading}>
                Publish
             </Button>
          </ModalTitle>
@@ -53,7 +48,7 @@ export const PublicationForm = ({
          <hr className="text-dark-100 h-[1px]" />
 
          <ModalBody className="flex flex-row">
-            <div className="relative h-[503px] w-[490px] bg-gray-900">
+            <div className="relative h-[5px] w-[490px] bg-gray-900">
                {images.length > 0 && (
                   <Image src={images[0]} alt="Post image" fill className="object-cover" />
                )}
