@@ -1,11 +1,11 @@
 'use client'
 
-import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import Image from 'next/image'
-import { Modal, ModalBody, ModalTitle } from '@/shared/components/Modal'
 import { Button } from '@/shared/components/Button'
+import { Modal, ModalBody, ModalTitle } from '@/shared/components/Modal'
+import { Slider } from '@/shared/components/Slider'
 import { Typography } from '@/shared/components/Typography'
 import { ArrowLeftIcon } from '@/shared/icons'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 
 const meta: Meta = {
    title: 'Modals/PublicationModal',
@@ -43,11 +43,7 @@ export const Publication: Story = {
                   <hr className="text-dark-100 h-[1px]" />
 
                   <ModalBody className="flex flex-row">
-                     <div className="relative h-[503px] w-[490px] bg-gray-900">
-                        {images.length > 0 && (
-                           <Image src={images[0]} alt="Post image" fill className="object-cover" />
-                        )}
-                     </div>
+                     <Slider images={images} className={'h-[562px] w-[490px]'} />
                      <div className="flex flex-1 items-center justify-center bg-gray-950 text-white">
                         Right content area
                      </div>

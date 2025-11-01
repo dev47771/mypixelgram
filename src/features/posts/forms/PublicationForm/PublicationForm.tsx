@@ -3,10 +3,10 @@
 import { Button } from '@/shared/components/Button'
 import { ControlledInput, ControlledTextarea } from '@/shared/components/Controlled'
 import { ModalBody, ModalTitle } from '@/shared/components/Modal'
+import { Slider } from '@/shared/components/Slider'
 import { Typography } from '@/shared/components/Typography'
 import { ArrowLeftIcon } from '@/shared/icons'
 import { zodResolver } from '@hookform/resolvers/zod'
-import Image from 'next/image'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 import { publicationSchema } from '../../schema'
@@ -48,11 +48,7 @@ export const PublicationForm = ({ onSubmit, onBack, images, isLoading }: Publica
          <hr className="text-dark-100 h-[1px]" />
 
          <ModalBody className="flex flex-row">
-            <div className="relative h-[503px] w-[490px] bg-gray-900">
-               {images.length > 0 && (
-                  <Image src={images[0]} alt="Post image" fill className="object-cover" />
-               )}
-            </div>
+            <Slider images={images} className={'h-[562px] w-[490px]'} />
             <div className="flex-1">
                <div className="p-[24px]">
                   <div className="flex items-center gap-3 pb-[24px]">
