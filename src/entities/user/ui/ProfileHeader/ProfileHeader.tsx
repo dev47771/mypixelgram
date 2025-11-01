@@ -15,8 +15,8 @@ type ProfileHeaderProps = {
 
 export const ProfileHeader = ({
    user,
-   isOwnerProfile = true,
-   isPaidAccount = true,
+   isOwnerProfile = false,
+   isPaidAccount = false,
 }: ProfileHeaderProps) => (
    <div className="flex gap-9.5">
       <div className="">
