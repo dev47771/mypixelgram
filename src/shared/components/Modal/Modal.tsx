@@ -30,9 +30,13 @@ const ModalClose = ({
    )
 }
 
-const ModalBody = ({ children, ...rest }: ComponentPropsWithRef<typeof Dialog.Description>) => {
+const ModalBody = ({
+   className,
+   children,
+   ...rest
+}: ComponentPropsWithRef<typeof Dialog.Description>) => {
    return (
-      <Dialog.Description asChild {...rest}>
+      <Dialog.Description asChild {...rest} className={className}>
          <div>{children}</div>
       </Dialog.Description>
    )
