@@ -29,7 +29,7 @@ export const Default: Story = {
          <Modal open={true} onOpenChange={onBack} className="w-full max-w-[972px]">
             <PublicationForm
                {...args}
-               onSubmit={() => alert('Publish')}
+               onSubmit={async () => alert('Publish')}
                onBack={onBack}
                isLoading={isLoading}
                images={images}
