@@ -3,7 +3,7 @@
 import { cn } from '@/shared/lib'
 import { SidebarItemType } from '@/widgets/Sidebar/sidebarData'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 import { ComponentPropsWithRef, useState } from 'react'
 
 import {
@@ -26,7 +26,6 @@ import { YesAndNoModal } from '@/entities/common/ui/YesAndNoModal'
 import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
 import { TOKEN } from '@/shared/constants'
 import { PublicRoutes } from '@/shared/enums'
-import { PostCreator } from '@/features/post-creator/PostCreator'
 
 type Props = {
    items?: SidebarItemType[]
@@ -44,6 +43,9 @@ export const Sidebar = ({ className, ...rest }: Props) => {
    const { data: user, isError } = useMeQuery(undefined, {
       skip: !token,
    })
+
+   const params = useParams()
+   const userId = params.id
 
    const handleLogoutClick = () => setIsLogoutModalOpen(true)
 
@@ -71,6 +73,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
                   name="Create"
                   icon={CreateOutlineIcon}
                   activeIcon={CreateIcon}
+                  path={`/profile/${userId}?action=create`}
                   //path={`/profile/${user?.id}?action=create`} //динамический путь для PostCreator по ТЗ (стоит вынести в отдельный путь?)
                />
                <SidebarItem
@@ -106,7 +109,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
                <SidebarItem id="8" name="Log Out" icon={LogoutIcon} onClick={handleLogoutClick} />
             </ul>
          </nav>
-         
+
          <YesAndNoModal
             open={isLogoutModalOpen}
             title="Log Out"
