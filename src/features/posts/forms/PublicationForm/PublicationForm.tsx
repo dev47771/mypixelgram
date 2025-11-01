@@ -14,7 +14,7 @@ import { publicationSchema } from '../../schema'
 export type PublicationFormData = z.infer<typeof publicationSchema>
 
 type PublicationFormProps = {
-   onSubmit: (dataPostData: PublicationFormData) => void
+   onSubmit: (dataPostData: PublicationFormData) => Promise<void>
    onBack: () => void
    images: string[]
    isLoading: boolean
@@ -26,15 +26,22 @@ export const PublicationForm = ({ onSubmit, onBack, images, isLoading }: Publica
       handleSubmit,
       formState: { errors },
       watch,
+      reset,
    } = useForm<PublicationFormData>({
       resolver: zodResolver(publicationSchema),
    })
+
+   // вызывает handlePublish из модалки, очищает форму после успеха
+   const onFormSubmit = async (data: PublicationFormData) => {
+      await onSubmit(data)
+      reset()
+   }
 
    const descriptionValue = watch('description')
    const descriptionLength = descriptionValue?.length || 0
 
    return (
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onFormSubmit)}>
          <ModalTitle className="flex items-center justify-between px-[0px]">
             <Button type="button" variant="textButton" className="text-light-100" onClick={onBack}>
                <ArrowLeftIcon />
