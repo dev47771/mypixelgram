@@ -21,7 +21,6 @@ export const PublicationModal = ({ open, onBack, images }: Props) => {
    const handlePublish = async (dataPostData: PublicationFormData) => {
       await uploadFile({ files: images }).unwrap()
       await uploadPostData(dataPostData).unwrap()
-      onBack()
    }
 
    return (
