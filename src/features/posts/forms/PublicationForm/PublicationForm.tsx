@@ -10,6 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 import { publicationSchema } from '../../schema'
+import { useEffect } from 'react'
 
 export type PublicationFormData = z.infer<typeof publicationSchema>
 
@@ -18,18 +19,32 @@ type PublicationFormProps = {
    onBack: () => void
    images: string[]
    isLoading: boolean
+   errorsFromApi?: { field: string; message: string }[] | undefined
 }
 
-export const PublicationForm = ({ onSubmit, onBack, images, isLoading }: PublicationFormProps) => {
+export const PublicationForm = ({
+   onSubmit,
+   onBack,
+   images,
+   isLoading,
+   errorsFromApi,
+}: PublicationFormProps) => {
    const {
       control,
       handleSubmit,
       formState: { errors },
       watch,
       reset,
+      setError,
    } = useForm<PublicationFormData>({
       resolver: zodResolver(publicationSchema),
    })
+
+   useEffect(() => {
+      errorsFromApi?.forEach(error => {
+         setError(error.field as keyof PublicationFormData, { message: error.message })
+      })
+   }, [errorsFromApi, setError])
 
    // вызывает handlePublish из модалки, очищает форму после успеха
    const onFormSubmit = async (data: PublicationFormData) => {

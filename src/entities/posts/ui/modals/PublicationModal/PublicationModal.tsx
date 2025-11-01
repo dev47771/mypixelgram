@@ -3,6 +3,7 @@
 import { useUploadFileMutation, useUploadPostDataMutation } from '@/features/posts/api'
 import { PublicationForm, PublicationFormData } from '@/features/posts/forms/PublicationForm'
 import { Modal } from '@/shared/components/Modal'
+import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataResponse'
 
 type Props = {
    open: boolean
@@ -12,7 +13,7 @@ type Props = {
 
 export const PublicationModal = ({ open, onBack, images }: Props) => {
    const [uploadFile, { isLoading: isUploadingFile }] = useUploadFileMutation()
-   const [uploadPostData, { isLoading: isUploadingPost }] = useUploadPostDataMutation()
+   const [uploadPostData, { error, isLoading: isUploadingPost }] = useUploadPostDataMutation()
 
    const isLoading = isUploadingFile || isUploadingPost
 
@@ -28,6 +29,7 @@ export const PublicationModal = ({ open, onBack, images }: Props) => {
          <PublicationForm
             onSubmit={handlePublish}
             onBack={onBack}
+            errorsFromApi={isErrorInDataResponse(error) ? error?.data.errorsMessages : undefined}
             isLoading={isLoading}
             images={images}
          />
