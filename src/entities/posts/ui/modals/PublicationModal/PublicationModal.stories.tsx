@@ -17,7 +17,7 @@ type Story = StoryObj
 export const Publication: Story = {
    render: () => {
       const images = ['./public/404.jpg', './public/logo-light.png', './public/logo-dark.png']
-      const onBack = () => alert('Back clicked')
+      const onBack = () => alert('Back')
 
       return (
          <div className="fixed inset-0 flex items-center justify-center bg-black/50 p-4">
@@ -35,7 +35,7 @@ export const Publication: Story = {
 
                      <Typography variant="h1">Publication</Typography>
 
-                     <Button type="submit" variant="textButton">
+                     <Button type="button" variant="textButton" onClick={() => alert('Publish')}>
                         Publish
                      </Button>
                   </ModalTitle>

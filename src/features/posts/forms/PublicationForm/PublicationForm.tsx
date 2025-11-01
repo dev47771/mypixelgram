@@ -36,7 +36,7 @@ export const PublicationForm = ({ onSubmit, onBack, images, isLoading }: Publica
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <ModalTitle className="flex items-center justify-between px-[0px]">
-            <Button variant="textButton" className="text-light-100" onClick={onBack}>
+            <Button type="button" variant="textButton" className="text-light-100" onClick={onBack}>
                <ArrowLeftIcon />
             </Button>
             <Typography variant="h1">Publication</Typography>
@@ -48,7 +48,7 @@ export const PublicationForm = ({ onSubmit, onBack, images, isLoading }: Publica
          <hr className="text-dark-100 h-[1px]" />
 
          <ModalBody className="flex flex-row">
-            <div className="relative h-[5px] w-[490px] bg-gray-900">
+            <div className="relative h-[503px] w-[490px] bg-gray-900">
                {images.length > 0 && (
                   <Image src={images[0]} alt="Post image" fill className="object-cover" />
                )}

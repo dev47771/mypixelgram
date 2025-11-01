@@ -1,11 +1,12 @@
 import { Provider } from 'react-redux'
 import { store } from '@/shared/store'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { PublicationModal } from '@/entities/posts/ui/modals/PublicationModal'
+import { Modal } from '@/shared/components/Modal'
+import { PublicationForm } from '@/features/posts/forms/PublicationForm'
 
-const meta = {
+const meta: Meta<typeof PublicationForm> = {
    title: 'Forms/PublicationForm',
-   component: PublicationModal,
+   component: PublicationForm,
    decorators: [
       Story => (
          <Provider store={store}>
@@ -13,15 +14,27 @@ const meta = {
          </Provider>
       ),
    ],
-} satisfies Meta<typeof PublicationModal>
+}
 
 export default meta
-type Story = StoryObj<typeof PublicationModal>
+type Story = StoryObj<typeof PublicationForm>
 
 export const Default: Story = {
-   args: {
-      open: true,
-      onBack: () => alert('Back clicked'),
-      images: ['./public/404.jpg', './public/logo-light.png', './public/logo-dark.png'],
+   render: args => {
+      const onBack = () => alert('Back')
+      const isLoading = false
+      const images = ['./public/404.jpg', './public/logo-light.png', './public/logo-dark.png']
+
+      return (
+         <Modal open={true} onOpenChange={onBack} className="w-full max-w-[972px]">
+            <PublicationForm
+               {...args}
+               onSubmit={() => alert('Publish')}
+               onBack={onBack}
+               isLoading={isLoading}
+               images={images}
+            />
+         </Modal>
+      )
    },
 }
