@@ -1,6 +1,7 @@
 import { PostCreator } from '@/features/post-creator/PostCreator'
 import { PageContainer } from '@/shared/components/PageContainer'
 import { useSearchParams, useRouter } from 'next/navigation'
+
 import { ProfileView } from '@/widgets/Profile'
 
 type Props = {
