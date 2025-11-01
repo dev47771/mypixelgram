@@ -2,22 +2,12 @@
 
 import React from 'react'
 import { ProfileHeader } from '@/entities/user'
-import { PostCreator } from '@/features/post-creator/PostCreator'
-import { useRouter, useSearchParams } from 'next/navigation'
 
 type Props = {
    userId: string
 }
 
 export const ProfileView = ({ userId }: Props) => {
-   const router = useRouter()
-   const searchParams = useSearchParams()
-   const action = searchParams.get('action')
-
-   const handleClosePostCreator = () => {
-      router.back() //возвращаемся назад по истории при закрытии PostCreator
-   }
-
    const mockUser = {
       id: userId,
       username: 'Username',
@@ -30,7 +20,6 @@ export const ProfileView = ({ userId }: Props) => {
 
    return (
       <div className={'flex flex-col gap-12'}>
-         {action === 'create' && <PostCreator onClose={handleClosePostCreator} />}
          <ProfileHeader user={mockUser} isOwnerProfile={true} />
       </div>
    )
