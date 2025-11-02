@@ -2,15 +2,14 @@
 
 import { useUploadFileMutation, useUploadPostDataMutation } from '@/features/posts/api'
 import { PublicationForm, PublicationFormData } from '@/features/posts/forms/PublicationForm'
-import { Modal } from '@/shared/components/Modal'
+import { PostModal } from '@/shared/components/PostModal'
 import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataResponse'
 
 type Props = {
-   open: boolean
    onBack: () => void
 }
 
-export const PublicationModal = ({ open, onBack }: Props) => {
+export const PublicationModal = ({ onBack }: Props) => {
    const [uploadFile, { isLoading: isUploadingFile }] = useUploadFileMutation()
    const [uploadPostData, { error, isLoading: isUploadingPost }] = useUploadPostDataMutation()
 
@@ -18,15 +17,20 @@ export const PublicationModal = ({ open, onBack }: Props) => {
 
    const images = ['./public/404.jpg', './public/logo-light.png', './public/logo-dark.png']
 
-   const handlePublish = async (dataPostData: PublicationFormData) => {
-      await Promise.all([
-         uploadFile({ files: images }).unwrap(),
-         uploadPostData(dataPostData).unwrap(),
-      ])
+   //вынести в отдельный хук?
+   const handlePublish = (dataPostData: PublicationFormData) => {
+      uploadFile({ files: images }).unwrap()
+      uploadPostData(dataPostData).unwrap()
    }
 
    return (
-      <Modal open={open} onOpenChange={onBack} className="w-full max-w-[972px]">
+      <PostModal
+         size="post-management"
+         headerText="Publication"
+         headerVariant="with-navigation"
+         contentColumns="two"
+         rightContentClassName="p-5"
+      >
          <PublicationForm
             onSubmit={handlePublish}
             onBack={onBack}
@@ -34,6 +38,6 @@ export const PublicationModal = ({ open, onBack }: Props) => {
             isLoading={isLoading}
             images={images}
          />
-      </Modal>
+      </PostModal>
    )
 }

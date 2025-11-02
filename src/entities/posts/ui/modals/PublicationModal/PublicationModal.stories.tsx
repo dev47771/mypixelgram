@@ -1,7 +1,8 @@
 'use client'
 
 import { Button } from '@/shared/components/Button'
-import { Modal, ModalBody, ModalTitle } from '@/shared/components/Modal'
+import { ModalBody, ModalTitle } from '@/shared/components/Modal'
+import { PostModal } from '@/shared/components/PostModal'
 import { Slider } from '@/shared/components/Slider'
 import { Typography } from '@/shared/components/Typography'
 import { ArrowLeftIcon } from '@/shared/icons'
@@ -20,37 +21,41 @@ export const Publication: Story = {
       const onBack = () => alert('Back')
 
       return (
-         <div className="fixed inset-0 flex items-center justify-center bg-black/50 p-4">
-            <Modal open={true} onOpenChange={onBack} className="w-full max-w-[972px]">
-               <form>
-                  <ModalTitle className="flex items-center justify-between px-[0px]">
-                     <Button
-                        variant="textButton"
-                        className="text-light-100"
-                        type="button"
-                        onClick={onBack}
-                     >
-                        <ArrowLeftIcon />
-                     </Button>
+         <PostModal
+            size="post-management"
+            headerText="Publication"
+            headerVariant="with-navigation"
+            contentColumns="two"
+            rightContentClassName="p-5"
+         >
+            <form>
+               <ModalTitle className="flex items-center justify-between px-[0px]">
+                  <Button
+                     variant="textButton"
+                     className="text-light-100"
+                     type="button"
+                     onClick={onBack}
+                  >
+                     <ArrowLeftIcon />
+                  </Button>
 
-                     <Typography variant="h1">Publication</Typography>
+                  <Typography variant="h1">Publication</Typography>
 
-                     <Button type="button" variant="textButton" onClick={() => alert('Publish')}>
-                        Publish
-                     </Button>
-                  </ModalTitle>
+                  <Button type="button" variant="textButton" onClick={() => alert('Publish')}>
+                     Publish
+                  </Button>
+               </ModalTitle>
 
-                  <hr className="text-dark-100 h-[1px]" />
+               <hr className="text-dark-100 h-[1px]" />
 
-                  <ModalBody className="flex flex-row">
-                     <Slider images={images} className={'h-[562px] w-[490px]'} />
-                     <div className="flex flex-1 items-center justify-center bg-gray-950 text-white">
-                        Right content area
-                     </div>
-                  </ModalBody>
-               </form>
-            </Modal>
-         </div>
+               <ModalBody className="flex flex-row">
+                  <Slider images={images} className={'h-[501px] w-[490px]'} />
+                  <div className="flex flex-1 items-center justify-center bg-gray-950 text-white">
+                     Right content area
+                  </div>
+               </ModalBody>
+            </form>
+         </PostModal>
       )
    },
 }
