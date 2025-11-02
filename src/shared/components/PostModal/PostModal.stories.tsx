@@ -20,7 +20,6 @@ type Story = StoryObj<typeof meta>
 export const AddPhoto: Story = {
    args: {
       size: 'image-upload',
-      hasHeader: true,
       headerText: 'Add Photo',
       headerVariant: 'close-only',
       contentColumns: 'one',
@@ -56,10 +55,11 @@ export const AddPhoto: Story = {
 export const Cropping: Story = {
    args: {
       size: 'image-upload',
-      hasHeader: true,
       headerText: 'Cropping',
       headerVariant: 'with-navigation',
       contentColumns: 'one',
+      onBack: () => {},
+      onNext: () => {},
       children: (
          <Image
             className="h-full w-full object-cover"
@@ -76,10 +76,11 @@ export const Cropping: Story = {
 export const Filters: Story = {
    args: {
       size: 'post-management',
-      hasHeader: true,
       headerText: 'Filters',
       headerVariant: 'with-navigation',
       contentColumns: 'two',
+      onBack: () => {},
+      onNext: () => {},
       leftContent: (
          <Image
             className="h-full w-full object-cover"
@@ -111,10 +112,11 @@ export const Filters: Story = {
 export const Publication: Story = {
    args: {
       size: 'post-management',
-      hasHeader: true,
       headerText: 'Publication',
       headerVariant: 'with-navigation',
       contentColumns: 'two',
+      onBack: () => {},
+      publish: () => {},
       leftContent: (
          <Image
             className="h-full w-full object-cover"
@@ -147,7 +149,6 @@ export const Publication: Story = {
 export const MyOrFriendPost: Story = {
    args: {
       size: 'post-management',
-      hasHeader: false,
       contentColumns: 'two',
    },
 }
@@ -155,7 +156,6 @@ export const MyOrFriendPost: Story = {
 export const EditPost: Story = {
    args: {
       size: 'post-management',
-      hasHeader: true,
       headerText: 'Edit Post',
       headerVariant: 'close-only',
       contentColumns: 'two',
@@ -165,7 +165,6 @@ export const EditPost: Story = {
 export const AddProfilePhoto: Story = {
    args: {
       size: 'image-upload',
-      hasHeader: true,
       headerText: 'Add a Profile Photo',
       headerVariant: 'close-only',
       contentColumns: 'one',
@@ -175,7 +174,6 @@ export const AddProfilePhoto: Story = {
 export const AddProfilePhotoCropping: Story = {
    args: {
       size: 'profile-crop',
-      hasHeader: true,
       headerText: 'Add a Profile Photo',
       headerVariant: 'close-only',
       contentColumns: 'one',
@@ -186,7 +184,6 @@ export const AddProfilePhotoCropping: Story = {
 export const SubscribersFollowersLikes: Story = {
    args: {
       size: 'social-list',
-      hasHeader: true,
       headerText: 'Likes',
       headerVariant: 'close-only',
       contentColumns: 'one',
