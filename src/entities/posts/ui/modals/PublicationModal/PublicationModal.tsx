@@ -8,16 +8,15 @@ import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataRe
 type Props = {
    open: boolean
    onBack: () => void
-   images: string[]
 }
 
-export const PublicationModal = ({ open, onBack, images }: Props) => {
+export const PublicationModal = ({ open, onBack }: Props) => {
    const [uploadFile, { isLoading: isUploadingFile }] = useUploadFileMutation()
    const [uploadPostData, { error, isLoading: isUploadingPost }] = useUploadPostDataMutation()
 
    const isLoading = isUploadingFile || isUploadingPost
 
-   images = ['./public/404.jpg', './public/logo-light.png', './public/logo-dark.png']
+   const images = ['./public/404.jpg', './public/logo-light.png', './public/logo-dark.png']
 
    const handlePublish = async (dataPostData: PublicationFormData) => {
       await uploadFile({ files: images }).unwrap()
