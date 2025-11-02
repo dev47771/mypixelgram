@@ -15,7 +15,7 @@ import { useEffect } from 'react'
 export type PublicationFormData = z.infer<typeof publicationSchema>
 
 type PublicationFormProps = {
-   onSubmit: (dataPostData: PublicationFormData) => Promise<void>
+   onSubmit: (dataPostData: PublicationFormData) => void
    onBack: () => void
    images: string[]
    isLoading: boolean
@@ -34,7 +34,6 @@ export const PublicationForm = ({
       handleSubmit,
       formState: { errors },
       watch,
-      reset,
       setError,
    } = useForm<PublicationFormData>({
       resolver: zodResolver(publicationSchema),
@@ -46,17 +45,11 @@ export const PublicationForm = ({
       })
    }, [errorsFromApi, setError])
 
-   // вызывает handlePublish из модалки, очищает форму после успеха
-   const onFormSubmit = async (data: PublicationFormData) => {
-      await onSubmit(data)
-      reset()
-   }
-
    const descriptionValue = watch('description')
    const descriptionLength = descriptionValue?.length || 0
 
    return (
-      <form onSubmit={handleSubmit(onFormSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
          <ModalTitle className="flex items-center justify-between px-[0px]">
             <Button type="button" variant="textButton" className="text-light-100" onClick={onBack}>
                <ArrowLeftIcon />
