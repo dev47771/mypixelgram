@@ -19,8 +19,10 @@ export const PublicationModal = ({ open, onBack }: Props) => {
    const images = ['./public/404.jpg', './public/logo-light.png', './public/logo-dark.png']
 
    const handlePublish = async (dataPostData: PublicationFormData) => {
-      await uploadFile({ files: images }).unwrap()
-      await uploadPostData(dataPostData).unwrap()
+      await Promise.all([
+         uploadFile({ files: images }).unwrap(),
+         uploadPostData(dataPostData).unwrap(),
+      ])
    }
 
    return (
