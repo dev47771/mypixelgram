@@ -1,11 +1,10 @@
 import { ArrowLeftIcon, CrossIcon } from '@/shared/icons'
-import { Modal, ModalBody, ModalClose, ModalTitle } from '../Modal'
-import { Typography } from '../Typography'
+import { cn } from '@/shared/lib'
 import * as Dialog from '@radix-ui/react-dialog'
 import { ComponentPropsWithRef } from 'react'
 import { Button } from '../Button'
-import { cn } from '@/shared/lib'
-import { PublicationFormData } from '@/features/posts/forms/PublicationForm'
+import { Modal, ModalBody, ModalClose, ModalTitle } from '../Modal'
+import { Typography } from '../Typography'
 
 type ModalSize = 'image-upload' | 'post-management' | 'social-list' | 'profile-crop'
 type HeaderVariant = 'close-only' | 'with-navigation'
@@ -27,7 +26,7 @@ type Props = {
 
    onBack?: () => void
    onNext?: () => void
-   publish?: (data: PublicationFormData) => void
+   publish?: () => void
 } & ComponentPropsWithRef<typeof Dialog.Root>
 
 export const PostModal = ({

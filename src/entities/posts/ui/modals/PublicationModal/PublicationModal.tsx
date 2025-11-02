@@ -17,7 +17,7 @@ export const PublicationModal = ({ onBack }: Props) => {
 
    const images = ['./public/404.jpg', './public/logo-light.png', './public/logo-dark.png']
 
-   //вынести в отдельный хук?
+   //вынести в отдельный хук? вынести в DAL(запросы)
    const handlePublish = (dataPostData: PublicationFormData) => {
       uploadFile({ files: images }).unwrap()
       uploadPostData(dataPostData).unwrap()
