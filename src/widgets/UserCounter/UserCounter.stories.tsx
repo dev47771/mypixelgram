@@ -1,0 +1,22 @@
+import { Meta, StoryObj } from '@storybook/nextjs-vite'
+import { UserCounter } from './UserCounter'
+
+const meta = {
+   title: 'Widgets/UserCounter',
+   component: UserCounter,
+   tags: ['autodocs'],
+   parameters: {
+      layout: 'centered',
+   },
+} satisfies Meta<typeof UserCounter>
+
+export default meta
+type Story = StoryObj<typeof meta>
+
+export const Default: Story = {
+   render: args => (
+      <div className={'w-[500px]'}>
+         <UserCounter {...args} />
+      </div>
+   ),
+}
