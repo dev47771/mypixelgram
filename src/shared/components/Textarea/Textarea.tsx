@@ -9,6 +9,8 @@ type Props = {
    label?: string
    errorMessage?: string
    onValueChange?: (value: string) => void
+   showCount?: boolean
+   maxLength?: number
 } & ComponentPropsWithRef<'textarea'>
 
 export const Textarea = ({
@@ -19,6 +21,7 @@ export const Textarea = ({
    disabled,
    id,
    className,
+   showCount,
    ...rest
 }: Props) => {
    const generateId = useId()
@@ -33,6 +36,8 @@ export const Textarea = ({
          onChange(e)
       }
    }
+
+   const currentLength = typeof rest.value === 'string' ? rest.value.length : 0
 
    return (
       <div className={'flex flex-col'}>
@@ -57,6 +62,11 @@ export const Textarea = ({
             onChange={onChangeHandler}
             {...rest}
          />
+         {showCount && (
+            <Typography className="text-light-900 text-right" variant="smallRegular">
+               {currentLength}/{rest.maxLength}
+            </Typography>
+         )}
          {errorMessage && (
             <Typography className={'text-danger-500'} variant={'captionRegular'}>
                {errorMessage}
