@@ -27,6 +27,7 @@ type Props = {
    onBack?: () => void
    onNext?: () => void
    publish?: () => void
+   //onClose?: () => void
 } & ComponentPropsWithRef<typeof Dialog.Root>
 
 export const PostModal = ({
@@ -42,6 +43,7 @@ export const PostModal = ({
    onBack,
    onNext,
    publish,
+   //onClose,
    ...props
 }: Props) => {
    const sizeClasses = {
