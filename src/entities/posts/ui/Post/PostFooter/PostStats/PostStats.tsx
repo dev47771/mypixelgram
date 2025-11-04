@@ -3,9 +3,11 @@ import { Typography } from '@/shared/components/Typography'
 
 type Props = {
    userAvatar: string
+   likesCount: number
+   dateCreated: string
 }
 
-export const PostStats = ({ userAvatar }: Props) => {
+export const PostStats = ({ userAvatar, dateCreated, likesCount }: Props) => {
    return (
       <>
          <div className={'mt-5 flex'}>
@@ -16,11 +18,11 @@ export const PostStats = ({ userAvatar }: Props) => {
                height={'24'}
                className={'mr-3 rounded-[50%]'}
             />
-            <Typography variant={'captionRegular'}>2 243</Typography>
+            <Typography variant={'captionRegular'}>{likesCount}</Typography>
             <Typography variant={'captionBold'}>&#34;Like&#34;</Typography>
          </div>
          <Typography variant={'smallRegular'} className={'text-light-900'}>
-            July 3, 2021
+            {dateCreated}
          </Typography>
       </>
    )

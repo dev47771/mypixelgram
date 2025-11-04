@@ -21,6 +21,8 @@ const mockComment = {
 }
 
 const mockPost = {
+   id: '1',
+   userId: '23',
    images: [
       'https://i.pinimg.com/736x/be/39/7c/be397c91b8026b17f5f8a6ed98e23e9e.jpg',
       'https://cdn.fishki.net/upload/post/2021/02/16/3613245/tn/alberta-2297204-1280.jpg',
@@ -40,6 +42,8 @@ const mockPost = {
          likes: 1,
       },
    ],
+   likesCount: 2243,
+   dateCreated: 'July 3, 2021',
 }
 
 export const Default: Story = {

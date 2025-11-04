@@ -1,8 +1,9 @@
 import { PostDescription } from '@/entities/posts/ui/Post/PostBody/PostDescription'
 import { PostComments } from '@/entities/posts/ui/Post/PostBody/PostComments'
+import type { Post as PostType } from '@/entities/posts/model'
 
 type Props = {
-   post: any
+   post: PostType
 }
 export const PostBody = ({ post }: Props) => {
    return (

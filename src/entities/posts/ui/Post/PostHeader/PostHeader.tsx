@@ -1,9 +1,10 @@
 import Image from 'next/image'
 import { Typography } from '@/shared/components/Typography'
 import { PostMenu } from '@/entities/posts/ui/Post/PostHeader/PostMenu'
+import type { Post as PostType } from '@/entities/posts/model'
 
 type Props = {
-   post: any
+   post: PostType
 }
 
 export const PostHeader = ({ post }: Props) => {

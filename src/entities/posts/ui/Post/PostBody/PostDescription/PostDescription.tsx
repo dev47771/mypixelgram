@@ -1,11 +1,12 @@
 import Image from 'next/image'
 import { Typography } from '@/shared/components/Typography'
+import type { Post as PostType } from '@/entities/posts/model'
 
 type Props = {
-   post: any
+   post: PostType
 }
 export const PostDescription = ({ post }: Props) => {
-   const { userName, userAvatar, description, date } = post
+   const { userName, userAvatar, description } = post
 
    return (
       <div className={'mt-[15px] flex justify-between gap-3'}>
@@ -26,7 +27,7 @@ export const PostDescription = ({ post }: Props) => {
                </Typography>
                <div className={'mt-[5px] flex gap-3'}>
                   <Typography variant={'smallRegular'} className={'text-light-900'}>
-                     {date}
+                     2 hours ago
                   </Typography>
                </div>
             </div>
