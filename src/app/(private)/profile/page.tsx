@@ -1,3 +1,4 @@
+
 import { PageContainer } from '@/shared/components/PageContainer'
 
 import { ProfileView } from '@/widgets/Profile'
