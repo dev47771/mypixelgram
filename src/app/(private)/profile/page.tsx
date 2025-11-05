@@ -1,3 +1,5 @@
+'use client'
+
 import { PostCreator } from '@/features/post-creator/PostCreator'
 import { PageContainer } from '@/shared/components/PageContainer'
 import { useSearchParams, useRouter } from 'next/navigation'
@@ -6,8 +8,8 @@ type Props = {
    params: { id: string }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function ProfilePage({ params }: Props) {
-
    const router = useRouter()
    const searchParams = useSearchParams()
    const action = searchParams.get('action')
@@ -18,11 +20,7 @@ export default function ProfilePage({ params }: Props) {
 
    return (
       <PageContainer>
-         
-         {action === 'create' && (
-            <PostCreator onClose={handleClosePostCreator} />
-         )}
-
+         {action === 'create' && <PostCreator onClose={handleClosePostCreator} />}
          ProfilePage
          <p>
             {' '}
