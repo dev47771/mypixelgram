@@ -1,4 +1,5 @@
 import { Card } from '@/shared/components/Card'
+import { Slider } from '@/shared/components/Slider'
 import Image from 'next/image'
 
 export type PostProps = {
@@ -14,6 +15,8 @@ export type PostProps = {
    }
 }
 
+//const images = ['./public/404.jpg', './public/logo-light.png', './public/logo-dark.png']
+
 export const CardPost = ({ description, location, file, createdAt, user }: PostProps) => {
    const createdAtPost = new Date(createdAt).toLocaleString('ru-RU', {
       day: '2-digit',
@@ -23,13 +26,15 @@ export const CardPost = ({ description, location, file, createdAt, user }: PostP
       minute: '2-digit',
    })
 
+   const images = [file.url]
+
    return (
       <Card className="bg-dark-500 h-[391px] w-[234px] overflow-hidden">
          {file?.url && (
-            <div className="relative h-[240px] w-[234px]">
-               <Image src={file.url} alt="post" className="object-cover" sizes="234px" fill />
-            </div>
-            //<Slider images={images} className={'h-[240px] w-[234px]'} />
+            //   <div className="relative h-[240px] w-[234px]">
+            //       <Image src={file.url} alt="post" className="object-cover" sizes="234px" fill />
+            //    </div>
+            <Slider images={images} className={'h-[240px] w-[234px]'} />
          )}
 
          {/* Информация о пользователе */}
