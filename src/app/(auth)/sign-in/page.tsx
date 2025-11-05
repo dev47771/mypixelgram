@@ -6,10 +6,12 @@ import { type SignInArgs, useLoginMutation } from '@/features/auth/api'
 import { useRouter } from 'next/navigation'
 import { PrivateRoutes } from '@/shared/enums'
 import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataResponse'
+import { useOAuthErrorModal } from '@/features/auth/hooks/useOAuthErrorModal'
 
 export default function SignInPage() {
    const [login, { error, isLoading }] = useLoginMutation()
    const router = useRouter()
+   const { modal: oAuthErrorModal } = useOAuthErrorModal()
 
    const handleLogin = async (data: SignInArgs) => {
       await login(data).unwrap()
@@ -23,6 +25,7 @@ export default function SignInPage() {
             errorsFromApi={isErrorInDataResponse(error) ? error?.data.errorsMessages : undefined}
             isLoading={isLoading}
          />
+         {oAuthErrorModal}
       </PageContainer>
    )
 }

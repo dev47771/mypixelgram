@@ -1,6 +1,6 @@
 import React, { ComponentPropsWithRef, ReactNode } from 'react'
 import { DropdownMenu } from '.'
-import { DropDownMenuLabel } from '@/shared/components/dropDownMenu'
+import { DropDownMenuLabel } from '@/shared/components/DropDownMenu'
 import { clsx } from 'clsx'
 
 export type DropDownMenuProps = {

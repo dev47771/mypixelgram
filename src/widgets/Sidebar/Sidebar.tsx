@@ -21,23 +21,21 @@ import {
    SearchIcon,
    StatisticIcon,
 } from '@/shared/icons'
-import { useAppDispatch } from '@/shared/hook/useAppDispatch'
 
-import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
-import { baseApi } from '@/shared/store'
-import { PublicRoutes } from '@/shared/enums'
 import { YesAndNoModal } from '@/entities/common/ui/YesAndNoModal'
+import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
 import { TOKEN } from '@/shared/constants'
+import { PublicRoutes } from '@/shared/enums'
+import { PostCreator } from '@/features/post-creator/PostCreator'
 
-export type SidebarProps = {
+type Props = {
    items?: SidebarItemType[]
 } & ComponentPropsWithRef<'nav'>
 
 export type SidebarItemProps = SidebarItemType & ComponentPropsWithRef<'li'>
 
-export const Sidebar = ({ className, ...rest }: SidebarProps) => {
+export const Sidebar = ({ className, ...rest }: Props) => {
    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
-   const dispatch = useAppDispatch()
    const router = useRouter()
    const [logout] = useLogoutMutation()
 
@@ -51,8 +49,6 @@ export const Sidebar = ({ className, ...rest }: SidebarProps) => {
 
    const handleConfirmLogout = async () => {
       await logout().unwrap()
-      localStorage.removeItem('accessToken')
-      dispatch(baseApi.util.resetApiState())
       setIsLogoutModalOpen(false)
       router.push(PublicRoutes.signIn)
    }
@@ -75,7 +71,7 @@ export const Sidebar = ({ className, ...rest }: SidebarProps) => {
                   name="Create"
                   icon={CreateOutlineIcon}
                   activeIcon={CreateIcon}
-                  path="/create"
+                  //path={`/profile/${user?.id}?action=create`} //динамический путь для PostCreator по ТЗ (стоит вынести в отдельный путь?)
                />
                <SidebarItem
                   id="3"
@@ -110,6 +106,7 @@ export const Sidebar = ({ className, ...rest }: SidebarProps) => {
                <SidebarItem id="8" name="Log Out" icon={LogoutIcon} onClick={handleLogoutClick} />
             </ul>
          </nav>
+         
          <YesAndNoModal
             open={isLogoutModalOpen}
             title="Log Out"

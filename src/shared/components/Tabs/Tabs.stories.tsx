@@ -6,7 +6,7 @@ const meta = {
    title: 'Components/Tabs',
    tags: ['autodocs'],
    parameters: {
-      backgrounds: { default: '#0d0d0d' },
+      backgrounds: { default: 'var(--color-dark-700)' },
    },
 } satisfies Meta<typeof Tabs>
 

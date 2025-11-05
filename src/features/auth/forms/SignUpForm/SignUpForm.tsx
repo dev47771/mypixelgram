@@ -1,32 +1,19 @@
 'use client'
 
-import React, { useEffect } from 'react'
-import { Card } from '@/shared/components/Card'
-import { Typography } from '@/shared/components/Typography'
-import Link from 'next/link'
-import { GitHubIcon } from '@/shared/icons'
-import { Button } from '@/shared/components/Button'
-import { PublicRoutes } from '@/shared/enums'
-import { z } from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { ControlledCheckbox, ControlledInput } from '@/shared/components/Controlled'
-import { emailSchema, passwordSchema, usernameSchema } from '@/shared/schema'
-import { clsx } from 'clsx'
 import { GoogleOAuthButton } from '@/features/auth/oauth'
-
-const signUpSchema = z
-   .object({
-      login: usernameSchema,
-      email: emailSchema,
-      password: passwordSchema,
-      confirmPassword: passwordSchema,
-      isAgreeWithPrivacy: z.boolean(),
-   })
-   .refine(date => date.password === date.confirmPassword, {
-      message: 'Passwords must match',
-      path: ['confirmPassword'],
-   })
+import { Button } from '@/shared/components/Button'
+import { Card } from '@/shared/components/Card'
+import { ControlledCheckbox, ControlledInput } from '@/shared/components/Controlled'
+import { Typography } from '@/shared/components/Typography'
+import { PublicRoutes } from '@/shared/enums'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { clsx } from 'clsx'
+import Link from 'next/link'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { signUpSchema } from '../../schema/authSchemas'
+import { GitHubOAuthButton } from '@/features/auth/oauth/GitHubOAuthButton'
 
 type FormTypes = z.infer<typeof signUpSchema>
 
@@ -74,9 +61,7 @@ export const SignUpForm = ({ onSubmitAction, errorsFromApi }: Props) => {
             </Typography>
             <div className={'mt-3 mb-6 flex justify-center gap-[60px]'}>
                <GoogleOAuthButton />
-               <Link href="#">
-                  <GitHubIcon className={'h-[36px] w-[36px] text-inherit'} />
-               </Link>
+               <GitHubOAuthButton />
             </div>
             <form onSubmit={handleSubmit(submitHandler)}>
                <ControlledInput

@@ -9,7 +9,7 @@ type Props = {
 
 export function Loader({
    size = '2.8rem',
-   color = '#397DF6',
+   color = 'var(--color-secondary-200)',
    speed = 0.9,
    fullscreen = true,
 }: Props) {

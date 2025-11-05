@@ -3,7 +3,6 @@
 import React, { useEffect } from 'react'
 import { Card } from '@/shared/components/Card'
 import { Typography } from '@/shared/components/Typography'
-import { GitHubIcon } from '@/shared/icons'
 import { useForm } from 'react-hook-form'
 import { ControlledInput } from '@/shared/components/Controlled'
 import { z } from 'zod'
@@ -13,11 +12,8 @@ import Link from 'next/link'
 import { PublicRoutes } from '@/shared/enums'
 import { Loader } from '@/shared/components/Loader'
 import { GoogleOAuthButton } from '@/features/auth/oauth'
-
-const signInSchema = z.object({
-   email: z.email({ error: 'The email must match the format example@example.com' }),
-   password: z.string({ error: 'The email or password are incorrect. Try again please' }),
-})
+import { signInSchema } from '../../schema/authSchemas'
+import { GitHubOAuthButton } from '@/features/auth/oauth/GitHubOAuthButton'
 
 type FormTypes = z.infer<typeof signInSchema>
 
@@ -46,7 +42,7 @@ export const SignInForm = ({ onSubmitAction, isLoading, errorsFromApi }: Props) 
          <Typography variant="h1">Sign In</Typography>
          <div className={'mt-3 mb-6 flex gap-15'}>
             <GoogleOAuthButton />
-            <GitHubIcon width={'36px'} height={'36px'} />
+            <GitHubOAuthButton />
          </div>
          <form
             onSubmit={handleSubmit(onSubmitAction)}
