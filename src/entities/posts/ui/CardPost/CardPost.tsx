@@ -1,6 +1,8 @@
 import { Card } from '@/shared/components/Card'
 import { Slider } from '@/shared/components/Slider'
+import { PostOutlineIcon } from '@/shared/icons'
 import Image from 'next/image'
+import { Typography } from '@/shared/components/Typography'
 
 export type PostProps = {
    postId: string
@@ -17,8 +19,8 @@ export type PostProps = {
 
 //const images = ['./public/404.jpg', './public/logo-light.png', './public/logo-dark.png']
 
-export const CardPost = ({ description, location, file, createdAt, user }: PostProps) => {
-   const createdAtPost = new Date(createdAt).toLocaleString('ru-RU', {
+export const CardPost = ({ description, file, createdAt, user }: PostProps) => {
+   const createdAtPost = new Date(createdAt).toLocaleString('en-EN', {
       day: '2-digit',
       month: 'short',
       year: 'numeric',
@@ -26,39 +28,46 @@ export const CardPost = ({ description, location, file, createdAt, user }: PostP
       minute: '2-digit',
    })
 
-   const images = [file.url]
+   const images = [file.url, file.url, file.url]
 
    return (
-      <Card className="bg-dark-500 h-[391px] w-[234px] overflow-hidden">
+      <Card withBaseStyles={false} className="h-[391px] w-[234px] overflow-hidden">
          {file?.url && (
             //   <div className="relative h-[240px] w-[234px]">
             //       <Image src={file.url} alt="post" className="object-cover" sizes="234px" fill />
             //    </div>
-            <Slider images={images} className={'h-[240px] w-[234px]'} />
+            <Slider images={images} className={'mb-3 h-[240px] w-[234px]'} />
          )}
 
-         {/* Информация о пользователе */}
-         <div className="flex items-center gap-2 p-2 text-sm text-white">
-            {user.avatar && (
-               <Image
-                  src={user.avatar}
-                  alt={user.userName}
-                  width={32}
-                  height={32}
-                  className="rounded-full object-cover"
-               />
-            )}
-            <div className="flex flex-col">
-               <span className="font-medium">{user.userName}</span>
-               <span className="text-xs text-gray-400">{createdAtPost}</span>
+         <div className="mb-3 flex flex-col gap-2 text-sm text-white">
+            <div className="flex items-center gap-3">
+               {user.avatar ? (
+                  <Image
+                     src={user.avatar}
+                     alt={user.userName}
+                     width={32}
+                     height={32}
+                     className="rounded-full object-cover"
+                  />
+               ) : (
+                  <div
+                     className={
+                        'bg-dark-100 flex h-[32px] w-[32px] items-center justify-center rounded-full'
+                     }
+                  >
+                     <PostOutlineIcon width={20} height={20} />
+                  </div>
+               )}
+               <Typography as="span" variant="h3">
+                  {user.userName}
+               </Typography>
             </div>
+            <Typography as="span" variant="smallRegular" className="text-light-900">
+               {createdAtPost}
+            </Typography>
          </div>
 
-         {/* Описание поста */}
-         <div className="p-2 text-sm text-gray-400">
-            {description && <p>{description}</p>}
-            {location && <p className="text-xs text-gray-500">{location}</p>}
-         </div>
+         <div>{description && <Typography variant="captionRegular">{description}</Typography>}</div>
       </Card>
    )
 }
