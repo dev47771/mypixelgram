@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { MODALS, useModalStack } from ".";
+import { AddPhotoModal } from '@/entities/posts/ui/modals/addPhotoModal'
+import { useSearchParams } from 'next/navigation'
 
 
 type Props = {
@@ -10,10 +12,13 @@ type Props = {
 
 export const PostCreator = ({ onClose }: Props) => {
     const { modalStack, openMainModal, openOverlayModal, closeTopModal, resetModalStack } = useModalStack();
-    const [photos, setPhotos] = useState<File[]>([]);
+   const [photos, setPhotos] = useState<File[]>([]);
+   const searchParams = useSearchParams()
 
+   const action = searchParams.get('action')
+   const isAddPhotoAction = action === 'create'
     // массив для ссылок на файлы для карусели???? 
-    const [urlPhotos, setUrlPhotos] = useState<string[]>([]);
+   // const [urlPhotos, setUrlPhotos] = useState<string[]>([]);
 
     //при закрытии PostCreator сработает очистка массива с фото и сбросится до initial состояния массив modalStack
     useEffect(() => {
@@ -47,7 +52,16 @@ export const PostCreator = ({ onClose }: Props) => {
                     //     }}
                     //     onClose={requestClose}
                     // />;
-
+                return <AddPhotoModal
+                    key="add_photo"
+                    onPhotoSelected={(file: File) => {
+                       setPhotos([file]);
+                        openMainModal(MODALS.CROPPING);
+                   }}
+                   onClose={requestClose}
+                    isOpen={isAddPhotoAction}
+                    onOpenChange={requestClose}
+                />;
                 case MODALS.CROPPING:
                     // return <CroppingModal
                     //     key="cropping"
@@ -56,7 +70,7 @@ export const PostCreator = ({ onClose }: Props) => {
                     //     onBack={() => openMainModal(MODALS.ADD_PHOTO)}
                     //     onClose={requestClose}
                     // />;
-
+                  break
                 case MODALS.FILTERS:
                     // return <FiltersModal
                     //     key="filters"
@@ -65,7 +79,7 @@ export const PostCreator = ({ onClose }: Props) => {
                     //     onBack={() => openMainModal(MODALS.CROPPING)}
                     //     onClose={requestClose}
                     // />;
-
+                   break
                 case MODALS.PUBLICATION:
                     // return <PublicationModal
                     //     key="publication"
@@ -75,7 +89,7 @@ export const PostCreator = ({ onClose }: Props) => {
                     //     onClose={requestClose}
                     // />;
 
-
+                   break
                 //модалка закрытия для PostCreator
                 case MODALS.CLOSE:
                     // return <CloseModal
@@ -84,7 +98,7 @@ export const PostCreator = ({ onClose }: Props) => {
                     //     onCancel={handleCompleteClose} //для кнопки yes (закроет PostCreator)
                     // />;
 
-
+                   break
                 default:
                     return null;
             }
@@ -97,5 +111,7 @@ export const PostCreator = ({ onClose }: Props) => {
         </>
     );
 };
+
+
 
 
