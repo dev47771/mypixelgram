@@ -50,6 +50,7 @@ const config: Config = {
             misc: {
                primary: {
                   100: 'var(--color-primary-100)',
+                  500: 'var(--color-primary-500)',
                },
                secondary: {
                   100: 'var(--color-secondary-100)',
