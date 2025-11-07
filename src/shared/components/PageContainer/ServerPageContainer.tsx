@@ -1,4 +1,3 @@
-// src/shared/components/ServerPageContainer.tsx
 import { PageContainer } from './PageContainer'
 
 export default function ServerPageContainer({ children }: { children: React.ReactNode }) {
