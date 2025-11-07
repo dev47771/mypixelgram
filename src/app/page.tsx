@@ -1,10 +1,11 @@
 import { CardPost, PostProps } from '@/entities/posts/ui/CardPost'
 import ServerPageContainer from '@/shared/components/PageContainer/ServerPageContainer'
+import { apiMap } from '@/shared/constants'
 
 export const revalidateTime = 60
 
 export default async function Home() {
-   const res = await fetch('https://mypixelgram.ru/api/v1/public/posts/last-posts', {
+   const res = await fetch(apiMap.lastPosts, {
       next: { revalidate: revalidateTime },
    })
 

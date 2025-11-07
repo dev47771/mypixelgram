@@ -53,14 +53,14 @@ export const CardPost = ({ description, file, createdAt, user }: PostProps) => {
             <div
                className={cn(
                   'mb-3 w-[234px] overflow-hidden transition-all duration-300',
-                  expanded ? 'h-[120px]' : 'h-[240px]'
+                  expanded ? 'h-[115px]' : 'h-[240px]'
                )}
             >
                <Slider images={images} disabled={expanded} className="h-[240px] w-[234px]" />
             </div>
          )}
 
-         <div className="mb-3 flex flex-col gap-2">
+         <div className="flex flex-col gap-2">
             <div className="flex items-center gap-3">
                {user.avatar ? (
                   <Image
