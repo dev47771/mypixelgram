@@ -31,12 +31,12 @@ export const CardPost = ({ description, file, createdAt, user }: PostProps) => {
       minute: '2-digit',
    })
 
+   const SHORT_LIMIT = 90
+   const EXTENDED_LIMIT = 270
+
    const [expanded, setExpanded] = useState(false)
 
    if (!description) description = ''
-
-   const SHORT_LIMIT = 90
-   const EXTENDED_LIMIT = 235
 
    const shouldTruncate = description.length > SHORT_LIMIT
    const visibleText = expanded
@@ -48,11 +48,11 @@ export const CardPost = ({ description, file, createdAt, user }: PostProps) => {
    const images = [file.url, file.url, file.url]
 
    return (
-      <Card withBaseStyles={false} className="h-[391px] w-[234px] overflow-hidden">
+      <Card withBaseStyles={false} className="h-[400px] w-[234px] overflow-hidden">
          {file?.url && (
             <div
                className={cn(
-                  'mb-3 w-[234px] overflow-hidden',
+                  'mb-3 w-[234px] overflow-hidden transition-all duration-300',
                   expanded ? 'h-[120px]' : 'h-[240px]'
                )}
             >
@@ -88,7 +88,7 @@ export const CardPost = ({ description, file, createdAt, user }: PostProps) => {
             </Typography>
          </div>
 
-         <div className="">
+         <div>
             <Typography as="p" variant="captionRegular" className="inline">
                {visibleText}
                {shouldTruncate && !expanded && description.length > SHORT_LIMIT && '...'}
@@ -101,7 +101,7 @@ export const CardPost = ({ description, file, createdAt, user }: PostProps) => {
                   onClick={() => setExpanded(prev => !prev)}
                   className={clsx(
                      'text-s text-misc-primary-500 leading-m font-regular ml-1',
-                     'cursor-pointer underline hover:underline focus:outline-none'
+                     'cursor-pointer underline hover:underline'
                   )}
                >
                   {expanded ? 'Hide' : 'Show more'}
