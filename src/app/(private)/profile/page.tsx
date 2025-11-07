@@ -8,8 +8,7 @@ type Props = {
    params: { id: string }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function ProfilePage({ params }: Props) {
+export default function ProfilePage({ params /* eslint-disable-line */ }: Props) {
    const router = useRouter()
    const searchParams = useSearchParams()
    const action = searchParams.get('action')
