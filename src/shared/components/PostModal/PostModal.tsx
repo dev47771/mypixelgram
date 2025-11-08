@@ -27,6 +27,7 @@ type Props = {
    onBack?: () => void
    onNext?: () => void
    publish?: () => void
+   className?: string
 } & ComponentPropsWithRef<typeof Dialog.Root>
 
 export const PostModal = ({
@@ -42,6 +43,7 @@ export const PostModal = ({
    onBack,
    onNext,
    publish,
+   className,
    ...props
 }: Props) => {
    const sizeClasses = {
@@ -53,99 +55,93 @@ export const PostModal = ({
 
    return (
       <Modal open {...props} className={cn(sizeClasses[size])}>
-         {children ? (
-            // Если есть children — рендерим его вместо всего header + body для PublicationModal
-            children
-         ) : (
+         {/* HEADER*/}
+
+         {/* нет Header */}
+         {/* кнопка закрытия находится вне модального окна */}
+         {!headerText && (
+            <ModalClose className="absolute -top-[36px] -right-[42px] z-10 cursor-pointer">
+               <CrossIcon />
+            </ModalClose>
+         )}
+
+         {/* есть Header */}
+         {headerText && (
             <>
-               {/* HEADER*/}
-
-               {/* нет Header */}
-               {/* кнопка закрытия находится вне модального окна */}
-               {!headerText && (
-                  <ModalClose className="absolute -top-[36px] -right-[42px] z-10 cursor-pointer">
-                     <CrossIcon />
-                  </ModalClose>
+               {/* только title и кнопка закрытия */}
+               {headerVariant === 'close-only' && (
+                  <ModalTitle className={'flex items-center justify-between'}>
+                     <Typography variant={'h1'} className={'pointer-events-none'}>
+                        {headerText}
+                     </Typography>
+                     <ModalClose asChild>
+                        <CrossIcon />
+                     </ModalClose>
+                  </ModalTitle>
                )}
 
-               {/* есть Header */}
-               {headerText && (
-                  <>
-                     {/* только title и кнопка закрытия */}
-                     {headerVariant === 'close-only' && (
-                        <ModalTitle className={'flex items-center justify-between'}>
-                           <Typography variant={'h1'} className={'pointer-events-none'}>
-                              {headerText}
-                           </Typography>
-                           <ModalClose asChild>
-                              <CrossIcon />
-                           </ModalClose>
-                        </ModalTitle>
-                     )}
-
-                     {/* title, кнопка "назад" и Next/Publish */}
-                     {headerVariant === 'with-navigation' && (
-                        <ModalTitle className={'flex items-center justify-between'}>
-                           <Button
-                              onClick={onBack}
-                              variant="textButton"
-                              className="text-light-100 border-none p-0"
-                           >
-                              <ArrowLeftIcon />
-                           </Button>
-                           <Typography variant={'h1'} className={'pointer-events-none'}>
-                              {headerText}
-                           </Typography>
-                           <Button
-                              onClick={onNext ? onNext : publish}
-                              variant="textButton"
-                              className="border-none p-0"
-                           >
-                              {onNext ? 'Next' : 'Publish'}
-                           </Button>
-                        </ModalTitle>
-                     )}
-
-                     {/* для всех видов Header */}
-                     <hr className={'text-dark-100 h-[1px]'} />
-                  </>
+               {/* title, кнопка "назад" и Next/Publish */}
+               {headerVariant === 'with-navigation' && (
+                  <ModalTitle className={'flex items-center justify-between'}>
+                     <Button
+                        onClick={onBack}
+                        variant="textButton"
+                        className="text-light-100 border-none p-0"
+                     >
+                        <ArrowLeftIcon />
+                     </Button>
+                     <Typography variant={'h1'} className={'pointer-events-none'}>
+                        {headerText}
+                     </Typography>
+                     <Button
+                        onClick={onNext ? onNext : publish}
+                        variant="textButton"
+                        className="border-none p-0"
+                     >
+                        {onNext ? 'Next' : 'Publish'}
+                     </Button>
+                  </ModalTitle>
                )}
 
-               {/* BODY */}
-
-               <ModalBody
-                  className={cn(
-                     contentColumns === 'two'
-                        ? !headerText
-                           ? // модалка БЕЗ header с 2 колонками (myPost, FriendPost)
-                             'grid h-[562px] grid-cols-[490px_482px]'
-                           : // модалка с header с 2 колонками (filters, publication, editPost)
-                             'grid h-[501px] grid-cols-[490px_482px]'
-                        : size !== 'profile-crop'
-                          ? // модалка высотой h-[564px] с header с 1 колонкой (addPhoto, cropping, addProfilePhoto, subscribers, followers, likes)
-                            'h-[501px] w-full overflow-hidden rounded-[1px]'
-                          : // модалка высотой h-[536px] с header с 1 колонкой (AddProfilePhotoCropping)
-                            'h-[473px] w-full overflow-hidden rounded-[1px]'
-                  )}
-               >
-                  {/* Контент для модалки с 2 колонками передаем пропсами leftContent и rightContent */}
-                  {contentColumns === 'two' ? (
-                     <>
-                        {/* Контент левой колонки модалке с 2 колонками (как правило это фото) */}
-                        <div className={cn(leftContentClassName, 'border-dark-100 border-r')}>
-                           {leftContent}
-                        </div>
-
-                        {/* Контент правой колонки модалке с 2 колонками (как правило это текст) */}
-                        <div className={rightContentClassName}>{rightContent}</div>
-                     </>
-                  ) : (
-                     // Контент для модалки с 2 колонками передаем пропсами как children (внутрь компоненты PostModal)
-                     children
-                  )}
-               </ModalBody>
+               {/* для всех видов Header */}
+               <hr className={'text-dark-100 h-[1px]'} />
             </>
          )}
+
+         {/* BODY */}
+
+         <ModalBody
+            className={cn(
+               contentColumns === 'two'
+                  ? !headerText
+                     ? // модалка БЕЗ header с 2 колонками (myPost, FriendPost)
+                       'grid h-[562px] grid-cols-[490px_482px]'
+                     : // модалка с header с 2 колонками (filters, publication, editPost)
+                       'grid h-[501px] grid-cols-[490px_482px]'
+                  : size !== 'profile-crop'
+                    ? // модалка высотой h-[564px] с header с 1 колонкой (addPhoto, cropping, addProfilePhoto, subscribers, followers, likes)
+                      'h-[501px] w-full overflow-hidden rounded-[1px]'
+                    : // модалка высотой h-[536px] с header с 1 колонкой (AddProfilePhotoCropping)
+                      'h-[473px] w-full overflow-hidden rounded-[1px]',
+               className
+            )}
+         >
+            {/* Контент для модалки с 2 колонками передаем пропсами leftContent и rightContent */}
+            {contentColumns === 'two' ? (
+               <>
+                  {/* Контент левой колонки модалке с 2 колонками (как правило это фото) */}
+                  <div className={cn(leftContentClassName, 'border-dark-100 border-r')}>
+                     {leftContent}
+                  </div>
+
+                  {/* Контент правой колонки модалке с 2 колонками (как правило это текст) */}
+                  <div className={rightContentClassName}>{rightContent}</div>
+               </>
+            ) : (
+               // Контент для модалки с 2 колонками передаем пропсами как children (внутрь компоненты PostModal)
+               children
+            )}
+         </ModalBody>
       </Modal>
    )
 }
