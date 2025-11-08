@@ -1,101 +1,100 @@
-'use client';
+'use client'
+/* eslint-disable */
 
-import { useEffect, useState } from "react";
-import { MODALS, useModalStack } from ".";
-
+import { useEffect, useState } from 'react'
+import { MODALS, useModalStack } from '.'
+import { PublicationModal } from '@/entities/posts/ui/modals/PublicationModal'
 
 type Props = {
-    onClose?: () => void
+   onClose?: () => void
 }
 
 export const PostCreator = ({ onClose }: Props) => {
-    const { modalStack, openMainModal, openOverlayModal, closeTopModal, resetModalStack } = useModalStack();
-    const [photos, setPhotos] = useState<File[]>([]);
+   const { modalStack, openMainModal, openOverlayModal, closeTopModal, resetModalStack } =
+      useModalStack()
+   const [photos, setPhotos] = useState<File[]>([])
 
-    // массив для ссылок на файлы для карусели???? 
-    const [urlPhotos, setUrlPhotos] = useState<string[]>([]);
+   // массив для ссылок на файлы для карусели????
+   const [urlPhotos, setUrlPhotos] = useState<string[]>([])
 
-    //при закрытии PostCreator сработает очистка массива с фото и сбросится до initial состояния массив modalStack
-    useEffect(() => {
-        return () => {
-            resetModalStack();
-            setPhotos([]);
-        };
-    }, []);
+   //при закрытии PostCreator сработает очистка массива с фото и сбросится до initial состояния массив modalStack
+   useEffect(() => {
+      return () => {
+         resetModalStack()
+         setPhotos([])
+      }
+   }, [])
 
-    //закрытие PostCreator
-    const handleCompleteClose = () => {
-        onClose?.(); // вызовет router.back() из компонента profile
-    };
+   //закрытие PostCreator
+   const handleCompleteClose = () => {
+      onClose?.() // вызовет router.back() из компонента profile
+   }
 
-    const requestClose = () => {
-        openOverlayModal(MODALS.CLOSE); 
-    };
+   const requestClose = () => {
+      openOverlayModal(MODALS.CLOSE)
+   }
 
-    const renderModals = () => {
-        return modalStack.map((modalName) => {
+   const renderModals = () => {
+      return modalStack.map(modalName => {
+         switch (modalName) {
+            //основные модальные окошки PostCreator
+            case MODALS.ADD_PHOTO:
+            // return <AddPhotoModal
+            //     key="add_photo"
+            //     onPhotoSelected={(file: File) => {
+            //         setPhotos([file]);
+            //         openMainModal(MODALS.CROPPING);
+            //     }}
+            //     onClose={requestClose}
+            // />;
 
-            switch (modalName) {
+            case MODALS.CROPPING:
+            // return <CroppingModal
+            //     key="cropping"
+            //     photos={photos}
+            //     onNext={() => openMainModal(MODALS.FILTERS)}
+            //     onBack={() => openMainModal(MODALS.ADD_PHOTO)}
+            //     onClose={requestClose}
+            // />;
 
-                //основные модальные окошки PostCreator
-                case MODALS.ADD_PHOTO:
-                    // return <AddPhotoModal
-                    //     key="add_photo"
-                    //     onPhotoSelected={(file: File) => { 
-                    //         setPhotos([file]); 
-                    //         openMainModal(MODALS.CROPPING); 
-                    //     }}
-                    //     onClose={requestClose}
-                    // />;
+            case MODALS.FILTERS:
+            // return <FiltersModal
+            //     key="filters"
+            //     photos={photos}
+            //     onNext={() => openMainModal(MODALS.PUBLICATION)}
+            //     onBack={() => openMainModal(MODALS.CROPPING)}
+            //     onClose={requestClose}
+            // />;
 
-                case MODALS.CROPPING:
-                    // return <CroppingModal
-                    //     key="cropping"
-                    //     photos={photos}
-                    //     onNext={() => openMainModal(MODALS.FILTERS)}
-                    //     onBack={() => openMainModal(MODALS.ADD_PHOTO)}
-                    //     onClose={requestClose}
-                    // />;
+            case MODALS.PUBLICATION:
+               // return <PublicationModal
+               //     key="publication"
+               //     photos={photos}
+               //     publish={() => null} //тут будет отправка публикации вместо null + нужно добавить закрытие PostCreator после успешного создания поста и отображение поста в ленте пользователя
+               //     onBack={() => openMainModal(MODALS.FILTERS)}
+               //     onClose={requestClose}
+               // />;
+               return (
+                  <PublicationModal
+                     key="publication"
+                     photos={photos}
+                     onBack={() => openMainModal(MODALS.FILTERS)}
+                  />
+               )
 
-                case MODALS.FILTERS:
-                    // return <FiltersModal
-                    //     key="filters"
-                    //     photos={photos}
-                    //     onNext={() => openMainModal(MODALS.PUBLICATION)}
-                    //     onBack={() => openMainModal(MODALS.CROPPING)}
-                    //     onClose={requestClose}
-                    // />;
+            //модалка закрытия для PostCreator
+            case MODALS.CLOSE:
+            // return <CloseModal
+            //     key="close"
+            //     onConfirm={closeTopModal} //для кнопки no, крестика в модалке close и при клике где-то вне зоны модалки close
+            //     onCancel={handleCompleteClose} //для кнопки yes (закроет PostCreator)
+            // />;
 
-                case MODALS.PUBLICATION:
-                    // return <PublicationModal
-                    //     key="publication"
-                    //     photos={photos}
-                    //     publish={() => null} //тут будет отправка публикации вместо null + нужно добавить закрытие PostCreator после успешного создания поста и отображение поста в ленте пользователя
-                    //     onBack={() => openMainModal(MODALS.FILTERS)}
-                    //     onClose={requestClose}
-                    // />;
+            default:
+               return null
+         }
+      })
+   }
 
-
-                //модалка закрытия для PostCreator
-                case MODALS.CLOSE:
-                    // return <CloseModal
-                    //     key="close"
-                    //     onConfirm={closeTopModal} //для кнопки no, крестика в модалке close и при клике где-то вне зоны модалки close
-                    //     onCancel={handleCompleteClose} //для кнопки yes (закроет PostCreator)
-                    // />;
-
-
-                default:
-                    return null;
-            }
-        });
-    };
-
-    return (
-        <>
-            {renderModals()}
-        </>
-    );
-};
-
-
+   return <>{renderModals()}</>
+}
