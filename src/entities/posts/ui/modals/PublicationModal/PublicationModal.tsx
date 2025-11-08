@@ -2,7 +2,7 @@
 
 import { PublicationForm, PublicationFormData } from '@/features/posts/forms/PublicationForm'
 import { usePublishPost } from '@/features/posts/hooks'
-import { PostModal } from '@/shared/components/PostModal'
+import { Modal } from '@/shared/components/Modal'
 import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataResponse'
 
 type Props = {
@@ -28,13 +28,7 @@ export const PublicationModal = ({ onBack, photos }: Props) => {
    }
 
    return (
-      <PostModal
-         size="post-management"
-         headerText="Publication"
-         headerVariant="with-navigation"
-         contentColumns="two"
-         rightContentClassName="p-5"
-      >
+      <Modal open className="w-full max-w-[972px]">
          <PublicationForm
             onSubmit={handlePublish}
             onBack={onBack}
@@ -42,6 +36,6 @@ export const PublicationModal = ({ onBack, photos }: Props) => {
             isLoading={isLoading}
             images={images}
          />
-      </PostModal>
+      </Modal>
    )
 }

@@ -1,5 +1,5 @@
 import { PublicationForm } from '@/features/posts/forms/PublicationForm'
-import { PostModal } from '@/shared/components/PostModal'
+import { Modal } from '@/shared/components/Modal'
 import { store } from '@/shared/store'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { Provider } from 'react-redux'
@@ -26,20 +26,14 @@ export const Default: Story = {
       const images = ['./public/404.jpg', './public/logo-light.png', './public/logo-dark.png']
 
       return (
-         <PostModal
-            size="post-management"
-            headerText="Publication"
-            headerVariant="with-navigation"
-            contentColumns="two"
-            rightContentClassName="p-5"
-         >
+         <Modal open className="w-full max-w-[972px]">
             <PublicationForm
                onSubmit={async () => alert('Publish')}
                onBack={onBack}
                isLoading={isLoading}
                images={images}
             />
-         </PostModal>
+         </Modal>
       )
    },
 }

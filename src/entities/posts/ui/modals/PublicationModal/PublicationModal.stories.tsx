@@ -1,8 +1,7 @@
 'use client'
 
 import { Button } from '@/shared/components/Button'
-import { ModalBody, ModalTitle } from '@/shared/components/Modal'
-import { PostModal } from '@/shared/components/PostModal'
+import { Modal, ModalBody, ModalTitle } from '@/shared/components/Modal'
 import { Slider } from '@/shared/components/Slider'
 import { Typography } from '@/shared/components/Typography'
 import { ArrowLeftIcon } from '@/shared/icons'
@@ -21,13 +20,7 @@ export const Publication: Story = {
       const onBack = () => alert('Back')
 
       return (
-         <PostModal
-            size="post-management"
-            headerText="Publication"
-            headerVariant="with-navigation"
-            contentColumns="two"
-            rightContentClassName="p-5"
-         >
+         <Modal open className="w-full max-w-[972px]">
             <form>
                <ModalTitle className="flex items-center justify-between px-[0px]">
                   <Button
@@ -55,7 +48,7 @@ export const Publication: Story = {
                   </div>
                </ModalBody>
             </form>
-         </PostModal>
+         </Modal>
       )
    },
 }

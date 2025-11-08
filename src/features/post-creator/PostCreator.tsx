@@ -90,6 +90,7 @@ export const PostCreator = ({ onClose }: Props) => {
                //     onBack={() => openMainModal(MODALS.FILTERS)}
                //     onClose={requestClose}
                // />;
+               //в PublicationModal publish передавать не надо внутри прописан
                return (
                   <PublicationModal
                      key="publication"
