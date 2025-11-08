@@ -96,6 +96,7 @@ export const PostCreator = ({ onClose }: Props) => {
                      key="publication"
                      photos={photos}
                      onBack={() => openMainModal(MODALS.FILTERS)}
+                     onClose={requestClose}
                   />
                )
             //модалка закрытия для PostCreator

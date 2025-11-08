@@ -8,9 +8,10 @@ import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataRe
 type Props = {
    onBack: () => void
    photos: File[]
+   onClose: () => void
 }
 
-export const PublicationModal = ({ onBack, photos }: Props) => {
+export const PublicationModal = ({ onBack, photos, onClose }: Props) => {
    const { publishPost, isLoading, error } = usePublishPost()
 
    //mock data for uploadFile
@@ -23,8 +24,9 @@ export const PublicationModal = ({ onBack, photos }: Props) => {
    //mock data for slider
    const images = ['./public/404.jpg', './public/logo-light.png', './public/logo-dark.png']
 
-   const handlePublish = (dataPostData: PublicationFormData) => {
-      publishPost(dataPostData, photos)
+   const handlePublish = async (dataPostData: PublicationFormData) => {
+      await publishPost(dataPostData, photos)
+      onClose()
    }
 
    return (
