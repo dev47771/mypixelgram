@@ -46,6 +46,10 @@ export const PublicationForm = ({
       resolver: zodResolver(publicationSchema),
    })
 
+   //данные для аватара и юзернейма будуд подтягиаваться из me запроса
+   //бек должне добавть avatar и userId в me и переименовать userName на логин
+   //const { data: user} = useMeQuery()
+
    useEffect(() => {
       errorsFromApi?.forEach(error => {
          setError(error.field as keyof PublicationFormData, { message: error.message })
@@ -74,8 +78,6 @@ export const PublicationForm = ({
             <div className="flex-1">
                <div className="p-[24px]">
                   <div className="flex items-center gap-3 pb-[24px]">
-                     {/* <div className="h-9 w-9 rounded-full bg-gray-400" />
-                     <span className="font-medium text-white">UrlProfile</span> */}
                      {user.avatar ? (
                         <Image
                            src={user.avatar}
