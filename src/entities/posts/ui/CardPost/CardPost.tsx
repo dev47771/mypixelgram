@@ -1,12 +1,11 @@
 'use client'
 
+import { Avatar } from '@/shared/components/Avatar'
 import { Card } from '@/shared/components/Card'
 import { Slider } from '@/shared/components/Slider'
 import { Typography } from '@/shared/components/Typography'
-import { PostOutlineIcon } from '@/shared/icons'
 import { cn } from '@/shared/lib'
 import clsx from 'clsx'
-import Image from 'next/image'
 import { useState } from 'react'
 
 export type PostProps = {
@@ -53,7 +52,7 @@ export const CardPost = ({ description, file, createdAt, user }: PostProps) => {
             <div
                className={cn(
                   'mb-3 w-[234px] overflow-hidden transition-all duration-300',
-                  expanded ? 'h-[115px]' : 'h-[240px]'
+                  expanded ? 'h-[111px]' : 'h-[240px]'
                )}
             >
                <Slider images={images} disabled={expanded} className="h-[240px] w-[234px]" />
@@ -62,23 +61,7 @@ export const CardPost = ({ description, file, createdAt, user }: PostProps) => {
 
          <div className="flex flex-col gap-2">
             <div className="flex items-center gap-3">
-               {user.avatar ? (
-                  <Image
-                     src={user.avatar}
-                     alt={user.userName}
-                     width={32}
-                     height={32}
-                     className="rounded-full object-cover"
-                  />
-               ) : (
-                  <div
-                     className={
-                        'bg-dark-100 flex h-[32px] w-[32px] items-center justify-center rounded-full'
-                     }
-                  >
-                     <PostOutlineIcon width={20} height={20} />
-                  </div>
-               )}
+               <Avatar src={user.avatar} alt={user.userName} />
                <Typography as="span" variant="h3">
                   {user.userName}
                </Typography>
