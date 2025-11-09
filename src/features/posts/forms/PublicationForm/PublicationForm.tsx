@@ -5,14 +5,21 @@ import { ControlledInput, ControlledTextarea } from '@/shared/components/Control
 import { ModalBody, ModalTitle } from '@/shared/components/Modal'
 import { Slider } from '@/shared/components/Slider'
 import { Typography } from '@/shared/components/Typography'
-import { ArrowLeftIcon } from '@/shared/icons'
+import { ArrowLeftIcon, PostOutlineIcon } from '@/shared/icons'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 import { publicationSchema } from '../../schema'
 import { useEffect } from 'react'
+import Image from 'next/image'
 
 export type PublicationFormData = z.infer<typeof publicationSchema>
+
+//mock data
+const user = {
+   avatar: null,
+   userName: 'userName',
+}
 
 type PublicationFormProps = {
    onSubmit: (dataPostData: PublicationFormData) => void
@@ -67,8 +74,28 @@ export const PublicationForm = ({
             <div className="flex-1">
                <div className="p-[24px]">
                   <div className="flex items-center gap-3 pb-[24px]">
-                     <div className="h-9 w-9 rounded-full bg-gray-400" />
-                     <span className="font-medium text-white">UrlProfile</span>
+                     {/* <div className="h-9 w-9 rounded-full bg-gray-400" />
+                     <span className="font-medium text-white">UrlProfile</span> */}
+                     {user.avatar ? (
+                        <Image
+                           src={user.avatar}
+                           alt={user.userName}
+                           width={32}
+                           height={32}
+                           className="rounded-full object-cover"
+                        />
+                     ) : (
+                        <div
+                           className={
+                              'bg-dark-100 flex h-[32px] w-[32px] items-center justify-center rounded-full'
+                           }
+                        >
+                           <PostOutlineIcon width={20} height={20} />
+                        </div>
+                     )}
+                     <Typography as="span" variant="h3">
+                        {user.userName}
+                     </Typography>
                   </div>
                   <ControlledTextarea
                      name={'description'}
