@@ -5,7 +5,7 @@ import { postsSchema } from '@/shared/schema/postsSchema'
 
 export const revalidateTime = 60
 
-export default async function Home() {
+export default async function HomePage() {
    try {
       const res = await fetch(apiMap.lastPosts)
       const json = await res.json()

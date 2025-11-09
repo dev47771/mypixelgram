@@ -1,7 +1,6 @@
 'use client'
 
 import { Avatar } from '@/shared/components/Avatar'
-import { Card } from '@/shared/components/Card'
 import { Slider } from '@/shared/components/Slider'
 import { Typography } from '@/shared/components/Typography'
 import { cn } from '@/shared/lib'
@@ -21,29 +20,33 @@ export const CardPost = ({ description, file, createdAt, user }: PostProps) => {
    const SHORT_LIMIT = 90
    const EXTENDED_LIMIT = 270
 
-   const [expanded, setExpanded] = useState(false)
+   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
 
    if (!description) description = ''
 
    const shouldTruncate = description.length > SHORT_LIMIT
-   const visibleText = expanded
+   const visibleText = isDescriptionExpanded
       ? description.slice(0, EXTENDED_LIMIT)
       : description.slice(0, SHORT_LIMIT)
 
-   const showHideButton = shouldTruncate && description.length > SHORT_LIMIT
+   const isToggleButtonVisible = shouldTruncate && description.length > SHORT_LIMIT
 
    const images = [file.url, file.url, file.url]
 
    return (
-      <Card withBaseStyles={false} className="h-[400px] w-[234px] overflow-hidden">
+      <div className="h-[400px] w-[234px] overflow-hidden">
          {file?.url && (
             <div
                className={cn(
                   'mb-3 w-[234px] overflow-hidden transition-all duration-300',
-                  expanded ? 'h-[115px]' : 'h-[240px]'
+                  isDescriptionExpanded ? 'h-[115px]' : 'h-[240px]'
                )}
             >
-               <Slider images={images} disabled={expanded} className="h-[240px] w-[234px]" />
+               <Slider
+                  images={images}
+                  disabled={isDescriptionExpanded}
+                  className="h-[240px] w-[234px]"
+               />
             </div>
          )}
 
@@ -62,23 +65,25 @@ export const CardPost = ({ description, file, createdAt, user }: PostProps) => {
          <div>
             <Typography as="p" variant="captionRegular" className="inline">
                {visibleText}
-               {shouldTruncate && !expanded && description.length > SHORT_LIMIT && '...'}
-               {shouldTruncate && expanded && description.length > SHORT_LIMIT && '..'}
+               {shouldTruncate &&
+                  !isDescriptionExpanded &&
+                  description.length > SHORT_LIMIT &&
+                  '...'}
+               {shouldTruncate && isDescriptionExpanded && description.length > SHORT_LIMIT && '..'}
             </Typography>
 
-            {showHideButton && (
+            {isToggleButtonVisible && (
                <button
-                  type="button"
-                  onClick={() => setExpanded(prev => !prev)}
+                  onClick={() => setIsDescriptionExpanded(prev => !prev)}
                   className={clsx(
-                     'text-s text-misc-primary-500 leading-m font-regular ml-1',
+                     'text-s text-accent-500 leading-m font-regular ml-1',
                      'cursor-pointer underline hover:underline'
                   )}
                >
-                  {expanded ? 'Hide' : 'Show more'}
+                  {isDescriptionExpanded ? 'Hide' : 'Show more'}
                </button>
             )}
          </div>
-      </Card>
+      </div>
    )
 }
