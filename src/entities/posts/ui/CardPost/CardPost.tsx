@@ -5,21 +5,9 @@ import { Card } from '@/shared/components/Card'
 import { Slider } from '@/shared/components/Slider'
 import { Typography } from '@/shared/components/Typography'
 import { cn } from '@/shared/lib'
+import { PostProps } from '@/shared/schema/postsSchema'
 import clsx from 'clsx'
 import { useState } from 'react'
-
-export type PostProps = {
-   postId: string
-   description: string | null
-   location: string | null
-   file: { url: string }
-   createdAt: string
-   user: {
-      userId: string
-      userName: string
-      avatar: string | null
-   }
-}
 
 export const CardPost = ({ description, file, createdAt, user }: PostProps) => {
    const createdAtPost = new Date(createdAt).toLocaleString('en-EN', {
@@ -52,7 +40,7 @@ export const CardPost = ({ description, file, createdAt, user }: PostProps) => {
             <div
                className={cn(
                   'mb-3 w-[234px] overflow-hidden transition-all duration-300',
-                  expanded ? 'h-[111px]' : 'h-[240px]'
+                  expanded ? 'h-[115px]' : 'h-[240px]'
                )}
             >
                <Slider images={images} disabled={expanded} className="h-[240px] w-[234px]" />

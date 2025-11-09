@@ -1,4 +1,5 @@
-import { CardPost, PostProps } from '@/entities/posts/ui/CardPost'
+import { CardPost } from '@/entities/posts/ui/CardPost'
+import { PostProps } from '@/shared/schema/postsSchema'
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
 
 const samplePost: PostProps = {
