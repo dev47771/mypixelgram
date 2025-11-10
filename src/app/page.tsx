@@ -1,15 +1,15 @@
 import { CardPost } from '@/entities/posts/ui/CardPost'
 import ServerPageContainer from '@/shared/components/PageContainer/ServerPageContainer'
 import { apiMap } from '@/shared/constants'
-import { postsSchema } from '@/shared/schema/postsSchema'
+import { lastPostsSchema } from '@/shared/schema'
 
-export const revalidateTime = 60
+export const revalidate = 60
 
 export default async function HomePage() {
    try {
       const res = await fetch(apiMap.lastPosts)
       const json = await res.json()
-      const data = postsSchema.parse(json)
+      const data = lastPostsSchema.parse(json)
 
       return (
          <ServerPageContainer>

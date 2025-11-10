@@ -20,7 +20,7 @@ export const fileSchema = z.object({
    ),
 })
 
-export const postSchema = z.object({
+export const lastPostSchema = z.object({
    postId: z.string(),
    description: z.string().nullable(),
    location: z.string().nullable(),
@@ -29,8 +29,8 @@ export const postSchema = z.object({
    user: userSchema,
 })
 
-export const postsSchema = z.object({
-   posts: z.array(postSchema),
+export const lastPostsSchema = z.object({
+   posts: z.array(lastPostSchema),
 })
 
-export type PostProps = z.infer<typeof postSchema>
+export type LastPostProps = z.infer<typeof lastPostSchema>

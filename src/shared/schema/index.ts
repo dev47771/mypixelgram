@@ -1,3 +1,3 @@
 export * from './authValidation'
 export * from './imgSchema'
-export * from './'
+export * from './lastPostsSchema'

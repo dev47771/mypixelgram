@@ -7,6 +7,7 @@ const meta = {
    parameters: {
       layout: 'centered',
    },
+   tags: ['autodocs'],
 } satisfies Meta<typeof Avatar>
 
 export default meta
@@ -16,12 +17,12 @@ export const WithAvatar: Story = {
    args: {
       src: './public/logo-light.png',
       alt: 'John Doe',
-      size: 48,
+      size: 'md',
    },
 }
 
 export const Default: Story = {
    args: {
-      size: 48,
+      size: 'md',
    },
 }

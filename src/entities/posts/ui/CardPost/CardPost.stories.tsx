@@ -1,8 +1,8 @@
 import { CardPost } from '@/entities/posts/ui/CardPost'
-import { PostProps } from '@/shared/schema/postsSchema'
+import { LastPostProps } from '@/shared/schema'
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
 
-const samplePost: PostProps = {
+const samplePost: LastPostProps = {
    postId: '1',
    description:
       'Second long hardcoded post. This text is intentionally verbose and extensive to demonstrate how a description in a social media post can contain much more detail, reflections, and personal impressions about the visited location, weather, events that happened during the This text is intentionally verbose and extensive to demonstrate how a description',
