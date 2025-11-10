@@ -6,7 +6,7 @@ import { PostModal } from '@/shared/components/PostModal'
 import { Slider } from '@/shared/components/Slider'
 import { FiltersBlock } from './ui/modals/FilterModal/FiltersBlock'
 
-interface PhotoState {
+export type PhotoState = {
     id: string
     originalFile: File // Исходный файл
     previewUrl: string // URL.createObjectURL(file)
