@@ -13,7 +13,7 @@ export const LogoutExample: Story = {
    args: {
       open: true,
       title: 'Log Out',
-      description: `Are you really want to log out of your account?`,
+      description: `Are you really want to log out of your account “Epam@epam.com”?`,
       confirmText: 'Yes',
       cancelText: 'No',
       onConfirm: () => alert('Confirmed!'),
