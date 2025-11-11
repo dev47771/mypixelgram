@@ -13,9 +13,10 @@ export const ProfileView = ({ userId }: Props) => {
    const router = useRouter()
    const searchParams = useSearchParams()
    const action = searchParams.get('action')
+   const isOpenPostCreator = action === 'create'
 
    const handleClosePostCreator = () => {
-      router.back() //возвращаемся назад по истории при закрытии PostCreator
+      router.push(`/profile/${userId}`) //возвращаемся назад по истории при закрытии PostCreator
    }
 
    const mockUser = {
@@ -30,7 +31,7 @@ export const ProfileView = ({ userId }: Props) => {
 
    return (
       <div className={'flex flex-col gap-12'}>
-         {action === 'create' && <PostCreator onClose={handleClosePostCreator} />}
+         {isOpenPostCreator && <PostCreator onClose={handleClosePostCreator} />}
          <ProfileHeader user={mockUser} isOwnerProfile={true} />
       </div>
    )
