@@ -11,12 +11,13 @@ type Story = StoryObj<typeof meta>
 
 const mockUser = {
    id: '12',
-   username: 'Username',
-   avatarUrl: '',
-   about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco',
+   login: 'Username',
+   avatar: '',
+   description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco',
    followers: 1000,
    following: 1000,
-   publications: 1000,
+   publicationCount: 1000,
 }
 
 export const OwnerPaid: Story = {
