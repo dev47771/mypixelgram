@@ -26,7 +26,6 @@ import { YesAndNoModal } from '@/entities/common/ui/YesAndNoModal'
 import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
 import { TOKEN } from '@/shared/constants'
 import { PublicRoutes } from '@/shared/enums'
-import { PostCreator } from '@/features/post-creator/PostCreator'
 
 type Props = {
    items?: SidebarItemType[]
@@ -68,7 +67,6 @@ export const Sidebar = ({ className, ...rest }: Props) => {
    const showAddPhotoModalHandler = () => {
       router.push(pathname + '?' + createQueryString('action', 'create'))
    }
-
 
    if (isError || !user) return null
 
