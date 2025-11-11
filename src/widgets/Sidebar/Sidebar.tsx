@@ -98,7 +98,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
                   name="My Profile"
                   icon={PersonOutlineIcon}
                   activeIcon={PersonIcon}
-                  path="/profile"
+                  path={`/profile/${userId}`}
                />
                <SidebarItem
                   id="4"
