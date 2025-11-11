@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { CroppingModal } from '.'
-import picture from './../../../../../../public/404.jpg'
+import picture from './../../../../../../public/logo-light.png'
 
 const meta = {
    component: CroppingModal,
@@ -16,6 +16,7 @@ export const Default: Story = {
       isOpen: true,
       onOpenChange: x => x,
       image: picture,
+      onNext: () => {},
    },
    render: args => {
       return <CroppingModal {...args} />
