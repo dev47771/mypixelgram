@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { AddPhotoModal } from '.'
+import { CroppingModal } from '.'
+import picture from './../../../../../../public/404.jpg'
 
 const meta = {
-   component: AddPhotoModal,
+   component: CroppingModal,
    tags: ['autodocs'],
-   title: 'Modals/AddPhotoModal',
-} satisfies Meta<typeof AddPhotoModal>
+   title: 'Modals/CroppingModal',
+} satisfies Meta<typeof CroppingModal>
 
 export default meta
 type Story = StoryObj<typeof meta>
@@ -13,11 +14,10 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
    args: {
       isOpen: true,
-      onClose: () => {},
-      onPhotoSelected: x => x,
       onOpenChange: x => x,
+      image: picture,
    },
    render: args => {
-      return <AddPhotoModal {...args} />
+      return <CroppingModal {...args} />
    },
 }
