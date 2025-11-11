@@ -8,15 +8,17 @@ import { UserBlock } from './UserBlock'
 import { DescriptionBlock } from './DescriptionBlock'
 
 export const CardPost = ({ description, file, createdAt, user }: LastPostProps) => {
-   const [relativeTime, setRelativeTime] = useState(
-      formatDistanceToNow(new Date(createdAt), { addSuffix: true })
-   )
+   //for relative time, update every 60 sec
+   const [relativeTime, setRelativeTime] = useState('')
    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
 
    useEffect(() => {
+      setRelativeTime(formatDistanceToNow(new Date(createdAt), { addSuffix: true }))
+
       const interval = setInterval(() => {
          setRelativeTime(formatDistanceToNow(new Date(createdAt), { addSuffix: true }))
       }, 60_000)
+
       return () => clearInterval(interval)
    }, [createdAt])
 
