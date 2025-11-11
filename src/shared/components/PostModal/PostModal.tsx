@@ -2,7 +2,7 @@ import { ArrowLeftIcon, CrossIcon } from '@/shared/icons'
 import { Modal, ModalBody, ModalClose, ModalTitle } from '../Modal'
 import { Typography } from '../Typography'
 import * as Dialog from '@radix-ui/react-dialog'
-import { ComponentPropsWithRef } from 'react'
+import { ComponentPropsWithRef, ReactNode } from 'react'
 import { Button } from '../Button'
 import { cn } from '@/shared/lib'
 
@@ -16,10 +16,10 @@ type Props = {
    headerText?: string
    contentColumns: ContentColumns
 
-   leftContent?: React.ReactNode
-   rightContent?: React.ReactNode
+   leftContent?: ReactNode
+   rightContent?: ReactNode
 
-   children?: React.ReactNode
+   children?: ReactNode
 
    leftContentClassName?: string
    rightContentClassName?: string
