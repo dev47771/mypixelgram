@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { MODALS, useModalStack } from '.'
 import { PostModal } from '@/shared/components/PostModal'
 import { Slider } from '@/shared/components/Slider'
-import { FiltersBlock } from './ui/modals/FilterModal/FiltersBlock'
+import { FiltersBlock } from './ui/modals/FilterBlock/FiltersBlock'
 
 export type PhotoState = {
     id: string
@@ -22,7 +22,7 @@ export const PostCreator = ({ onClose }: Props) => {
         modalStack,
         openMainModal,
         openOverlayModal,
-        closeTopModal, 
+        closeTopModal,
         resetModalStack
     } = useModalStack()
 
