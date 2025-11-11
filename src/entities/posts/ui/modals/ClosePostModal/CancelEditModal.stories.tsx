@@ -10,5 +10,7 @@ export default meta
 type Story = StoryObj<typeof CancelEditModal>
 
 export const CancelEditModalExample: Story = {
-   args: {},
+   args: {
+      open: true,
+   },
 }
