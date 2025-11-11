@@ -3,8 +3,8 @@
 import { cn } from '@/shared/lib'
 import { SidebarItemType } from '@/widgets/Sidebar/sidebarData'
 import Link from 'next/link'
-import { useParams, usePathname, useRouter } from 'next/navigation'
-import { ComponentPropsWithRef, useState } from 'react'
+import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { ComponentPropsWithRef, useCallback, useState } from 'react'
 
 import {
    CreateIcon,
@@ -36,6 +36,8 @@ export type SidebarItemProps = SidebarItemType & ComponentPropsWithRef<'li'>
 export const Sidebar = ({ className, ...rest }: Props) => {
    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
    const router = useRouter()
+   const pathname = usePathname()
+   const searchParams = useSearchParams()
    const [logout] = useLogoutMutation()
 
    const token = typeof window !== 'undefined' ? localStorage.getItem(TOKEN) : null
@@ -53,6 +55,20 @@ export const Sidebar = ({ className, ...rest }: Props) => {
       await logout().unwrap()
       setIsLogoutModalOpen(false)
       router.push(PublicRoutes.signIn)
+   }
+
+   const createQueryString = useCallback(
+      (name: string, value: string) => {
+         const params = new URLSearchParams(searchParams.toString())
+         params.set(name, value)
+
+         return params.toString()
+      },
+      [searchParams]
+   )
+
+   const showAddPhotoModalHandler = () => {
+      router.push(pathname + '?' + createQueryString('action', 'create'))
    }
 
    if (isError || !user) return null
@@ -74,6 +90,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
                   icon={CreateOutlineIcon}
                   activeIcon={CreateIcon}
                   path={`/profile/${userId}?action=create`}
+                  onClick={showAddPhotoModalHandler}
                   //path={`/profile/${user?.id}?action=create`} //динамический путь для PostCreator по ТЗ (стоит вынести в отдельный путь?)
                />
                <SidebarItem

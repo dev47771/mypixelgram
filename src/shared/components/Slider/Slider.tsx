@@ -1,3 +1,5 @@
+'use client'
+
 import {
    SliderArrow,
    SliderContent,
@@ -12,9 +14,10 @@ import Image from 'next/image'
 type Props = {
    images: string[]
    className?: string
+   disabled?: boolean
 }
 
-export const Slider = ({ images, className }: Props) => {
+export const Slider = ({ images, className, disabled }: Props) => {
    const { sliderRef, instanceRef, currentSlide, slides } = useSlider()
 
    const onNextSlideHandler = () => instanceRef.current?.next()
@@ -31,12 +34,17 @@ export const Slider = ({ images, className }: Props) => {
             ))}
          </SliderContent>
 
-         {images.length > 1 && (
+         {/* !disabled - condition for CardPost, for cut image */}
+         {images.length > 1 && !disabled && (
             <>
-               <SliderArrow className={'left-4'} onClick={onPrevSlideHandler}>
+               <SliderArrow className={'left-4'} onClick={onPrevSlideHandler} disabled={disabled}>
                   <ArrowLeftIcon className={'group-hover:text-accent-300'} />
                </SliderArrow>
-               <SliderArrow className={'right-[4px]'} onClick={onNextSlideHandler}>
+               <SliderArrow
+                  className={'right-[4px]'}
+                  onClick={onNextSlideHandler}
+                  disabled={disabled}
+               >
                   <ArrowRightIcon className={'group-hover:text-accent-300'} />
                </SliderArrow>
 

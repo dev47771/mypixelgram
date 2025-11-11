@@ -27,6 +27,7 @@ type Props = {
    onBack?: () => void
    onNext?: () => void
    publish?: () => void
+   className?: string
 } & ComponentPropsWithRef<typeof Dialog.Root>
 
 export const PostModal = ({
@@ -42,6 +43,7 @@ export const PostModal = ({
    onBack,
    onNext,
    publish,
+   className,
    ...props
 }: Props) => {
    const sizeClasses = {
@@ -120,7 +122,8 @@ export const PostModal = ({
                     ? // модалка высотой h-[564px] с header с 1 колонкой (addPhoto, cropping, addProfilePhoto, subscribers, followers, likes)
                       'h-[501px] w-full overflow-hidden rounded-[1px]'
                     : // модалка высотой h-[536px] с header с 1 колонкой (AddProfilePhotoCropping)
-                      'h-[473px] w-full overflow-hidden rounded-[1px]'
+                      'h-[473px] w-full overflow-hidden rounded-[1px]',
+               className
             )}
          >
             {/* Контент для модалки с 2 колонками передаем пропсами leftContent и rightContent */}
