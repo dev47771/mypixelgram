@@ -1,17 +1,17 @@
 'use client'
 
+import { Avatar } from '@/shared/components/Avatar'
 import { Button } from '@/shared/components/Button'
 import { ControlledInput, ControlledTextarea } from '@/shared/components/Controlled'
 import { ModalBody, ModalTitle } from '@/shared/components/Modal'
 import { Slider } from '@/shared/components/Slider'
 import { Typography } from '@/shared/components/Typography'
-import { ArrowLeftIcon, PostOutlineIcon } from '@/shared/icons'
+import { ArrowLeftIcon } from '@/shared/icons'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 import { publicationSchema } from '../../schema'
-import { useEffect } from 'react'
-import Image from 'next/image'
 
 export type PublicationFormData = z.infer<typeof publicationSchema>
 
@@ -78,23 +78,7 @@ export const PublicationForm = ({
             <div className="flex-1">
                <div className="p-[24px]">
                   <div className="flex items-center gap-3 pb-[24px]">
-                     {user.avatar ? (
-                        <Image
-                           src={user.avatar}
-                           alt={user.userName}
-                           width={32}
-                           height={32}
-                           className="rounded-full object-cover"
-                        />
-                     ) : (
-                        <div
-                           className={
-                              'bg-dark-100 flex h-[32px] w-[32px] items-center justify-center rounded-full'
-                           }
-                        >
-                           <PostOutlineIcon width={20} height={20} />
-                        </div>
-                     )}
+                     <Avatar src={user.avatar} alt={user.userName} />
                      <Typography as="span" variant="h3">
                         {user.userName}
                      </Typography>
