@@ -1,9 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { MODALS, PostCreatorSlider, useModalStack } from '.'
-import { PostModal } from '@/shared/components/PostModal'
-import { FiltersBlock } from './ui/modals/FilterBlock/FiltersBlock'
+import { MODALS, useModalStack } from '.'
+import { FilterModal } from './ui/modals/FilterModal/FilterModal'
 
 export type PhotoState = {
     id: string
@@ -102,38 +101,12 @@ export const PostCreator = ({ onClose }: Props) => {
 
                 case MODALS.FILTERS:
                     return (
-                        <PostModal
-                            key="filters"
-                            size="post-management"
-                            headerText="Filters"
-                            headerVariant="with-navigation"
-                            contentColumns="two"
+                        <FilterModal
                             onBack={() => openMainModal(MODALS.CROPPING)}
                             onNext={() => openMainModal(MODALS.PUBLICATION)}
-                            //onClose={requestClose}
-                            leftContent={
-                                <PostCreatorSlider
-                                    //передаем ссылку на каждую фотографию для предпоказа в слайдере
-                                    images={photos.map(photo => photo.previewUrl)}
-                                    //применяем фильтр к текущему в слайдере фото, если к фото был применен фильтр (только предпоказ, сам файл не изменяется)
-                                    currentFilter={
-                                        photos[currentPhotoIndex]?.currentFilter || 'filter-none'
-                                    }
-                                    //узнаем индекс текущего в слайдере фото (нумерация в нашем массиве с объектами фото и нумерация при отрисовке url этих фото в слайдере одинаковая => index === currentPhotoIndex)
-                                    onSlideChange={setCurrentPhotoIndex}
-                                />
-                            }
-                            rightContent={
-                                <FiltersBlock
-                                    //на основании примененного фильтра к текущему фото изменяем внешний вид иконки с фильтром (если текущее фото с фильтром moon, то иконка moon подсветится как выбранная)
-                                    currentFilter={
-                                        photos[currentPhotoIndex]?.currentFilter || 'filter-none'
-                                    }
-                                    //узнаем, какой фильтр хочет применить пользователь к фото (при нажатии на фильтр moon сработает функция applyFilterToCurrentPhoto и в объект текущей фотографии будет внесено изменение, будет добавлен фильтр)
-                                    onFilterChange={applyFilterToCurrentPhoto}
-                                />
-                            }
-                        />
+                            images={photos.map(photo => photo.previewUrl)}
+                            currentFilter={photos[currentPhotoIndex]?.currentFilter || 'filter-none'}
+                            onSlideChange={setCurrentPhotoIndex} onFilterChange={applyFilterToCurrentPhoto} />
                     )
                     break
 
