@@ -1,5 +1,5 @@
 export type UploadPostRequest = {
-   description: string
-   location: string
+   description: string | undefined
+   location: string | undefined
    fields: string[]
 }

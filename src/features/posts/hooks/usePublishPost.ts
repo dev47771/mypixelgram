@@ -11,8 +11,8 @@ export const usePublishPost = () => {
    const publishPost = async (data: PublicationFormData, files: File[]) => {
       const uploadedFiles = await uploadFile(files).unwrap()
       return uploadPostData({
-         description: data.description ?? '',
-         location: data.location ?? '',
+         description: data.description,
+         location: data.location,
          fields: uploadedFiles.fields,
       }).unwrap()
    }
