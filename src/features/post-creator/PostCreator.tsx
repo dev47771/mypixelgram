@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { MODALS, useModalStack } from '.'
 import { FilterModal } from './ui/modals/FilterModal/FilterModal'
+import { nanoid } from '@reduxjs/toolkit'
 
 export type PhotoState = {
     id: string
@@ -33,7 +34,7 @@ export const PostCreator = ({ onClose }: Props) => {
     //добавление новых фото (РАССКОММЕНТИТЬ)
     const handleAddPhotos = (newFiles: File[]) => {
         const newPhotos: PhotoState[] = newFiles.map(file => ({
-            id: Math.random().toString(),
+            id: nanoid(),
             originalFile: file,
             previewUrl: URL.createObjectURL(file),
             currentFilter: 'filter-none',
