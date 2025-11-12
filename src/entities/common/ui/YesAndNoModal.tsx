@@ -15,9 +15,7 @@ type Props = {
    onCancel: () => void
    confirmText?: string
    cancelText?: string
-
-   isCancelEditModal?: boolean
-   isDeletePostModal?: boolean
+   className?: string
 }
 
 export const YesAndNoModal = ({
@@ -28,9 +26,7 @@ export const YesAndNoModal = ({
    onCancel,
    confirmText = 'Yes',
    cancelText = 'No',
-
-   isCancelEditModal,
-   isDeletePostModal,
+   className,
 }: Props) => {
    return (
       <Modal open={open} onOpenChange={onCancel}>
@@ -45,12 +41,8 @@ export const YesAndNoModal = ({
 
          <ModalBody
             className={cn(
-               isCancelEditModal
-                  ? 'max-w-[484px]'
-                  : isDeletePostModal
-                    ? 'max-w-[378px]'
-                    : 'max-w-[438px]',
-               'flex flex-col gap-[29px] px-[24px] py-[30px_36px] whitespace-pre-line'
+               'flex max-w-[438px] flex-col gap-[29px] px-[24px] py-[30px_36px] whitespace-pre-line',
+               className
             )}
          >
             {description && <Typography>{description}</Typography>}
