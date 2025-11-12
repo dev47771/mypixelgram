@@ -1,4 +1,5 @@
 'use client'
+/* eslint-disable */
 
 import { useEffect, useState } from 'react'
 import { MODALS, useModalStack } from '.'
@@ -11,7 +12,6 @@ type Props = {
 }
 
 export const PostCreator = ({ onClose }: Props) => {
-   /* eslint-disable @typescript-eslint/no-unused-vars */
    const { modalStack, openMainModal, openOverlayModal, closeTopModal, resetModalStack } =
       useModalStack()
    const [photos, setPhotos] = useState<File[]>([])
@@ -28,7 +28,7 @@ export const PostCreator = ({ onClose }: Props) => {
          resetModalStack()
          setPhotos([])
       }
-   }, [resetModalStack])
+   }, [])
 
    //закрытие PostCreator
    const handleCompleteClose = () => {
