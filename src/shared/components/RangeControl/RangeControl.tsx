@@ -1,8 +1,19 @@
 import { ComponentPropsWithRef } from 'react'
 import * as SliderRadix from '@radix-ui/react-slider'
+import {
+   RangeControlRange,
+   RangeControlRoot,
+   RangeControlThumb,
+   RangeControlTrack,
+} from '@/shared/components/RangeControl'
 
-type Props = {} & ComponentPropsWithRef<typeof SliderRadix.Root>
-
-export const RangeControl = (props: Props) => {
-   return <SliderRadix.Root {...props}></SliderRadix.Root>
+export const RangeControl = (props: ComponentPropsWithRef<typeof SliderRadix.Root>) => {
+   return (
+      <RangeControlRoot {...props}>
+         <RangeControlTrack>
+            <RangeControlRange />
+         </RangeControlTrack>
+         <RangeControlThumb />
+      </RangeControlRoot>
+   )
 }
