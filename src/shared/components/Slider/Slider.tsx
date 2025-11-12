@@ -1,3 +1,5 @@
+'use client'
+
 import {
    SliderArrow,
    SliderContent,
@@ -8,48 +10,48 @@ import {
 } from '@/shared/components/Slider'
 import { ArrowLeftIcon, ArrowRightIcon } from '@/shared/icons'
 import Image from 'next/image'
-import { useEffect } from 'react'
+import { ReactNode } from 'react'
 
 type Props = {
-   images: string[] // Массив previewUrl
-   currentFilter: string // Фильтр для текущего фото
-   onSlideChange: (index: number) => void
+   images: string[]
    className?: string
+   disabled?: boolean
+
+   renderSlide?: (src: string, isActive: boolean, currentSlide: number) => ReactNode
 }
 
-export const Slider = ({ images, currentFilter, onSlideChange, className }: Props) => {
+
+export const Slider = ({ images, className, disabled, renderSlide }: Props) => {
    const { sliderRef, instanceRef, currentSlide, slides } = useSlider()
 
    const onNextSlideHandler = () => instanceRef.current?.next()
    const onPrevSlideHandler = () => instanceRef.current?.prev()
    const onDotClickHandler = (i: number) => instanceRef.current?.moveToIdx(i)
 
-   //при изменении номера текущего фото (слайда) будет сетаться в PostCreator текущий индекс фото
-   useEffect(() => {
-      onSlideChange(currentSlide)
-   }, [currentSlide])
-
    return (
       <SliderRoot className={className}>
          <SliderContent ref={sliderRef}>
             {images.map((src, i) => (
                <SliderSlide key={i}>
-                  <Image
-                     src={src}
-                     fill
-                     alt={'slider_element'}
-                     className={`object-contain ${i === currentSlide ? currentFilter : 'filter-none'}`}
-                  />
+                  {renderSlide
+                     ? renderSlide(src, i === currentSlide, currentSlide)
+                     : <Image src={src} fill alt={'slider_element'} className='object-contain' />
+                  }
                </SliderSlide>
             ))}
          </SliderContent>
 
-         {images.length > 1 && (
+         {/* !disabled - condition for CardPost, for cut image */}
+         {images.length > 1 && !disabled && (
             <>
-               <SliderArrow className={'left-[4px]'} onClick={onPrevSlideHandler}>
+               <SliderArrow className={'left-[4px]'} onClick={onPrevSlideHandler} disabled={disabled}>
                   <ArrowLeftIcon className={'group-hover:text-accent-300'} />
                </SliderArrow>
-               <SliderArrow className={'right-[4px]'} onClick={onNextSlideHandler}>
+               <SliderArrow
+                  className={'right-[4px]'}
+                  onClick={onNextSlideHandler}
+                  disabled={disabled}
+               >
                   <ArrowRightIcon className={'group-hover:text-accent-300'} />
                </SliderArrow>
 

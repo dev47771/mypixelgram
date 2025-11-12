@@ -1,8 +1,8 @@
 import { PostModal } from '@/shared/components/PostModal'
-import { Slider } from '@/shared/components/Slider'
-import { FiltersBlock } from './FiltersBlock'
+import { FiltersBlock } from './FilterBlock/FiltersBlock'
 import { useState } from 'react'
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
+import { PostCreatorSlider } from '../PostCreatorSlider/PostCreatorSlider'
 
 const meta = {
    title: 'Components/PostModals/Filters',
@@ -69,11 +69,15 @@ export const InteractiveFilters: Story = {
                   // - images: массив previewUrl (готовые ссылки)
                   // - currentFilter: берётся из photos[currentPhotoIndex]
                   // - onSlideChange: обновляет currentPhotoIndex при перелистывании
-                  <Slider
+                  <PostCreatorSlider
+                     //передаем ссылку на каждую фотографию для предпоказа в слайдере
                      images={photos.map(photo => photo.previewUrl)}
-                     currentFilter={photos[currentPhotoIndex]?.currentFilter || 'filter-none'}
+                     //применяем фильтр к текущему в слайдере фото, если к фото был применен фильтр (только предпоказ, сам файл не изменяется)
+                     currentFilter={
+                        photos[currentPhotoIndex]?.currentFilter || 'filter-none'
+                     }
+                     //узнаем индекс текущего в слайдере фото (нумерация в нашем массиве с объектами фото и нумерация при отрисовке url этих фото в слайдере одинаковая => index === currentPhotoIndex)
                      onSlideChange={setCurrentPhotoIndex}
-                     className="h-[501px] w-[490px]"
                   />
                }
                rightContent={

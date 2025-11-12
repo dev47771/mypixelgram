@@ -25,8 +25,6 @@ const images = [
 export const Default: Story = {
    args: {
       images,
-      currentFilter: 'filter-none',
-      onSlideChange: x => x,
       className: "h-[501px] w-[490px]",
    },
 }
@@ -34,8 +32,6 @@ export const Default: Story = {
 export const SmallSlider: Story = {
    args: {
       images,
-      currentFilter: 'filter-none',
-      onSlideChange: x => x,
       className:'h-[240px] w-[234px]'
    },
    // render: () => (
@@ -48,8 +44,6 @@ export const SmallSlider: Story = {
 export const BigSlider: Story = {
    args: {
       images,
-      currentFilter: 'filter-none',
-      onSlideChange: x => x,
       className: 'h-[562px] w-[490px]',
    },
    //render: () => <Slider images={images} className={'h-[562px] w-[490px]'} />,
@@ -58,8 +52,6 @@ export const BigSlider: Story = {
 export const WithOneSlide: Story = {
    args: {
       images: ['./public/404.jpg'],
-      currentFilter: 'filter-none',
-      onSlideChange: x => x,
       className: "h-[501px] w-[490px]",
    },
 }

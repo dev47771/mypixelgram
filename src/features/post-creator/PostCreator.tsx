@@ -1,9 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { MODALS, useModalStack } from '.'
+import { MODALS, PostCreatorSlider, useModalStack } from '.'
 import { PostModal } from '@/shared/components/PostModal'
-import { Slider } from '@/shared/components/Slider'
 import { FiltersBlock } from './ui/modals/FilterBlock/FiltersBlock'
 
 export type PhotoState = {
@@ -113,7 +112,7 @@ export const PostCreator = ({ onClose }: Props) => {
                             onNext={() => openMainModal(MODALS.PUBLICATION)}
                             //onClose={requestClose}
                             leftContent={
-                                <Slider
+                                <PostCreatorSlider
                                     //передаем ссылку на каждую фотографию для предпоказа в слайдере
                                     images={photos.map(photo => photo.previewUrl)}
                                     //применяем фильтр к текущему в слайдере фото, если к фото был применен фильтр (только предпоказ, сам файл не изменяется)
