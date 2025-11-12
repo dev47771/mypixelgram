@@ -1,10 +1,7 @@
 import { YesAndNoModal } from '@/entities/common/ui'
+import { YesAndNoModalProps } from '@/entities/common/ui/YesAndNoModal'
 
-type Props = {
-   open: boolean
-   onConfirm: () => void
-   onCancel: () => void
-}
+type Props = YesAndNoModalProps
 
 export const CancelEditModal = ({ open, onConfirm, onCancel }: Props) => {
    return (
