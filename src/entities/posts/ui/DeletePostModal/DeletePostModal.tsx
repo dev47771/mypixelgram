@@ -14,7 +14,7 @@ export const DeletePostModal = ({ open, onConfirm, onCancel }: Props) => {
          description="Are you sure you want to delete this post?"
          onConfirm={onConfirm} //yes, отправляем запрос на удаление поста и закрываем все модальные окна, переадрессовываем пользователя на его домашнюю страницу
          onCancel={onCancel} //no, закрываем DeletePostModal
-         isDeletePostModal={true}
+         className="max-w-[378px]"
       />
    )
 }
