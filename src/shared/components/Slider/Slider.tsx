@@ -12,7 +12,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from '@/shared/icons'
 import Image from 'next/image'
 import { ReactNode } from 'react'
 
-export type Props = {
+type Props = {
    images: string[]
    className?: string
    disabled?: boolean
