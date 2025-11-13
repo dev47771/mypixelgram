@@ -31,7 +31,7 @@ export const PostCreator = ({ onClose }: Props) => {
     //индекс текущего фото в слайдере
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
 
-    //добавление новых фото (РАССКОММЕНТИТЬ)
+    //добавление новых фото
     const handleAddPhotos = (newFiles: File[]) => {
         const newPhotos: PhotoState[] = newFiles.map(file => ({
             id: nanoid(),
@@ -61,11 +61,14 @@ export const PostCreator = ({ onClose }: Props) => {
     useEffect(() => {
         return () => {
             resetModalStack()
+            photos.forEach(photo => {
+                URL.revokeObjectURL(photo.previewUrl);
+            });
             setPhotos([])
         }
     }, [])
 
-    //закрытие PostCreator (РАСКОММЕНТИТЬ)
+    //закрытие PostCreator 
     const handleCompleteClose = () => {
         onClose?.(); // вызовет router.back() из компонента profile
     };
