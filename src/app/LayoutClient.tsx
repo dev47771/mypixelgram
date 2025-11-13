@@ -15,10 +15,9 @@ export const LayoutClient = ({ children }: { children: React.ReactNode }) => {
             isSidebarVisible ? 'justify-center' : 'flex-col items-start'
          )}
       >
-         {isSidebarVisible && <Sidebar />}
+         {isSidebarVisible ? null : <Sidebar />}
          <div
             className={`border-dark-300 min-h-screen border-l transition-all duration-300 ${
-               //isSidebarVisible ? 'ml-[180px]' : 'ml-0 flex justify-center border-none'
                isSidebarVisible ? 'ml-0 flex justify-center border-none' : 'ml-[180px]'
             }`}
          >
