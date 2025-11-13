@@ -2,7 +2,7 @@
 
 import React, { ChangeEvent, ComponentPropsWithRef, useState } from 'react'
 import { clsx } from 'clsx'
-import { SearchIcon, VisibilityIcon, VisibilityOffIcon } from '@/shared/icons'
+import { PinLocation, SearchIcon, VisibilityIcon, VisibilityOffIcon } from '@/shared/icons'
 import { Label } from '@/shared/components/Label'
 import { Typography } from '@/shared/components/Typography'
 
@@ -10,7 +10,7 @@ export type InputProps = {
    errorMessage?: string
    label?: string
    onValueChange?: (value: string) => void
-   type?: 'password' | 'search' | 'text' | 'email'
+   type?: 'password' | 'search' | 'text' | 'email' | 'location'
 } & ComponentPropsWithRef<'input'>
 
 export const Input = ({
@@ -28,6 +28,7 @@ export const Input = ({
 
    const isShowSearch = type === 'search'
    const isShowButton = type === 'password'
+   const isShowLocation = type === 'location'
 
    const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
       if (onValueChange) {
@@ -99,6 +100,15 @@ export const Input = ({
                <SearchIcon
                   className={clsx(
                      'text-light-900 absolute top-2 left-3 z-[-1]',
+                     'peer-focus:text-light-100',
+                     'peer-disabled:text-dark-300'
+                  )}
+               />
+            )}
+            {isShowLocation && (
+               <PinLocation
+                  className={clsx(
+                     'text-light-900 absolute top-2 right-3 cursor-pointer',
                      'peer-focus:text-light-100',
                      'peer-disabled:text-dark-300'
                   )}
