@@ -4,6 +4,7 @@ import { Header } from '@/widgets/Header'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { LayoutClient } from './LayoutClient'
 
 const inter = Inter({
    variable: '--font-inter',
@@ -51,7 +52,7 @@ export default function RootLayout({
          <html lang="en">
             <body className={`${inter.variable}`}>
                <Header notificationCount={4} />
-               {children}
+               <LayoutClient>{children}</LayoutClient>
                <Alert />
             </body>
          </html>
