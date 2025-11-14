@@ -4,7 +4,7 @@ import { useMeQuery } from '@/features/auth/api'
 import { cn } from '@/shared/lib'
 import { Sidebar } from '@/widgets/Sidebar'
 
-export const LayoutClient = ({ children }: { children: React.ReactNode }) => {
+export default function HomeLayout({ children }: { children: React.ReactNode }) {
    const { error } = useMeQuery()
 
    const isAuthorized = !(error && 'status' in error && error.status === 401)
