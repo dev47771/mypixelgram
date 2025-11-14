@@ -14,12 +14,14 @@ const PUBLIC_ROUTES = Object.values(PublicRoutes) as string[]
 export function PageContainer({ className, ...rest }: Props) {
    const pathname = usePathname()
    const isPublic = PUBLIC_ROUTES.includes(pathname)
+   const isHomePage = pathname === PublicRoutes.main
 
    return (
       <main
          className={cn(
-            'mx-auto flex w-full max-w-[1280px] flex-col items-center px-[60px] pt-6',
+            'mx-auto flex w-full max-w-[1280px] flex-col items-center pt-6',
             isPublic ? '' : 'pr-[0px] pl-[24px]',
+            isHomePage ? 'pr-[0px] pr-[24px] pl-[24px]' : '',
             className
          )}
          {...rest}

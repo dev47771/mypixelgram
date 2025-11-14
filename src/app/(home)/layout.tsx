@@ -19,7 +19,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
          {isAuthorized ? <Sidebar /> : null}
          <div
             className={`border-dark-300 min-h-screen border-l transition-all duration-300 ${
-               isAuthorized ? 'ml-[180px]' : 'ml-0 flex justify-center border-none'
+               isAuthorized ? 'ml-[162px]' : 'ml-0 flex justify-center border-none'
             }`}
          >
             {children}
