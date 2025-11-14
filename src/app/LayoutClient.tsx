@@ -1,24 +1,25 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
-import { Sidebar } from '@/widgets/Sidebar'
+import { useMeQuery } from '@/features/auth/api'
 import { cn } from '@/shared/lib'
-import { PublicRoutes } from '@/shared/enums'
+import { Sidebar } from '@/widgets/Sidebar'
 
 export const LayoutClient = ({ children }: { children: React.ReactNode }) => {
-   const pathname = usePathname()
-   const isSidebarVisible = (Object.values(PublicRoutes) as string[]).includes(pathname)
+   const { error } = useMeQuery()
+
+   const isAuthorized = !(error && 'status' in error && error.status === 401)
+
    return (
       <div
          className={cn(
             'mx-auto flex w-full max-w-[1280px] px-[60px]',
-            isSidebarVisible ? 'justify-center' : 'flex-col items-start'
+            isAuthorized ? 'flex-col items-start' : 'justify-center'
          )}
       >
-         {isSidebarVisible ? null : <Sidebar />}
+         {isAuthorized ? <Sidebar /> : null}
          <div
             className={`border-dark-300 min-h-screen border-l transition-all duration-300 ${
-               isSidebarVisible ? 'ml-0 flex justify-center border-none' : 'ml-[180px]'
+               isAuthorized ? 'ml-[180px]' : 'ml-0 flex justify-center border-none'
             }`}
          >
             {children}
