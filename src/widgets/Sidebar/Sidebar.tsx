@@ -26,7 +26,7 @@ import { YesAndNoModal } from '@/entities/common/ui/YesAndNoModal'
 import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
 import { TOKEN } from '@/shared/constants'
 import { PublicRoutes } from '@/shared/enums'
-import { useCreateQueryString } from '@/shared/utils'
+import { useCreateQueryString } from '@/shared/hook'
 
 type Props = {
    items?: SidebarItemType[]
