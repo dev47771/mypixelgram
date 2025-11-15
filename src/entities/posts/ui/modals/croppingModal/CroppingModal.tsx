@@ -1,3 +1,4 @@
+'use client'
 import { PostModal } from '@/shared/components/PostModal'
 import Image, { StaticImageData } from 'next/image'
 import { ChangeEvent, ReactNode, useCallback, useEffect, useReducer, useRef, useState } from 'react'

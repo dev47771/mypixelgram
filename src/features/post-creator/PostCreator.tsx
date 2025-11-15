@@ -4,18 +4,20 @@
 import { useEffect, useState } from 'react'
 import { MODALS, useModalStack } from '.'
 import { AddPhotoModal } from '@/entities/posts/ui/modals/addPhotoModal'
-import { useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { PublicationModal } from '@/entities/posts/ui/modals/PublicationModal'
 
 type Props = {
-   onClose?: () => void
+   onCloseAction?: () => void
 }
 
-export const PostCreator = ({ onClose }: Props) => {
+export const PostCreator = ({ onCloseAction }: Props) => {
    const { modalStack, openMainModal, openOverlayModal, closeTopModal, resetModalStack } =
       useModalStack()
    const [photos, setPhotos] = useState<File[]>([])
    const searchParams = useSearchParams()
+   const pathname = usePathname()
+   const router = useRouter()
 
    const action = searchParams.get('action')
    const isAddPhotoAction = action === 'create'
@@ -32,11 +34,17 @@ export const PostCreator = ({ onClose }: Props) => {
 
    //закрытие PostCreator
    const handleCompleteClose = () => {
-      onClose?.() // вызовет router.back() из компонента profile
+      onCloseAction?.() // вызовет router.back() из компонента profile
    }
 
    const requestClose = () => {
       openOverlayModal(MODALS.CLOSE)
+   }
+
+   const closeAddPhotoModalHandler = () => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.delete('action')
+      router.push(pathname)
    }
 
    const renderModals = () => {
@@ -59,9 +67,9 @@ export const PostCreator = ({ onClose }: Props) => {
                         setPhotos([file])
                         openMainModal(MODALS.CROPPING)
                      }}
-                     onClose={requestClose}
+                     onClose={() => {}}
                      isOpen={isAddPhotoAction}
-                     onOpenChange={requestClose}
+                     onOpenChange={closeAddPhotoModalHandler}
                   />
                )
             case MODALS.CROPPING:

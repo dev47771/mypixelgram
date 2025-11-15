@@ -3,8 +3,8 @@
 import { cn } from '@/shared/lib'
 import { SidebarItemType } from '@/widgets/Sidebar/sidebarData'
 import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { ComponentPropsWithRef, useCallback, useState } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
+import { ComponentPropsWithRef, useState } from 'react'
 
 import {
    CreateIcon,
@@ -26,6 +26,7 @@ import { YesAndNoModal } from '@/entities/common/ui/YesAndNoModal'
 import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
 import { TOKEN } from '@/shared/constants'
 import { PublicRoutes } from '@/shared/enums'
+import { useCreateQueryString } from '@/shared/utils'
 
 type Props = {
    items?: SidebarItemType[]
@@ -37,7 +38,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
    const router = useRouter()
    const pathname = usePathname()
-   const searchParams = useSearchParams()
+   const createQueryString = useCreateQueryString()
    const [logout] = useLogoutMutation()
 
    const token = typeof window !== 'undefined' ? localStorage.getItem(TOKEN) : null
@@ -53,16 +54,6 @@ export const Sidebar = ({ className, ...rest }: Props) => {
       setIsLogoutModalOpen(false)
       router.push(PublicRoutes.signIn)
    }
-
-   const createQueryString = useCallback(
-      (name: string, value: string) => {
-         const params = new URLSearchParams(searchParams.toString())
-         params.set(name, value)
-
-         return params.toString()
-      },
-      [searchParams]
-   )
 
    const showAddPhotoModalHandler = () => {
       router.push(pathname + '?' + createQueryString('action', 'create'))

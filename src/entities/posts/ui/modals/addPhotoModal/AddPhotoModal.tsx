@@ -1,3 +1,4 @@
+'use client'
 import { PostOutlineIcon } from '@/shared/icons'
 import { Button } from '@/shared/components/Button'
 import { ChangeEvent, useEffect, useRef } from 'react'
