@@ -81,14 +81,13 @@ export const Slider = ({
    const onDotClickHandler = (i: number) => instanceRef.current?.moveToIdx(i)
 
    useEffect(() => {
-      if (!currentIndex) {
+      if (currentIndex === undefined || currentIndex === null) {
          return
       }
       if (instanceRef.current && currentIndex !== currentSlide) {
          instanceRef.current.moveToIdx(currentIndex)
       }
    }, [currentIndex, instanceRef, currentSlide])
-
    return (
       <SliderRoot className={className}>
          <SliderContent ref={sliderRef}>
