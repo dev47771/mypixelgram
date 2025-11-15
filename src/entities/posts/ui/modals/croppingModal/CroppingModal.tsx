@@ -1,6 +1,6 @@
 import { PostModal } from '@/shared/components/PostModal'
-import { StaticImageData } from 'next/image'
-import { ChangeEvent, ReactNode, useCallback, useEffect, useRef, useState } from 'react'
+import Image, { StaticImageData } from 'next/image'
+import { ChangeEvent, ReactNode, useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import {
    CrossIcon,
    ExpandOutline,
@@ -10,8 +10,14 @@ import {
 } from '@/shared/icons'
 import { cn } from '@/shared/lib'
 import { RangeControl } from '@/shared/components/RangeControl'
-import Cropper from 'react-easy-crop'
 import type { Area } from 'react-easy-crop'
+import Cropper from 'react-easy-crop'
+import { croppingReducer, initialState } from './croppingReducer'
+import { loadImageMeta } from '@/shared/utils'
+import { Slider } from '@/shared/components/Slider'
+import { getCroppedImg } from '@/shared/utils/images/cropImage'
+import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/shared/schema'
+import { alert } from '@/shared/components/Alert'
 
 type Props = {
    isOpen: boolean
@@ -19,7 +25,7 @@ type Props = {
    images: StaticImageData[]
    onNext: () => void
    currentIndex: number
-   setCurrentIndex: (n: number) => void
+   setCurrentIndex: (idx: number) => void
    setImages: (images: StaticImageData[]) => void
 }
 
@@ -30,16 +36,22 @@ export const CroppingModal = ({
    onNext,
    images,
    onOpenChange,
-   setImages
+   setImages,
 }: Props) => {
-   const [crop, setCrop] = useState({ x: 0, y: 0 })
-   const [aspect, setAspect] = useState<number | undefined>(undefined)
-   const [showZoomScale, setShowZoomScale] = useState(false)
-   const [zoomScale, setZoomScale] = useState([20])
-   const [showAspectRatio, setShowAspectRatio] = useState(false)
-   const [showImageGallery, setShowImageGallery] = useState(false)
+   const [state, dispatch] = useReducer(croppingReducer, initialState)
+   const { showZoomScale, showAspectRatio, showImageGallery, imageStates } = state
+   const [isProcessing, setIsProcessing] = useState(false)
 
-   const naturalAspectRef = useRef<undefined | number>(undefined)
+   // Получаем состояние для текущего изображения
+   const currentImageState = imageStates[currentIndex] || {
+      crop: { x: 0, y: 0 },
+      zoomScale: [20],
+      aspect: undefined,
+      naturalAspect: undefined,
+      croppedAreaPixels: null,
+   }
+
+   const { crop, zoomScale, aspect, naturalAspect } = currentImageState
 
    const fileInputRef = useRef<HTMLInputElement | null>(null)
 
@@ -47,19 +59,16 @@ export const CroppingModal = ({
       fileInputRef.current?.click()
    }
 
-   const loadImageMeta = (src: string): Promise<{width: number; height: number}> => {
-      return new Promise(resolve => {
-         const img = new Image()
-         img.onload = () => resolve({ width: img.width, height: img.height })
-         img.src = src
-      })
-   }
-
-
    const handleFilesSelected = async (e: ChangeEvent<HTMLInputElement>) => {
       if (!e.target.files?.length) return
 
       const file = e.target.files[0]
+
+      if (file.size > MAX_FILE_SIZE) {
+         alert.error('File size exceeds 5MB. Please choose a smaller file.')
+         return
+      }
+
       const src = URL.createObjectURL(file)
 
       const { width, height } = await loadImageMeta(src)
@@ -69,69 +78,141 @@ export const CroppingModal = ({
 
    const deleteImage = (idxToDelete: number) => {
       const newImages = images.filter((_, idx) => idx !== idxToDelete)
-
       setImages(newImages)
 
-      // если текущий индекс удалили — корректируем
       if (currentIndex >= newImages.length) {
          setCurrentIndex(Math.max(newImages.length - 1, 0))
       }
    }
 
+   const handleThumbnailClick = (idx: number) => {
+      setCurrentIndex(idx)
+   }
 
    const image = images[currentIndex]
 
-   // Конвертируем zoomScale в значение для react-easy-crop (1-3)
    const zoom = 1 + (zoomScale[0] / 100) * 2
 
-   const resetCropState = () => {
-      setCrop({ x: 0, y: 0 })
-      setZoomScale([20])
-      setAspect(naturalAspectRef.current)
-   }
-
+   // Инициализируем состояние для изображения
    useEffect(() => {
       if (!image) return
 
-      const naturalAspect = image.width / image.height
+      const naturalAspectValue = image.width / image.height
 
-      naturalAspectRef.current = naturalAspect
-      setAspect(naturalAspect)
-      resetCropState()
-   }, [image])
+      if (!imageStates[currentIndex]) {
+         dispatch({
+            type: 'INIT_IMAGE_STATE',
+            payload: {
+               index: currentIndex,
+               naturalAspect: naturalAspectValue,
+            },
+         })
+      }
+   }, [image, currentIndex, imageStates])
 
-   const onCropComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
-      // Сохраняем данные о кропе если нужно
-   }, [])
+   // Сохраняем финальные данные об обрезке
+   const onCropComplete = useCallback(
+      (_: Area, croppedAreaPixels: Area) => {
+         dispatch({
+            type: 'SET_CROPPED_AREA',
+            payload: {
+               index: currentIndex,
+               croppedAreaPixels,
+            },
+         })
+      },
+      [currentIndex]
+   )
+
+   const handleCropChange = useCallback(
+      (crop: { x: number; y: number }) => {
+         dispatch({
+            type: 'SET_CROP',
+            payload: {
+               index: currentIndex,
+               crop,
+            },
+         })
+      },
+      [currentIndex]
+   )
 
    const handleChangeRange = (newZoomScale: number[]) => {
-      setZoomScale(newZoomScale)
+      dispatch({
+         type: 'SET_ZOOM_SCALE',
+         payload: {
+            index: currentIndex,
+            zoomScale: newZoomScale,
+         },
+      })
    }
 
    const handleZoomChange = (newZoom: number) => {
-      const newZoomScaleValue = [((newZoom - 1) / 2) * 100] //приобразовываем в массив для интерфейса rangeControl
-      setZoomScale(newZoomScaleValue)
+      const newZoomScaleValue = [((newZoom - 1) / 2) * 100]
+      dispatch({
+         type: 'SET_ZOOM_SCALE',
+         payload: {
+            index: currentIndex,
+            zoomScale: newZoomScaleValue,
+         },
+      })
    }
 
    const toggleAspectRatio = () => {
-      setShowAspectRatio(prev => !prev)
+      dispatch({ type: 'TOGGLE_ASPECT_RATIO' })
    }
 
-   const toggleZoomScale = () => setShowZoomScale(prev => !prev)
+   const toggleZoomScale = () => dispatch({ type: 'TOGGLE_ZOOM_SCALE' })
 
-   const toggleGallery = () => setShowImageGallery(prev => !prev)
+   const toggleGallery = () => dispatch({ type: 'TOGGLE_IMAGE_GALLERY' })
 
-   const nextImage = () => {
-      if (currentIndex < images.length - 1) {
-         setCurrentIndex(currentIndex + 1)
-         resetCropState()
-      }
+   const handleSliderNavigation = (newIndex: number) => {
+      setCurrentIndex(newIndex)
    }
 
-   const prevImage = () => {
-      if (currentIndex > 0) {
-         setCurrentIndex(currentIndex - 1)
-         resetCropState()
+   // Функция для обрезки всех изображений и сохранения их в состоянии
+   const processAndSaveCroppedImages = async (): Promise<StaticImageData[]> => {
+      return await Promise.all(
+         images.map(async (image, index) => {
+            const imageState = imageStates[index]
+
+            // Если есть данные об обрезке - создаем обрезанное изображение
+            if (imageState?.croppedAreaPixels) {
+               try {
+                  const croppedSrc = await getCroppedImg(image.src, imageState.croppedAreaPixels)
+                  return {
+                     src: croppedSrc,
+                     width: imageState.croppedAreaPixels.width,
+                     height: imageState.croppedAreaPixels.height,
+                  }
+               } catch (error) {
+                  console.error('Error cropping image:', error)
+                  // В случае ошибки возвращаем оригинальное изображение
+                  return image
+               }
+            } else {
+               // Если обрезки не было - возвращаем оригинал
+               return image
+            }
+         })
+      )
+   }
+
+   // Обработчик для кнопки Next - обрезаем изображения и сохраняем
+   const handleNext = async () => {
+      setIsProcessing(true)
+      try {
+         const croppedImages = await processAndSaveCroppedImages()
+         // Сохраняем обрезанные изображения в состоянии
+         setImages(croppedImages)
+         // Вызываем оригинальный onNext
+         onNext()
+      } catch (error) {
+         console.error('Error processing images:', error)
+         // В случае ошибки просто переходим дальше с оригинальными изображениями
+         onNext()
+      } finally {
+         setIsProcessing(false)
       }
    }
 
@@ -146,46 +227,78 @@ export const CroppingModal = ({
          headerText={'Cropping'}
          headerVariant={'with-navigation'}
          contentColumns={'one'}
-         onNext={onNext}
+         onNext={isProcessing ? undefined : handleNext}
          className={'relative'}
       >
-         <div className="bg-dark-700 relative h-[400px] w-full">
-            <Cropper
-               image={image.src}
-               crop={crop}
-               zoom={zoom}
-               aspect={aspect}
-               onCropChange={setCrop}
-               onZoomChange={handleZoomChange}
-               onCropComplete={onCropComplete}
-               style={{
-                  containerStyle: {
-                     backgroundColor: '#374151',
-                  },
-               }}
-            />
-         </div>
-         <button
-            className={cn(
-               baseInteractiveButtonStyle,
-               'left-[11px]',
-               showAspectRatio && 'text-accent-500'
-            )}
-            onClick={toggleAspectRatio}
-         >
-            <ExpandOutline />
-         </button>
-         <button
-            className={cn(
-               baseInteractiveButtonStyle,
-               'left-[71px]',
-               showZoomScale && 'text-accent-500'
-            )}
-            onClick={toggleZoomScale}
-         >
-            <MaximizeOutline />
-         </button>
-         {showAspectRatio && (
+         {isProcessing && (
+            <div className="bg-dark-700 bg-opacity-80 absolute inset-0 z-50 flex items-center justify-center">
+               <div className="text-light-100">Processing images...</div>
+            </div>
+         )}
+
+         {showImageGallery ? (
+            <div className="bg-dark-700 relative h-full w-full">
+               <Slider
+                  images={images.map(img => img.src)}
+                  currentIndex={currentIndex}
+                  onIndexChangeAction={handleSliderNavigation}
+                  className="h-full w-full"
+               />
+            </div>
+         ) : (
+            <div className="bg-dark-700 h-[400px] w-full">
+               <Cropper
+                  image={image?.src}
+                  crop={crop}
+                  zoom={zoom}
+                  aspect={aspect}
+                  onCropChange={handleCropChange}
+                  onZoomChange={handleZoomChange}
+                  onCropComplete={onCropComplete}
+                  classes={{
+                     containerClassName: 'absolute inset-0',
+                     mediaClassName: 'max-h-full max-w-full',
+                  }}
+                  style={{
+                     containerStyle: {
+                        backgroundColor: '#000000',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                     },
+                  }}
+               />
+            </div>
+         )}
+
+         {!showImageGallery && (
+            <>
+               <button
+                  className={cn(
+                     baseInteractiveButtonStyle,
+                     'left-[11px]',
+                     showAspectRatio && 'text-accent-500'
+                  )}
+                  onClick={toggleAspectRatio}
+               >
+                  <ExpandOutline />
+               </button>
+               <button
+                  className={cn(
+                     baseInteractiveButtonStyle,
+                     'left-[71px]',
+                     showZoomScale && 'text-accent-500'
+                  )}
+                  onClick={toggleZoomScale}
+               >
+                  <MaximizeOutline />
+               </button>
+            </>
+         )}
+
+         {showAspectRatio && !showImageGallery && (
             <div
                className={
                   'bg-dark-500 absolute bottom-[49px] left-[11px] flex h-[152px] w-[156px] flex-col rounded-xs opacity-80'
@@ -193,9 +306,17 @@ export const CroppingModal = ({
             >
                <AspectOption
                   label="Original"
-                  value={naturalAspectRef.current}
+                  value={naturalAspect}
                   aspect={aspect}
-                  onClick={() => setAspect(naturalAspectRef.current)}
+                  onClick={() =>
+                     dispatch({
+                        type: 'SET_ASPECT',
+                        payload: {
+                           index: currentIndex,
+                           aspect: naturalAspect,
+                        },
+                     })
+                  }
                   Icon={<ImageOutline />}
                />
 
@@ -203,7 +324,15 @@ export const CroppingModal = ({
                   label="1:1"
                   value={1}
                   aspect={aspect}
-                  onClick={() => setAspect(1)}
+                  onClick={() =>
+                     dispatch({
+                        type: 'SET_ASPECT',
+                        payload: {
+                           index: currentIndex,
+                           aspect: 1,
+                        },
+                     })
+                  }
                   boxClass="h-[18px] w-[18px]"
                />
 
@@ -211,7 +340,15 @@ export const CroppingModal = ({
                   label="4:5"
                   value={4 / 5}
                   aspect={aspect}
-                  onClick={() => setAspect(4 / 5)}
+                  onClick={() =>
+                     dispatch({
+                        type: 'SET_ASPECT',
+                        payload: {
+                           index: currentIndex,
+                           aspect: 4 / 5,
+                        },
+                     })
+                  }
                   boxClass="h-[26px] w-[18px]"
                />
 
@@ -219,12 +356,21 @@ export const CroppingModal = ({
                   label="16:9"
                   value={16 / 9}
                   aspect={aspect}
-                  onClick={() => setAspect(16 / 9)}
+                  onClick={() =>
+                     dispatch({
+                        type: 'SET_ASPECT',
+                        payload: {
+                           index: currentIndex,
+                           aspect: 16 / 9,
+                        },
+                     })
+                  }
                   boxClass="h-[20px] w-[26px]"
                />
             </div>
          )}
-         {showZoomScale && (
+
+         {showZoomScale && !showImageGallery && (
             <div
                className={
                   'bg-dark-500 absolute bottom-[50px] left-[71px] flex h-[36px] w-[124px] items-center justify-center rounded-xs opacity-80'
@@ -240,9 +386,11 @@ export const CroppingModal = ({
                />
             </div>
          )}
+
          <button onClick={toggleGallery} className={cn(baseInteractiveButtonStyle, 'right-[11px]')}>
             <ImageOutline />
          </button>
+
          {showImageGallery && (
             <div
                className={
@@ -250,25 +398,48 @@ export const CroppingModal = ({
                }
             >
                {images.map((i, idx) => (
-                  <div    key={i.src} className={'relative'}>
-                     <img
-                        className={'h-[82px] w-20 object-contain'}
-
-                        src={i.src}
-                        alt={`Cropped image ${idx + 1}`}
-                     />
-                     <button onClick={() => deleteImage(idx)} className={'cursor-pointer absolute top-[2px] right-[2px] w-3 h-3 bg-dark-500 rounded-xs flex items-center justify-center'}>
+                  <div
+                     key={i.src}
+                     className={cn(
+                        'relative cursor-pointer',
+                        currentIndex === idx && 'ring-accent-500 rounded-xs ring-2'
+                     )}
+                     onClick={() => handleThumbnailClick(idx)}
+                  >
+                     <div className="relative h-[82px] w-20">
+                        <Image
+                           src={i.src}
+                           alt={`Cropped image ${idx + 1}`}
+                           fill
+                           sizes="80px"
+                           style={{
+                              objectFit: 'contain',
+                           }}
+                        />
+                     </div>
+                     <button
+                        onClick={e => {
+                           e.stopPropagation()
+                           deleteImage(idx)
+                        }}
+                        className={
+                           'bg-dark-500 absolute top-[2px] right-[2px] flex h-3 w-3 cursor-pointer items-center justify-center rounded-xs'
+                        }
+                     >
                         <CrossIcon />
                      </button>
                   </div>
                ))}
-               <button onClick={handleAddImageClick} className={'flex h-9 w-9 cursor-pointer align-top'}>
+               <button
+                  onClick={handleAddImageClick}
+                  className={'flex h-9 w-9 cursor-pointer align-top'}
+               >
                   <PlusCircleOutline />
                </button>
                <input
                   ref={fileInputRef}
                   type="file"
-                  accept="image/*"
+                  accept={ACCEPTED_IMAGE_TYPES.join(',')}
                   className="hidden"
                   onChange={handleFilesSelected}
                />

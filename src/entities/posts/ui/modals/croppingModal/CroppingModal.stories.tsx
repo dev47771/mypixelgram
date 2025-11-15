@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { CroppingModal } from '.'
-import picture from './../../../../../../public/puc.jpg'
 import picture1 from './../../../../../../public/404.jpg'
 import picture2 from './../../../../../../public/logo-light.png'
 import picture3 from './../../../../../../public/logo-dark.png'
 import { useState } from 'react'
+import { CroppingModal } from './'
+import { fn } from 'storybook/test'
 
 const meta = {
    component: CroppingModal,
@@ -18,21 +18,31 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
    args: {
       isOpen: true,
-      onOpenChange: x => x,
+      onOpenChange: (x: boolean) => x,
       onNext: () => {},
+      images: [],
+      currentIndex: 0,
+      setCurrentIndex: () => {},
+      setImages: () => {},
    },
-   render: args => {
+   render: () => {
+      return <CropModalWrapper />
+   },
+}
 
-      const [images, setImages] = useState([picture, picture1, picture2, picture3])
-      const [currentIndex, setCurrentIndex] = useState(0)
+const CropModalWrapper = () => {
+   const [images, setImages] = useState([picture1, picture2, picture3])
+   const [currentIndex, setCurrentIndex] = useState(0)
 
-    return <CroppingModal
-       {...args}
-      images={images}
-       setImages={setImages}
-       currentIndex={currentIndex}
-      setCurrentIndex={setCurrentIndex}
-
+   return (
+      <CroppingModal
+         onNext={fn()}
+         onOpenChange={fn()}
+         isOpen
+         images={images}
+         setImages={setImages}
+         currentIndex={currentIndex}
+         setCurrentIndex={setCurrentIndex}
       />
-   },
+   )
 }
