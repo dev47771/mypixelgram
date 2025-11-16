@@ -119,6 +119,7 @@ export const useCroppingModal = ({
       blobUrlsRef.current.add(src)
       const { width, height } = await loadImageMeta(src)
       setImages([...images, { src, width, height }])
+      e.target.value = ''
    }
 
    const deleteImage = (idxToDelete: number) => {
