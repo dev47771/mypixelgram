@@ -34,10 +34,15 @@ export async function getCroppedImg(
       pixelCrop.height
    )
 
-   return new Promise(resolve => {
+   return new Promise((resolve, reject) => {
       canvas.toBlob(blob => {
+         canvas.width = 0
+         canvas.height = 0
+
          if (blob) {
             resolve(URL.createObjectURL(blob))
+         } else {
+            reject(new Error('Canvas is empty'))
          }
       }, 'image/jpeg')
    })

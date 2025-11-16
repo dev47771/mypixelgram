@@ -25,6 +25,7 @@ export const useCroppingModal = ({
    const [state, dispatch] = useReducer(croppingReducer, initialState)
    const { showZoomScale, showAspectRatio, showImageGallery, imageStates } = state
    const [isProcessing, setIsProcessing] = useState(false)
+   const blobUrlsRef = useRef<Set<string>>(new Set())
 
    const fileInputRef = useRef<HTMLInputElement | null>(null)
 
@@ -57,6 +58,17 @@ export const useCroppingModal = ({
          })
       }
    }, [image, currentIndex, imageStates])
+
+   useEffect(() => {
+      const currentBlobUrls = blobUrlsRef.current
+
+      return () => {
+         currentBlobUrls.forEach(url => {
+            URL.revokeObjectURL(url)
+         })
+         currentBlobUrls.clear()
+      }
+   }, [])
 
    // Обработчики установки аспекта
    const setAspect = useCallback(
@@ -104,11 +116,20 @@ export const useCroppingModal = ({
       }
 
       const src = URL.createObjectURL(file)
+      blobUrlsRef.current.add(src)
       const { width, height } = await loadImageMeta(src)
       setImages([...images, { src, width, height }])
    }
 
    const deleteImage = (idxToDelete: number) => {
+      const imageToDelete = images[idxToDelete]
+
+      // Освобождаем Blob URL если это blob и мы его отслеживаем
+      if (imageToDelete.src.startsWith('blob:') && blobUrlsRef.current.has(imageToDelete.src)) {
+         URL.revokeObjectURL(imageToDelete.src)
+         blobUrlsRef.current.delete(imageToDelete.src)
+      }
+
       const newImages = images.filter((_, idx) => idx !== idxToDelete)
       setImages(newImages)
 
@@ -191,6 +212,14 @@ export const useCroppingModal = ({
             if (imageState?.croppedAreaPixels) {
                try {
                   const croppedSrc = await getCroppedImg(image.src, imageState.croppedAreaPixels)
+                  blobUrlsRef.current.add(croppedSrc) // Отслеживаем новый URL
+
+                  // Освобождаем старый Blob URL если это blob
+                  if (image.src.startsWith('blob:') && blobUrlsRef.current.has(image.src)) {
+                     URL.revokeObjectURL(image.src)
+                     blobUrlsRef.current.delete(image.src)
+                  }
+
                   return {
                      src: croppedSrc,
                      width: imageState.croppedAreaPixels.width,
