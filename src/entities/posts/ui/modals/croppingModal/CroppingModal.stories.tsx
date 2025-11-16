@@ -21,6 +21,7 @@ export const Default: Story = {
       onOpenChange: (x: boolean) => x,
       onNext: () => {},
       images: [],
+      onBack: () => {},
       currentIndex: 0,
       setCurrentIndex: () => {},
       setImages: () => {},
@@ -38,6 +39,7 @@ const CropModalWrapper = () => {
       <CroppingModal
          onNext={fn()}
          onOpenChange={fn()}
+         onBack={fn()}
          isOpen
          images={images}
          setImages={setImages}

@@ -6,6 +6,8 @@ import { MODALS, useModalStack } from '.'
 import { AddPhotoModal } from '@/entities/posts/ui/modals/addPhotoModal'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { PublicationModal } from '@/entities/posts/ui/modals/PublicationModal'
+import { CroppingModal } from '@/entities/posts/ui/modals/croppingModal'
+import { StaticImageData } from 'next/image'
 
 type Props = {
    onCloseAction?: () => void
@@ -14,7 +16,8 @@ type Props = {
 export const PostCreator = ({ onCloseAction }: Props) => {
    const { modalStack, openMainModal, openOverlayModal, closeTopModal, resetModalStack } =
       useModalStack()
-   const [photos, setPhotos] = useState<File[]>([])
+   const [photos, setPhotos] = useState<StaticImageData[]>([])
+   const [currentIndex, setCurrentIndex] = useState(0)
    const searchParams = useSearchParams()
    const pathname = usePathname()
    const router = useRouter()
@@ -32,6 +35,8 @@ export const PostCreator = ({ onCloseAction }: Props) => {
       }
    }, [])
 
+   console.log('modalStack', modalStack)
+
    //закрытие PostCreator
    const handleCompleteClose = () => {
       onCloseAction?.() // вызовет router.back() из компонента profile
@@ -44,7 +49,7 @@ export const PostCreator = ({ onCloseAction }: Props) => {
    const closeAddPhotoModalHandler = () => {
       const params = new URLSearchParams(searchParams.toString())
       params.delete('action')
-      router.push(pathname)
+      router.replace(pathname)
    }
 
    const renderModals = () => {
@@ -63,11 +68,13 @@ export const PostCreator = ({ onCloseAction }: Props) => {
                return (
                   <AddPhotoModal
                      key="add_photo"
-                     onPhotoSelected={(file: File) => {
+                     onPhotoSelected={(file: StaticImageData) => {
                         setPhotos([file])
                         openMainModal(MODALS.CROPPING)
                      }}
-                     onClose={() => {}}
+                     onClose={() => {
+                        openMainModal(MODALS.CROPPING)
+                     }}
                      isOpen={isAddPhotoAction}
                      onOpenChange={closeAddPhotoModalHandler}
                   />
@@ -80,7 +87,22 @@ export const PostCreator = ({ onCloseAction }: Props) => {
                //     onBack={() => openMainModal(MODALS.ADD_PHOTO)}
                //     onClose={requestClose}
                // />;
-               break
+               return (
+                  <CroppingModal
+                     key="cropping"
+                     isOpen
+                     onOpenChange={() => {}}
+                     onBack={() => {
+                        openMainModal(MODALS.ADD_PHOTO)
+                        setPhotos([])
+                     }}
+                     images={photos}
+                     onNext={() => {}}
+                     currentIndex={currentIndex}
+                     setCurrentIndex={setCurrentIndex}
+                     setImages={setPhotos}
+                  />
+               )
             case MODALS.FILTERS:
                // return <FiltersModal
                //     key="filters"
@@ -99,14 +121,15 @@ export const PostCreator = ({ onCloseAction }: Props) => {
                //     onClose={requestClose}
                // />;
                //в PublicationModal publish передавать не надо внутри прописан
-               return (
-                  <PublicationModal
-                     key="publication"
-                     photos={photos}
-                     onBack={() => openMainModal(MODALS.FILTERS)}
-                     onClose={requestClose}
-                  />
-               )
+               // return (
+               //    <PublicationModal
+               //       key="publication"
+               //       photos={photos}
+               //       onBack={() => openMainModal(MODALS.FILTERS)}
+               //       onClose={requestClose}
+               //    />
+               //)
+               break
             //модалка закрытия для PostCreator
             case MODALS.CLOSE:
                // return <CloseModal

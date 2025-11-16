@@ -74,11 +74,7 @@ export const Slider = ({
    currentIndex,
    onIndexChangeAction,
 }: Props) => {
-   const { sliderRef, instanceRef, currentSlide, slides } = useSlider(
-      true,
-      onIndexChangeAction,
-      images.length
-   )
+   const { sliderRef, instanceRef, currentSlide, slides } = useSlider(true, onIndexChangeAction)
 
    const onNextSlideHandler = () => instanceRef.current?.next()
    const onPrevSlideHandler = () => instanceRef.current?.prev()

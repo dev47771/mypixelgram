@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useKeenSlider } from 'keen-slider/react'
 
 // export const useSlider = (loop = true) => {
@@ -22,11 +22,7 @@ import { useKeenSlider } from 'keen-slider/react'
 //    return { sliderRef, instanceRef, currentSlide, slides, loaded }
 // }
 
-export const useSlider = (
-   loop = true,
-   onSlideChange?: (index: number) => void,
-   slideCount?: number
-) => {
+export const useSlider = (loop = true, onSlideChange?: (index: number) => void) => {
    const [currentSlide, setCurrentSlide] = useState(0)
    const [loaded, setLoaded] = useState(false)
 
@@ -42,12 +38,6 @@ export const useSlider = (
          setLoaded(true)
       },
    })
-
-   useEffect(() => {
-      if (loaded) {
-         instanceRef.current?.update()
-      }
-   }, [slideCount, loaded, instanceRef])
 
    const slides = instanceRef.current?.track?.details?.slides || []
 

@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ACCEPTED_IMAGE_TYPES, imgSchema } from '@/shared/schema'
 import { PostModal } from '@/shared/components/PostModal'
+import { StaticImageData } from 'next/image'
+import { convertFileToStaticImageData } from '@/shared/utils/images/convertFileToStaticImageData'
 
 const schema = z.object({
    postPhoto: imgSchema('postPhoto').shape['postPhoto'],
@@ -16,7 +18,7 @@ type FormTypes = z.infer<typeof schema>
 type Props = {
    isOpen: boolean
    onClose: () => void
-   onPhotoSelected: (file: File) => void
+   onPhotoSelected: (file: StaticImageData) => void
    onOpenChange: (value: boolean) => void
 }
 
@@ -40,8 +42,10 @@ export const AddPhotoModal = ({ isOpen, onPhotoSelected, onClose, onOpenChange }
    useEffect(() => {
       if (postPhotoWatcher && postPhotoWatcher.length > 0 && !errors.postPhoto) {
          const file = postPhotoWatcher[0]
-         onPhotoSelected(file)
-         onClose()
+         convertFileToStaticImageData(file).then(staticImageData => {
+            onPhotoSelected(staticImageData)
+            onClose()
+         })
       }
    }, [errors.postPhoto, onClose, onPhotoSelected, postPhotoWatcher])
 

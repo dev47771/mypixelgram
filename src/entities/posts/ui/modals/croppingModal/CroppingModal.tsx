@@ -21,6 +21,7 @@ type Props = {
    images: StaticImageData[]
    onNext: () => void
    currentIndex: number
+   onBack: () => void
    setCurrentIndex: (idx: number) => void
    setImages: (images: StaticImageData[]) => void
 }
@@ -30,6 +31,7 @@ export const CroppingModal = ({
    setCurrentIndex,
    isOpen,
    onNext,
+   onBack,
    images,
    onOpenChange,
    setImages,
@@ -79,6 +81,7 @@ export const CroppingModal = ({
          open={isOpen}
          onOpenChange={onOpenChange}
          size={'image-upload'}
+         onBack={onBack}
          headerText={'Cropping'}
          headerVariant={'with-navigation'}
          contentColumns={'one'}
@@ -94,6 +97,7 @@ export const CroppingModal = ({
          {showImageGallery ? (
             <div className="bg-dark-700 relative h-full w-full">
                <Slider
+                  key={images.length}
                   images={images.map(img => img.src)}
                   currentIndex={currentIndex}
                   onIndexChangeAction={handleSliderNavigation}
