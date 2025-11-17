@@ -1,10 +1,10 @@
 'use client'
 
 import { cn } from '@/shared/lib'
-import { SidebarItemType } from '@/widgets/Sidebar/sidebarData'
+
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { ComponentPropsWithRef, useState } from 'react'
+import React, { ComponentPropsWithRef, useState } from 'react'
 
 import {
    CreateIcon,
@@ -27,6 +27,17 @@ import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
 import { TOKEN } from '@/shared/constants'
 import { PublicRoutes } from '@/shared/enums'
 import { useCreateQueryString } from '@/shared/hook'
+
+type SidebarItemType = {
+   id: string
+   name: string
+   path?: string
+   icon?: React.ElementType
+   activeIcon?: React.ElementType
+   disabled?: boolean
+   onClick?: () => void
+   className?: string
+}
 
 type Props = {
    items?: SidebarItemType[]
@@ -62,7 +73,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
    if (isError || !user) return null
 
    return (
-      <>
+      <aside>
          <nav {...rest} className={cn('fixed top-[72px] min-w-[220px]', className)}>
             <ul className={cn('flex h-screen flex-col pt-[72px]')}>
                <SidebarItem
@@ -131,7 +142,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
             onConfirm={handleConfirmLogout}
             onCancel={() => setIsLogoutModalOpen(false)}
          />
-      </>
+      </aside>
    )
 }
 
