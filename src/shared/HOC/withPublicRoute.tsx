@@ -1,23 +1,29 @@
 'use client'
-import { usePathname, useRouter } from 'next/navigation'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 import { ComponentType, useEffect } from 'react'
-import { PrivateRoutes, PublicRoutes } from '@/shared/enums'
+import { profileRoutes, PublicRoutes } from '@/shared/enums'
 import { Loader } from '@/shared/components/Loader'
 import { useMeQuery } from '@/features/auth/api'
 
+//если пользователь авторизован — не пускать на публичные страницы
 export const withPublicRoute = <P extends object>(WrappedComponent: ComponentType<P>) => {
    // eslint-disable-next-line react/display-name
    return (props: P) => {
       const router = useRouter()
+      const { id } = useParams<{ id: string }>()
       const pathname = usePathname()
 
       const { data, isLoading } = useMeQuery()
 
       useEffect(() => {
          if (data && !pathname.includes(PublicRoutes.createNewPassword)) {
-            router.replace(PrivateRoutes.profile)
+            if (id && pathname === profileRoutes.public(id)) {
+               router.replace(profileRoutes.private(id))
+            } else {
+               router.replace(profileRoutes.private(data.userId))
+            }
          }
-      }, [data, pathname, router])
+      }, [data, id, pathname, router])
 
       if (isLoading) {
          return <Loader />
