@@ -26,6 +26,7 @@ import { YesAndNoModal } from '@/entities/common/ui/YesAndNoModal'
 import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
 import { TOKEN } from '@/shared/constants'
 import { PublicRoutes } from '@/shared/enums'
+import { PostCreator } from '@/features/post-creator/PostCreator'
 
 type Props = {
    items?: SidebarItemType[]
@@ -39,6 +40,9 @@ export const Sidebar = ({ className, ...rest }: Props) => {
    const pathname = usePathname()
    const searchParams = useSearchParams()
    const [logout] = useLogoutMutation()
+
+   const action = searchParams.get('action')
+   const isOpenPostCreator = action === 'create'
 
    const token = typeof window !== 'undefined' ? localStorage.getItem(TOKEN) : null
 
@@ -69,6 +73,13 @@ export const Sidebar = ({ className, ...rest }: Props) => {
 
    const showAddPhotoModalHandler = () => {
       router.push(pathname + '?' + createQueryString('action', 'create'))
+   }
+
+   const handleClosePostCreator = () => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.delete('action')
+
+      router.push(pathname + '?' + params.toString())
    }
 
    if (isError || !user) return null
@@ -144,6 +155,8 @@ export const Sidebar = ({ className, ...rest }: Props) => {
             onConfirm={handleConfirmLogout}
             onCancel={() => setIsLogoutModalOpen(false)}
          />
+
+         {isOpenPostCreator && <PostCreator onClose={handleClosePostCreator} />}
       </>
    )
 }
