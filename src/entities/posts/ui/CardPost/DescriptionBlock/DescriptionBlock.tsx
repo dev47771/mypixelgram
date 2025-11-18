@@ -22,24 +22,28 @@ export const DescriptionBlock = ({
       : description.slice(0, shortLimit)
 
    return (
-      <div>
-         <Typography as="p" variant="captionRegular" className="inline">
-            {visibleText}
-            {shouldTruncate && !isExpanded && '...'}
-            {shouldTruncate && isExpanded && '..'}
-         </Typography>
-
+      <Typography
+         as="p"
+         variant="captionRegular"
+         className="inline break-words whitespace-pre-wrap"
+      >
+         {visibleText}
+         {shouldTruncate && !isExpanded && '...'}
+         {shouldTruncate && isExpanded && '..'}
          {shouldTruncate && (
-            <button
-               onClick={onToggle}
-               className={clsx(
-                  'text-s text-accent-500 leading-m font-regular ml-1',
-                  'cursor-pointer underline hover:underline'
-               )}
-            >
-               {isExpanded ? 'Hide' : 'Show more'}
-            </button>
+            <>
+               {' '}
+               <button
+                  onClick={onToggle}
+                  className={clsx(
+                     'text-s text-accent-500 leading-m font-regular',
+                     'inline cursor-pointer underline hover:underline'
+                  )}
+               >
+                  {isExpanded ? 'Hide' : 'Show more'}
+               </button>
+            </>
          )}
-      </div>
+      </Typography>
    )
 }
