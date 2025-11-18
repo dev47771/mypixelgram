@@ -5,14 +5,14 @@ import { CrossIcon } from '@/shared/icons'
 import { Button } from '@/shared/components/Button'
 
 type Props = {
-   isOpen: boolean
    onDiscard: () => void
    onSaveDraft: () => void
+   onCloseModal: () => void
 }
 
-export const CloseCreatePostModal = ({ isOpen, onSaveDraft, onDiscard }: Props) => {
+export const CloseCreatePostModal = ({ onSaveDraft, onDiscard, onCloseModal }: Props) => {
    return (
-      <Modal open={isOpen} onOpenChange={onDiscard}>
+      <Modal open onOpenChange={onCloseModal}>
          <ModalTitle className={'flex items-center justify-between'}>
             <Typography variant={'h1'}>Close</Typography>{' '}
             <ModalClose asChild>

@@ -12,10 +12,8 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
    args: {
-      isOpen: true,
-      onClose: () => {},
       onPhotoSelected: x => x,
-      onOpenChange: x => x,
+      onOpenChange: () => alert('open CloseCreatePostModal'),
    },
    render: args => {
       return (
