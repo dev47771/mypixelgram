@@ -61,7 +61,6 @@ const config: Config = {
                },
                secondary: {
                   100: 'var(--color-secondary-100)',
-                  200: 'var(--color-secondary-100)',
                },
                neutral: {
                   100: 'var(--color-neutral-100)',

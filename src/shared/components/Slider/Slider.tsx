@@ -16,12 +16,12 @@ type Props = {
    images: string[]
    className?: string
    disabled?: boolean
-
    renderSlide?: (src: string, isActive: boolean, currentSlide: number) => ReactNode
 }
 
 
 export const Slider = ({ images, className, disabled, renderSlide }: Props) => {
+
    const { sliderRef, instanceRef, currentSlide, slides } = useSlider()
 
    const onNextSlideHandler = () => instanceRef.current?.next()

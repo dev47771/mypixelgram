@@ -1,10 +1,10 @@
 import { ArrowLeftIcon, CrossIcon } from '@/shared/icons'
-import { Modal, ModalBody, ModalClose, ModalTitle } from '../Modal'
-import { Typography } from '../Typography'
+import { cn } from '@/shared/lib'
 import * as Dialog from '@radix-ui/react-dialog'
 import { ComponentPropsWithRef } from 'react'
 import { Button } from '../Button'
-import { cn } from '@/shared/lib'
+import { Modal, ModalBody, ModalClose, ModalTitle } from '../Modal'
+import { Typography } from '../Typography'
 
 type ModalSize = 'image-upload' | 'post-management' | 'social-list' | 'profile-crop'
 type HeaderVariant = 'close-only' | 'with-navigation'
@@ -28,6 +28,7 @@ type Props = {
    onNext?: () => void
    publish?: () => void
    //onClose?: () => void
+   className?: string
 } & ComponentPropsWithRef<typeof Dialog.Root>
 
 export const PostModal = ({
@@ -44,6 +45,7 @@ export const PostModal = ({
    onNext,
    publish,
    //onClose,
+   className,
    ...props
 }: Props) => {
    const sizeClasses = {
@@ -122,7 +124,8 @@ export const PostModal = ({
                     ? // модалка высотой h-[564px] с header с 1 колонкой (addPhoto, cropping, addProfilePhoto, subscribers, followers, likes)
                       'h-[501px] w-full overflow-hidden rounded-[1px]'
                     : // модалка высотой h-[536px] с header с 1 колонкой (AddProfilePhotoCropping)
-                      'h-[473px] w-full overflow-hidden rounded-[1px]'
+                      'h-[473px] w-full overflow-hidden rounded-[1px]',
+               className
             )}
          >
             {/* Контент для модалки с 2 колонками передаем пропсами leftContent и rightContent */}

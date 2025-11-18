@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react'
 import { MODALS, useModalStack } from '.'
 import { FilterModal } from './ui/modals/FilterModal/FilterModal'
 import { nanoid } from '@reduxjs/toolkit'
+import { AddPhotoModal } from '@/entities/posts/ui/modals/addPhotoModal'
+import { useSearchParams } from 'next/navigation'
+import { PublicationModal } from '@/entities/posts/ui/modals/PublicationModal'
 
 export type PhotoState = {
     id: string
@@ -13,7 +16,7 @@ export type PhotoState = {
 }
 
 type Props = {
-    onClose?: () => void
+   onClose?: () => void
 }
 
 export const PostCreator = ({ onClose }: Props) => {
@@ -30,6 +33,11 @@ export const PostCreator = ({ onClose }: Props) => {
 
     //индекс текущего фото в слайдере
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
+
+    const searchParams = useSearchParams()
+
+    const action = searchParams.get('action')
+    const isAddPhotoAction = action === 'create'
 
     //добавление новых фото
     const handleAddPhotos = (newFiles: File[]) => {
@@ -83,15 +91,18 @@ export const PostCreator = ({ onClose }: Props) => {
             switch (modalName) {
                 //основные модальные окошки PostCreator
                 case MODALS.ADD_PHOTO:
-                    // return <AddPhotoModal
-                    //     key="add_photo"
-                    //     onPhotoSelected={(file: File) => {
-                    //         handleAddPhotos([file]);
-                    //         openMainModal(MODALS.CROPPING);
-                    //     }}
-                    //     onClose={requestClose}
-                    // />;
-                    break
+                    return (
+                        <AddPhotoModal
+                             key="add_photo"
+                             onPhotoSelected={(file: File) => {
+                                 handleAddPhotos([file])
+                                 openMainModal(MODALS.CROPPING)
+                             }}
+                             onClose={requestClose}
+                             isOpen={isAddPhotoAction}
+                             onOpenChange={requestClose}/>
+                     )
+                     break
 
                 case MODALS.CROPPING:
                     // return <CroppingModal
@@ -115,15 +126,14 @@ export const PostCreator = ({ onClose }: Props) => {
                     break
 
                 case MODALS.PUBLICATION:
-                    // return <PublicationModal
-                    //     key="publication"
-                    //     photos={photos}
-                    //     publish={() => null} //тут будет отправка публикации вместо null + нужно добавить закрытие PostCreator после успешного создания поста и отображение поста в ленте пользователя + {handleApplyFilters} для применения фильтров к фото перед отправкой???
-                    //
-                    //     onBack={() => openMainModal(MODALS.FILTERS)}
-                    //     onClose={requestClose}
-                    // />;
-                    break
+                     return (
+                         <PublicationModal
+                             key="publication"
+                             photos={photos}
+                             onBack={() => openMainModal(MODALS.FILTERS)}
+                             onClose={requestClose} />
+                     )
+                     break
 
                 //модалка закрытия для PostCreator
                 case MODALS.CLOSE:
