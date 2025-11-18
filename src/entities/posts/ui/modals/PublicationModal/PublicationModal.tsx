@@ -8,6 +8,7 @@ import { Modal } from '@/shared/components/Modal'
 import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataResponse'
 import { alert } from '@/shared/components/Alert'
 import { ErrorResponse } from '@/features/auth/api'
+import { useState } from 'react'
 
 type Props = {
    onBack: () => void
@@ -17,6 +18,7 @@ type Props = {
 
 export const PublicationModal = ({ onBack, photos, onClose }: Props) => {
    const { publishPost, isLoading, error } = usePublishPost()
+   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
 
    //mock data for uploadFile
    // photos = [
@@ -56,6 +58,8 @@ export const PublicationModal = ({ onBack, photos, onClose }: Props) => {
             errorsFromApi={isErrorInDataResponse(error) ? error?.data.errorsMessages : undefined}
             isLoading={isLoading}
             images={photos.map(photo => photo.previewUrl)}
+            currentFilter={photos[currentPhotoIndex]?.currentFilter || 'filter-none'}
+            onSlideChange={setCurrentPhotoIndex}
          />
       </Modal>
    )

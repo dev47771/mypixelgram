@@ -6,10 +6,22 @@ import { Slider } from '@/shared/components/Slider'
 import { Typography } from '@/shared/components/Typography'
 import { ArrowLeftIcon } from '@/shared/icons'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
+import { PublicationModal } from './PublicationModal'
+import { useState } from 'react'
+import { PhotoState } from '@/features/post-creator/PostCreator'
+import { Provider } from 'react-redux'
+import { store } from '@/shared/store'
+
+const withRedux = (Story: any) => (
+  <Provider store={store}>
+    <Story />
+  </Provider>
+)
 
 const meta: Meta = {
    title: 'Modals/PublicationModal',
-}
+   decorators: [withRedux], 
+} 
 
 export default meta
 type Story = StoryObj
@@ -51,4 +63,39 @@ export const Publication: Story = {
          </Modal>
       )
    },
+}
+
+
+// export type PhotoState = {
+//     id: string id: 1,
+//     originalFile: File // Исходный файл
+//     previewUrl: string // URL.createObjectURL(file)
+//     currentFilter: string // Текущий активный фильтр
+// }
+
+export const PublicationModalStory: Story = {
+   render: () => {
+
+      const mockFile = new File([], 'placeholder.jpg', {
+         type: 'image/jpeg'
+      })
+
+      const photos: PhotoState[] = [
+         { id: '1', originalFile: mockFile, previewUrl: './public/404.jpg', currentFilter: 'filter-moon' },
+         { id: '2', originalFile: mockFile, previewUrl: './public/logo-light.png', currentFilter: 'filter-moon' },
+         { id: '3', originalFile: mockFile, previewUrl: './public/logo-dark.png', currentFilter: 'filter-moon' }
+      ]
+
+      const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
+
+      return (
+         <PublicationModal
+            onBack={() => { }}
+            photos={photos}
+            onClose={() => { }}
+            onSlideChange={setCurrentPhotoIndex}
+            currentPhotoIndex={currentPhotoIndex}
+         />
+      )
+   }
 }

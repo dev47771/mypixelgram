@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { FilterModal } from './FilterModal'
 
 const meta = {
-   title: 'Components/PostModals/FilterModal',
+   title: 'Modals/AddPhotoModal',
    component: FilterModal,
    parameters: {
       layout: 'centered',

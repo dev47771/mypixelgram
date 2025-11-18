@@ -121,7 +121,8 @@ export const PostCreator = ({ onClose }: Props) => {
                             onNext={() => openMainModal(MODALS.PUBLICATION)}
                             images={photos.map(photo => photo.previewUrl)}
                             currentFilter={photos[currentPhotoIndex]?.currentFilter || 'filter-none'}
-                            onSlideChange={setCurrentPhotoIndex} onFilterChange={applyFilterToCurrentPhoto} />
+                            onSlideChange={setCurrentPhotoIndex}
+                            onFilterChange={applyFilterToCurrentPhoto} />
                     )
                     break
 
@@ -131,7 +132,8 @@ export const PostCreator = ({ onClose }: Props) => {
                              key="publication"
                              photos={photos}
                              onBack={() => openMainModal(MODALS.FILTERS)}
-                             onClose={requestClose} />
+                             onClose={requestClose}
+                             />
                      )
                      break
 
