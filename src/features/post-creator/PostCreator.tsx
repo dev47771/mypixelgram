@@ -86,6 +86,7 @@ export const PostCreator = ({ onClose }: Props) => {
                      onPhotoSelected={(file: File) => {
                         handleAddPhotos([file])
                         openMainModal(MODALS.CROPPING)
+                        //openMainModal(MODALS.FILTERS)//для истории
                      }}
                      onOpenChange={requestClose}
                   />
@@ -106,7 +107,8 @@ export const PostCreator = ({ onClose }: Props) => {
                return (
                   <FilterModal
                      key="filters"
-                     onBack={() => openMainModal(MODALS.CROPPING)}
+                     onBack={() => openMainModal(MODALS.CROPPING)} //РАСКОМЕНТИТЬ!
+                     //onBack={() => openMainModal(MODALS.ADD_PHOTO)}//для истории
                      onNext={() => openMainModal(MODALS.PUBLICATION)}
                      images={photos.map(photo => photo.previewUrl)}
                      currentFilter={photos[currentPhotoIndex]?.currentFilter || 'filter-none'}
