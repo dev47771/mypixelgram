@@ -29,6 +29,7 @@ export type CroppingAction =
    | { type: 'TOGGLE_IMAGE_GALLERY' }
    | { type: 'INIT_IMAGE_STATE'; payload: { index: number; naturalAspect: number } }
    | { type: 'SET_CROPPED_AREA'; payload: { index: number; croppedAreaPixels: Area } }
+   | { type: 'CLOSE_ALL_PANELS' }
 
 export const initialState: CroppingState = {
    showZoomScale: false,
@@ -71,6 +72,13 @@ export function croppingReducer(state: CroppingState, action: CroppingAction): C
                   zoomScale: action.payload.zoomScale,
                },
             },
+         }
+      case 'CLOSE_ALL_PANELS':
+         return {
+            ...state,
+            showZoomScale: false,
+            showAspectRatio: false,
+            showImageGallery: false,
          }
       case 'TOGGLE_ZOOM_SCALE':
          return { ...state, showZoomScale: !state.showZoomScale }

@@ -63,6 +63,7 @@ export const CroppingModal = ({
       toggleZoomScale,
       toggleGallery,
       handleSliderNavigation,
+      closeAllPanels,
       handleNext,
       zoomScale,
    } = useCroppingModal({
@@ -72,6 +73,11 @@ export const CroppingModal = ({
       setImages,
       onNext,
    })
+
+   const handleImageClick = (e: React.MouseEvent) => {
+      e.stopPropagation()
+      closeAllPanels()
+   }
 
    const baseInteractiveButtonStyle =
       'cursor-pointer w-9 h-9 rounded-xs bg-dark-500 absolute bottom-[11px] flex items-center justify-center opacity-80'
@@ -95,7 +101,7 @@ export const CroppingModal = ({
          )}
 
          {showImageGallery ? (
-            <div className="bg-dark-700 relative h-full w-full">
+            <div className="bg-dark-700 relative h-full w-full" onClick={handleImageClick}>
                <Slider
                   key={images.length}
                   images={images.map(img => img.src)}
@@ -105,7 +111,7 @@ export const CroppingModal = ({
                />
             </div>
          ) : (
-            <div className="bg-dark-700 h-[400px] w-full">
+            <div className="bg-dark-700 h-[400px] w-full" onClick={handleImageClick}>
                <Cropper
                   image={image?.src}
                   crop={crop}
@@ -140,7 +146,10 @@ export const CroppingModal = ({
                      'left-[11px]',
                      showAspectRatio && 'text-accent-500'
                   )}
-                  onClick={toggleAspectRatio}
+                  onClick={e => {
+                     e.stopPropagation()
+                     toggleAspectRatio()
+                  }}
                >
                   <ExpandOutline />
                </button>
@@ -150,7 +159,10 @@ export const CroppingModal = ({
                      'left-[71px]',
                      showZoomScale && 'text-accent-500'
                   )}
-                  onClick={toggleZoomScale}
+                  onClick={e => {
+                     e.stopPropagation()
+                     toggleZoomScale()
+                  }}
                >
                   <MaximizeOutline />
                </button>
@@ -214,7 +226,13 @@ export const CroppingModal = ({
             </div>
          )}
 
-         <button onClick={toggleGallery} className={cn(baseInteractiveButtonStyle, 'right-[11px]')}>
+         <button
+            onClick={e => {
+               e.stopPropagation()
+               toggleGallery()
+            }}
+            className={cn(baseInteractiveButtonStyle, 'right-[11px]')}
+         >
             <ImageOutline />
          </button>
 

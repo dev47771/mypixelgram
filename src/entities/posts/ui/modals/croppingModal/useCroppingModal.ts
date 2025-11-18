@@ -200,6 +200,10 @@ export const useCroppingModal = ({
 
    const toggleGallery = () => dispatch({ type: 'TOGGLE_IMAGE_GALLERY' })
 
+   const closeAllPanels = useCallback(() => {
+      dispatch({ type: 'CLOSE_ALL_PANELS' })
+   }, [])
+
    const handleSliderNavigation = (newIndex: number) => {
       setCurrentIndex(newIndex)
    }
@@ -276,6 +280,7 @@ export const useCroppingModal = ({
       handleCropChange,
       handleChangeRange,
       handleZoomChange,
+      closeAllPanels,
 
       // Обработчики аспекта
       handleSetOriginalAspect,
