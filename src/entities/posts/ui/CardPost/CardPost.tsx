@@ -23,12 +23,13 @@ export const CardPost = ({ description, file, createdAt, user }: LastPostProps) 
    }, [createdAt])
 
    if (!description) description = ''
-   const images = [file.url, file.url, file.url]
+
+   const images = file.map(img => img.url)
 
    return (
       <div className="h-[391px] w-[234px] overflow-hidden">
-         {file?.url && <PhotoSlider images={images} expanded={isDescriptionExpanded} />}
-         <UserBlock avatar={user.avatar} userName={user.userName} relativeTime={relativeTime} />
+         {<PhotoSlider images={images} expanded={isDescriptionExpanded} />}
+         <UserBlock avatar={user.avatar} userName={user.login} relativeTime={relativeTime} />
          <DescriptionBlock
             description={description}
             isExpanded={isDescriptionExpanded}
