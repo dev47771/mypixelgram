@@ -5,7 +5,7 @@ import { useModalStack } from './hook/useModalStack'
 import { PostCreator } from './PostCreator'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { Provider } from 'react-redux'
-import { store } from '@/shared/store' // путь к твоему store
+import { store } from '@/shared/store'
 
 type ModalStackContextType = ReturnType<typeof useModalStack>
 
@@ -39,8 +39,6 @@ const meta = {
    decorators: [
       Story => (
          <Provider store={store}>
-            {' '}
-            {/* ✅ Добавил Redux Provider */}
             <ModalStackProvider>
                <Story />
             </ModalStackProvider>
