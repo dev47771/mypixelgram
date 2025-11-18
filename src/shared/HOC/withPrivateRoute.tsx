@@ -10,20 +10,20 @@ export const withPrivateRoute = <P extends object>(WrappedComponent: ComponentTy
    // eslint-disable-next-line react/display-name
    return (props: P) => {
       const router = useRouter()
-      const { id } = useParams<{ id: string }>()
+      const { login } = useParams<{ login: string }>()
       const pathname = usePathname()
 
       const { data, isFetching } = useMeQuery()
 
       useEffect(() => {
          if (!data && !isFetching) {
-            if (id && pathname === profileRoutes.private(id)) {
-               router.replace(profileRoutes.public(id))
+            if (login && pathname === profileRoutes.private(login)) {
+               router.replace(profileRoutes.public(login))
             } else {
                router.replace(PublicRoutes.signIn)
             }
          }
-      }, [data, isFetching, id, pathname, router])
+      }, [data, isFetching, login, pathname, router])
 
       if (isFetching) {
          return <Loader />

@@ -21,6 +21,6 @@ export enum PrivateRoutes {
 }
 
 export const profileRoutes = {
-   private: (id: string) => `/profile/${id}`,
-   public: (id: string) => `/profile/${id}/public`,
+   private: (login: string) => `/profile/${login}`,
+   public: (login: string) => `/profile/${login}/public`,
 }

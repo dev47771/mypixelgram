@@ -10,20 +10,20 @@ export const withPublicRoute = <P extends object>(WrappedComponent: ComponentTyp
    // eslint-disable-next-line react/display-name
    return (props: P) => {
       const router = useRouter()
-      const { id } = useParams<{ id: string }>()
+      const { login } = useParams<{ login: string }>()
       const pathname = usePathname()
 
       const { data, isLoading } = useMeQuery()
 
       useEffect(() => {
          if (data && !pathname.includes(PublicRoutes.createNewPassword)) {
-            if (id && pathname === profileRoutes.public(id)) {
-               router.replace(profileRoutes.private(id))
+            if (login && pathname === profileRoutes.public(login)) {
+               router.replace(profileRoutes.private(login))
             } else {
-               router.replace(profileRoutes.private(data.userId))
+               router.replace(profileRoutes.private(data.login))
             }
          }
-      }, [data, id, pathname, router])
+      }, [data, login, pathname, router])
 
       if (isLoading) {
          return <Loader />
