@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { MODALS, useModalStack } from '.'
 import { AddPhotoModal } from '@/entities/posts/ui/modals/addPhotoModal'
 import { useSearchParams } from 'next/navigation'
+import { PublicationModal } from '@/entities/posts/ui/modals/PublicationModal'
 
 type Props = {
    onClose?: () => void
@@ -89,8 +90,15 @@ export const PostCreator = ({ onClose }: Props) => {
                //     onBack={() => openMainModal(MODALS.FILTERS)}
                //     onClose={requestClose}
                // />;
-
-               break
+               //в PublicationModal publish передавать не надо внутри прописан
+               return (
+                  <PublicationModal
+                     key="publication"
+                     photos={photos}
+                     onBack={() => openMainModal(MODALS.FILTERS)}
+                     onClose={requestClose}
+                  />
+               )
             //модалка закрытия для PostCreator
             case MODALS.CLOSE:
                // return <CloseModal

@@ -13,8 +13,8 @@ export const DescriptionBlock = ({
    description,
    isExpanded,
    onToggle,
-   shortLimit = 90,
-   extendedLimit = 270,
+   shortLimit = 78,
+   extendedLimit = 255,
 }: Props) => {
    const shouldTruncate = description.length > shortLimit
    const visibleText = isExpanded
