@@ -10,7 +10,7 @@ export const createImage = (url: string): Promise<HTMLImageElement> =>
 export async function getCroppedImg(
    imageSrc: string,
    pixelCrop: { x: number; y: number; width: number; height: number }
-): Promise<string> {
+): Promise<Blob> {
    const image = await createImage(imageSrc)
    const canvas = document.createElement('canvas')
    const ctx = canvas.getContext('2d')
@@ -40,7 +40,7 @@ export async function getCroppedImg(
          canvas.height = 0
 
          if (blob) {
-            resolve(URL.createObjectURL(blob))
+            resolve(blob)
          } else {
             reject(new Error('Canvas is empty'))
          }

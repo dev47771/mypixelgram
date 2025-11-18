@@ -1,25 +1,26 @@
 import { useReducer, useRef, useState, useCallback, useEffect } from 'react'
 import { ChangeEvent } from 'react'
-import { StaticImageData } from 'next/image'
 import { Area } from 'react-easy-crop'
 import { croppingReducer, initialState } from './croppingReducer'
-import { loadImageMeta, getCroppedImg } from '@/shared/utils'
+import { getCroppedImg } from '@/shared/utils'
 import { MAX_FILE_SIZE } from '@/shared/schema'
 import { alert } from '@/shared/components/Alert'
+import { PhotoState } from '@/features/post-creator/PostCreator'
+import { nanoid } from '@reduxjs/toolkit'
 
 type UseCroppingModalProps = {
-   images: StaticImageData[]
+   photos: PhotoState[]
    currentIndex: number
    setCurrentIndex: (idx: number) => void
-   setImages: (images: StaticImageData[]) => void
+   onPhotosUpdate: (photos: PhotoState[]) => void
    onNext: () => void
 }
 
 export const useCroppingModal = ({
-   images,
+   photos,
    currentIndex,
    setCurrentIndex,
-   setImages,
+   onPhotosUpdate,
    onNext,
 }: UseCroppingModalProps) => {
    const [state, dispatch] = useReducer(croppingReducer, initialState)
@@ -39,33 +40,34 @@ export const useCroppingModal = ({
    }
 
    const { crop, zoomScale, aspect, naturalAspect } = currentImageState
-   const image = images[currentIndex]
+   const currentPhoto = photos[currentIndex]
    const zoom = 1 + (zoomScale[0] / 100) * 2
 
    // Инициализируем состояние для изображения
    useEffect(() => {
-      if (!image) return
+      if (!currentPhoto) return
 
-      const naturalAspectValue = image.width / image.height
+      const img = new Image()
+      img.src = currentPhoto.previewUrl
+      img.onload = () => {
+         const naturalAspectValue = img.naturalWidth / img.naturalHeight
 
-      if (!imageStates[currentIndex]) {
-         dispatch({
-            type: 'INIT_IMAGE_STATE',
-            payload: {
-               index: currentIndex,
-               naturalAspect: naturalAspectValue,
-            },
-         })
+         if (!imageStates[currentIndex]) {
+            dispatch({
+               type: 'INIT_IMAGE_STATE',
+               payload: {
+                  index: currentIndex,
+                  naturalAspect: naturalAspectValue,
+               },
+            })
+         }
       }
-   }, [image, currentIndex, imageStates])
+   }, [currentPhoto, currentIndex, imageStates])
 
    useEffect(() => {
       const currentBlobUrls = blobUrlsRef.current
-
       return () => {
-         currentBlobUrls.forEach(url => {
-            URL.revokeObjectURL(url)
-         })
+         currentBlobUrls.forEach(url => URL.revokeObjectURL(url))
          currentBlobUrls.clear()
       }
    }, [])
@@ -115,27 +117,33 @@ export const useCroppingModal = ({
          return
       }
 
-      const src = URL.createObjectURL(file)
-      blobUrlsRef.current.add(src)
-      const { width, height } = await loadImageMeta(src)
-      setImages([...images, { src, width, height }])
+      const newPhoto = {
+         id: nanoid(),
+         previewUrl: URL.createObjectURL(file),
+         originalFile: file,
+         modifiedFile: null,
+         modifiedPreviewUrl: '',
+         currentFilter: 'filter-none',
+      } satisfies PhotoState
+
+      onPhotosUpdate([...photos, newPhoto])
       e.target.value = ''
    }
 
    const deleteImage = (idxToDelete: number) => {
-      const imageToDelete = images[idxToDelete]
+      const photoToDelete = photos[idxToDelete]
 
-      // Освобождаем Blob URL если это blob и мы его отслеживаем
-      if (imageToDelete.src.startsWith('blob:') && blobUrlsRef.current.has(imageToDelete.src)) {
-         URL.revokeObjectURL(imageToDelete.src)
-         blobUrlsRef.current.delete(imageToDelete.src)
+      // Освобождаем Blob URL
+      URL.revokeObjectURL(photoToDelete.previewUrl)
+      if (photoToDelete.modifiedPreviewUrl) {
+         URL.revokeObjectURL(photoToDelete.modifiedPreviewUrl)
       }
 
-      const newImages = images.filter((_, idx) => idx !== idxToDelete)
-      setImages(newImages)
+      const newPhotos = photos.filter((_, idx) => idx !== idxToDelete)
+      onPhotosUpdate(newPhotos)
 
-      if (currentIndex >= newImages.length) {
-         setCurrentIndex(Math.max(newImages.length - 1, 0))
+      if (currentIndex >= newPhotos.length) {
+         setCurrentIndex(Math.max(newPhotos.length - 1, 0))
       }
    }
 
@@ -208,44 +216,57 @@ export const useCroppingModal = ({
       setCurrentIndex(newIndex)
    }
 
-   // Обрезка изображений
-   const processAndSaveCroppedImages = async (): Promise<StaticImageData[]> => {
-      return await Promise.all(
-         images.map(async (image, index) => {
+   // Обрезка изображений - СОЗДАЕМ ТОЛЬКО MODIFIED ФАЙЛЫ
+   const processAndSaveCroppedImages = async (): Promise<void> => {
+      const updatedPhotos = await Promise.all(
+         photos.map(async (photo, index) => {
             const imageState = imageStates[index]
 
             if (imageState?.croppedAreaPixels) {
                try {
-                  const croppedSrc = await getCroppedImg(image.src, imageState.croppedAreaPixels)
-                  blobUrlsRef.current.add(croppedSrc) // Отслеживаем новый URL
+                  // Создаем обрезанное изображение
+                  const croppedBlob = await getCroppedImg(
+                     photo.previewUrl,
+                     imageState.croppedAreaPixels
+                  )
+                  const croppedFile = new File(
+                     [croppedBlob],
+                     `cropped-${photo.originalFile.name}`,
+                     {
+                        type: 'image/jpeg', // Явно указываем тип
+                        lastModified: Date.now(),
+                     }
+                  )
+                  const croppedPreviewUrl = URL.createObjectURL(croppedFile)
 
-                  // Освобождаем старый Blob URL если это blob
-                  if (image.src.startsWith('blob:') && blobUrlsRef.current.has(image.src)) {
-                     URL.revokeObjectURL(image.src)
-                     blobUrlsRef.current.delete(image.src)
+                  // Освобождаем старый modifiedPreviewUrl если он есть
+                  if (photo.modifiedPreviewUrl) {
+                     URL.revokeObjectURL(photo.modifiedPreviewUrl)
                   }
 
                   return {
-                     src: croppedSrc,
-                     width: imageState.croppedAreaPixels.width,
-                     height: imageState.croppedAreaPixels.height,
+                     ...photo,
+                     modifiedFile: croppedFile,
+                     modifiedPreviewUrl: croppedPreviewUrl,
                   }
                } catch (error) {
                   console.error('Error cropping image:', error)
-                  return image
+                  return photo
                }
             } else {
-               return image
+               // Если кроп не применялся, оставляем как есть
+               return photo
             }
          })
       )
+
+      onPhotosUpdate(updatedPhotos)
    }
 
    const handleNext = async () => {
       setIsProcessing(true)
       try {
-         const croppedImages = await processAndSaveCroppedImages()
-         setImages(croppedImages)
+         await processAndSaveCroppedImages()
          onNext()
       } catch (error) {
          console.error('Error processing images:', error)
@@ -265,7 +286,7 @@ export const useCroppingModal = ({
       zoom,
       aspect,
       naturalAspect,
-      image,
+      currentPhoto,
       zoomScale,
       fileInputRef,
 
@@ -297,8 +318,6 @@ export const useCroppingModal = ({
       // Обрезка
       handleNext,
 
-      // Диспатч для AspectOption
-      dispatch,
       currentIndex,
    }
 }

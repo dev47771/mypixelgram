@@ -1,5 +1,6 @@
+import { MouseEvent } from 'react'
 import { PostModal } from '@/shared/components/PostModal'
-import Image, { StaticImageData } from 'next/image'
+import Image from 'next/image'
 import {
    CrossIcon,
    ExpandOutline,
@@ -14,16 +15,17 @@ import { Slider } from '@/shared/components/Slider'
 import { ACCEPTED_IMAGE_TYPES } from '@/shared/schema'
 import { useCroppingModal } from '@/entities/posts/ui/modals/croppingModal/useCroppingModal'
 import { AspectOption } from '@/entities/posts/ui/modals/croppingModal/AspectOption'
+import { PhotoState } from '@/features/post-creator/PostCreator'
 
 type Props = {
-   isOpen: boolean
    onOpenChange: (value: boolean) => void
-   images: StaticImageData[]
+   isOpen: boolean
+   photos: PhotoState[]
    onNext: () => void
    currentIndex: number
    onBack: () => void
    setCurrentIndex: (idx: number) => void
-   setImages: (images: StaticImageData[]) => void
+   onPhotosUpdate: (photos: PhotoState[]) => void
 }
 
 export const CroppingModal = ({
@@ -32,9 +34,9 @@ export const CroppingModal = ({
    isOpen,
    onNext,
    onBack,
-   images,
+   photos,
    onOpenChange,
-   setImages,
+   onPhotosUpdate,
 }: Props) => {
    const {
       showZoomScale,
@@ -45,7 +47,7 @@ export const CroppingModal = ({
       zoom,
       aspect,
       naturalAspect,
-      image,
+      currentPhoto,
       fileInputRef,
       handleAddImageClick,
       handleSet16_9Aspect,
@@ -67,14 +69,14 @@ export const CroppingModal = ({
       handleNext,
       zoomScale,
    } = useCroppingModal({
-      images,
+      photos,
       currentIndex,
       setCurrentIndex,
-      setImages,
+      onPhotosUpdate,
       onNext,
    })
 
-   const handleImageClick = (e: React.MouseEvent) => {
+   const handleImageClick = (e: MouseEvent) => {
       e.stopPropagation()
       closeAllPanels()
    }
@@ -103,8 +105,8 @@ export const CroppingModal = ({
          {showImageGallery ? (
             <div className="bg-dark-700 relative h-full w-full" onClick={handleImageClick}>
                <Slider
-                  key={images.length}
-                  images={images.map(img => img.src)}
+                  key={photos.length}
+                  images={photos.map(i => i.previewUrl)}
                   currentIndex={currentIndex}
                   onIndexChangeAction={handleSliderNavigation}
                   className="h-full w-full"
@@ -113,7 +115,7 @@ export const CroppingModal = ({
          ) : (
             <div className="bg-dark-700 h-[400px] w-full" onClick={handleImageClick}>
                <Cropper
-                  image={image?.src}
+                  image={currentPhoto.previewUrl}
                   crop={crop}
                   zoom={zoom}
                   aspect={aspect}
@@ -242,9 +244,9 @@ export const CroppingModal = ({
                   'bg-dark-500 absolute right-[11px] bottom-[49px] flex gap-3 rounded-xs p-3 opacity-80'
                }
             >
-               {images.map((i, idx) => (
+               {photos.map((i, idx) => (
                   <div
-                     key={i.src}
+                     key={i.previewUrl}
                      className={cn(
                         'relative cursor-pointer',
                         currentIndex === idx && 'ring-accent-500 rounded-xs ring-2'
@@ -253,7 +255,7 @@ export const CroppingModal = ({
                   >
                      <div className="relative h-[82px] w-20">
                         <Image
-                           src={i.src}
+                           src={i.previewUrl}
                            alt={`Cropped image ${idx + 1}`}
                            fill
                            sizes="80px"

@@ -4,28 +4,32 @@ import { PublicationForm, PublicationFormData } from '@/features/posts/forms/Pub
 import { usePublishPost } from '@/features/posts/hooks'
 import { Modal } from '@/shared/components/Modal'
 import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataResponse'
+import { PhotoState } from '@/features/post-creator/PostCreator'
+import { hasModifiedFile } from '@/shared/utils'
 
 type Props = {
    onBack: () => void
-   photos: File[]
+   photos: PhotoState[]
    onClose: () => void
 }
 
 export const PublicationModal = ({ onBack, photos, onClose }: Props) => {
    const { publishPost, isLoading, error } = usePublishPost()
 
+   const photosToPost = photos.filter(hasModifiedFile).map(photo => photo.modifiedFile)
+
    //mock data for uploadFile
-   photos = [
+   /*   photos = [
       new File([], 'placeholder1.jpg'),
       new File([], 'placeholder2.png'),
       new File([], 'placeholder3.png'),
-   ]
+   ]*/
 
    //mock data for slider
-   const images = ['./public/404.jpg', './public/logo-light.png', './public/logo-dark.png']
+   //const images = ['./public/404.jpg', './public/logo-light.png', './public/logo-dark.png']
 
    const handlePublish = async (dataPostData: PublicationFormData) => {
-      await publishPost(dataPostData, photos)
+      await publishPost(dataPostData, photosToPost)
       onClose()
    }
 
@@ -36,7 +40,7 @@ export const PublicationModal = ({ onBack, photos, onClose }: Props) => {
             onBack={onBack}
             errorsFromApi={isErrorInDataResponse(error) ? error?.data.errorsMessages : undefined}
             isLoading={isLoading}
-            images={images}
+            images={photos.map(photo => photo.modifiedPreviewUrl)}
          />
       </Modal>
    )
