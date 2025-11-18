@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react'
 import { MODALS, useModalStack } from '.'
-import { FilterModal } from './ui/modals/FilterModal/FilterModal'
 import { nanoid } from '@reduxjs/toolkit'
 import { AddPhotoModal } from '@/entities/posts/ui/modals/addPhotoModal'
 import { useSearchParams } from 'next/navigation'
 import { PublicationModal } from '@/entities/posts/ui/modals/PublicationModal'
+import { FilterModal } from '@/entities/posts/ui/modals/FilterModal/FilterModal'
 
 export type PhotoState = {
     id: string

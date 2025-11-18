@@ -1,6 +1,6 @@
 import { PostModal } from "@/shared/components/PostModal"
+import { FiltersBlock } from "./FilterBlock/FiltersBlock"
 import { PostCreatorSlider } from "../../PostCreatorSlider/PostCreatorSlider"
-import { FiltersBlock } from "../FilterBlock/FiltersBlock"
 
 type Props = {
     onBack: () => void
@@ -12,13 +12,13 @@ type Props = {
     onFilterChange: (filter: string) => void
 }
 
-export const FilterModal = ({ 
-    onBack, 
-    onNext, 
+export const FilterModal = ({
+    onBack,
+    onNext,
     //onClose, 
-    images, 
-    currentFilter, 
-    onSlideChange, 
+    images,
+    currentFilter,
+    onSlideChange,
     onFilterChange }: Props) => {
     return (
         <PostModal
