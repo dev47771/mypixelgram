@@ -8,8 +8,8 @@ import { ReactNode } from 'react'
 import { cn } from '@/shared/lib'
 
 export type YesAndNoModalProps = {
-   open?: boolean
-   title: string
+   open: boolean
+   title?: string
    description?: ReactNode
    onConfirm: () => void
    onCancel: () => void
