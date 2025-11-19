@@ -2,7 +2,7 @@ import z from 'zod'
 
 export const userSchema = z.object({
    userId: z.string(),
-   userName: z.string(),
+   login: z.string(),
    avatar: z.string().nullable(),
 })
 
@@ -18,13 +18,14 @@ export const fileSchema = z.object({
       },
       { message: 'Invalid URL' }
    ),
+   fileId: z.string(),
 })
 
 export const lastPostSchema = z.object({
    postId: z.string(),
    description: z.string().nullable(),
    location: z.string().nullable(),
-   file: fileSchema,
+   file: z.array(fileSchema),
    createdAt: z.string(),
    user: userSchema,
 })
