@@ -1,11 +1,11 @@
 'use client'
 
-import { LastPostProps } from '@/shared/schema'
 import { useEffect, useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { PhotoSlider } from './PhotoSlider'
 import { UserBlock } from './UserBlock'
 import { DescriptionBlock } from './DescriptionBlock'
+import { LastPostProps } from '../schemas'
 
 export const CardPost = ({ description, file, createdAt, user }: LastPostProps) => {
    //for relative time, update every 60 sec
