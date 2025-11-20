@@ -1,26 +1,23 @@
 import { UserAvatar } from '../UserAvatar'
 import { UserStats } from '../UserStats'
 import { Typography } from '@/shared/components/Typography'
-import { PaidIcon, PostOutlineIcon } from '@/shared/icons'
+import { PostOutlineIcon } from '@/shared/icons'
 import { Button } from '@/shared/components/Button'
 import Link from 'next/link'
-import { UserProfileType } from '@/entities/user'
+import { useGetUserByLoginQuery } from '@/entities/user'
 import React from 'react'
+import { useMeQuery } from '@/features/auth/api'
 
-type ProfileHeaderProps = Partial<{
-   userProfile: UserProfileType
-   isOwnerProfile: boolean
-   isPaidAccount: boolean
-   isLoading: boolean
-}>
+type Props = {
+   login: string
+}
 
-export const ProfileHeader = ({
-   userProfile,
-   isOwnerProfile = false,
-   isPaidAccount = false, // в дальнейшем можно убрать, скорее всего будет приходить в user
-   isLoading,
-}: ProfileHeaderProps) => {
-   if (isLoading) {
+export const ProfileHeader = ({ login }: Props) => {
+   const { data: userProfile, isLoading: isProfileLoading } = useGetUserByLoginQuery(login)
+   const { data: owner, isLoading: isOwnerProfileLoading } = useMeQuery()
+   const isOwnerProfile = userProfile?.user.id === owner?.userId
+
+   if (isProfileLoading || isOwnerProfileLoading) {
       return 'Loading...' // в дальнейшем скелетон
    }
 
@@ -49,7 +46,7 @@ export const ProfileHeader = ({
                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                      <Typography variant={'h1'}>{user.login}</Typography>
-                     {isPaidAccount && <PaidIcon />}
+                     {/*{isPaidAccount && <PaidIcon />}*/}
                   </div>
 
                   {isOwnerProfile ? (

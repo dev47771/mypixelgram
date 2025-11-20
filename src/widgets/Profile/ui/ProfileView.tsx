@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { ProfileHeaderContainer } from '@/widgets/Profile'
+import { ProfileHeader } from '@/entities/user'
 
 type Props = {
    login: string
@@ -11,7 +11,7 @@ type Props = {
 export const ProfileView = ({ login }: Props) => {
    return (
       <div className={'flex flex-col gap-12'}>
-         <ProfileHeaderContainer login={login} />
+         <ProfileHeader login={login} />
       </div>
    )
 }
