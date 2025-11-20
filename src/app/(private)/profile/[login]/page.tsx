@@ -16,7 +16,7 @@ export default async function ProfilePage({ params }: { params: Promise<Params> 
    }
 
    return (
-      <PageContainer>
+      <PageContainer className={'items-stretch'}>
          <ProfileView login={login} />
       </PageContainer>
    )

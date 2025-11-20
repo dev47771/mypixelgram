@@ -32,7 +32,7 @@ export const ProfileHeader = ({
 
    return (
       <div className="flex gap-9.5">
-         <div className="">
+         <div>
             {user.avatar ? (
                <UserAvatar size={204} src={user.avatar} />
             ) : (
@@ -44,7 +44,7 @@ export const ProfileHeader = ({
             )}
          </div>
 
-         <div className="flex flex-col">
+         <div className="flex w-full flex-col">
             <div>
                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
