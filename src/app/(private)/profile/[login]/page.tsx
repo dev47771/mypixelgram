@@ -5,19 +5,19 @@ import { redirect } from 'next/navigation'
 import { PublicRoutes } from '@/shared/enums'
 
 type Params = {
-   id: string
+   login: string
 }
 
 export default async function ProfilePage({ params }: { params: Promise<Params> }) {
-   const { id } = await params
+   const { login } = await params
 
-   if (!id || id === 'undefined') {
+   if (!login || login === 'undefined') {
       redirect(PublicRoutes.main)
    }
 
    return (
       <PageContainer>
-         <ProfileView userId={id} />
+         <ProfileView login={login} />
       </PageContainer>
    )
 }

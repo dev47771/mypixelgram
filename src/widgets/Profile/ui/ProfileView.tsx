@@ -5,13 +5,13 @@ import React from 'react'
 import { ProfileHeaderContainer } from '@/widgets/Profile'
 
 type Props = {
-   userId: string
+   login: string
 }
 
-export const ProfileView = ({ userId }: Props) => {
+export const ProfileView = ({ login }: Props) => {
    return (
       <div className={'flex flex-col gap-12'}>
-         <ProfileHeaderContainer userId={userId} />
+         <ProfileHeaderContainer login={login} />
       </div>
    )
 }

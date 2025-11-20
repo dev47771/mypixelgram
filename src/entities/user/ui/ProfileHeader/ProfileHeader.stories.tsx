@@ -10,9 +10,11 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 const mockUser = {
-   id: '12',
-   login: 'Username',
-   avatar: '',
+   user: {
+      id: '12',
+      login: 'Username',
+      avatar: '',
+   },
    description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco',
    followers: 1000,
@@ -22,7 +24,7 @@ const mockUser = {
 
 export const OwnerPaid: Story = {
    args: {
-      user: mockUser,
+      userProfile: mockUser,
       isOwnerProfile: true,
       isPaidAccount: true,
    },
@@ -30,7 +32,7 @@ export const OwnerPaid: Story = {
 
 export const OwnerFree: Story = {
    args: {
-      user: mockUser,
+      userProfile: mockUser,
       isOwnerProfile: true,
       isPaidAccount: false,
    },
@@ -38,7 +40,7 @@ export const OwnerFree: Story = {
 
 export const VisitorPaid: Story = {
    args: {
-      user: mockUser,
+      userProfile: mockUser,
       isOwnerProfile: false,
       isPaidAccount: true,
    },
@@ -46,7 +48,7 @@ export const VisitorPaid: Story = {
 
 export const VisitorFree: Story = {
    args: {
-      user: mockUser,
+      userProfile: mockUser,
       isOwnerProfile: false,
       isPaidAccount: false,
    },

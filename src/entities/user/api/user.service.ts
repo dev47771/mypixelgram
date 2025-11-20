@@ -1,16 +1,16 @@
 import { baseApi } from '@/shared/store'
 import { UserEndpoints } from '@/shared/enums'
-import { UserType } from '@/entities/user'
+import { UserProfileType } from '@/entities/user'
 
 export const userService = baseApi.injectEndpoints({
    endpoints: builder => ({
-      getUserById: builder.query<UserType, string>({
-         query: userId => ({
+      getUserByLogin: builder.query<UserProfileType, string>({
+         query: login => ({
             method: 'GET',
-            url: `${UserEndpoints.userProfile}/${userId}`,
+            url: `${UserEndpoints.userProfile}/${login}`,
          }),
       }),
    }),
 })
 
-export const { useGetUserByIdQuery } = userService
+export const { useGetUserByLoginQuery } = userService

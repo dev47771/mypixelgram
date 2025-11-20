@@ -52,6 +52,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
 
    const params = useParams()
    const userId = params.id
+   const userLogin = user?.login
 
    const handleLogoutClick = () => setIsLogoutModalOpen(true)
 
@@ -109,7 +110,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
                   name="My Profile"
                   icon={PersonOutlineIcon}
                   activeIcon={PersonIcon}
-                  path={`/profile/${userId}`}
+                  path={`/profile/${userLogin}`}
                />
                <SidebarItem
                   id="4"

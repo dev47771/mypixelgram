@@ -1,3 +1,3 @@
 export enum UserEndpoints {
-   userProfile = '/users',
+   userProfile = 'public/users/profile',
 }

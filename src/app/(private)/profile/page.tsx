@@ -1,16 +1,16 @@
-
 import { PageContainer } from '@/shared/components/PageContainer'
-
 import { ProfileView } from '@/widgets/Profile'
 
-type Props = {
-   params: { id: string }
+type Params = {
+   userLogin: string
 }
 
-export default function ProfilePage({ params }: Props) {
+export default async function ProfilePage({ params }: { params: Promise<Params> }) {
+   const { userLogin } = await params
+
    return (
       <PageContainer>
-         <ProfileView userId={params.id} />
+         <ProfileView login={userLogin} />
       </PageContainer>
    )
 }

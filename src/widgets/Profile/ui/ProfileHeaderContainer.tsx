@@ -1,15 +1,21 @@
 import { ProfileHeader } from '@/entities/user'
-import { useGetUserByIdQuery } from '@/entities/user/api/user.service'
+import { useGetUserByLoginQuery } from '@/entities/user/api/user.service'
 
 type Props = {
-   userId: string
+   login: string
 }
 
-export const ProfileHeaderContainer = ({ userId }: Props) => {
-   const { data: user, isLoading: isProfileLoading } = useGetUserByIdQuery(userId)
+export const ProfileHeaderContainer = ({ login }: Props) => {
+   const { data: userProfile, isLoading: isProfileLoading } = useGetUserByLoginQuery(login)
    // const { data: owner, isLoading: isOwnerProfileLoading } = useMeQuery()
    // const isOwnerProfile = user?.id === owner?.userId // пока не расширят Ми запрос
    const isOwnerProfile = true
 
-   return <ProfileHeader user={user} isOwnerProfile={isOwnerProfile} isLoading={isProfileLoading} />
+   return (
+      <ProfileHeader
+         userProfile={userProfile}
+         isOwnerProfile={isOwnerProfile}
+         isLoading={isProfileLoading}
+      />
+   )
 }

@@ -4,29 +4,31 @@ import { Typography } from '@/shared/components/Typography'
 import { PaidIcon, PostOutlineIcon } from '@/shared/icons'
 import { Button } from '@/shared/components/Button'
 import Link from 'next/link'
-import { UserType } from '@/entities/user'
+import { UserProfileType } from '@/entities/user'
 import React from 'react'
 
 type ProfileHeaderProps = Partial<{
-   user: UserType
+   userProfile: UserProfileType
    isOwnerProfile: boolean
    isPaidAccount: boolean
    isLoading: boolean
 }>
 
 export const ProfileHeader = ({
-   user,
+   userProfile,
    isOwnerProfile = false,
    isPaidAccount = false, // в дальнейшем можно убрать, скорее всего будет приходить в user
    isLoading,
 }: ProfileHeaderProps) => {
-   if (!user) {
+   if (!userProfile) {
       return <Typography className={'text-center'}>User not found</Typography>
    }
 
    if (isLoading) {
       return 'Loading...' // в дальнейшем скелетон
    }
+
+   const { user, following, followers, publicationCount, description } = userProfile
 
    return (
       <div className="flex gap-9.5">
@@ -64,14 +66,14 @@ export const ProfileHeader = ({
 
                <div className="mt-[25px] mb-[23px]">
                   <UserStats
-                     followers={user.followers}
-                     following={user.following}
-                     publications={user.publicationCount}
+                     followers={followers}
+                     following={following}
+                     publications={publicationCount}
                   />
                </div>
             </div>
 
-            <Typography>{user.description}</Typography>
+            <Typography>{description}</Typography>
          </div>
       </div>
    )
