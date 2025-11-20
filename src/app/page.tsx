@@ -1,7 +1,7 @@
 import { CardPost } from '@/entities/posts/ui/CardPost'
+import { lastPostsSchema } from '@/entities/posts/ui/schemas'
 import ServerPageContainer from '@/shared/components/PageContainer/ServerPageContainer'
 import { apiMap } from '@/shared/constants'
-import { lastPostsSchema } from '@/shared/schema'
 
 export const revalidate = 60
 

@@ -1,10 +1,21 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/no-unused-vars, react-hooks/exhaustive-deps */
 'use client'
-/* eslint-disable */
 
 import { useEffect, useState } from 'react'
 import { MODALS, useModalStack } from '.'
+import { FilterModal } from './ui/modals/FilterModal/FilterModal'
+import { nanoid } from '@reduxjs/toolkit'
 import { AddPhotoModal } from '@/entities/posts/ui/modals/addPhotoModal'
 import { useSearchParams } from 'next/navigation'
+import { PublicationModal } from '@/entities/posts/ui/modals/PublicationModal'
+
+export type PhotoState = {
+   id: string
+   originalFile: File // Исходный файл
+   previewUrl: string // URL.createObjectURL(file)
+   currentFilter: string // Текущий активный фильтр
+}
 
 type Props = {
    onClose?: () => void
@@ -13,18 +24,51 @@ type Props = {
 export const PostCreator = ({ onClose }: Props) => {
    const { modalStack, openMainModal, openOverlayModal, closeTopModal, resetModalStack } =
       useModalStack()
-   const [photos, setPhotos] = useState<File[]>([])
+
+   //массив с объектами фото
+   const [photos, setPhotos] = useState<PhotoState[]>([])
+
+   //индекс текущего фото в слайдере
+   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
+
    const searchParams = useSearchParams()
 
    const action = searchParams.get('action')
    const isAddPhotoAction = action === 'create'
-   // массив для ссылок на файлы для карусели????
-   // const [urlPhotos, setUrlPhotos] = useState<string[]>([]);
+
+   //добавление новых фото
+   const handleAddPhotos = (newFiles: File[]) => {
+      const newPhotos: PhotoState[] = newFiles.map(file => ({
+         id: nanoid(),
+         originalFile: file,
+         previewUrl: URL.createObjectURL(file),
+         currentFilter: 'filter-none',
+      }))
+
+      setPhotos(prev => [...prev, ...newPhotos])
+   }
+
+   //применение фильтра к текущему фото
+   const applyFilterToCurrentPhoto = (filter: string) => {
+      setPhotos(prev =>
+         prev.map((photo, index) =>
+            index === currentPhotoIndex
+               ? {
+                    ...photo,
+                    currentFilter: filter,
+                 }
+               : photo
+         )
+      )
+   }
 
    //при закрытии PostCreator сработает очистка массива с фото и сбросится до initial состояния массив modalStack
    useEffect(() => {
       return () => {
          resetModalStack()
+         photos.forEach(photo => {
+            URL.revokeObjectURL(photo.previewUrl)
+         })
          setPhotos([])
       }
    }, [])
@@ -43,19 +87,11 @@ export const PostCreator = ({ onClose }: Props) => {
          switch (modalName) {
             //основные модальные окошки PostCreator
             case MODALS.ADD_PHOTO:
-               // return <AddPhotoModal
-               //     key="add_photo"
-               //     onPhotoSelected={(file: File) => {
-               //         setPhotos([file]);
-               //         openMainModal(MODALS.CROPPING);
-               //     }}
-               //     onClose={requestClose}
-               // />;
                return (
                   <AddPhotoModal
                      key="add_photo"
                      onPhotoSelected={(file: File) => {
-                        setPhotos([file])
+                        handleAddPhotos([file])
                         openMainModal(MODALS.CROPPING)
                      }}
                      onClose={requestClose}
@@ -63,6 +99,8 @@ export const PostCreator = ({ onClose }: Props) => {
                      onOpenChange={requestClose}
                   />
                )
+               break
+
             case MODALS.CROPPING:
                // return <CroppingModal
                //     key="cropping"
@@ -72,25 +110,32 @@ export const PostCreator = ({ onClose }: Props) => {
                //     onClose={requestClose}
                // />;
                break
-            case MODALS.FILTERS:
-               // return <FiltersModal
-               //     key="filters"
-               //     photos={photos}
-               //     onNext={() => openMainModal(MODALS.PUBLICATION)}
-               //     onBack={() => openMainModal(MODALS.CROPPING)}
-               //     onClose={requestClose}
-               // />;
-               break
-            case MODALS.PUBLICATION:
-               // return <PublicationModal
-               //     key="publication"
-               //     photos={photos}
-               //     publish={() => null} //тут будет отправка публикации вместо null + нужно добавить закрытие PostCreator после успешного создания поста и отображение поста в ленте пользователя
-               //     onBack={() => openMainModal(MODALS.FILTERS)}
-               //     onClose={requestClose}
-               // />;
 
+            case MODALS.FILTERS:
+               return (
+                  <FilterModal
+                     onBack={() => openMainModal(MODALS.CROPPING)}
+                     onNext={() => openMainModal(MODALS.PUBLICATION)}
+                     images={photos.map(photo => photo.previewUrl)}
+                     currentFilter={photos[currentPhotoIndex]?.currentFilter || 'filter-none'}
+                     onSlideChange={setCurrentPhotoIndex}
+                     onFilterChange={applyFilterToCurrentPhoto}
+                  />
+               )
                break
+
+            case MODALS.PUBLICATION:
+               return (
+                  <PublicationModal
+                     key="publication"
+                     // @ts-expect-error
+                     photos={photos}
+                     onBack={() => openMainModal(MODALS.FILTERS)}
+                     onClose={requestClose}
+                  />
+               )
+               break
+
             //модалка закрытия для PostCreator
             case MODALS.CLOSE:
                // return <CloseModal
@@ -98,8 +143,8 @@ export const PostCreator = ({ onClose }: Props) => {
                //     onConfirm={closeTopModal} //для кнопки no, крестика в модалке close и при клике где-то вне зоны модалки close
                //     onCancel={handleCompleteClose} //для кнопки yes (закроет PostCreator)
                // />;
-
                break
+
             default:
                return null
          }

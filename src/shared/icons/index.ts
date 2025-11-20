@@ -49,3 +49,5 @@ export { RecaptchaSuccessIcon } from './RecaptchaSuccessIcon'
 export { FlagRussiaIcon } from './FlagRussiaIcon'
 export { FlagUKIcon } from './FlagUKIcon'
 export { PaidIcon } from './PaidIcon'
+export { PinLocation } from './PinLocation'
+
