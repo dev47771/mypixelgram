@@ -14,6 +14,9 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
+   args: {
+      totalCount: 146,
+   },
    render: args => (
       <div className={'w-[500px]'}>
          <UserCounter {...args} />
