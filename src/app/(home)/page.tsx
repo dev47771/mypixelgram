@@ -13,9 +13,9 @@ export default async function HomePage() {
 
       return (
          <ServerPageContainer>
-            <div className="bg-dark-500 border-dark-300 mb-[36px] h-[72px] w-[972px] w-full border"></div>
+            <div className="bg-dark-500 border-dark-300 mb-[36px] h-[72px] w-full border"></div>
 
-            <div className="flex max-w-[972px] flex-wrap gap-3">
+            <div className="max-full flex flex-wrap gap-3">
                {data.posts.map(post => {
                   return <CardPost key={post.postId} {...post} />
                })}
