@@ -1,5 +1,6 @@
 import { ProfileHeader } from '@/entities/user'
 import { useGetUserByLoginQuery } from '@/entities/user/api/user.service'
+import { useMeQuery } from '@/features/auth/api'
 
 type Props = {
    login: string
@@ -7,15 +8,14 @@ type Props = {
 
 export const ProfileHeaderContainer = ({ login }: Props) => {
    const { data: userProfile, isLoading: isProfileLoading } = useGetUserByLoginQuery(login)
-   // const { data: owner, isLoading: isOwnerProfileLoading } = useMeQuery()
-   // const isOwnerProfile = user?.id === owner?.userId // пока не расширят Ми запрос
-   const isOwnerProfile = true
+   const { data: owner, isLoading: isOwnerProfileLoading } = useMeQuery()
+   const isOwnerProfile = userProfile?.user.id === owner?.userId
 
    return (
       <ProfileHeader
          userProfile={userProfile}
          isOwnerProfile={isOwnerProfile}
-         isLoading={isProfileLoading}
+         isLoading={isProfileLoading || isOwnerProfileLoading}
       />
    )
 }
