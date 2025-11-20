@@ -20,12 +20,12 @@ export const ProfileHeader = ({
    isPaidAccount = false, // в дальнейшем можно убрать, скорее всего будет приходить в user
    isLoading,
 }: ProfileHeaderProps) => {
-   if (!userProfile) {
-      return <Typography className={'text-center'}>User not found</Typography>
-   }
-
    if (isLoading) {
       return 'Loading...' // в дальнейшем скелетон
+   }
+
+   if (!userProfile) {
+      return <Typography className={'text-center'}>User not found</Typography>
    }
 
    const { user, following, followers, publicationCount, description } = userProfile
