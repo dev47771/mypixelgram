@@ -12,8 +12,8 @@ const AuthContext = createContext<{ isAuthorized: boolean }>({
 export const useAuth = () => useContext(AuthContext)
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
-   const { data } = useMeQuery()
-   const isAuthorized = !!data
+   const { data, isLoading } = useMeQuery()
+   const isAuthorized = !!data && !isLoading
 
    return (
       <AuthContext.Provider value={{ isAuthorized }}>
