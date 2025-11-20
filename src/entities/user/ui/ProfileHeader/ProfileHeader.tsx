@@ -34,7 +34,7 @@ export const ProfileHeader = ({
       <div className="flex gap-9.5">
          <div>
             {user.avatar ? (
-               <UserAvatar size={204} src={user.avatar} />
+               <UserAvatar size={204} src={user.avatar} alt={'user avatar'} />
             ) : (
                <div
                   className={'bg-dark-500 flex h-51 w-51 items-center justify-center rounded-full'}

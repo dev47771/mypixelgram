@@ -1,21 +1,20 @@
 import React from 'react'
-import Image from 'next/image'
+import Image, { ImageProps } from 'next/image'
 import { cn } from '@/shared/lib'
 
 type Props = {
-   src: string
    size?: number
-   className?: string
-}
+} & Omit<ImageProps, 'width' | 'height'>
 
-export const UserAvatar = ({ className, src, size = 36 }: Props) => {
+export const UserAvatar = ({ className, src, alt, size = 36, ...rest }: Props) => {
    return (
       <Image
          className={cn('rounded-full object-cover', className)}
          src={src}
-         alt={'User avatar'}
+         alt={alt}
          width={size}
          height={size}
+         {...rest}
       />
    )
 }
