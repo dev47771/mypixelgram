@@ -15,7 +15,7 @@ export default function SignInPage() {
 
    const handleLogin = async (data: SignInArgs) => {
       await login(data).unwrap()
-      router.push(PrivateRoutes.profile)
+      router.push(PrivateRoutes.feed)
    }
 
    return (
