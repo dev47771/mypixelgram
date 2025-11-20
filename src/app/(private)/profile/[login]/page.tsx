@@ -11,7 +11,7 @@ type Params = {
 export default async function ProfilePage({ params }: { params: Promise<Params> }) {
    const { login } = await params
 
-   if (!login || login === 'undefined') {
+   if (!login) {
       redirect(PublicRoutes.main)
    }
 
