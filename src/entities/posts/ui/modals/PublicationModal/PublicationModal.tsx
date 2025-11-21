@@ -1,7 +1,6 @@
 'use client'
 
 import { PhotoState } from '@/features/post-creator/PostCreator'
-import { applyFilterToImage } from '@/features/post-creator/utils/applyImageFilter'
 import { PublicationForm, PublicationFormData } from '@/features/posts/forms/PublicationForm'
 import { usePublishPost } from '@/features/posts/hooks'
 import { Modal } from '@/shared/components/Modal'
@@ -9,6 +8,9 @@ import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataRe
 import { alert } from '@/shared/components/Alert'
 import { ErrorResponse } from '@/features/auth/api'
 import { useState } from 'react'
+import { applyFilterToImage } from '@/features/post-creator/utils/applyImageFilter'
+// import { PhotoState } from '@/features/post-creator/PostCreator'
+// import { hasModifiedFile } from '@/shared/utils'
 
 type Props = {
    onBack: () => void
@@ -20,6 +22,8 @@ type Props = {
 export const PublicationModal = ({ onBack, photos, onOpenChange, closePostCreator }: Props) => {
    const { publishPost, isLoading, error } = usePublishPost()
    const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
+
+   //const photosToPost = photos.filter(hasModifiedFile).map(photo => photo.modifiedFile)
 
    const handlePublish = async (dataPostData: PublicationFormData) => {
       try {
@@ -43,7 +47,7 @@ export const PublicationModal = ({ onBack, photos, onOpenChange, closePostCreato
             onBack={onBack}
             errorsFromApi={isErrorInDataResponse(error) ? error?.data.errorsMessages : undefined}
             isLoading={isLoading}
-            images={photos.map(photo => photo.previewUrl)}
+            images={photos.map(photo => photo.modifiedPreviewUrl || photo.previewUrl)}
             currentFilter={photos[currentPhotoIndex]?.currentFilter || 'filter-none'}
             onSlideChange={setCurrentPhotoIndex}
          />

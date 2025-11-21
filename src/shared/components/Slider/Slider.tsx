@@ -11,32 +11,54 @@ import {
 import { ArrowLeftIcon, ArrowRightIcon } from '@/shared/icons'
 import Image from 'next/image'
 import { ReactNode } from 'react'
+import { useEffect } from 'react'
+import { cn } from '@/shared/lib'
+import { FilterValue } from '@/entities/posts/ui/modals/FilterModal/FilterBlock/FiltersBlock'
 
 type Props = {
    images: string[]
    className?: string
    disabled?: boolean
-   renderSlide?: (src: string, isActive: boolean, currentSlide: number) => ReactNode
+   currentIndex?: number
+   currentFilter?: FilterValue
+   renderSlideAction?: (src: string, isActive: boolean, currentSlide: number) => ReactNode
+   onIndexChangeAction?: (index: number) => void
 }
 
-
-export const Slider = ({ images, className, disabled, renderSlide }: Props) => {
-
-   const { sliderRef, instanceRef, currentSlide, slides } = useSlider()
+export const Slider = ({
+   images,
+   className,
+   disabled,
+   currentIndex,
+   onIndexChangeAction,
+   currentFilter,
+}: Props) => {
+   const { sliderRef, instanceRef, currentSlide, slides } = useSlider(true, onIndexChangeAction)
 
    const onNextSlideHandler = () => instanceRef.current?.next()
    const onPrevSlideHandler = () => instanceRef.current?.prev()
    const onDotClickHandler = (i: number) => instanceRef.current?.moveToIdx(i)
+
+   useEffect(() => {
+      if (currentIndex === undefined || currentIndex === null) {
+         return
+      }
+      if (instanceRef.current && currentIndex !== currentSlide) {
+         instanceRef.current.moveToIdx(currentIndex)
+      }
+   }, [currentIndex, instanceRef, currentSlide])
 
    return (
       <SliderRoot className={className}>
          <SliderContent ref={sliderRef}>
             {images.map((src, i) => (
                <SliderSlide key={i}>
-                  {renderSlide
-                     ? renderSlide(src, i === currentSlide, currentSlide)
-                     : <Image src={src} fill alt={'slider_element'} className='object-contain' />
-                  }
+                  <Image
+                     src={src}
+                     fill
+                     alt={'slider_element'}
+                     className={cn('object-contain', currentFilter)}
+                  />
                </SliderSlide>
             ))}
          </SliderContent>
@@ -44,7 +66,11 @@ export const Slider = ({ images, className, disabled, renderSlide }: Props) => {
          {/* !disabled - condition for CardPost, for cut image */}
          {images.length > 1 && !disabled && (
             <>
-               <SliderArrow className={'left-[4px]'} onClick={onPrevSlideHandler} disabled={disabled}>
+               <SliderArrow
+                  className={'left-[4px]'}
+                  onClick={onPrevSlideHandler}
+                  disabled={disabled}
+               >
                   <ArrowLeftIcon className={'group-hover:text-accent-300'} />
                </SliderArrow>
                <SliderArrow

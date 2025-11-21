@@ -78,7 +78,11 @@ export const PublicationForm = ({
          <hr className="text-dark-100 h-[1px]" />
 
          <ModalBody className="flex flex-row">
-            <PostCreatorSlider images={images} currentFilter={currentFilter} onSlideChange={onSlideChange}/>
+            <PostCreatorSlider
+               images={images}
+               currentFilter={currentFilter}
+               onSlideChangeAction={onSlideChange}
+            />
             <div className="flex-1">
                <div className="p-[24px]">
                   <div className="flex items-center gap-3 pb-[24px]">

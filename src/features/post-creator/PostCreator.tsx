@@ -1,25 +1,30 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { MODALS, useModalStack } from '.'
 import { nanoid } from '@reduxjs/toolkit'
 import { AddPhotoModal } from '@/entities/posts/ui/modals/addPhotoModal'
+//import { useSearchParams } from 'next/navigation'
+import { CroppingModal } from '@/entities/posts/ui/modals/croppingModal'
 import { PublicationModal } from '@/entities/posts/ui/modals/PublicationModal'
-import { FilterModal } from '@/entities/posts/ui/modals/FilterModal/FilterModal'
 import { CloseCreatePostModal } from '@/entities/posts/ui/modals/CloseCreatePostModal'
+import { FilterModal } from '@/entities/posts/ui/modals/FilterModal/FilterModal'
+import { FilterValue } from '@/entities/posts/ui/modals/FilterModal/FilterBlock/FiltersBlock'
 
 export type PhotoState = {
    id: string
-   originalFile: File // Исходный файл
-   previewUrl: string // URL.createObjectURL(file)
-   currentFilter: string // Текущий активный фильтр
+   originalFile: File
+   previewUrl: string
+   modifiedFile: null | File
+   modifiedPreviewUrl: string
+   currentFilter: string
 }
 
 type Props = {
-   onClose?: () => void
+   onCloseAction?: () => void
 }
 
-export const PostCreator = ({ onClose }: Props) => {
+export const PostCreator = ({ onCloseAction }: Props) => {
    const { modalStack, openMainModal, openOverlayModal, closeTopModal, resetModalStack } =
       useModalStack()
 
@@ -29,20 +34,30 @@ export const PostCreator = ({ onClose }: Props) => {
    //индекс текущего фото в слайдере
    const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
 
-   //добавление новых фото
-   const handleAddPhotos = (newFiles: File[]) => {
-      const newPhotos: PhotoState[] = newFiles.map(file => ({
-         id: nanoid(),
-         originalFile: file,
-         previewUrl: URL.createObjectURL(file),
-         currentFilter: 'filter-none',
-      }))
+   const photosRef = useRef(photos)
 
-      setPhotos(prev => [...prev, ...newPhotos])
+   // const searchParams = useSearchParams()
+   // const pathname = usePathname()
+   // const router = useRouter()
+
+   // const action = searchParams.get('action')
+   // const isAddPhotoAction = action === 'create'
+
+   //добавление новых фото
+   const handleAddPhotos = (File: File) => {
+      const newPhoto = {
+         id: nanoid(),
+         originalFile: File,
+         previewUrl: URL.createObjectURL(File),
+         modifiedFile: null,
+         modifiedPreviewUrl: '',
+         currentFilter: 'filter-none',
+      } satisfies PhotoState
+
+      setPhotos(prev => [...prev, newPhoto])
    }
 
-   //применение фильтра к текущему фото
-   const applyFilterToCurrentPhoto = (filter: string) => {
+   const applyFilterToCurrentPhoto = (filter: FilterValue) => {
       setPhotos(prev =>
          prev.map((photo, index) =>
             index === currentPhotoIndex
@@ -55,12 +70,21 @@ export const PostCreator = ({ onClose }: Props) => {
       )
    }
 
+   //to remove photos from useEffect deps
+   useEffect(() => {
+      photosRef.current = photos
+   })
+
    //при закрытии PostCreator сработает очистка массива с фото и сбросится до initial состояния массив modalStack
    useEffect(() => {
       return () => {
          resetModalStack()
-         photos.forEach(photo => {
+         const currentPhotos = photosRef.current
+         currentPhotos.forEach(photo => {
             URL.revokeObjectURL(photo.previewUrl)
+            if (photo.modifiedPreviewUrl) {
+               URL.revokeObjectURL(photo.modifiedPreviewUrl)
+            }
          })
          setPhotos([])
       }
@@ -68,12 +92,18 @@ export const PostCreator = ({ onClose }: Props) => {
 
    //закрытие PostCreator
    const handleCompleteClose = () => {
-      onClose?.() // вызовет router.back() из компонента profile
+      onCloseAction?.() // вызовет router.back() из компонента profile
    }
 
    const requestClose = () => {
       openOverlayModal(MODALS.CLOSE)
    }
+
+   // const closeAddPhotoModalHandler = () => {
+   //    const params = new URLSearchParams(searchParams.toString())
+   //    params.delete('action')
+   //    router.replace(pathname)
+   // }
 
    const renderModals = () => {
       return modalStack.map(modalName => {
@@ -84,9 +114,8 @@ export const PostCreator = ({ onClose }: Props) => {
                   <AddPhotoModal
                      key="add_photo"
                      onPhotoSelected={(file: File) => {
-                        handleAddPhotos([file])
+                        handleAddPhotos(file)
                         openMainModal(MODALS.CROPPING)
-                        //openMainModal(MODALS.FILTERS)//для истории
                      }}
                      onOpenChange={requestClose}
                   />
@@ -94,21 +123,31 @@ export const PostCreator = ({ onClose }: Props) => {
                break
 
             case MODALS.CROPPING:
-               // return <CroppingModal
-               //     key="cropping"
-               //     photos={photos}
-               //     onNext={() => openMainModal(MODALS.FILTERS)}
-               //     onBack={() => openMainModal(MODALS.ADD_PHOTO)}
-               //     onClose={requestClose}
-               // />;
+               return (
+                  <CroppingModal
+                     key="cropping"
+                     isOpen
+                     onOpenChange={() => {}}
+                     onBack={() => {
+                        openMainModal(MODALS.ADD_PHOTO)
+                        setPhotos([])
+                     }}
+                     photos={photos}
+                     onNext={() => {
+                        openMainModal(MODALS.FILTERS)
+                     }}
+                     currentIndex={currentPhotoIndex}
+                     setCurrentIndex={setCurrentPhotoIndex}
+                     onPhotosUpdate={setPhotos}
+                  />
+               )
                break
 
             case MODALS.FILTERS:
                return (
                   <FilterModal
                      key="filters"
-                     onBack={() => openMainModal(MODALS.CROPPING)} //РАСКОМЕНТИТЬ!
-                     //onBack={() => openMainModal(MODALS.ADD_PHOTO)}//для истории
+                     onBack={() => openMainModal(MODALS.CROPPING)}
                      onNext={() => openMainModal(MODALS.PUBLICATION)}
                      images={photos.map(photo => photo.previewUrl)}
                      currentFilter={photos[currentPhotoIndex]?.currentFilter || 'filter-none'}

@@ -5,13 +5,9 @@ import { cn } from '@/shared/lib'
 import { PublicRoutes } from '@/shared/enums'
 import { usePathname } from 'next/navigation'
 
-type Props = ComponentPropsWithRef<'main'> & {
-   className?: string
-}
-
 const PUBLIC_ROUTES = Object.values(PublicRoutes) as string[]
 
-export function PageContainer({ className, ...rest }: Props) {
+export function PageContainer({ className, ...rest }: ComponentPropsWithRef<'main'>) {
    const pathname = usePathname()
    const isPublic = PUBLIC_ROUTES.includes(pathname)
 

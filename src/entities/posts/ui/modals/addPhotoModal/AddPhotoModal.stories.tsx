@@ -16,10 +16,6 @@ export const Default: Story = {
       onOpenChange: () => alert('open CloseCreatePostModal'),
    },
    render: args => {
-      return (
-         <>
-            <AddPhotoModal {...args} />
-         </>
-      )
+      return <AddPhotoModal {...args} />
    },
 }

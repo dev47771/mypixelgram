@@ -55,6 +55,6 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
    args: {
-      onClose: () => console.log('PostCreator closed'),
+      onCloseAction: () => console.log('PostCreator closed'),
    },
 }
