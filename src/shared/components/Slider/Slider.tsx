@@ -11,54 +11,31 @@ import {
 import { ArrowLeftIcon, ArrowRightIcon } from '@/shared/icons'
 import Image from 'next/image'
 import { ReactNode } from 'react'
-import { useEffect } from 'react'
-import { cn } from '@/shared/lib'
-import { FilterValue } from '@/entities/posts/ui/modals/FilterModal/FilterBlock/FiltersBlock'
 
 type Props = {
    images: string[]
    className?: string
    disabled?: boolean
-   currentIndex?: number
-   currentFilter?: FilterValue
    renderSlideAction?: (src: string, isActive: boolean, currentSlide: number) => ReactNode
-   onIndexChangeAction?: (index: number) => void
 }
 
-export const Slider = ({
-   images,
-   className,
-   disabled,
-   currentIndex,
-   onIndexChangeAction,
-   currentFilter,
-}: Props) => {
-   const { sliderRef, instanceRef, currentSlide, slides } = useSlider(true, onIndexChangeAction)
+export const Slider = ({ images, className, disabled, renderSlideAction }: Props) => {
+   const { sliderRef, instanceRef, currentSlide, slides } = useSlider()
 
    const onNextSlideHandler = () => instanceRef.current?.next()
    const onPrevSlideHandler = () => instanceRef.current?.prev()
    const onDotClickHandler = (i: number) => instanceRef.current?.moveToIdx(i)
-
-   useEffect(() => {
-      if (currentIndex === undefined || currentIndex === null) {
-         return
-      }
-      if (instanceRef.current && currentIndex !== currentSlide) {
-         instanceRef.current.moveToIdx(currentIndex)
-      }
-   }, [currentIndex, instanceRef, currentSlide])
 
    return (
       <SliderRoot className={className}>
          <SliderContent ref={sliderRef}>
             {images.map((src, i) => (
                <SliderSlide key={i}>
-                  <Image
-                     src={src}
-                     fill
-                     alt={'slider_element'}
-                     className={cn('object-contain', currentFilter)}
-                  />
+                  {renderSlideAction ? (
+                     renderSlideAction(src, i === currentSlide, currentSlide)
+                  ) : (
+                     <Image src={src} fill alt={'slider_element'} className="object-contain" />
+                  )}
                </SliderSlide>
             ))}
          </SliderContent>

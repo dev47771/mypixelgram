@@ -3,13 +3,12 @@
 import { useEffect, useState, useRef } from 'react'
 import { MODALS, useModalStack } from '.'
 import { nanoid } from '@reduxjs/toolkit'
-import { AddPhotoModal } from '@/entities/posts/ui/modals/addPhotoModal'
+import { AddPhotoModal } from '@/entities/posts/ui/modals/AddPhotoModal'
 //import { useSearchParams } from 'next/navigation'
-import { CroppingModal } from '@/entities/posts/ui/modals/croppingModal'
+import { CroppingModal } from '@/entities/posts/ui/modals/CroppingModal'
 import { PublicationModal } from '@/entities/posts/ui/modals/PublicationModal'
 import { CloseCreatePostModal } from '@/entities/posts/ui/modals/CloseCreatePostModal'
 import { FilterModal } from '@/entities/posts/ui/modals/FilterModal/FilterModal'
-import { FilterValue } from '@/entities/posts/ui/modals/FilterModal/FilterBlock/FiltersBlock'
 
 export type PhotoState = {
    id: string
@@ -57,7 +56,7 @@ export const PostCreator = ({ onCloseAction }: Props) => {
       setPhotos(prev => [...prev, newPhoto])
    }
 
-   const applyFilterToCurrentPhoto = (filter: FilterValue) => {
+   const applyFilterToCurrentPhoto = (filter: string) => {
       setPhotos(prev =>
          prev.map((photo, index) =>
             index === currentPhotoIndex
@@ -149,7 +148,11 @@ export const PostCreator = ({ onCloseAction }: Props) => {
                      key="filters"
                      onBack={() => openMainModal(MODALS.CROPPING)}
                      onNext={() => openMainModal(MODALS.PUBLICATION)}
-                     images={photos.map(photo => photo.previewUrl)}
+                     images={photos.map(photo =>
+                        photo.modifiedPreviewUrl && photo.modifiedPreviewUrl !== ''
+                           ? photo.modifiedPreviewUrl
+                           : photo.previewUrl
+                     )}
                      currentFilter={photos[currentPhotoIndex]?.currentFilter || 'filter-none'}
                      onSlideChange={setCurrentPhotoIndex}
                      onFilterChange={applyFilterToCurrentPhoto}

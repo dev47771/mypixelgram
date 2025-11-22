@@ -47,7 +47,11 @@ export const PublicationModal = ({ onBack, photos, onOpenChange, closePostCreato
             onBack={onBack}
             errorsFromApi={isErrorInDataResponse(error) ? error?.data.errorsMessages : undefined}
             isLoading={isLoading}
-            images={photos.map(photo => photo.modifiedPreviewUrl || photo.previewUrl)}
+            images={photos.map(photo =>
+               photo.modifiedPreviewUrl && photo.modifiedPreviewUrl !== ''
+                  ? photo.modifiedPreviewUrl
+                  : photo.previewUrl
+            )}
             currentFilter={photos[currentPhotoIndex]?.currentFilter || 'filter-none'}
             onSlideChange={setCurrentPhotoIndex}
          />

@@ -11,11 +11,11 @@ import {
 import { cn } from '@/shared/lib'
 import { RangeControl } from '@/shared/components/RangeControl'
 import Cropper from 'react-easy-crop'
-import { Slider } from '@/shared/components/Slider'
 import { ACCEPTED_IMAGE_TYPES } from '@/shared/schema'
-import { useCroppingModal } from '@/entities/posts/ui/modals/croppingModal/useCroppingModal'
-import { AspectOption } from '@/entities/posts/ui/modals/croppingModal/AspectOption'
+import { useCroppingModal } from '@/entities/posts/ui/modals/CroppingModal/useCroppingModal'
+import { AspectOption } from '@/entities/posts/ui/modals/CroppingModal/AspectOption'
 import { PhotoState } from '@/features/post-creator/PostCreator'
+import { PostCreatorSlider } from '../../PostCreatorSlider/PostCreatorSlider'
 
 type Props = {
    onOpenChange: (value: boolean) => void
@@ -103,13 +103,12 @@ export const CroppingModal = ({
          )}
 
          {showImageGallery ? (
-            <div className="bg-dark-700 relative h-full w-full" onClick={handleImageClick}>
-               <Slider
+            <div className="bg-dark-700 relative h-full w-full">
+               <PostCreatorSlider
                   key={photos.length}
                   images={photos.map(i => i.previewUrl)}
-                  currentIndex={currentIndex}
-                  onIndexChangeAction={handleSliderNavigation}
-                  className="h-full w-full"
+                  currentFilter={'filter-none'}
+                  onSlideChangeAction={handleSliderNavigation}
                />
             </div>
          ) : (

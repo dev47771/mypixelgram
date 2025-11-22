@@ -5,26 +5,11 @@ import { cn } from '@/shared/lib'
 import { Button } from '@/shared/components/Button'
 
 type FilterProps = {
-   filter: FilterValue
-   filterName: FilterName
+   filter: string
+   filterName: string
    isActive: boolean
    onClick: () => void
 }
-
-export const popularFilters = [
-   { filter: 'filter-none', filterName: 'Normal' },
-   { filter: 'filter-clarendon', filterName: 'Clarendon' },
-   { filter: 'filter-lark', filterName: 'Lark' },
-   { filter: 'filter-moon', filterName: 'Moon' },
-   { filter: 'filter-grayscale', filterName: 'Juno' },
-   { filter: 'filter-retro', filterName: 'Reyes' },
-   { filter: 'filter-warm', filterName: 'Warm' },
-   { filter: 'filter-aden', filterName: 'Aden' },
-   { filter: 'filter-1970s', filterName: '1970s' },
-] as const
-
-export type FilterValue = (typeof popularFilters)[number]['filter']
-export type FilterName = (typeof popularFilters)[number]['filterName']
 
 const Filter = ({ filter, filterName, isActive, onClick }: FilterProps) => {
    return (
@@ -50,10 +35,22 @@ const Filter = ({ filter, filterName, isActive, onClick }: FilterProps) => {
 
 type Props = {
    currentFilter: string
-   onFilterChange: (filter: FilterValue) => void
+   onFilterChange: (filter: string) => void
 }
 
 export const FiltersBlock = ({ currentFilter, onFilterChange }: Props) => {
+   const popularFilters = [
+      { filter: 'filter-none', filterName: 'Normal' },
+      { filter: 'filter-clarendon', filterName: 'Clarendon' },
+      { filter: 'filter-lark', filterName: 'Lark' },
+      { filter: 'filter-moon', filterName: 'Moon' },
+      { filter: 'filter-grayscale', filterName: 'Juno' },
+      { filter: 'filter-retro', filterName: 'Reyes' },
+      { filter: 'filter-warm', filterName: 'Warm' },
+      { filter: 'filter-aden', filterName: 'Aden' },
+      { filter: 'filter-1970s', filterName: '1970s' },
+   ]
+
    return (
       <div className="grid grid-cols-3 gap-x-[24px] gap-y-[18px] pt-[24px] pr-[55px] pb-[30px] pl-[54px]">
          {popularFilters.map(item => (

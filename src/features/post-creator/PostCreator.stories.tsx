@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, ReactNode, useContext } from 'react'
+import { createContext, ReactNode } from 'react'
 import { useModalStack } from './hook/useModalStack'
 import { PostCreator } from './PostCreator'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
@@ -16,21 +16,10 @@ type ModalStackProviderProps = {
    initialModal?: string
 }
 
-export const ModalStackProvider = ({
-   children,
-   initialModal = 'ADD_PHOTO',
-}: ModalStackProviderProps) => {
+const ModalStackProvider = ({ children, initialModal = 'ADD_PHOTO' }: ModalStackProviderProps) => {
    const modalStack = useModalStack(initialModal)
 
    return <ModalStackContext.Provider value={modalStack}>{children}</ModalStackContext.Provider>
-}
-
-export const useModalStackContext = () => {
-   const context = useContext(ModalStackContext)
-   if (context === undefined) {
-      throw new Error('useModalStackContext must be used within a ModalStackProvider')
-   }
-   return context
 }
 
 const meta = {

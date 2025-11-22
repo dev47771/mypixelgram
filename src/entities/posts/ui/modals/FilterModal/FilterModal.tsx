@@ -1,5 +1,5 @@
 import { PostModal } from '@/shared/components/PostModal'
-import { FiltersBlock, FilterValue } from './FilterBlock/FiltersBlock'
+import { FiltersBlock } from './FilterBlock/FiltersBlock'
 import { PostCreatorSlider } from '../../PostCreatorSlider/PostCreatorSlider'
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
    images: string[]
    currentFilter: string
    onSlideChange: (index: number) => void
-   onFilterChange: (filter: FilterValue) => void
+   onFilterChange: (filter: string) => void
 }
 
 export const FilterModal = ({
@@ -33,12 +33,14 @@ export const FilterModal = ({
          onOpenChange={onOpenChange}
          leftContent={
             <PostCreatorSlider
+               key={images.length}
                //передаем ссылку на каждую фотографию для предпоказа в слайдере
                images={images}
                //применяем фильтр к текущему в слайдере фото, если к фото был применен фильтр (только предпоказ, сам файл не изменяется)
                currentFilter={currentFilter}
                //узнаем индекс текущего в слайдере фото (нумерация в нашем массиве с объектами фото и нумерация при отрисовке url этих фото в слайдере одинаковая => index === currentPhotoIndex)
                onSlideChangeAction={onSlideChange}
+               resetOnMount
             />
          }
          rightContent={

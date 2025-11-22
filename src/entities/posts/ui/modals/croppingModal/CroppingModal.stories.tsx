@@ -3,7 +3,7 @@ import picture1 from './../../../../../../public/404.jpg'
 import picture2 from './../../../../../../public/logo-light.png'
 import picture3 from './../../../../../../public/logo-dark.png'
 import { useState } from 'react'
-import { CroppingModal } from './'
+import { CroppingModal } from '.'
 import { fn } from 'storybook/test'
 import { PhotoState } from '@/features/post-creator/PostCreator'
 

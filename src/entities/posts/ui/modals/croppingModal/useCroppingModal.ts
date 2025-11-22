@@ -1,12 +1,12 @@
 import { useReducer, useRef, useState, useCallback, useEffect } from 'react'
 import { ChangeEvent } from 'react'
 import { Area } from 'react-easy-crop'
-import { croppingReducer, initialState } from './croppingReducer'
 import { getCroppedImg } from '@/shared/utils'
 import { MAX_FILE_SIZE } from '@/shared/schema'
 import { alert } from '@/shared/components/Alert'
 import { PhotoState } from '@/features/post-creator/PostCreator'
 import { nanoid } from '@reduxjs/toolkit'
+import { croppingReducer, initialState } from './croppingReducer'
 
 type UseCroppingModalProps = {
    photos: PhotoState[]
