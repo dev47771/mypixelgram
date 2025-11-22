@@ -9,6 +9,8 @@ type Props = {
    currentFilter: string
    onSlideChangeAction: (index: number) => void
    resetOnMount?: boolean
+   currentSlide?: number // ← ДОБАВИТЬ ЭТОТ ПРОПС
+   isEditingMode?: boolean // ← ДОБАВИТЬ ЭТОТ ПРОПС
 }
 
 export const PostCreatorSlider = ({
@@ -16,20 +18,26 @@ export const PostCreatorSlider = ({
    currentFilter,
    onSlideChangeAction,
    resetOnMount,
+   currentSlide = 0, // ← ДОБАВИТЬ ЗНАЧЕНИЕ ПО УМОЛЧАНИЮ
 }: Props) => {
-   const [lastKnownSlide, setLastKnownSlide] = useState(0)
+   const [lastKnownSlide, setLastKnownSlide] = useState(currentSlide)
+
+   useEffect(() => {
+      setLastKnownSlide(currentSlide)
+   }, [currentSlide])
 
    useEffect(() => {
       if (resetOnMount) {
-         setLastKnownSlide(0)
-         onSlideChangeAction(0)
+         setLastKnownSlide(currentSlide)
+         onSlideChangeAction(currentSlide)
       }
-   }, [onSlideChangeAction, resetOnMount])
+   }, [onSlideChangeAction, resetOnMount, currentSlide])
 
    return (
       <Slider
          images={images}
          className="h-[501px] w-[490px]"
+         initialSlide={currentSlide} // ← ПЕРЕДАЕМ КАК НАЧАЛЬНЫЙ СЛАЙД
          renderSlideAction={(src, isActive, currentSlide) => {
             if (lastKnownSlide !== currentSlide) {
                setLastKnownSlide(currentSlide)

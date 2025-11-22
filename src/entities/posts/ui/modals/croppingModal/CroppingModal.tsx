@@ -1,4 +1,4 @@
-import { MouseEvent } from 'react'
+//import { MouseEvent } from 'react'
 import { PostModal } from '@/shared/components/PostModal'
 import Image from 'next/image'
 import {
@@ -42,6 +42,7 @@ export const CroppingModal = ({
       showZoomScale,
       showAspectRatio,
       showImageGallery,
+      isEditingMode, // ← ДОБАВИТЬ ЭТУ СТРОКУ
       isProcessing,
       crop,
       zoom,
@@ -65,7 +66,7 @@ export const CroppingModal = ({
       toggleZoomScale,
       toggleGallery,
       handleSliderNavigation,
-      closeAllPanels,
+      //closeAllPanels,
       handleNext,
       zoomScale,
    } = useCroppingModal({
@@ -76,10 +77,10 @@ export const CroppingModal = ({
       onNext,
    })
 
-   const handleImageClick = (e: MouseEvent) => {
-      e.stopPropagation()
-      closeAllPanels()
-   }
+   // const handleImageClick = (e: MouseEvent) => {
+   //    e.stopPropagation()
+   //    closeAllPanels()
+   // }
 
    const baseInteractiveButtonStyle =
       'cursor-pointer w-9 h-9 rounded-xs bg-dark-500 absolute bottom-[11px] flex items-center justify-center opacity-80'
@@ -102,7 +103,7 @@ export const CroppingModal = ({
             </div>
          )}
 
-         {showImageGallery ? (
+         {/* {showImageGallery ? (
             <div className="bg-dark-700 relative h-full w-full">
                <PostCreatorSlider
                   key={photos.length}
@@ -137,40 +138,87 @@ export const CroppingModal = ({
                   }}
                />
             </div>
-         )}
+         )} */}
 
-         {!showImageGallery && (
-            <>
-               <button
-                  className={cn(
-                     baseInteractiveButtonStyle,
-                     'left-[11px]',
-                     showAspectRatio && 'text-accent-500'
-                  )}
-                  onClick={e => {
-                     e.stopPropagation()
-                     toggleAspectRatio()
-                  }}
-               >
-                  <ExpandOutline />
-               </button>
-               <button
-                  className={cn(
-                     baseInteractiveButtonStyle,
-                     'left-[71px]',
-                     showZoomScale && 'text-accent-500'
-                  )}
-                  onClick={e => {
-                     e.stopPropagation()
-                     toggleZoomScale()
-                  }}
-               >
-                  <MaximizeOutline />
-               </button>
-            </>
-         )}
+         <div className="bg-dark-700 relative h-full w-full">
+            {/* Режим слайдера - показывается когда НЕ в режиме редактирования */}
+            {!isEditingMode && (
+               <PostCreatorSlider
+                  //key={photos.length}
+                  key={`slider-${photos.length}-${isEditingMode}`} // ← ДОБАВЬТЕ ЭТОТ KEY
+                  //images={photos.map(i => i.previewUrl)}
+                  images={photos.map(i => i.modifiedPreviewUrl || i.previewUrl)} // ← ИСПОЛЬЗОВАТЬ ОБРЕЗАННЫЕ ЕСЛИ ЕСТЬ
+                  currentFilter={'filter-none'}
+                  onSlideChangeAction={handleSliderNavigation}
+                  currentSlide={currentIndex} // ← ПЕРЕИМЕНОВАТЬ initialSlide в currentSlide
+                  isEditingMode={isEditingMode} // ← ПЕРЕДАЕМ isEditingMode
+                  resetOnMount={true} // ← ВСЕГДА СБРАСЫВАТЬ ПРИ ПОКАЗЕ СЛАЙДЕРА
+               />
+            )}
 
-         {showAspectRatio && !showImageGallery && (
+            {/* Режим редактирования - показывается когда включен аспект или зум */}
+            {isEditingMode && (
+               <div className="absolute inset-0">
+                  <Cropper
+                     image={currentPhoto.previewUrl}
+                     crop={crop}
+                     zoom={zoom}
+                     aspect={aspect}
+                     onCropChange={handleCropChange}
+                     onZoomChange={handleZoomChange}
+                     onCropComplete={onCropComplete}
+                     classes={{
+                        containerClassName: 'absolute inset-0',
+                        mediaClassName: 'max-h-full max-w-full',
+                     }}
+                     style={{
+                        containerStyle: {
+                           backgroundColor: '#000000',
+                           position: 'absolute',
+                           top: 0,
+                           left: 0,
+                           right: 0,
+                           bottom: 0,
+                        },
+                     }}
+                  />
+               </div>
+            )}
+         </div>
+
+         {/* {!showImageGallery && ( */}
+         <>
+            <button
+               className={cn(
+                  baseInteractiveButtonStyle,
+                  'left-[11px]',
+                  showAspectRatio && 'text-accent-500'
+               )}
+               onClick={e => {
+                  e.stopPropagation()
+                  toggleAspectRatio()
+               }}
+            >
+               <ExpandOutline />
+            </button>
+            <button
+               className={cn(
+                  baseInteractiveButtonStyle,
+                  'left-[71px]',
+                  showZoomScale && 'text-accent-500'
+               )}
+               onClick={e => {
+                  e.stopPropagation()
+                  toggleZoomScale()
+               }}
+            >
+               <MaximizeOutline />
+            </button>
+         </>
+         {/* )} */}
+
+         {showAspectRatio && (
+            //&& !showImageGallery
             <div
                className={
                   'bg-dark-500 absolute bottom-[49px] left-[11px] flex h-[152px] w-[156px] flex-col rounded-xs opacity-80'
@@ -210,7 +258,8 @@ export const CroppingModal = ({
             </div>
          )}
 
-         {showZoomScale && !showImageGallery && (
+         {showZoomScale && (
+            //&& !showImageGallery
             <div
                className={
                   'bg-dark-500 absolute bottom-[50px] left-[71px] flex h-[36px] w-[124px] items-center justify-center rounded-xs opacity-80'
@@ -254,7 +303,8 @@ export const CroppingModal = ({
                   >
                      <div className="relative h-[82px] w-20">
                         <Image
-                           src={i.previewUrl}
+                           //src={i.previewUrl}
+                           src={i.modifiedPreviewUrl || i.previewUrl} // ← ТАК ЖЕ ЗДЕСЬ
                            alt={`Cropped image ${idx + 1}`}
                            fill
                            sizes="80px"
