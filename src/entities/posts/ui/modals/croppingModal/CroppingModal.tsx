@@ -1,6 +1,5 @@
 'use client'
 
-//import { MouseEvent } from 'react'
 import { PostModal } from '@/shared/components/PostModal'
 import Image from 'next/image'
 import {
@@ -19,6 +18,7 @@ import { AspectOption } from '@/entities/posts/ui/modals/CroppingModal/AspectOpt
 import { PhotoState } from '@/features/post-creator/PostCreator'
 import { PostCreatorSlider } from '../../PostCreatorSlider/PostCreatorSlider'
 import { Scroll } from '@/shared/components/Scroll'
+import { useEffect } from 'react'
 
 type Props = {
    onOpenChange: () => void
@@ -81,6 +81,12 @@ export const CroppingModal = ({
 
    const baseInteractiveButtonStyle =
       'cursor-pointer w-9 h-9 rounded-xs bg-dark-500 absolute bottom-[11px] flex items-center justify-center opacity-80'
+
+   useEffect(() => {
+      if (photos.length === 0) {
+         onBack()
+      }
+   }, [photos.length, onBack])
 
    return (
       <PostModal
