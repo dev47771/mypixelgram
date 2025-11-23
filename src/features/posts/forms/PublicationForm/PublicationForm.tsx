@@ -67,25 +67,37 @@ export const PublicationForm = ({
 
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
-         <ModalTitle className="flex items-center justify-between px-[0px]">
-            <Button type="button" variant="textButton" className="text-light-100" onClick={onBack}>
+         <ModalTitle className="flex items-center justify-between">
+            <Button
+               type="button"
+               variant="textButton"
+               className="text-light-100 min-w-[60px] p-0"
+               onClick={onBack}
+            >
                <ArrowLeftIcon />
             </Button>
             <Typography variant="h1">Publication</Typography>
-            <Button type="submit" variant="textButton" disabled={isLoading}>
+            <Button
+               type="submit"
+               variant="textButton"
+               className="min-w-[60px] p-0"
+               disabled={isLoading}
+            >
                Publish
             </Button>
          </ModalTitle>
 
          <hr className="text-dark-100 h-[1px]" />
 
-         <ModalBody className="flex flex-row">
-            <PostCreatorSlider
-               images={images}
-               filters={filters}
-               onSlideChangeAction={onSlideChange}
-               currentSlide={currentSlide}
-            />
+         <ModalBody className="grid h-full grid-cols-[490px_481px] overflow-hidden p-0">
+            <div className="border-dark-100 h-full overflow-hidden border-r">
+               <PostCreatorSlider
+                  images={images}
+                  filters={filters}
+                  onSlideChangeAction={onSlideChange}
+                  currentSlide={currentSlide}
+               />
+            </div>
             <div className="flex-1">
                <div className="p-[24px]">
                   <div className="flex items-center gap-3 pb-[24px]">

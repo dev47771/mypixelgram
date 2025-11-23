@@ -89,7 +89,7 @@ export const PostModal = ({
                      <Button
                         onClick={onBack}
                         variant="textButton"
-                        className="text-light-100 border-none p-0"
+                        className="text-light-100 min-w-[60px] border-none p-0"
                      >
                         <ArrowLeftIcon />
                      </Button>
@@ -99,7 +99,7 @@ export const PostModal = ({
                      <Button
                         onClick={onNext ? onNext : publish}
                         variant="textButton"
-                        className="border-none p-0"
+                        className="min-w-[60px] border-none p-0"
                      >
                         Next
                      </Button>

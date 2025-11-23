@@ -37,7 +37,7 @@ export const PublicationModal = ({ onBack, photos, onOpenChange, closePostCreato
    }
 
    return (
-      <Modal open className="w-full max-w-[972px]" onOpenChange={onOpenChange}>
+      <Modal open className="h-[564px] w-[972px]" onOpenChange={onOpenChange}>
          <PublicationForm
             onSubmit={handlePublish}
             onBack={onBack}
