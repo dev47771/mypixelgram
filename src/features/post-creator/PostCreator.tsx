@@ -97,7 +97,7 @@ export const PostCreator = ({ onCloseAction }: Props) => {
                         handleAddPhotos(file)
                         openMainModal(MODALS.CROPPING)
                      }}
-                     onOpenChange={requestClose}
+                     onOpenChange={handleCompleteClose}
                   />
                )
                break
