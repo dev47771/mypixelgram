@@ -19,7 +19,7 @@ export default async function HomePage() {
          <ServerPageContainer>
             <UserCounter totalCount={usersJson.totalCount} />
             <div className="flex max-w-[972px] flex-wrap gap-3">
-               {data.posts.map(post => {
+               {data.map(post => {
                   return <CardPost key={post.postId} {...post} />
                })}
             </div>
