@@ -16,6 +16,7 @@ import { useCroppingModal } from '@/entities/posts/ui/modals/CroppingModal/useCr
 import { AspectOption } from '@/entities/posts/ui/modals/CroppingModal/AspectOption'
 import { PhotoState } from '@/features/post-creator/PostCreator'
 import { PostCreatorSlider } from '../../PostCreatorSlider/PostCreatorSlider'
+import { Scroll } from '@/shared/components/Scroll'
 
 type Props = {
    onOpenChange: (value: boolean) => void
@@ -289,49 +290,55 @@ export const CroppingModal = ({
          {showImageGallery && (
             <div
                className={
-                  'bg-dark-500 absolute right-[11px] bottom-[49px] flex gap-3 rounded-xs p-3 opacity-80'
+                  'bg-dark-500 absolute right-[11px] bottom-[49px] flex gap-3 rounded-xs pt-4 pr-4 pb-0 pl-4 opacity-80'
                }
             >
-               {photos.map((i, idx) => (
-                  <div
-                     key={i.previewUrl}
-                     className={cn(
-                        'relative cursor-pointer',
-                        currentIndex === idx && 'ring-accent-500 rounded-xs ring-2'
+               <Scroll className="max-w-[400px]">
+                  <div className="flex gap-3 pt-0.5 pl-0.5">
+                     {photos.map((i, idx) => (
+                        <div
+                           key={i.previewUrl}
+                           className={cn(
+                              'relative cursor-pointer',
+                              currentIndex === idx && 'ring-accent-500 rounded-xs ring-2'
+                           )}
+                           onClick={() => handleThumbnailClick(idx)}
+                        >
+                           <div className="relative h-[82px] w-20">
+                              <Image
+                                 //src={i.previewUrl}
+                                 src={i.modifiedPreviewUrl || i.previewUrl} // ← ТАК ЖЕ ЗДЕСЬ
+                                 alt={`Cropped image ${idx + 1}`}
+                                 fill
+                                 sizes="80px"
+                                 style={{
+                                    objectFit: 'contain',
+                                 }}
+                              />
+                           </div>
+                           <button
+                              onClick={e => {
+                                 e.stopPropagation()
+                                 deleteImage(idx)
+                              }}
+                              className={
+                                 'bg-dark-500 absolute top-[2px] right-[2px] flex h-3 w-3 cursor-pointer items-center justify-center rounded-xs'
+                              }
+                           >
+                              <CrossIcon />
+                           </button>
+                        </div>
+                     ))}
+                     {photos.length < 10 && (
+                        <button
+                           onClick={handleAddImageClick}
+                           className={'flex h-9 w-9 cursor-pointer align-top'}
+                        >
+                           <PlusCircleOutline />
+                        </button>
                      )}
-                     onClick={() => handleThumbnailClick(idx)}
-                  >
-                     <div className="relative h-[82px] w-20">
-                        <Image
-                           //src={i.previewUrl}
-                           src={i.modifiedPreviewUrl || i.previewUrl} // ← ТАК ЖЕ ЗДЕСЬ
-                           alt={`Cropped image ${idx + 1}`}
-                           fill
-                           sizes="80px"
-                           style={{
-                              objectFit: 'contain',
-                           }}
-                        />
-                     </div>
-                     <button
-                        onClick={e => {
-                           e.stopPropagation()
-                           deleteImage(idx)
-                        }}
-                        className={
-                           'bg-dark-500 absolute top-[2px] right-[2px] flex h-3 w-3 cursor-pointer items-center justify-center rounded-xs'
-                        }
-                     >
-                        <CrossIcon />
-                     </button>
                   </div>
-               ))}
-               <button
-                  onClick={handleAddImageClick}
-                  className={'flex h-9 w-9 cursor-pointer align-top'}
-               >
-                  <PlusCircleOutline />
-               </button>
+               </Scroll>
                <input
                   ref={fileInputRef}
                   type="file"
