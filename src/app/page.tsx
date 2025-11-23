@@ -1,5 +1,5 @@
 import { CardPost } from '@/entities/posts/ui/CardPost'
-import { lastPostsSchema } from '@/entities/posts/ui/schemas'
+import { type LastPostProps, lastPostsSchema } from '@/entities/posts/ui/schemas'
 import ServerPageContainer from '@/shared/components/PageContainer/ServerPageContainer'
 import { apiMap } from '@/shared/constants'
 import { UserCounter } from '@/widgets/UserCounter'
@@ -7,31 +7,44 @@ import { UserCounter } from '@/widgets/UserCounter'
 export const revalidate = 60
 
 export default async function HomePage() {
-   try {
-      const res = await fetch(apiMap.lastPosts)
-      const json = await res.json()
-      const data = lastPostsSchema.parse(json)
+   const [postsRes, usersRes] = await Promise.allSettled([
+      fetch(apiMap.lastPosts).then(res => res.json()),
+      fetch(apiMap.usersTotalCount).then(res => res.json()),
+   ])
 
-      const usersResponse = await fetch(apiMap.usersTotalCount)
-      const usersJson = await usersResponse.json()
+   let totalUsersCount = 0
+   let postsData: LastPostProps[] = []
+   let parseError = false
 
-      return (
-         <ServerPageContainer>
-            <UserCounter totalCount={usersJson.totalCount} />
-            <div className="flex max-w-[972px] flex-wrap gap-3">
-               {data.map(post => {
-                  return <CardPost key={post.postId} {...post} />
-               })}
-            </div>
-         </ServerPageContainer>
-      )
-   } catch {
-      return (
-         <ServerPageContainer>
-            <div className="bg-dark-500 border-dark-300 border p-4">
-               Failed to load posts. Please try again later.
-            </div>
-         </ServerPageContainer>
-      )
+   if (usersRes.status === 'fulfilled') {
+      totalUsersCount = usersRes.value.totalCount ?? 0
    }
+
+   if (postsRes.status === 'fulfilled') {
+      const parsed = lastPostsSchema.safeParse(postsRes.value)
+      if (parsed.success) {
+         postsData = parsed.data
+      } else {
+         parseError = true
+      }
+   }
+
+   return (
+      <ServerPageContainer>
+         <UserCounter totalCount={totalUsersCount} />
+         {postsData.length > 0 ? (
+            <div className="flex max-w-[972px] flex-wrap gap-3">
+               {postsData.map(post => (
+                  <CardPost key={post.postId} {...post} />
+               ))}
+            </div>
+         ) : (
+            <div className="bg-dark-500 border-dark-300 border p-4">
+               {postsRes.status === 'rejected' || parseError
+                  ? 'Failed to load posts. Please try again later.'
+                  : 'No posts available'}
+            </div>
+         )}
+      </ServerPageContainer>
+   )
 }
