@@ -5,8 +5,13 @@ export const applyFilterToImage = async (photo: PhotoState): Promise<File> => {
    const canvas = document.createElement('canvas') //создаем типа холст
    const ctx = canvas.getContext('2d')! //инструменты для 2d рисования
 
+   const imageUrl =
+      photo.modifiedPreviewUrl && photo.modifiedPreviewUrl !== ''
+         ? photo.modifiedPreviewUrl
+         : photo.previewUrl
+
    const img = new Image() //создаем img
-   img.src = photo.previewUrl //берем ссылку на фото
+   img.src = imageUrl //берем ссылку на фото
 
    await new Promise(resolve => (img.onload = resolve)) //ждем, когда загрузка фото закончится
 
