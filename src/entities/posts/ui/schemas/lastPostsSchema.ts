@@ -30,8 +30,6 @@ export const lastPostSchema = z.object({
    user: userSchema,
 })
 
-export const lastPostsSchema = z.object({
-   posts: z.array(lastPostSchema),
-})
+export const lastPostsSchema = z.array(lastPostSchema)
 
 export type LastPostProps = z.infer<typeof lastPostSchema>
