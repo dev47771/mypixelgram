@@ -1,8 +1,8 @@
 import * as ScrollArea from '@radix-ui/react-scroll-area'
-import { ComponentPropsWithRef } from 'react'
+import { ComponentPropsWithRef, ReactNode } from 'react'
 
 export type ScrollProps = {
-   children: React.ReactNode
+   children: ReactNode
 } & ComponentPropsWithRef<typeof ScrollArea.Root>
 
 export const Scroll = ({ children, className, ...props }: ScrollProps) => {

@@ -4,7 +4,6 @@ import { Avatar } from '@/shared/components/Avatar'
 import { Button } from '@/shared/components/Button'
 import { ControlledInput, ControlledTextarea } from '@/shared/components/Controlled'
 import { ModalBody, ModalTitle } from '@/shared/components/Modal'
-import { Slider } from '@/shared/components/Slider'
 import { Typography } from '@/shared/components/Typography'
 import { ArrowLeftIcon } from '@/shared/icons'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -12,6 +11,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 import { publicationSchema } from '../../schema'
+import { PostCreatorSlider } from '@/entities/posts/ui/PostCreatorSlider/PostCreatorSlider'
 
 export type PublicationFormData = z.infer<typeof publicationSchema>
 
@@ -25,6 +25,8 @@ type PublicationFormProps = {
    onSubmit: (dataPostData: PublicationFormData) => void
    onBack: () => void
    images: string[]
+   currentFilter: string
+   onSlideChange: (index: number) => void
    isLoading: boolean
    errorsFromApi?: { field: string; message: string }[] | undefined
 }
@@ -33,6 +35,8 @@ export const PublicationForm = ({
    onSubmit,
    onBack,
    images,
+   currentFilter,
+   onSlideChange,
    isLoading,
    errorsFromApi,
 }: PublicationFormProps) => {
@@ -74,7 +78,11 @@ export const PublicationForm = ({
          <hr className="text-dark-100 h-[1px]" />
 
          <ModalBody className="flex flex-row">
-            <Slider images={images} className={'h-[503px] w-[490px]'} />
+            <PostCreatorSlider
+               images={images}
+               currentFilter={currentFilter}
+               onSlideChangeAction={onSlideChange}
+            />
             <div className="flex-1">
                <div className="p-[24px]">
                   <div className="flex items-center gap-3 pb-[24px]">

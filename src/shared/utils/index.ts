@@ -1,2 +1,6 @@
 export * from './handleError'
 export * from './typeguards/isErrorWithMessage'
+export * from './typeguards/isErrorInDataResponse'
+export * from './typeguards/isErrorInArray'
+export * from './images/cropImage'
+export * from './typeguards/hasModifiedFile'

@@ -16,12 +16,10 @@ type Props = {
    images: string[]
    className?: string
    disabled?: boolean
-   renderSlide?: (src: string, isActive: boolean, currentSlide: number) => ReactNode
+   renderSlideAction?: (src: string, isActive: boolean, currentSlide: number) => ReactNode
 }
 
-
-export const Slider = ({ images, className, disabled, renderSlide }: Props) => {
-
+export const Slider = ({ images, className, disabled, renderSlideAction }: Props) => {
    const { sliderRef, instanceRef, currentSlide, slides } = useSlider()
 
    const onNextSlideHandler = () => instanceRef.current?.next()
@@ -33,10 +31,11 @@ export const Slider = ({ images, className, disabled, renderSlide }: Props) => {
          <SliderContent ref={sliderRef}>
             {images.map((src, i) => (
                <SliderSlide key={i}>
-                  {renderSlide
-                     ? renderSlide(src, i === currentSlide, currentSlide)
-                     : <Image src={src} fill alt={'slider_element'} className='object-contain' />
-                  }
+                  {renderSlideAction ? (
+                     renderSlideAction(src, i === currentSlide, currentSlide)
+                  ) : (
+                     <Image src={src} fill alt={'slider_element'} className="object-contain" />
+                  )}
                </SliderSlide>
             ))}
          </SliderContent>
@@ -44,7 +43,11 @@ export const Slider = ({ images, className, disabled, renderSlide }: Props) => {
          {/* !disabled - condition for CardPost, for cut image */}
          {images.length > 1 && !disabled && (
             <>
-               <SliderArrow className={'left-[4px]'} onClick={onPrevSlideHandler} disabled={disabled}>
+               <SliderArrow
+                  className={'left-[4px]'}
+                  onClick={onPrevSlideHandler}
+                  disabled={disabled}
+               >
                   <ArrowLeftIcon className={'group-hover:text-accent-300'} />
                </SliderArrow>
                <SliderArrow

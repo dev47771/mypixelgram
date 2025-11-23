@@ -19,7 +19,7 @@ export default function ProfilePage({ params /* eslint-disable-line */ }: Props)
 
    return (
       <PageContainer>
-         {action === 'create' && <PostCreator onClose={handleClosePostCreator} />}
+         {action === 'create' && <PostCreator onCloseAction={handleClosePostCreator} />}
          ProfilePage
          <p>
             {' '}

@@ -25,14 +25,14 @@ const images = [
 export const Default: Story = {
    args: {
       images,
-      className: "h-[501px] w-[490px]",
+      className: 'h-[501px] w-[490px]',
    },
 }
 
 export const SmallSlider: Story = {
    args: {
       images,
-      className:'h-[240px] w-[234px]'
+      className: 'h-[240px] w-[234px]',
    },
    // render: () => (
    //    <div>
@@ -52,6 +52,6 @@ export const BigSlider: Story = {
 export const WithOneSlide: Story = {
    args: {
       images: ['./public/404.jpg'],
-      className: "h-[501px] w-[490px]",
+      className: 'h-[501px] w-[490px]',
    },
 }
