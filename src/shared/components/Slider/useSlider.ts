@@ -8,11 +8,11 @@ export const useSlider = (loop = true, initialSlide = 0) => {
    const [loaded, setLoaded] = useState(false)
 
    const [sliderRef, instanceRef] = useKeenSlider({
-      //initial: 0,
-      initial: initialSlide, // ← ИСПОЛЬЗУЕМ ПАРАМЕТР
+      initial: initialSlide,
       loop,
       slideChanged(slider) {
-         setCurrentSlide(slider.track.details.rel)
+         const newSlide = slider.track.details.rel
+         setCurrentSlide(newSlide)
       },
       created() {
          setLoaded(true)

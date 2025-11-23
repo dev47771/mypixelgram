@@ -25,8 +25,9 @@ type PublicationFormProps = {
    onSubmit: (dataPostData: PublicationFormData) => void
    onBack: () => void
    images: string[]
-   currentFilter: string
    onSlideChange: (index: number) => void
+   filters: string[]
+   currentSlide?: number
    isLoading: boolean
    errorsFromApi?: { field: string; message: string }[] | undefined
 }
@@ -35,8 +36,9 @@ export const PublicationForm = ({
    onSubmit,
    onBack,
    images,
-   currentFilter,
    onSlideChange,
+   filters,
+   currentSlide = 0,
    isLoading,
    errorsFromApi,
 }: PublicationFormProps) => {
@@ -80,8 +82,9 @@ export const PublicationForm = ({
          <ModalBody className="flex flex-row">
             <PostCreatorSlider
                images={images}
-               currentFilter={currentFilter}
+               filters={filters}
                onSlideChangeAction={onSlideChange}
+               currentSlide={currentSlide}
             />
             <div className="flex-1">
                <div className="p-[24px]">

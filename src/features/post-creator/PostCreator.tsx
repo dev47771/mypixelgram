@@ -35,13 +35,6 @@ export const PostCreator = ({ onCloseAction }: Props) => {
 
    const photosRef = useRef(photos)
 
-   // const searchParams = useSearchParams()
-   // const pathname = usePathname()
-   // const router = useRouter()
-
-   // const action = searchParams.get('action')
-   // const isAddPhotoAction = action === 'create'
-
    //добавление новых фото
    const handleAddPhotos = (File: File) => {
       const newPhoto = {
@@ -59,17 +52,11 @@ export const PostCreator = ({ onCloseAction }: Props) => {
    const applyFilterToCurrentPhoto = (filter: string) => {
       setPhotos(prev =>
          prev.map((photo, index) =>
-            index === currentPhotoIndex
-               ? {
-                    ...photo,
-                    currentFilter: filter,
-                 }
-               : photo
+            index === currentPhotoIndex ? { ...photo, currentFilter: filter } : photo
          )
       )
    }
 
-   //to remove photos from useEffect deps
    useEffect(() => {
       photosRef.current = photos
    })
@@ -98,12 +85,6 @@ export const PostCreator = ({ onCloseAction }: Props) => {
       openOverlayModal(MODALS.CLOSE)
    }
 
-   // const closeAddPhotoModalHandler = () => {
-   //    const params = new URLSearchParams(searchParams.toString())
-   //    params.delete('action')
-   //    router.replace(pathname)
-   // }
-
    const renderModals = () => {
       return modalStack.map(modalName => {
          switch (modalName) {
@@ -126,7 +107,7 @@ export const PostCreator = ({ onCloseAction }: Props) => {
                   <CroppingModal
                      key="cropping"
                      isOpen
-                     onOpenChange={() => {}}
+                     onOpenChange={requestClose}
                      onBack={() => {
                         openMainModal(MODALS.ADD_PHOTO)
                         setPhotos([])
@@ -153,10 +134,11 @@ export const PostCreator = ({ onCloseAction }: Props) => {
                            ? photo.modifiedPreviewUrl
                            : photo.previewUrl
                      )}
-                     currentFilter={photos[currentPhotoIndex]?.currentFilter || 'filter-none'}
+                     filters={photos.map(photo => photo.currentFilter)}
                      onSlideChange={setCurrentPhotoIndex}
                      onFilterChange={applyFilterToCurrentPhoto}
                      onOpenChange={requestClose}
+                     currentSlide={currentPhotoIndex}
                   />
                )
                break

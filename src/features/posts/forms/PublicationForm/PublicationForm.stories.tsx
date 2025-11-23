@@ -50,8 +50,9 @@ const PublicationFormWithState = () => {
             onBack={onBack}
             isLoading={isLoading}
             images={photos.map(photo => photo.previewUrl)}
-            currentFilter={photos[currentPhotoIndex]?.currentFilter || 'filter-none'}
+            filters={photos.map(photo => photo.currentFilter)}
             onSlideChange={setCurrentPhotoIndex}
+            currentSlide={currentPhotoIndex}
          />
       </Modal>
    )

@@ -1,3 +1,5 @@
+'use client'
+
 //import { MouseEvent } from 'react'
 import { PostModal } from '@/shared/components/PostModal'
 import Image from 'next/image'
@@ -19,7 +21,7 @@ import { PostCreatorSlider } from '../../PostCreatorSlider/PostCreatorSlider'
 import { Scroll } from '@/shared/components/Scroll'
 
 type Props = {
-   onOpenChange: (value: boolean) => void
+   onOpenChange: () => void
    isOpen: boolean
    photos: PhotoState[]
    onNext: () => void
@@ -43,7 +45,7 @@ export const CroppingModal = ({
       showZoomScale,
       showAspectRatio,
       showImageGallery,
-      isEditingMode, // ← ДОБАВИТЬ ЭТУ СТРОКУ
+      isEditingMode,
       isProcessing,
       crop,
       zoom,
@@ -67,7 +69,6 @@ export const CroppingModal = ({
       toggleZoomScale,
       toggleGallery,
       handleSliderNavigation,
-      //closeAllPanels,
       handleNext,
       zoomScale,
    } = useCroppingModal({
@@ -77,11 +78,6 @@ export const CroppingModal = ({
       onPhotosUpdate,
       onNext,
    })
-
-   // const handleImageClick = (e: MouseEvent) => {
-   //    e.stopPropagation()
-   //    closeAllPanels()
-   // }
 
    const baseInteractiveButtonStyle =
       'cursor-pointer w-9 h-9 rounded-xs bg-dark-500 absolute bottom-[11px] flex items-center justify-center opacity-80'
@@ -104,60 +100,18 @@ export const CroppingModal = ({
             </div>
          )}
 
-         {/* {showImageGallery ? (
-            <div className="bg-dark-700 relative h-full w-full">
-               <PostCreatorSlider
-                  key={photos.length}
-                  images={photos.map(i => i.previewUrl)}
-                  currentFilter={'filter-none'}
-                  onSlideChangeAction={handleSliderNavigation}
-               />
-            </div>
-         ) : (
-            <div className="bg-dark-700 h-[400px] w-full" onClick={handleImageClick}>
-               <Cropper
-                  image={currentPhoto.previewUrl}
-                  crop={crop}
-                  zoom={zoom}
-                  aspect={aspect}
-                  onCropChange={handleCropChange}
-                  onZoomChange={handleZoomChange}
-                  onCropComplete={onCropComplete}
-                  classes={{
-                     containerClassName: 'absolute inset-0',
-                     mediaClassName: 'max-h-full max-w-full',
-                  }}
-                  style={{
-                     containerStyle: {
-                        backgroundColor: '#000000',
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                     },
-                  }}
-               />
-            </div>
-         )} */}
-
          <div className="bg-dark-700 relative h-full w-full">
-            {/* Режим слайдера - показывается когда НЕ в режиме редактирования */}
             {!isEditingMode && (
                <PostCreatorSlider
-                  //key={photos.length}
-                  key={`slider-${photos.length}-${isEditingMode}`} // ← ДОБАВЬТЕ ЭТОТ KEY
-                  //images={photos.map(i => i.previewUrl)}
-                  images={photos.map(i => i.modifiedPreviewUrl || i.previewUrl)} // ← ИСПОЛЬЗОВАТЬ ОБРЕЗАННЫЕ ЕСЛИ ЕСТЬ
-                  currentFilter={'filter-none'}
+                  key={`slider-${photos.length}-${isEditingMode}`}
+                  images={photos.map(i => i.modifiedPreviewUrl || i.previewUrl)}
+                  filters={photos.map(photo => photo.currentFilter)}
                   onSlideChangeAction={handleSliderNavigation}
-                  currentSlide={currentIndex} // ← ПЕРЕИМЕНОВАТЬ initialSlide в currentSlide
-                  isEditingMode={isEditingMode} // ← ПЕРЕДАЕМ isEditingMode
-                  resetOnMount={true} // ← ВСЕГДА СБРАСЫВАТЬ ПРИ ПОКАЗЕ СЛАЙДЕРА
+                  currentSlide={currentIndex}
+                  resetOnMount
                />
             )}
 
-            {/* Режим редактирования - показывается когда включен аспект или зум */}
             {isEditingMode && (
                <div className="absolute inset-0">
                   <Cropper
@@ -187,7 +141,6 @@ export const CroppingModal = ({
             )}
          </div>
 
-         {/* {!showImageGallery && ( */}
          <>
             <button
                className={cn(
@@ -216,10 +169,8 @@ export const CroppingModal = ({
                <MaximizeOutline />
             </button>
          </>
-         {/* )} */}
 
          {showAspectRatio && (
-            //&& !showImageGallery
             <div
                className={
                   'bg-dark-500 absolute bottom-[49px] left-[11px] flex h-[152px] w-[156px] flex-col rounded-xs opacity-80'
@@ -260,7 +211,6 @@ export const CroppingModal = ({
          )}
 
          {showZoomScale && (
-            //&& !showImageGallery
             <div
                className={
                   'bg-dark-500 absolute bottom-[50px] left-[71px] flex h-[36px] w-[124px] items-center justify-center rounded-xs opacity-80'
@@ -306,8 +256,7 @@ export const CroppingModal = ({
                         >
                            <div className="relative h-[82px] w-20">
                               <Image
-                                 //src={i.previewUrl}
-                                 src={i.modifiedPreviewUrl || i.previewUrl} // ← ТАК ЖЕ ЗДЕСЬ
+                                 src={i.modifiedPreviewUrl || i.previewUrl}
                                  alt={`Cropped image ${idx + 1}`}
                                  fill
                                  sizes="80px"

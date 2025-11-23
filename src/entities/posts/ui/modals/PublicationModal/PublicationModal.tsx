@@ -9,8 +9,6 @@ import { alert } from '@/shared/components/Alert'
 import { ErrorResponse } from '@/features/auth/api'
 import { useState } from 'react'
 import { applyFilterToImage } from '@/features/post-creator/utils/applyImageFilter'
-// import { PhotoState } from '@/features/post-creator/PostCreator'
-// import { hasModifiedFile } from '@/shared/utils'
 
 type Props = {
    onBack: () => void
@@ -22,8 +20,6 @@ type Props = {
 export const PublicationModal = ({ onBack, photos, onOpenChange, closePostCreator }: Props) => {
    const { publishPost, isLoading, error } = usePublishPost()
    const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
-
-   //const photosToPost = photos.filter(hasModifiedFile).map(photo => photo.modifiedFile)
 
    const handlePublish = async (dataPostData: PublicationFormData) => {
       try {
@@ -52,8 +48,9 @@ export const PublicationModal = ({ onBack, photos, onOpenChange, closePostCreato
                   ? photo.modifiedPreviewUrl
                   : photo.previewUrl
             )}
-            currentFilter={photos[currentPhotoIndex]?.currentFilter || 'filter-none'}
+            filters={photos.map(photo => photo.currentFilter)}
             onSlideChange={setCurrentPhotoIndex}
+            currentSlide={currentPhotoIndex}
          />
       </Modal>
    )
