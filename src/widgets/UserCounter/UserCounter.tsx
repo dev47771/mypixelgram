@@ -1,4 +1,3 @@
-'use client'
 import { Typography } from '@/shared/components/Typography'
 
 type Props = {
@@ -11,7 +10,7 @@ export const UserCounter = ({ totalCount }: Props) => {
    return (
       <div
          className={
-            'border-dark-300 bg-dark-500 flex h-[72px] w-full max-w-[972px] items-center justify-between rounded-xs border px-6'
+            'border-dark-300 bg-dark-500 mb-9 flex h-[72px] w-full max-w-[972px] items-center justify-between rounded-xs border px-6'
          }
       >
          <Typography variant={'h2'}>Registered users:</Typography>
