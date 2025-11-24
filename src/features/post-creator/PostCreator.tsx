@@ -8,7 +8,7 @@ import { nanoid } from '@reduxjs/toolkit'
 import { PublicationModal } from '@/entities/posts/ui/modals/PublicationModal'
 import { CloseCreatePostModal } from '@/entities/posts/ui/modals/CloseCreatePostModal'
 import { FilterModal } from '@/entities/posts/ui/modals/FilterModal/FilterModal'
-import { AddPhotoModal } from '@/entities/posts/ui/modals/addPhotoModal'
+import { AddPhotoModal } from '@/entities/posts/ui/modals/AddPhotoModal'
 import { CroppingModal } from '@/entities/posts/ui/modals/croppingModal'
 
 export type PhotoState = {
