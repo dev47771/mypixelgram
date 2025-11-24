@@ -1,21 +1,24 @@
 import { baseApi } from '@/shared/store'
-import { UploadPostRequest } from './post.types'
+import { CreatePostResponse, UploadFileResponse, CreatePostRequest } from './post.types'
 
 export const postService = baseApi.injectEndpoints({
    endpoints: builder => ({
-      uploadFile: builder.mutation<{ fields: string[] }, File[]>({
+      uploadFile: builder.mutation<UploadFileResponse, File[]>({
          query: files => {
             const formData = new FormData()
-            files.forEach(file => formData.append('files', file))
+
+            files.forEach(file => formData.append('post images', file))
+            formData.append('type', 'post')
+
             return {
-               url: '/files/upload',
+               url: '/files/upload-file',
                method: 'POST',
                body: formData,
             }
          },
       }),
 
-      uploadPostData: builder.mutation<void, UploadPostRequest>({
+      createPostData: builder.mutation<CreatePostResponse, CreatePostRequest>({
          query: postData => ({
             url: '/posts',
             method: 'POST',
@@ -25,4 +28,4 @@ export const postService = baseApi.injectEndpoints({
    }),
 })
 
-export const { useUploadFileMutation, useUploadPostDataMutation } = postService
+export const { useUploadFileMutation, useCreatePostDataMutation } = postService

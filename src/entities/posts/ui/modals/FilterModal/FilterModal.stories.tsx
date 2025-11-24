@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { FilterModal } from './FilterModal'
 
 const meta = {
-   title: 'Components/PostModals/FilterModal',
+   title: 'Modals/FilterModal',
    component: FilterModal,
    parameters: {
       layout: 'centered',
@@ -34,9 +34,10 @@ export const FilterModalExample: Story = {
       onBack: () => {},
       onNext: () => {},
       images: [],
-      currentFilter: 'filter-none',
+      filters: [],
       onSlideChange: () => {},
       onFilterChange: () => {},
+      onOpenChange: () => {},
    },
    render: function Render(args) {
       // СПЕЦИАЛЬНО ДЛЯ ИСТОРИИ (На основе моковых ссылок на фото создаем массив обектов по типу InteractiveFilters -> совместила стейт photo и функцию handleAddPhotos)
@@ -67,9 +68,10 @@ export const FilterModalExample: Story = {
                onBack={() => {}}
                onNext={() => {}}
                images={photos.map(photo => photo.previewUrl)}
-               currentFilter={photos[currentPhotoIndex]?.currentFilter || 'filter-none'}
+               filters={photos.map(photo => photo.currentFilter)}
                onSlideChange={setCurrentPhotoIndex}
                onFilterChange={applyFilterToCurrentPhoto}
+               onOpenChange={() => alert('open CloseCreatePostModal')}
             />
          </>
       )
