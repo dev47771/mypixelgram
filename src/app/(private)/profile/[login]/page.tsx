@@ -1,5 +1,3 @@
-import { PageContainer } from '@/shared/components/PageContainer'
-
 import { ProfileView } from '@/widgets/Profile'
 
 type Params = {
@@ -9,9 +7,5 @@ type Params = {
 export default async function ProfilePage({ params }: { params: Promise<Params> }) {
    const { login } = await params
 
-   return (
-      <PageContainer className={'items-stretch'}>
-         <ProfileView login={login} />
-      </PageContainer>
-   )
+   return <ProfileView login={login} />
 }
