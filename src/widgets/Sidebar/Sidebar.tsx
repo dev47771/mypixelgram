@@ -3,8 +3,8 @@
 import { cn } from '@/shared/lib'
 
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import React, { ComponentPropsWithRef, useState } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { ComponentPropsWithRef, useState } from 'react'
 
 import {
    CreateIcon,
@@ -27,6 +27,7 @@ import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
 import { TOKEN } from '@/shared/constants'
 import { profileRoutes, PublicRoutes } from '@/shared/enums'
 import { useCreateQueryString } from '@/shared/hooks'
+import { PostCreator } from '@/features/post-creator/PostCreator'
 
 type SidebarItemType = {
    id: string
@@ -49,14 +50,21 @@ export const Sidebar = ({ className, ...rest }: Props) => {
    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
    const router = useRouter()
    const pathname = usePathname()
+   const searchParams = useSearchParams()
    const createQueryString = useCreateQueryString()
    const [logout] = useLogoutMutation()
+
+   const action = searchParams.get('action')
+   const isOpenPostCreator = action === 'create'
 
    const token = typeof window !== 'undefined' ? localStorage.getItem(TOKEN) : null
 
    const { data: user, isError } = useMeQuery(undefined, {
       skip: !token,
    })
+
+   const userId = user?.userId
+   //const userLogin = user?.login
 
    const handleLogoutClick = () => setIsLogoutModalOpen(true)
 
@@ -66,8 +74,25 @@ export const Sidebar = ({ className, ...rest }: Props) => {
       router.push(PublicRoutes.signIn)
    }
 
+   // const createQueryString = useCallback(
+   //    (name: string, value: string) => {
+   //       const params = new URLSearchParams(searchParams.toString())
+   //       params.set(name, value)
+
+   //       return params.toString()
+   //    },
+   //    [searchParams]
+   // )
+
    const showAddPhotoModalHandler = () => {
       router.push(pathname + '?' + createQueryString('action', 'create'))
+   }
+
+   const handleClosePostCreator = () => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.delete('action')
+
+      router.push(pathname + '?' + params.toString())
    }
 
    if (isError || !user) return null
@@ -88,8 +113,8 @@ export const Sidebar = ({ className, ...rest }: Props) => {
                   name="Create"
                   icon={CreateOutlineIcon}
                   activeIcon={CreateIcon}
+                  path={`/profile/${userId}?action=create`}
                   onClick={showAddPhotoModalHandler}
-                  //path={`/profile/${user?.id}?action=create`} //динамический путь для PostCreator по ТЗ (стоит вынести в отдельный путь?)
                />
                <SidebarItem
                   id="3"
@@ -142,6 +167,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
             onConfirm={handleConfirmLogout}
             onCancel={() => setIsLogoutModalOpen(false)}
          />
+         {isOpenPostCreator && <PostCreator onCloseAction={handleClosePostCreator} />}
       </aside>
    )
 }

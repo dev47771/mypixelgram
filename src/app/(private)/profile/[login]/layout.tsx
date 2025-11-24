@@ -3,13 +3,16 @@
 import { Sidebar } from '@/widgets/Sidebar'
 import { ReactNode } from 'react'
 import { withPrivateRoute } from '@/shared/HOC/withPrivateRoute'
+import { PageContainer } from '@/shared/components/PageContainer'
 
 function ProfileLayout({ children }: { children: ReactNode }) {
    return (
-      <div className="mx-auto flex w-full max-w-[1280px] flex-col items-start px-[60px]">
+      <PageContainer
+         className={'mx-auto w-full flex-row items-stretch justify-between px-[60px] py-0'}
+      >
          <Sidebar />
-         <div className="border-dark-300 ml-[180px] min-h-screen border-l">{children}</div>
-      </div>
+         <div className="border-dark-300 ml-[180px] min-h-screen w-full border-l">{children}</div>
+      </PageContainer>
    )
 }
 
