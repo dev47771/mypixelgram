@@ -3,9 +3,10 @@ import { Typography } from '@/shared/components/Typography'
 import { PostOutlineIcon } from '@/shared/icons'
 import { Button } from '@/shared/components/Button'
 import Link from 'next/link'
-import { useGetUserByLoginQuery, UserAvatar } from '@/entities/user'
+import { useGetUserByLoginQuery } from '@/entities/user'
 import React from 'react'
 import { useMeQuery } from '@/features/auth/api'
+import { Avatar } from '@/shared/components/Avatar'
 
 type Props = {
    login: string
@@ -30,7 +31,7 @@ export const ProfileHeader = ({ login }: Props) => {
       <div className="flex gap-9.5">
          <div>
             {user.avatar ? (
-               <UserAvatar size={'L'} src={user.avatar} alt={'user avatar'} />
+               <Avatar size={'lg'} src={user.avatar} alt={'user avatar'} />
             ) : (
                <div
                   className={'bg-dark-500 flex h-51 w-51 items-center justify-center rounded-full'}
