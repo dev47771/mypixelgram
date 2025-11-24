@@ -1,7 +1,8 @@
+'use client'
 import { ArrowLeftIcon, CrossIcon } from '@/shared/icons'
 import { cn } from '@/shared/lib'
 import * as Dialog from '@radix-ui/react-dialog'
-import { ComponentPropsWithRef } from 'react'
+import { ComponentPropsWithRef, ReactNode } from 'react'
 import { Button } from '../Button'
 import { Modal, ModalBody, ModalClose, ModalTitle } from '../Modal'
 import { Typography } from '../Typography'
@@ -16,10 +17,10 @@ type Props = {
    headerText?: string
    contentColumns: ContentColumns
 
-   leftContent?: React.ReactNode
-   rightContent?: React.ReactNode
+   leftContent?: ReactNode
+   rightContent?: ReactNode
 
-   children?: React.ReactNode
+   children?: ReactNode
 
    leftContentClassName?: string
    rightContentClassName?: string
@@ -88,7 +89,7 @@ export const PostModal = ({
                      <Button
                         onClick={onBack}
                         variant="textButton"
-                        className="text-light-100 border-none p-0"
+                        className="text-light-100 min-w-[60px] border-none p-0"
                      >
                         <ArrowLeftIcon />
                      </Button>
@@ -98,7 +99,7 @@ export const PostModal = ({
                      <Button
                         onClick={onNext ? onNext : publish}
                         variant="textButton"
-                        className="border-none p-0"
+                        className="min-w-[60px] border-none p-0"
                      >
                         Next
                      </Button>
@@ -130,9 +131,14 @@ export const PostModal = ({
          >
             {/* Контент для модалки с 2 колонками передаем пропсами leftContent и rightContent */}
             {contentColumns === 'two' ? (
-               <div className='contents'>
+               <div className="contents">
                   {/* Контент левой колонки модалке с 2 колонками (как правило это фото) */}
-                  <div className={cn(leftContentClassName, 'border-r border-dark-100 overflow-hidden')}>
+                  <div
+                     className={cn(
+                        leftContentClassName,
+                        'border-dark-100 overflow-hidden border-r'
+                     )}
+                  >
                      {leftContent}
                   </div>
 

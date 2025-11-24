@@ -2,26 +2,31 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, react-hooks/exhaustive-deps */
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { MODALS, useModalStack } from '.'
-import { FilterModal } from './ui/modals/FilterModal/FilterModal'
 import { nanoid } from '@reduxjs/toolkit'
-import { AddPhotoModal } from '@/entities/posts/ui/modals/addPhotoModal'
-import { useSearchParams } from 'next/navigation'
+import { AddPhotoModal } from '@/entities/posts/ui/modals/AddPhotoModal'
+//import { useSearchParams } from 'next/navigation'
+import { CroppingModal } from '@/entities/posts/ui/modals/CroppingModal'
 import { PublicationModal } from '@/entities/posts/ui/modals/PublicationModal'
+import { CloseCreatePostModal } from '@/entities/posts/ui/modals/CloseCreatePostModal'
+import { FilterModal } from '@/entities/posts/ui/modals/FilterModal/FilterModal'
 
 export type PhotoState = {
    id: string
-   originalFile: File // Исходный файл
-   previewUrl: string // URL.createObjectURL(file)
-   currentFilter: string // Текущий активный фильтр
+   originalFile: File
+   previewUrl: string
+   modifiedFile: null | File
+   modifiedPreviewUrl: string
+   currentFilter: string
 }
 
 type Props = {
-   onClose?: () => void
+   onCloseAction?: () => void
 }
 
-export const PostCreator = ({ onClose }: Props) => {
+export const PostCreator = ({ onCloseAction }: Props) => {
+
    const { modalStack, openMainModal, openOverlayModal, closeTopModal, resetModalStack } =
       useModalStack()
 
@@ -31,43 +36,44 @@ export const PostCreator = ({ onClose }: Props) => {
    //индекс текущего фото в слайдере
    const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
 
-   const searchParams = useSearchParams()
-
-   const action = searchParams.get('action')
-   const isAddPhotoAction = action === 'create'
+   const photosRef = useRef(photos)
 
    //добавление новых фото
-   const handleAddPhotos = (newFiles: File[]) => {
-      const newPhotos: PhotoState[] = newFiles.map(file => ({
+   const handleAddPhotos = (File: File) => {
+      const newPhoto = {
          id: nanoid(),
-         originalFile: file,
-         previewUrl: URL.createObjectURL(file),
+         originalFile: File,
+         previewUrl: URL.createObjectURL(File),
+         modifiedFile: null,
+         modifiedPreviewUrl: '',
          currentFilter: 'filter-none',
-      }))
+      } satisfies PhotoState
 
-      setPhotos(prev => [...prev, ...newPhotos])
+      setPhotos(prev => [...prev, newPhoto])
    }
 
-   //применение фильтра к текущему фото
    const applyFilterToCurrentPhoto = (filter: string) => {
       setPhotos(prev =>
          prev.map((photo, index) =>
-            index === currentPhotoIndex
-               ? {
-                    ...photo,
-                    currentFilter: filter,
-                 }
-               : photo
+            index === currentPhotoIndex ? { ...photo, currentFilter: filter } : photo
          )
       )
    }
+
+   useEffect(() => {
+      photosRef.current = photos
+   })
 
    //при закрытии PostCreator сработает очистка массива с фото и сбросится до initial состояния массив modalStack
    useEffect(() => {
       return () => {
          resetModalStack()
-         photos.forEach(photo => {
+         const currentPhotos = photosRef.current
+         currentPhotos.forEach(photo => {
             URL.revokeObjectURL(photo.previewUrl)
+            if (photo.modifiedPreviewUrl) {
+               URL.revokeObjectURL(photo.modifiedPreviewUrl)
+            }
          })
          setPhotos([])
       }
@@ -75,7 +81,7 @@ export const PostCreator = ({ onClose }: Props) => {
 
    //закрытие PostCreator
    const handleCompleteClose = () => {
-      onClose?.() // вызовет router.back() из компонента profile
+      onCloseAction?.() // вызовет router.back() из компонента profile
    }
 
    const requestClose = () => {
@@ -91,35 +97,51 @@ export const PostCreator = ({ onClose }: Props) => {
                   <AddPhotoModal
                      key="add_photo"
                      onPhotoSelected={(file: File) => {
-                        handleAddPhotos([file])
+                        handleAddPhotos(file)
                         openMainModal(MODALS.CROPPING)
                      }}
-                     onClose={requestClose}
-                     isOpen={isAddPhotoAction}
-                     onOpenChange={requestClose}
+                     onOpenChange={handleCompleteClose}
                   />
                )
                break
 
             case MODALS.CROPPING:
-               // return <CroppingModal
-               //     key="cropping"
-               //     photos={photos}
-               //     onNext={() => openMainModal(MODALS.FILTERS)}
-               //     onBack={() => openMainModal(MODALS.ADD_PHOTO)}
-               //     onClose={requestClose}
-               // />;
+               return (
+                  <CroppingModal
+                     key="cropping"
+                     isOpen
+                     onOpenChange={requestClose}
+                     onBack={() => {
+                        openMainModal(MODALS.ADD_PHOTO)
+                        setPhotos([])
+                     }}
+                     photos={photos}
+                     onNext={() => {
+                        openMainModal(MODALS.FILTERS)
+                     }}
+                     currentIndex={currentPhotoIndex}
+                     setCurrentIndex={setCurrentPhotoIndex}
+                     onPhotosUpdate={setPhotos}
+                  />
+               )
                break
 
             case MODALS.FILTERS:
                return (
                   <FilterModal
+                     key="filters"
                      onBack={() => openMainModal(MODALS.CROPPING)}
                      onNext={() => openMainModal(MODALS.PUBLICATION)}
-                     images={photos.map(photo => photo.previewUrl)}
-                     currentFilter={photos[currentPhotoIndex]?.currentFilter || 'filter-none'}
+                     images={photos.map(photo =>
+                        photo.modifiedPreviewUrl && photo.modifiedPreviewUrl !== ''
+                           ? photo.modifiedPreviewUrl
+                           : photo.previewUrl
+                     )}
+                     filters={photos.map(photo => photo.currentFilter)}
                      onSlideChange={setCurrentPhotoIndex}
                      onFilterChange={applyFilterToCurrentPhoto}
+                     onOpenChange={requestClose}
+                     currentSlide={currentPhotoIndex}
                   />
                )
                break
@@ -128,21 +150,24 @@ export const PostCreator = ({ onClose }: Props) => {
                return (
                   <PublicationModal
                      key="publication"
-                     // @ts-expect-error
                      photos={photos}
                      onBack={() => openMainModal(MODALS.FILTERS)}
-                     onClose={requestClose}
+                     onOpenChange={requestClose}
+                     closePostCreator={handleCompleteClose}
                   />
                )
                break
 
             //модалка закрытия для PostCreator
             case MODALS.CLOSE:
-               // return <CloseModal
-               //     key="close"
-               //     onConfirm={closeTopModal} //для кнопки no, крестика в модалке close и при клике где-то вне зоны модалки close
-               //     onCancel={handleCompleteClose} //для кнопки yes (закроет PostCreator)
-               // />;
+               return (
+                  <CloseCreatePostModal
+                     key="close"
+                     onSaveDraft={handleCompleteClose} //должна быть функция сохранения в Drafts
+                     onDiscard={handleCompleteClose} //функция просто закроет PostCreator без сохранения поста
+                     onCloseModal={closeTopModal} //функция просто закроет CloseCreatePostModal
+                  />
+               )
                break
 
             default:
