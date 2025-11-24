@@ -65,8 +65,9 @@ export const baseQueryWithReAuth: BaseQueryFn<
             if (typeof window !== 'undefined') {
                localStorage.removeItem(TOKEN)
                const isSignInPage = window.location.pathname === PublicRoutes.signIn
+               const isHomePage = window.location.pathname === PublicRoutes.main
 
-               if (!isSignInPage) {
+               if (!isSignInPage && !isHomePage) {
                   window.location.href = PublicRoutes.signIn
                }
             }

@@ -1,9 +1,7 @@
-'use client'
 import { Sidebar } from '@/widgets/Sidebar'
 import { ReactNode } from 'react'
-import { withPrivateRoute } from '@/shared/HOC/withPrivateRoute'
 
-function FeedLayout({ children }: { children: ReactNode }) {
+export default function ProfileLayout({ children }: { children: ReactNode }) {
    return (
       <div className="mx-auto flex w-full max-w-[1280px] flex-col items-start px-[60px]">
          <Sidebar />
@@ -11,5 +9,3 @@ function FeedLayout({ children }: { children: ReactNode }) {
       </div>
    )
 }
-
-export default withPrivateRoute(FeedLayout)
