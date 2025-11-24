@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/no-unused-vars, react-hooks/exhaustive-deps */
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
@@ -24,6 +26,7 @@ type Props = {
 }
 
 export const PostCreator = ({ onCloseAction }: Props) => {
+
    const { modalStack, openMainModal, openOverlayModal, closeTopModal, resetModalStack } =
       useModalStack()
 

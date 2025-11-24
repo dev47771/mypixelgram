@@ -1,7 +1,7 @@
 import { CardPost } from '@/entities/posts/ui/CardPost'
+import { lastPostsSchema } from '@/entities/posts/ui/schemas'
 import ServerPageContainer from '@/shared/components/PageContainer/ServerPageContainer'
 import { apiMap } from '@/shared/constants'
-import { lastPostsSchema } from '@/shared/schema'
 
 export const revalidate = 60
 
@@ -16,7 +16,7 @@ export default async function HomePage() {
             <div className="bg-dark-500 border-dark-300 mb-[36px] h-[72px] w-[972px] border"></div>
 
             <div className="flex max-w-[972px] flex-wrap gap-3">
-               {data.posts.map(post => {
+               {data.map(post => {
                   return <CardPost key={post.postId} {...post} />
                })}
             </div>
