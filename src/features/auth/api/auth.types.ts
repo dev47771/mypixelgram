@@ -2,6 +2,7 @@ export type MeResponse = {
    login: string
    email: string
    createdAt: string
+   userId: string
 }
 
 export type SignUpArgs = {

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { AddPhotoModal } from '.'
+import { AddPhotoModal } from './AddPhotoModal'
 
 const meta = {
    component: AddPhotoModal,

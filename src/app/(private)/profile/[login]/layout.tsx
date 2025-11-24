@@ -1,7 +1,10 @@
+'use client'
+
 import { Sidebar } from '@/widgets/Sidebar'
 import { ReactNode } from 'react'
+import { withPrivateRoute } from '@/shared/HOC/withPrivateRoute'
 
-export default function ProfileLayout({ children }: { children: ReactNode }) {
+function ProfileLayout({ children }: { children: ReactNode }) {
    return (
       <div className="mx-auto flex w-full max-w-[1280px] flex-col items-start px-[60px]">
          <Sidebar />
@@ -9,3 +12,5 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
       </div>
    )
 }
+
+export default withPrivateRoute(ProfileLayout)

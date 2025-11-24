@@ -25,8 +25,8 @@ import {
 import { YesAndNoModal } from '@/entities/common/ui/YesAndNoModal'
 import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
 import { TOKEN } from '@/shared/constants'
-import { PublicRoutes } from '@/shared/enums'
-import { useCreateQueryString } from '@/shared/hook'
+import { profileRoutes, PublicRoutes } from '@/shared/enums'
+import { useCreateQueryString } from '@/shared/hooks'
 
 type SidebarItemType = {
    id: string
@@ -96,7 +96,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
                   name="My Profile"
                   icon={PersonOutlineIcon}
                   activeIcon={PersonIcon}
-                  path="/profile"
+                  path={`${profileRoutes.private(user.login)}`}
                />
                <SidebarItem
                   id="4"

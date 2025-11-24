@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-unused-vars, react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
@@ -9,7 +8,7 @@ import { nanoid } from '@reduxjs/toolkit'
 import { PublicationModal } from '@/entities/posts/ui/modals/PublicationModal'
 import { CloseCreatePostModal } from '@/entities/posts/ui/modals/CloseCreatePostModal'
 import { FilterModal } from '@/entities/posts/ui/modals/FilterModal/FilterModal'
-import { AddPhotoModal } from '@/entities/posts/ui/modals/addPhotoModal'
+import { AddPhotoModal } from '@/entities/posts/ui/modals/AddPhotoModal'
 import { CroppingModal } from '@/entities/posts/ui/modals/croppingModal'
 
 export type PhotoState = {
@@ -26,7 +25,6 @@ type Props = {
 }
 
 export const PostCreator = ({ onCloseAction }: Props) => {
-
    const { modalStack, openMainModal, openOverlayModal, closeTopModal, resetModalStack } =
       useModalStack()
 

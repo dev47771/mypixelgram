@@ -37,9 +37,14 @@ export const baseQueryWithReAuth: BaseQueryFn<
    let result = await baseQuery(args, api, extraOptions)
 
    if (result.error && result.error.status === 401) {
+      const token = localStorage.getItem(TOKEN)
+
+      if (!token) return result
+
       if (!mutex.isLocked()) {
          const release = await mutex.acquire()
          // try to get a new token
+
          const refreshResult = await baseQuery(
             {
                method: 'POST',
