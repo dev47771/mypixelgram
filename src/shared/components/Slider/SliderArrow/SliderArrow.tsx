@@ -11,6 +11,7 @@ export const SliderArrow = ({ children, onClick, className }: Props) => (
          'group hover:bg-dark-300/80',
          className
       )}
+      type="button"
    >
       {children}
    </button>

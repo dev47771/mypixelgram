@@ -10,15 +10,32 @@ import {
 } from '@/shared/components/Slider'
 import { ArrowLeftIcon, ArrowRightIcon } from '@/shared/icons'
 import Image from 'next/image'
+import { ReactNode, useEffect } from 'react'
 
 type Props = {
    images: string[]
    className?: string
    disabled?: boolean
+   renderSlideAction?: (src: string, isActive: boolean, currentSlide: number) => ReactNode
+   initialSlide?: number
+   onSlideChange?: (index: number) => void
 }
 
-export const Slider = ({ images, className, disabled }: Props) => {
-   const { sliderRef, instanceRef, currentSlide, slides } = useSlider()
+export const Slider = ({
+   images,
+   className,
+   disabled,
+   renderSlideAction,
+   initialSlide = 0,
+   onSlideChange,
+}: Props) => {
+   const { sliderRef, instanceRef, currentSlide, slides } = useSlider(true, initialSlide)
+
+   useEffect(() => {
+      if (onSlideChange) {
+         onSlideChange(currentSlide)
+      }
+   }, [currentSlide, onSlideChange])
 
    const onNextSlideHandler = () => instanceRef.current?.next()
    const onPrevSlideHandler = () => instanceRef.current?.prev()
@@ -29,7 +46,11 @@ export const Slider = ({ images, className, disabled }: Props) => {
          <SliderContent ref={sliderRef}>
             {images.map((src, i) => (
                <SliderSlide key={i}>
-                  <Image src={src} fill alt={'slider_element'} />
+                  {renderSlideAction ? (
+                     renderSlideAction(src, i === currentSlide, currentSlide)
+                  ) : (
+                     <Image src={src} fill alt={'slider_element'} className="object-contain" />
+                  )}
                </SliderSlide>
             ))}
          </SliderContent>
@@ -37,7 +58,11 @@ export const Slider = ({ images, className, disabled }: Props) => {
          {/* !disabled - condition for CardPost, for cut image */}
          {images.length > 1 && !disabled && (
             <>
-               <SliderArrow className={'left-4'} onClick={onPrevSlideHandler} disabled={disabled}>
+               <SliderArrow
+                  className={'left-[4px]'}
+                  onClick={onPrevSlideHandler}
+                  disabled={disabled}
+               >
                   <ArrowLeftIcon className={'group-hover:text-accent-300'} />
                </SliderArrow>
                <SliderArrow
