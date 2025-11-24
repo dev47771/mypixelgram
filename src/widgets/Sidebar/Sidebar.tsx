@@ -3,7 +3,7 @@
 import { cn } from '@/shared/lib'
 import { SidebarItemType } from '@/widgets/Sidebar/sidebarData'
 import Link from 'next/link'
-import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { ComponentPropsWithRef, useCallback, useState } from 'react'
 
 import {
@@ -50,8 +50,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
       skip: !token,
    })
 
-   const params = useParams()
-   const userId = params.id
+   const userId = user?.userId
    const userLogin = user?.login
 
    const handleLogoutClick = () => setIsLogoutModalOpen(true)
