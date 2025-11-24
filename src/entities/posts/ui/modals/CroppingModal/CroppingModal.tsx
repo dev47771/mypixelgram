@@ -13,12 +13,12 @@ import { cn } from '@/shared/lib'
 import { RangeControl } from '@/shared/components/RangeControl'
 import Cropper from 'react-easy-crop'
 import { ACCEPTED_IMAGE_TYPES } from '@/shared/schema'
-import { useCroppingModal } from '@/entities/posts/ui/modals/croppingModal/useCroppingModal'
-import { AspectOption } from '@/entities/posts/ui/modals/croppingModal/AspectOption'
 import { PhotoState } from '@/features/post-creator/PostCreator'
 import { PostCreatorSlider } from '../../PostCreatorSlider/PostCreatorSlider'
 import { Scroll } from '@/shared/components/Scroll'
 import { useEffect } from 'react'
+import { AspectOption } from './AspectOption'
+import { useCroppingModal } from './useCroppingModal'
 
 type Props = {
    onOpenChange: () => void

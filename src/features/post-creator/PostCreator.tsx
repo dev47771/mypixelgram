@@ -9,7 +9,7 @@ import { PublicationModal } from '@/entities/posts/ui/modals/PublicationModal'
 import { CloseCreatePostModal } from '@/entities/posts/ui/modals/CloseCreatePostModal'
 import { FilterModal } from '@/entities/posts/ui/modals/FilterModal/FilterModal'
 import { AddPhotoModal } from '@/entities/posts/ui/modals/AddPhotoModal'
-import { CroppingModal } from '@/entities/posts/ui/modals/croppingModal'
+import { CroppingModal } from '@/entities/posts/ui/modals/CroppingModal'
 
 export type PhotoState = {
    id: string
