@@ -5,12 +5,12 @@
 import { useEffect, useState, useRef } from 'react'
 import { MODALS, useModalStack } from '.'
 import { nanoid } from '@reduxjs/toolkit'
-import { AddPhotoModal } from '@/entities/posts/ui/modals/AddPhotoModal'
 //import { useSearchParams } from 'next/navigation'
-import { CroppingModal } from '@/entities/posts/ui/modals/CroppingModal'
 import { PublicationModal } from '@/entities/posts/ui/modals/PublicationModal'
 import { CloseCreatePostModal } from '@/entities/posts/ui/modals/CloseCreatePostModal'
 import { FilterModal } from '@/entities/posts/ui/modals/FilterModal/FilterModal'
+import { AddPhotoModal } from '@/entities/posts/ui/modals/addPhotoModal'
+import { CroppingModal } from '@/entities/posts/ui/modals/croppingModal'
 
 export type PhotoState = {
    id: string
