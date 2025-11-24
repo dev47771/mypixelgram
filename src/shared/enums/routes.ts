@@ -11,11 +11,16 @@ export enum PublicRoutes {
 }
 
 export enum PrivateRoutes {
-   profile = '/profile',
+   profile = '/profile', //нужно будет удалить
    settings = '/profile/settings',
    favorites = '/favorites',
    feed = '/feed',
    messenger = '/messenger',
    search = '/search',
    statistics = '/statistics',
+}
+
+export const profileRoutes = {
+   private: (login: string) => `/profile/${login}`,
+   public: (login: string) => `/profile/${login}/public`,
 }

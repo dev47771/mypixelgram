@@ -11,9 +11,9 @@ type Story = StoryObj<typeof CloseCreatePostModal>
 
 export const Default: Story = {
    args: {
-      isOpen: true,
-      onSaveDraft: () => alert('close postCreator'),
-      onDiscard: () => alert('close this modal'),
+      onSaveDraft: () => alert('save post to drafts'),
+      onDiscard: () => alert('close postCreator'),
+      onCloseModal: () => alert('close CloseCreatePostModal'),
    },
    render: args => {
       return (

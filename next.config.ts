@@ -24,6 +24,11 @@ const nextConfig: NextConfig = {
             pathname: '/**',
          },
       ],
+      //проверить на необходимость, изза изображений Image при обрезке в кропе
+      // domains: ['localhost'], // ваши домены
+      // dangerouslyAllowSVG: true,
+      // contentDispositionType: 'attachment',
+      // contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
    },
 }
 
