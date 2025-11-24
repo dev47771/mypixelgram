@@ -1,10 +1,10 @@
 import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataResponse'
 import { PublicationFormData } from '../forms/PublicationForm'
-import { useUploadFileMutation, useUploadPostDataMutation } from '../api'
+import { useUploadFileMutation, useCreatePostDataMutation } from '../api'
 
 export const usePublishPost = () => {
    const [uploadFile, { isLoading: isUploadingFile }] = useUploadFileMutation()
-   const [uploadPostData, { isLoading: isUploadingPost, error }] = useUploadPostDataMutation()
+   const [uploadPostData, { isLoading: isUploadingPost, error }] = useCreatePostDataMutation()
 
    const isLoading = isUploadingFile || isUploadingPost
 

@@ -1,5 +1,5 @@
 import { baseApi } from '@/shared/store'
-import { CreatePostResponse, UploadFileResponse, UploadPostRequest } from './post.types'
+import { CreatePostResponse, UploadFileResponse, CreatePostRequest } from './post.types'
 
 export const postService = baseApi.injectEndpoints({
    endpoints: builder => ({
@@ -18,7 +18,7 @@ export const postService = baseApi.injectEndpoints({
          },
       }),
 
-      uploadPostData: builder.mutation<CreatePostResponse, UploadPostRequest>({
+      createPostData: builder.mutation<CreatePostResponse, CreatePostRequest>({
          query: postData => ({
             url: '/posts',
             method: 'POST',
@@ -28,4 +28,4 @@ export const postService = baseApi.injectEndpoints({
    }),
 })
 
-export const { useUploadFileMutation, useUploadPostDataMutation } = postService
+export const { useUploadFileMutation, useCreatePostDataMutation } = postService
