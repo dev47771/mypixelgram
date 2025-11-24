@@ -8,16 +8,25 @@ export const revalidate = 60
 
 export default async function HomePage() {
    const [postsRes, usersRes] = await Promise.allSettled([
-      fetch(apiUrls.lastPosts).then(res => res.json()),
-      fetch(apiUrls.usersTotalCount).then(res => res.json()),
+      fetch(apiUrls.lastPosts).then(res => {
+         if (!res.ok) throw new Error(`Posts HTTP error: ${res.status}`)
+         return res.json()
+      }),
+      fetch(apiUrls.usersTotalCount).then(res => {
+         if (!res.ok) throw new Error(`Users HTTP error: ${res.status}`)
+         return res.json()
+      }),
    ])
 
-   let totalUsersCount = 0
+   let totalUsersCount: number | null = null
    let postsData: LastPostProps[] = []
    let parseError = false
+   let fetchError = false
 
    if (usersRes.status === 'fulfilled') {
-      totalUsersCount = usersRes.value.totalCount ?? 0
+      totalUsersCount = usersRes.value.totalCount ?? null
+   } else {
+      console.error(usersRes.reason)
    }
 
    if (postsRes.status === 'fulfilled') {
@@ -26,7 +35,11 @@ export default async function HomePage() {
          postsData = parsed.data
       } else {
          parseError = true
+         console.error('Posts parsing error', parsed.error)
       }
+   } else {
+      fetchError = true
+      console.error('Posts fetch failed', postsRes.reason)
    }
 
    return (
@@ -40,7 +53,7 @@ export default async function HomePage() {
             </div>
          ) : (
             <div className="bg-dark-500 border-dark-300 border p-4">
-               {postsRes.status === 'rejected' || parseError
+               {parseError || fetchError
                   ? 'Failed to load posts. Please try again later.'
                   : 'No posts available'}
             </div>

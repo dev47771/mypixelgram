@@ -1,11 +1,11 @@
 import { Typography } from '@/shared/components/Typography'
 
 type Props = {
-   totalCount: number
+   totalCount: number | null
 }
 
 export const UserCounter = ({ totalCount }: Props) => {
-   const countString = totalCount.toString().padStart(6, '0')
+   const countString = totalCount ? totalCount.toString().padStart(6, '0') : '—'
 
    return (
       <div

@@ -23,3 +23,14 @@ export const Default: Story = {
       </div>
    ),
 }
+
+export const WithError: Story = {
+   args: {
+      totalCount: null,
+   },
+   render: args => (
+      <div className={'w-[500px]'}>
+         <UserCounter {...args} />
+      </div>
+   ),
+}
