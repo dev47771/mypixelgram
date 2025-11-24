@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { authChannel } from '@/shared/lib/authBroadcast'
 import { baseApi } from '@/shared/store'
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
-import { PublicRoutes } from '@/shared/enums'
+import { PrivateRoutes, PublicRoutes } from '@/shared/enums'
 import { authService } from '@/features/auth/api'
 
 export const useAuthSync = () => {
@@ -18,11 +18,12 @@ export const useAuthSync = () => {
 
          if (type === 'LOGOUT') {
             dispatch(baseApi.util.resetApiState())
-            window.location.href = PublicRoutes.signIn
+            router.replace(PublicRoutes.signIn)
          }
 
          if (type === 'LOGIN') {
             dispatch(authService.endpoints.me.initiate())
+            router.replace(PrivateRoutes.feed)
          }
       }
 
