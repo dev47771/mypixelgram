@@ -21,7 +21,9 @@ export const UserCounter = ({ totalCount }: Props) => {
          >
             {countString.split('').map((el, i) => (
                <div key={i} className={'border-dark-300 border-r pr-2 last:border-none last:pr-0'}>
-                  <Typography variant={'h2'}>{el}</Typography>
+                  <Typography as={'span'} variant={'h2'}>
+                     {el}
+                  </Typography>
                </div>
             ))}
          </div>
