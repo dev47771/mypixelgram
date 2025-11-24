@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { FilterModal } from './FilterModal'
 
 const meta = {
-   title: 'Components/PostModals/FilterModal',
+   title: 'Modals/FilterModal',
    component: FilterModal,
    parameters: {
       layout: 'centered',
@@ -29,15 +29,15 @@ const mockImages = [
    'https://images.unsplash.com/photo-1743947197487-3534e60ca31b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=931',
 ]
 
-
 export const FilterModalExample: Story = {
    args: {
       onBack: () => {},
       onNext: () => {},
       images: [],
-      currentFilter: 'filter-none',
+      filters: [],
       onSlideChange: () => {},
       onFilterChange: () => {},
+      onOpenChange: () => {},
    },
    render: function Render(args) {
       // СПЕЦИАЛЬНО ДЛЯ ИСТОРИИ (На основе моковых ссылок на фото создаем массив обектов по типу InteractiveFilters -> совместила стейт photo и функцию handleAddPhotos)
@@ -63,8 +63,17 @@ export const FilterModalExample: Story = {
 
       return (
          <>
-            <FilterModal {...args} onBack={() => {}} onNext={() => {}} images={photos.map(photo => photo.previewUrl)} currentFilter={photos[currentPhotoIndex]?.currentFilter || 'filter-none'} onSlideChange={setCurrentPhotoIndex} onFilterChange={applyFilterToCurrentPhoto}/>
+            <FilterModal
+               {...args}
+               onBack={() => {}}
+               onNext={() => {}}
+               images={photos.map(photo => photo.previewUrl)}
+               filters={photos.map(photo => photo.currentFilter)}
+               onSlideChange={setCurrentPhotoIndex}
+               onFilterChange={applyFilterToCurrentPhoto}
+               onOpenChange={() => alert('open CloseCreatePostModal')}
+            />
          </>
       )
-   }
+   },
 }

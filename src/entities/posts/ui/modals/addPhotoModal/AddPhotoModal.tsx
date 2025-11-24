@@ -14,13 +14,11 @@ const schema = z.object({
 type FormTypes = z.infer<typeof schema>
 
 type Props = {
-   isOpen: boolean
-   onClose: () => void
    onPhotoSelected: (file: File) => void
    onOpenChange: (value: boolean) => void
 }
 
-export const AddPhotoModal = ({ isOpen, onPhotoSelected, onClose, onOpenChange }: Props) => {
+export const AddPhotoModal = ({ onPhotoSelected, onOpenChange }: Props) => {
    const fileInputRef = useRef<HTMLInputElement>(null)
 
    const {
@@ -41,9 +39,8 @@ export const AddPhotoModal = ({ isOpen, onPhotoSelected, onClose, onOpenChange }
       if (postPhotoWatcher && postPhotoWatcher.length > 0 && !errors.postPhoto) {
          const file = postPhotoWatcher[0]
          onPhotoSelected(file)
-         onClose()
       }
-   }, [errors.postPhoto, onClose, onPhotoSelected, postPhotoWatcher])
+   }, [errors.postPhoto, onPhotoSelected, postPhotoWatcher])
 
    const postPhotoRef = (e: HTMLInputElement | null) => {
       ref(e)
@@ -61,7 +58,7 @@ export const AddPhotoModal = ({ isOpen, onPhotoSelected, onClose, onOpenChange }
 
    return (
       <PostModal
-         open={isOpen}
+         open
          onOpenChange={onOpenChange}
          size="image-upload"
          headerText="Add Photo"

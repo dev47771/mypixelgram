@@ -1,8 +1,11 @@
+'use client'
+
 import { Sidebar } from '@/widgets/Sidebar'
 import { ReactNode } from 'react'
+import { withPrivateRoute } from '@/shared/HOC/withPrivateRoute'
 import { PageContainer } from '@/shared/components/PageContainer'
 
-export default function ProfileLayout({ children }: { children: ReactNode }) {
+function ProfileLayout({ children }: { children: ReactNode }) {
    return (
       <PageContainer
          className={'mx-auto w-full flex-row items-stretch justify-between px-[60px] py-0'}
@@ -12,3 +15,5 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
       </PageContainer>
    )
 }
+
+export default withPrivateRoute(ProfileLayout)
