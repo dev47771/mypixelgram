@@ -3,7 +3,7 @@ import { AuthEndpoints, PostsEndpoints, UserEndpoints } from '../enums'
 export const TOKEN = 'accessToken'
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
-export const apiMap = {
+export const apiUrls = {
    loginGoogle: `${BASE_URL}${AuthEndpoints.loginGoogle}`,
    loginGitHub: `${BASE_URL}${AuthEndpoints.loginGitHub}`,
    lastPosts: `${BASE_URL}${PostsEndpoints.lastPosts}`,

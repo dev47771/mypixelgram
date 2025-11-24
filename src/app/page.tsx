@@ -1,15 +1,15 @@
 import { CardPost } from '@/entities/posts/ui/CardPost'
 import { type LastPostProps, lastPostsSchema } from '@/entities/posts/ui/schemas'
 import ServerPageContainer from '@/shared/components/PageContainer/ServerPageContainer'
-import { apiMap } from '@/shared/constants'
+import { apiUrls } from '@/shared/constants'
 import { UserCounter } from '@/widgets/UserCounter'
 
 export const revalidate = 60
 
 export default async function HomePage() {
    const [postsRes, usersRes] = await Promise.allSettled([
-      fetch(apiMap.lastPosts).then(res => res.json()),
-      fetch(apiMap.usersTotalCount).then(res => res.json()),
+      fetch(apiUrls.lastPosts).then(res => res.json()),
+      fetch(apiUrls.usersTotalCount).then(res => res.json()),
    ])
 
    let totalUsersCount = 0
