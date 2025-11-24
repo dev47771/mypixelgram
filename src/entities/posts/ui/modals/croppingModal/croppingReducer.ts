@@ -17,6 +17,7 @@ export type CroppingState = {
    showZoomScale: boolean
    showAspectRatio: boolean
    showImageGallery: boolean
+   isEditingMode: boolean
    imageStates: { [index: number]: CropState }
 }
 
@@ -27,6 +28,7 @@ export type CroppingAction =
    | { type: 'TOGGLE_ZOOM_SCALE' }
    | { type: 'TOGGLE_ASPECT_RATIO' }
    | { type: 'TOGGLE_IMAGE_GALLERY' }
+   | { type: 'TOGGLE_EDITING_MODE' }
    | { type: 'INIT_IMAGE_STATE'; payload: { index: number; naturalAspect: number } }
    | { type: 'SET_CROPPED_AREA'; payload: { index: number; croppedAreaPixels: Area } }
    | { type: 'CLOSE_ALL_PANELS' }
@@ -35,6 +37,7 @@ export const initialState: CroppingState = {
    showZoomScale: false,
    showAspectRatio: false,
    showImageGallery: false,
+   isEditingMode: false,
    imageStates: {},
 }
 
@@ -79,13 +82,38 @@ export function croppingReducer(state: CroppingState, action: CroppingAction): C
             showZoomScale: false,
             showAspectRatio: false,
             showImageGallery: false,
+            isEditingMode: false,
          }
+
+      case 'TOGGLE_EDITING_MODE':
+         return { ...state, isEditingMode: !state.isEditingMode }
+
       case 'TOGGLE_ZOOM_SCALE':
-         return { ...state, showZoomScale: !state.showZoomScale }
+         return {
+            ...state,
+            showZoomScale: !state.showZoomScale,
+            showAspectRatio: false,
+            showImageGallery: false,
+            isEditingMode: !state.showZoomScale,
+         }
+
       case 'TOGGLE_ASPECT_RATIO':
-         return { ...state, showAspectRatio: !state.showAspectRatio }
+         return {
+            ...state,
+            showAspectRatio: !state.showAspectRatio,
+            showZoomScale: false,
+            showImageGallery: false,
+            isEditingMode: !state.showAspectRatio,
+         }
+
       case 'TOGGLE_IMAGE_GALLERY':
-         return { ...state, showImageGallery: !state.showImageGallery }
+         return {
+            ...state,
+            showImageGallery: !state.showImageGallery,
+            showAspectRatio: false,
+            showZoomScale: false,
+            isEditingMode: false,
+         }
       case 'INIT_IMAGE_STATE':
          return {
             ...state,
@@ -93,8 +121,8 @@ export function croppingReducer(state: CroppingState, action: CroppingAction): C
                ...state.imageStates,
                [action.payload.index]: {
                   crop: { x: 0, y: 0 },
-                  zoomScale: [20],
-                  aspect: action.payload.naturalAspect,
+                  zoomScale: [0],
+                  aspect: undefined,
                   naturalAspect: action.payload.naturalAspect,
                   croppedAreaPixels: null,
                },

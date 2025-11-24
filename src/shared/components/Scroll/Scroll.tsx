@@ -8,7 +8,7 @@ export type ScrollProps = {
 export const Scroll = ({ children, className, ...props }: ScrollProps) => {
    return (
       <ScrollArea.Root className={`${className} || ''`} {...props}>
-         <ScrollArea.Viewport className="h-full w-full">{children}</ScrollArea.Viewport>
+         <ScrollArea.Viewport className="h-full w-full pb-4">{children}</ScrollArea.Viewport>
 
          <ScrollArea.Scrollbar
             orientation="horizontal"

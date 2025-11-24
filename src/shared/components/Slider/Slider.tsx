@@ -10,17 +10,32 @@ import {
 } from '@/shared/components/Slider'
 import { ArrowLeftIcon, ArrowRightIcon } from '@/shared/icons'
 import Image from 'next/image'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 
 type Props = {
    images: string[]
    className?: string
    disabled?: boolean
    renderSlideAction?: (src: string, isActive: boolean, currentSlide: number) => ReactNode
+   initialSlide?: number
+   onSlideChange?: (index: number) => void
 }
 
-export const Slider = ({ images, className, disabled, renderSlideAction }: Props) => {
-   const { sliderRef, instanceRef, currentSlide, slides } = useSlider()
+export const Slider = ({
+   images,
+   className,
+   disabled,
+   renderSlideAction,
+   initialSlide = 0,
+   onSlideChange,
+}: Props) => {
+   const { sliderRef, instanceRef, currentSlide, slides } = useSlider(true, initialSlide)
+
+   useEffect(() => {
+      if (onSlideChange) {
+         onSlideChange(currentSlide)
+      }
+   }, [currentSlide, onSlideChange])
 
    const onNextSlideHandler = () => instanceRef.current?.next()
    const onPrevSlideHandler = () => instanceRef.current?.prev()

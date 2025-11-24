@@ -6,45 +6,51 @@ import { Slider } from '@/shared/components/Slider'
 
 type Props = {
    images: string[]
-   currentFilter: string
+   filters: string[]
    onSlideChangeAction: (index: number) => void
    resetOnMount?: boolean
+   currentSlide?: number
 }
 
 export const PostCreatorSlider = ({
    images,
-   currentFilter,
+   filters,
    onSlideChangeAction,
    resetOnMount,
+   currentSlide = 0,
 }: Props) => {
-   const [lastKnownSlide, setLastKnownSlide] = useState(0)
+   const [internalSlide, setInternalSlide] = useState(currentSlide)
+
+   useEffect(() => {
+      setInternalSlide(currentSlide)
+   }, [currentSlide])
 
    useEffect(() => {
       if (resetOnMount) {
-         setLastKnownSlide(0)
-         onSlideChangeAction(0)
+         setInternalSlide(currentSlide)
+         onSlideChangeAction(currentSlide)
       }
-   }, [onSlideChangeAction, resetOnMount])
+   }, [resetOnMount])
+
+   const handleInternalSlideChange = (newSlide: number) => {
+      setInternalSlide(newSlide)
+      onSlideChangeAction(newSlide)
+   }
 
    return (
       <Slider
          images={images}
          className="h-[501px] w-[490px]"
-         renderSlideAction={(src, isActive, currentSlide) => {
-            if (lastKnownSlide !== currentSlide) {
-               setLastKnownSlide(currentSlide)
-               onSlideChangeAction(currentSlide)
-            }
-
-            return (
-               <Image
-                  src={src}
-                  fill
-                  alt={'slider_element'}
-                  className={`object-contain ${isActive ? currentFilter : 'filter-none'}`}
-               />
-            )
-         }}
+         initialSlide={internalSlide}
+         onSlideChange={handleInternalSlideChange}
+         renderSlideAction={(src, isActive, slideIndex) => (
+            <Image
+               src={src}
+               fill
+               alt={'slider_element'}
+               className={`object-contain ${filters[slideIndex] || 'filter-none'}`}
+            />
+         )}
       />
    )
 }

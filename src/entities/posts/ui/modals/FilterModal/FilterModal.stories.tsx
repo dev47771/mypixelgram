@@ -34,7 +34,7 @@ export const FilterModalExample: Story = {
       onBack: () => {},
       onNext: () => {},
       images: [],
-      currentFilter: 'filter-none',
+      filters: [],
       onSlideChange: () => {},
       onFilterChange: () => {},
       onOpenChange: () => {},
@@ -68,7 +68,7 @@ export const FilterModalExample: Story = {
                onBack={() => {}}
                onNext={() => {}}
                images={photos.map(photo => photo.previewUrl)}
-               currentFilter={photos[currentPhotoIndex]?.currentFilter || 'filter-none'}
+               filters={photos.map(photo => photo.currentFilter)}
                onSlideChange={setCurrentPhotoIndex}
                onFilterChange={applyFilterToCurrentPhoto}
                onOpenChange={() => alert('open CloseCreatePostModal')}

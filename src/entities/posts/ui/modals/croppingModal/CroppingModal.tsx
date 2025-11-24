@@ -1,4 +1,5 @@
-import { MouseEvent } from 'react'
+'use client'
+
 import { PostModal } from '@/shared/components/PostModal'
 import Image from 'next/image'
 import {
@@ -16,9 +17,11 @@ import { useCroppingModal } from '@/entities/posts/ui/modals/croppingModal/useCr
 import { AspectOption } from '@/entities/posts/ui/modals/croppingModal/AspectOption'
 import { PhotoState } from '@/features/post-creator/PostCreator'
 import { PostCreatorSlider } from '../../PostCreatorSlider/PostCreatorSlider'
+import { Scroll } from '@/shared/components/Scroll'
+import { useEffect } from 'react'
 
 type Props = {
-   onOpenChange: (value: boolean) => void
+   onOpenChange: () => void
    isOpen: boolean
    photos: PhotoState[]
    onNext: () => void
@@ -42,6 +45,7 @@ export const CroppingModal = ({
       showZoomScale,
       showAspectRatio,
       showImageGallery,
+      isEditingMode,
       isProcessing,
       crop,
       zoom,
@@ -65,7 +69,6 @@ export const CroppingModal = ({
       toggleZoomScale,
       toggleGallery,
       handleSliderNavigation,
-      closeAllPanels,
       handleNext,
       zoomScale,
    } = useCroppingModal({
@@ -76,13 +79,14 @@ export const CroppingModal = ({
       onNext,
    })
 
-   const handleImageClick = (e: MouseEvent) => {
-      e.stopPropagation()
-      closeAllPanels()
-   }
-
    const baseInteractiveButtonStyle =
       'cursor-pointer w-9 h-9 rounded-xs bg-dark-500 absolute bottom-[11px] flex items-center justify-center opacity-80'
+
+   useEffect(() => {
+      if (photos.length === 0) {
+         onBack()
+      }
+   }, [photos.length, onBack])
 
    return (
       <PostModal
@@ -102,75 +106,77 @@ export const CroppingModal = ({
             </div>
          )}
 
-         {showImageGallery ? (
-            <div className="bg-dark-700 relative h-full w-full">
+         <div className="bg-dark-700 relative h-full w-full">
+            {!isEditingMode && (
                <PostCreatorSlider
-                  key={photos.length}
-                  images={photos.map(i => i.previewUrl)}
-                  currentFilter={'filter-none'}
+                  key={`slider-${photos.length}-${isEditingMode}`}
+                  images={photos.map(i => i.modifiedPreviewUrl || i.previewUrl)}
+                  filters={photos.map(photo => photo.currentFilter)}
                   onSlideChangeAction={handleSliderNavigation}
+                  currentSlide={currentIndex}
+                  resetOnMount
                />
-            </div>
-         ) : (
-            <div className="bg-dark-700 h-[400px] w-full" onClick={handleImageClick}>
-               <Cropper
-                  image={currentPhoto.previewUrl}
-                  crop={crop}
-                  zoom={zoom}
-                  aspect={aspect}
-                  onCropChange={handleCropChange}
-                  onZoomChange={handleZoomChange}
-                  onCropComplete={onCropComplete}
-                  classes={{
-                     containerClassName: 'absolute inset-0',
-                     mediaClassName: 'max-h-full max-w-full',
-                  }}
-                  style={{
-                     containerStyle: {
-                        backgroundColor: '#000000',
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                     },
-                  }}
-               />
-            </div>
-         )}
+            )}
 
-         {!showImageGallery && (
-            <>
-               <button
-                  className={cn(
-                     baseInteractiveButtonStyle,
-                     'left-[11px]',
-                     showAspectRatio && 'text-accent-500'
-                  )}
-                  onClick={e => {
-                     e.stopPropagation()
-                     toggleAspectRatio()
-                  }}
-               >
-                  <ExpandOutline />
-               </button>
-               <button
-                  className={cn(
-                     baseInteractiveButtonStyle,
-                     'left-[71px]',
-                     showZoomScale && 'text-accent-500'
-                  )}
-                  onClick={e => {
-                     e.stopPropagation()
-                     toggleZoomScale()
-                  }}
-               >
-                  <MaximizeOutline />
-               </button>
-            </>
-         )}
+            {isEditingMode && (
+               <div className="absolute inset-0">
+                  <Cropper
+                     image={currentPhoto.previewUrl}
+                     crop={crop}
+                     zoom={zoom}
+                     aspect={aspect}
+                     onCropChange={handleCropChange}
+                     onZoomChange={handleZoomChange}
+                     onCropComplete={onCropComplete}
+                     classes={{
+                        containerClassName: 'absolute inset-0',
+                        mediaClassName: 'max-h-full max-w-full',
+                     }}
+                     style={{
+                        containerStyle: {
+                           backgroundColor: '#000000',
+                           position: 'absolute',
+                           top: 0,
+                           left: 0,
+                           right: 0,
+                           bottom: 0,
+                        },
+                     }}
+                  />
+               </div>
+            )}
+         </div>
 
-         {showAspectRatio && !showImageGallery && (
+         <>
+            <button
+               className={cn(
+                  baseInteractiveButtonStyle,
+                  'left-[11px]',
+                  showAspectRatio && 'text-accent-500'
+               )}
+               onClick={e => {
+                  e.stopPropagation()
+                  toggleAspectRatio()
+               }}
+            >
+               <ExpandOutline />
+            </button>
+            <button
+               className={cn(
+                  baseInteractiveButtonStyle,
+                  'left-[71px]',
+                  showZoomScale && 'text-accent-500'
+               )}
+               onClick={e => {
+                  e.stopPropagation()
+                  toggleZoomScale()
+               }}
+            >
+               <MaximizeOutline />
+            </button>
+         </>
+
+         {showAspectRatio && (
             <div
                className={
                   'bg-dark-500 absolute bottom-[49px] left-[11px] flex h-[152px] w-[156px] flex-col rounded-xs opacity-80'
@@ -210,7 +216,7 @@ export const CroppingModal = ({
             </div>
          )}
 
-         {showZoomScale && !showImageGallery && (
+         {showZoomScale && (
             <div
                className={
                   'bg-dark-500 absolute bottom-[50px] left-[71px] flex h-[36px] w-[124px] items-center justify-center rounded-xs opacity-80'
@@ -240,48 +246,54 @@ export const CroppingModal = ({
          {showImageGallery && (
             <div
                className={
-                  'bg-dark-500 absolute right-[11px] bottom-[49px] flex gap-3 rounded-xs p-3 opacity-80'
+                  'bg-dark-500 absolute right-[11px] bottom-[49px] flex gap-3 rounded-xs pt-4 pr-4 pb-0 pl-4 opacity-80'
                }
             >
-               {photos.map((i, idx) => (
-                  <div
-                     key={i.previewUrl}
-                     className={cn(
-                        'relative cursor-pointer',
-                        currentIndex === idx && 'ring-accent-500 rounded-xs ring-2'
+               <Scroll className="max-w-[400px]">
+                  <div className="flex gap-3 pt-0.5 pl-0.5">
+                     {photos.map((i, idx) => (
+                        <div
+                           key={i.previewUrl}
+                           className={cn(
+                              'relative cursor-pointer',
+                              currentIndex === idx && 'ring-accent-500 rounded-xs ring-2'
+                           )}
+                           onClick={() => handleThumbnailClick(idx)}
+                        >
+                           <div className="relative h-[82px] w-20">
+                              <Image
+                                 src={i.modifiedPreviewUrl || i.previewUrl}
+                                 alt={`Cropped image ${idx + 1}`}
+                                 fill
+                                 sizes="80px"
+                                 style={{
+                                    objectFit: 'contain',
+                                 }}
+                              />
+                           </div>
+                           <button
+                              onClick={e => {
+                                 e.stopPropagation()
+                                 deleteImage(idx)
+                              }}
+                              className={
+                                 'bg-dark-500 absolute top-[2px] right-[2px] flex h-3 w-3 cursor-pointer items-center justify-center rounded-xs'
+                              }
+                           >
+                              <CrossIcon />
+                           </button>
+                        </div>
+                     ))}
+                     {photos.length < 10 && (
+                        <button
+                           onClick={handleAddImageClick}
+                           className={'flex h-9 w-9 cursor-pointer align-top'}
+                        >
+                           <PlusCircleOutline />
+                        </button>
                      )}
-                     onClick={() => handleThumbnailClick(idx)}
-                  >
-                     <div className="relative h-[82px] w-20">
-                        <Image
-                           src={i.previewUrl}
-                           alt={`Cropped image ${idx + 1}`}
-                           fill
-                           sizes="80px"
-                           style={{
-                              objectFit: 'contain',
-                           }}
-                        />
-                     </div>
-                     <button
-                        onClick={e => {
-                           e.stopPropagation()
-                           deleteImage(idx)
-                        }}
-                        className={
-                           'bg-dark-500 absolute top-[2px] right-[2px] flex h-3 w-3 cursor-pointer items-center justify-center rounded-xs'
-                        }
-                     >
-                        <CrossIcon />
-                     </button>
                   </div>
-               ))}
-               <button
-                  onClick={handleAddImageClick}
-                  className={'flex h-9 w-9 cursor-pointer align-top'}
-               >
-                  <PlusCircleOutline />
-               </button>
+               </Scroll>
                <input
                   ref={fileInputRef}
                   type="file"

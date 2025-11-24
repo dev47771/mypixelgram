@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/no-unused-vars, react-hooks/exhaustive-deps */
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
@@ -24,6 +26,7 @@ type Props = {
 }
 
 export const PostCreator = ({ onCloseAction }: Props) => {
+
    const { modalStack, openMainModal, openOverlayModal, closeTopModal, resetModalStack } =
       useModalStack()
 
@@ -34,13 +37,6 @@ export const PostCreator = ({ onCloseAction }: Props) => {
    const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
 
    const photosRef = useRef(photos)
-
-   // const searchParams = useSearchParams()
-   // const pathname = usePathname()
-   // const router = useRouter()
-
-   // const action = searchParams.get('action')
-   // const isAddPhotoAction = action === 'create'
 
    //добавление новых фото
    const handleAddPhotos = (File: File) => {
@@ -59,17 +55,11 @@ export const PostCreator = ({ onCloseAction }: Props) => {
    const applyFilterToCurrentPhoto = (filter: string) => {
       setPhotos(prev =>
          prev.map((photo, index) =>
-            index === currentPhotoIndex
-               ? {
-                    ...photo,
-                    currentFilter: filter,
-                 }
-               : photo
+            index === currentPhotoIndex ? { ...photo, currentFilter: filter } : photo
          )
       )
    }
 
-   //to remove photos from useEffect deps
    useEffect(() => {
       photosRef.current = photos
    })
@@ -98,12 +88,6 @@ export const PostCreator = ({ onCloseAction }: Props) => {
       openOverlayModal(MODALS.CLOSE)
    }
 
-   // const closeAddPhotoModalHandler = () => {
-   //    const params = new URLSearchParams(searchParams.toString())
-   //    params.delete('action')
-   //    router.replace(pathname)
-   // }
-
    const renderModals = () => {
       return modalStack.map(modalName => {
          switch (modalName) {
@@ -116,7 +100,7 @@ export const PostCreator = ({ onCloseAction }: Props) => {
                         handleAddPhotos(file)
                         openMainModal(MODALS.CROPPING)
                      }}
-                     onOpenChange={requestClose}
+                     onOpenChange={handleCompleteClose}
                   />
                )
                break
@@ -126,7 +110,7 @@ export const PostCreator = ({ onCloseAction }: Props) => {
                   <CroppingModal
                      key="cropping"
                      isOpen
-                     onOpenChange={() => {}}
+                     onOpenChange={requestClose}
                      onBack={() => {
                         openMainModal(MODALS.ADD_PHOTO)
                         setPhotos([])
@@ -153,10 +137,11 @@ export const PostCreator = ({ onCloseAction }: Props) => {
                            ? photo.modifiedPreviewUrl
                            : photo.previewUrl
                      )}
-                     currentFilter={photos[currentPhotoIndex]?.currentFilter || 'filter-none'}
+                     filters={photos.map(photo => photo.currentFilter)}
                      onSlideChange={setCurrentPhotoIndex}
                      onFilterChange={applyFilterToCurrentPhoto}
                      onOpenChange={requestClose}
+                     currentSlide={currentPhotoIndex}
                   />
                )
                break

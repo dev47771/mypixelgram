@@ -24,7 +24,7 @@ export const useCroppingModal = ({
    onNext,
 }: UseCroppingModalProps) => {
    const [state, dispatch] = useReducer(croppingReducer, initialState)
-   const { showZoomScale, showAspectRatio, showImageGallery, imageStates } = state
+   const { showZoomScale, showAspectRatio, showImageGallery, isEditingMode, imageStates } = state
    const [isProcessing, setIsProcessing] = useState(false)
    const blobUrlsRef = useRef<Set<string>>(new Set())
 
@@ -33,7 +33,7 @@ export const useCroppingModal = ({
    // Получаем состояние для текущего изображения
    const currentImageState = imageStates[currentIndex] || {
       crop: { x: 0, y: 0 },
-      zoomScale: [20],
+      zoomScale: [0],
       aspect: undefined,
       naturalAspect: undefined,
       croppedAreaPixels: null,
@@ -71,6 +71,76 @@ export const useCroppingModal = ({
          currentBlobUrls.clear()
       }
    }, [])
+
+   //const [hasProcessed, setHasProcessed] = useState(false)
+   const processedRef = useRef(false)
+
+   const processCroppedImages = useCallback(async () => {
+      // Проверяем, не обрабатывали ли мы уже фото
+      if (processedRef.current) {
+         return
+      }
+
+      const needsProcessing = photos.some((photo, index) => {
+         const imageState = imageStates[index]
+         return imageState?.croppedAreaPixels
+      })
+
+      if (!needsProcessing) {
+         return
+      }
+
+      // Помечаем как обработанное до начала обработки
+      processedRef.current = true
+
+      const updatedPhotos = await Promise.all(
+         photos.map(async (photo, index) => {
+            const imageState = imageStates[index]
+
+            if (imageState?.croppedAreaPixels) {
+               try {
+                  const croppedBlob = await getCroppedImg(
+                     photo.previewUrl,
+                     imageState.croppedAreaPixels
+                  )
+                  const croppedFile = new File(
+                     [croppedBlob],
+                     `cropped-${photo.originalFile.name}`,
+                     { type: 'image/jpeg', lastModified: Date.now() }
+                  )
+                  const croppedPreviewUrl = URL.createObjectURL(croppedFile)
+
+                  if (photo.modifiedPreviewUrl) {
+                     URL.revokeObjectURL(photo.modifiedPreviewUrl)
+                  }
+
+                  return {
+                     ...photo,
+                     modifiedFile: croppedFile,
+                     modifiedPreviewUrl: croppedPreviewUrl,
+                  }
+               } catch {
+                  return photo
+               }
+            } else {
+               return photo
+            }
+         })
+      )
+      onPhotosUpdate(updatedPhotos)
+   }, [photos, imageStates, onPhotosUpdate])
+
+   useEffect(() => {
+      if (!isEditingMode && !processedRef.current) {
+         processCroppedImages()
+      }
+   }, [isEditingMode, processCroppedImages])
+
+   useEffect(() => {
+      if (isEditingMode) {
+         processedRef.current = false
+      }
+   }, [isEditingMode])
 
    // Обработчики установки аспекта
    const setAspect = useCallback(
@@ -216,60 +286,11 @@ export const useCroppingModal = ({
       setCurrentIndex(newIndex)
    }
 
-   // Обрезка изображений - СОЗДАЕМ ТОЛЬКО MODIFIED ФАЙЛЫ
-   const processAndSaveCroppedImages = async (): Promise<void> => {
-      const updatedPhotos = await Promise.all(
-         photos.map(async (photo, index) => {
-            const imageState = imageStates[index]
-
-            if (imageState?.croppedAreaPixels) {
-               try {
-                  // Создаем обрезанное изображение
-                  const croppedBlob = await getCroppedImg(
-                     photo.previewUrl,
-                     imageState.croppedAreaPixels
-                  )
-                  const croppedFile = new File(
-                     [croppedBlob],
-                     `cropped-${photo.originalFile.name}`,
-                     {
-                        type: 'image/jpeg', // Явно указываем тип
-                        lastModified: Date.now(),
-                     }
-                  )
-                  const croppedPreviewUrl = URL.createObjectURL(croppedFile)
-
-                  // Освобождаем старый modifiedPreviewUrl если он есть
-                  if (photo.modifiedPreviewUrl) {
-                     URL.revokeObjectURL(photo.modifiedPreviewUrl)
-                  }
-
-                  return {
-                     ...photo,
-                     modifiedFile: croppedFile,
-                     modifiedPreviewUrl: croppedPreviewUrl,
-                  }
-               } catch (error) {
-                  console.error('Error cropping image:', error)
-                  return photo
-               }
-            } else {
-               // Если кроп не применялся, оставляем как есть
-               return photo
-            }
-         })
-      )
-
-      onPhotosUpdate(updatedPhotos)
-   }
-
    const handleNext = async () => {
       setIsProcessing(true)
       try {
-         await processAndSaveCroppedImages()
          onNext()
-      } catch (error) {
-         console.error('Error processing images:', error)
+      } catch {
          onNext()
       } finally {
          setIsProcessing(false)
@@ -281,6 +302,7 @@ export const useCroppingModal = ({
       showZoomScale,
       showAspectRatio,
       showImageGallery,
+      isEditingMode,
       isProcessing,
       crop,
       zoom,
