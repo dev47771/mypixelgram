@@ -73,7 +73,7 @@ export const AddPhotoModal = ({ onPhotoSelected, onOpenChange }: Props) => {
                {
                   <span className={'text-center'}>
                      <span className={'font-bold'}>Error! </span>
-                     {errors.postPhoto?.message}
+                     {errors.postPhoto?.message.toString()}
                   </span>
                }
             </div>
