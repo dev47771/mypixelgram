@@ -1,4 +1,5 @@
-import { AuthEndpoints, PostsEndpoints, UserEndpoints } from '../enums'
+import { AuthEndpoints, PostsEndpoints } from '../enums'
+import { UserEndpoints } from '@/entities/user/api'
 
 export const TOKEN = 'accessToken'
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
