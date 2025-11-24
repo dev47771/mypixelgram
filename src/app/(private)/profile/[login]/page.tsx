@@ -1,8 +1,6 @@
 import { PageContainer } from '@/shared/components/PageContainer'
 
 import { ProfileView } from '@/widgets/Profile'
-import { redirect } from 'next/navigation'
-import { PublicRoutes } from '@/shared/enums'
 
 type Params = {
    login: string
@@ -10,10 +8,6 @@ type Params = {
 
 export default async function ProfilePage({ params }: { params: Promise<Params> }) {
    const { login } = await params
-
-   if (!login) {
-      redirect(PublicRoutes.main)
-   }
 
    return (
       <PageContainer className={'items-stretch'}>
