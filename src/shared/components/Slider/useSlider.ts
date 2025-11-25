@@ -1,15 +1,18 @@
+'use client'
+
 import { useState } from 'react'
 import { useKeenSlider } from 'keen-slider/react'
 
-export const useSlider = (loop = true) => {
-   const [currentSlide, setCurrentSlide] = useState(0)
+export const useSlider = (loop = true, initialSlide = 0) => {
+   const [currentSlide, setCurrentSlide] = useState(initialSlide)
    const [loaded, setLoaded] = useState(false)
 
    const [sliderRef, instanceRef] = useKeenSlider({
-      initial: 0,
+      initial: initialSlide,
       loop,
       slideChanged(slider) {
-         setCurrentSlide(slider.track.details.rel)
+         const newSlide = slider.track.details.rel
+         setCurrentSlide(newSlide)
       },
       created() {
          setLoaded(true)

@@ -10,7 +10,7 @@ export const variantClasses: Record<TypographyVariant, string> = {
    captionRegular: 'text-s font-regular leading-m',
    captionMedium: 'text-s font-medium leading-m',
    captionBold: 'text-s font-bold leading-m',
-   smallRegular: 'text-xs font-regular  leading-s',
+   smallRegular: 'text-xs font-regular leading-s',
    smallBold: 'text-xs font-semibold leading-s',
    linkRegular: 'cursor-pointer text-s font-regular text-accent-500 underline leading-m',
    linkSmall: 'cursor-pointer text-s font-regular text-accent-500 underline leading-s',

@@ -1,10 +1,11 @@
+'use client'
 import { ArrowLeftIcon, CrossIcon } from '@/shared/icons'
+import { cn } from '@/shared/lib'
+import * as Dialog from '@radix-ui/react-dialog'
+import { ComponentPropsWithRef, ReactNode } from 'react'
+import { Button } from '../Button'
 import { Modal, ModalBody, ModalClose, ModalTitle } from '../Modal'
 import { Typography } from '../Typography'
-import * as Dialog from '@radix-ui/react-dialog'
-import { ComponentPropsWithRef } from 'react'
-import { Button } from '../Button'
-import { cn } from '@/shared/lib'
 
 type ModalSize = 'image-upload' | 'post-management' | 'social-list' | 'profile-crop'
 type HeaderVariant = 'close-only' | 'with-navigation'
@@ -16,10 +17,10 @@ type Props = {
    headerText?: string
    contentColumns: ContentColumns
 
-   leftContent?: React.ReactNode
-   rightContent?: React.ReactNode
+   leftContent?: ReactNode
+   rightContent?: ReactNode
 
-   children?: React.ReactNode
+   children?: ReactNode
 
    leftContentClassName?: string
    rightContentClassName?: string
@@ -27,6 +28,8 @@ type Props = {
    onBack?: () => void
    onNext?: () => void
    publish?: () => void
+   //onClose?: () => void
+   className?: string
 } & ComponentPropsWithRef<typeof Dialog.Root>
 
 export const PostModal = ({
@@ -42,6 +45,8 @@ export const PostModal = ({
    onBack,
    onNext,
    publish,
+   //onClose,
+   className,
    ...props
 }: Props) => {
    const sizeClasses = {
@@ -78,13 +83,13 @@ export const PostModal = ({
                   </ModalTitle>
                )}
 
-               {/* title, кнопка "назад" и Next/Publish */}
+               {/* title, кнопка "назад" и Next*/}
                {headerVariant === 'with-navigation' && (
                   <ModalTitle className={'flex items-center justify-between'}>
                      <Button
                         onClick={onBack}
                         variant="textButton"
-                        className="text-light-100 border-none p-0"
+                        className="text-light-100 min-w-[60px] border-none p-0"
                      >
                         <ArrowLeftIcon />
                      </Button>
@@ -94,9 +99,9 @@ export const PostModal = ({
                      <Button
                         onClick={onNext ? onNext : publish}
                         variant="textButton"
-                        className="border-none p-0"
+                        className="min-w-[60px] border-none p-0"
                      >
-                        {onNext ? 'Next' : 'Publish'}
+                        Next
                      </Button>
                   </ModalTitle>
                )}
@@ -113,27 +118,33 @@ export const PostModal = ({
                contentColumns === 'two'
                   ? !headerText
                      ? // модалка БЕЗ header с 2 колонками (myPost, FriendPost)
-                       'grid h-[562px] grid-cols-[490px_482px]'
+                       'grid h-[562px] grid-cols-[490px_481px]'
                      : // модалка с header с 2 колонками (filters, publication, editPost)
-                       'grid h-[501px] grid-cols-[490px_482px]'
+                       'grid h-[501px] grid-cols-[490px_481px]'
                   : size !== 'profile-crop'
                     ? // модалка высотой h-[564px] с header с 1 колонкой (addPhoto, cropping, addProfilePhoto, subscribers, followers, likes)
                       'h-[501px] w-full overflow-hidden rounded-[1px]'
                     : // модалка высотой h-[536px] с header с 1 колонкой (AddProfilePhotoCropping)
-                      'h-[473px] w-full overflow-hidden rounded-[1px]'
+                      'h-[473px] w-full overflow-hidden rounded-[1px]',
+               className
             )}
          >
             {/* Контент для модалки с 2 колонками передаем пропсами leftContent и rightContent */}
             {contentColumns === 'two' ? (
-               <>
+               <div className="contents">
                   {/* Контент левой колонки модалке с 2 колонками (как правило это фото) */}
-                  <div className={cn(leftContentClassName, 'border-dark-100 border-r')}>
+                  <div
+                     className={cn(
+                        leftContentClassName,
+                        'border-dark-100 overflow-hidden border-r'
+                     )}
+                  >
                      {leftContent}
                   </div>
 
                   {/* Контент правой колонки модалке с 2 колонками (как правило это текст) */}
-                  <div className={rightContentClassName}>{rightContent}</div>
-               </>
+                  <div className={cn(rightContentClassName, 'overflow-hidden')}>{rightContent}</div>
+               </div>
             ) : (
                // Контент для модалки с 2 колонками передаем пропсами как children (внутрь компоненты PostModal)
                children
