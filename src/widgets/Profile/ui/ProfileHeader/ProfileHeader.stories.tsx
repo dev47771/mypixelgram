@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { ProfileHeader } from '@/entities/user/ui/ProfileHeader/ProfileHeader'
+import { ProfileHeader } from '@/widgets/Profile'
 
 const meta = {
    title: 'entities/user/ProfileHeader',

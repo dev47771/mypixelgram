@@ -1,7 +1,7 @@
 'use client'
 
+import { ProfileHeader } from '@/widgets/Profile'
 import { useParams } from 'next/navigation'
-import { ProfileHeader } from '@/entities/user'
 import React from 'react'
 
 export default function ProfilePage() {
