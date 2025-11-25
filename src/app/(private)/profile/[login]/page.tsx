@@ -1,11 +1,15 @@
-import { ProfileView } from '@/widgets/Profile'
+'use client'
 
-type Params = {
-   login: string
-}
+import { useParams } from 'next/navigation'
+import { ProfileHeader } from '@/entities/user'
+import React from 'react'
 
-export default async function ProfilePage({ params }: { params: Promise<Params> }) {
-   const { login } = await params
+export default function ProfilePage() {
+   const { login } = useParams<{ login: string }>()
 
-   return <ProfileView login={login} />
+   return (
+      <div className={'flex flex-col gap-12 pt-[36px] pl-4'}>
+         <ProfileHeader login={login} />
+      </div>
+   )
 }
