@@ -13,6 +13,7 @@ export const PostPreview = ({ postId, firstFileUrl, onOpenPost }: Props) => {
          className="relative h-[228px] w-[234px] cursor-pointer"
       >
          <Image
+            loading={'eager'}
             src={firstFileUrl}
             alt="post image"
             width={234}

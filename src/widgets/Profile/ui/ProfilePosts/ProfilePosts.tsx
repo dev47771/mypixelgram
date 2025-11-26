@@ -1,9 +1,9 @@
 import { useGetUserPostsInfiniteQuery, useGetUserPublicPostsQuery } from '@/features/posts/api'
 import { useMeQuery } from '@/features/auth/api'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback } from 'react'
 import { PostPreview } from '@/entities/posts/ui/PostPreview'
 import { usePathname, useRouter } from 'next/navigation'
-import { useCreateQueryString } from '@/shared/hooks'
+import { useCreateQueryString, useInfiniteScroll } from '@/shared/hooks'
 
 type Props = {
    login: string
@@ -14,7 +14,7 @@ export const ProfilePosts = ({ login }: Props) => {
    const pathname = usePathname()
    const createQueryString = useCreateQueryString()
 
-   const { data } = useMeQuery()
+   const { data: me } = useMeQuery()
    const { data: publicPosts } = useGetUserPublicPostsQuery(login)
 
    const {
@@ -27,10 +27,9 @@ export const ProfilePosts = ({ login }: Props) => {
          login,
       },
       {
-         skip: !data,
+         skip: !me,
       }
    )
-   const observerRef = useRef<HTMLDivElement>(null)
 
    const loadMoreHandler = useCallback(() => {
       if (hasNextPage && !isFetching) {
@@ -38,40 +37,18 @@ export const ProfilePosts = ({ login }: Props) => {
       }
    }, [hasNextPage, isFetching, fetchNextPage])
 
-   const privatePosts = posts?.pages.flatMap(page => page.publications.map(pub => pub)) ?? []
+   const observerRef = useInfiniteScroll(loadMoreHandler, { rootMargin: '100px' })
 
-   console.log(privatePosts)
+   const privatePosts = posts?.pages.flatMap(page => page.publications.map(pub => pub)) ?? []
 
    const openPostHandler = (postId: string) => {
       router.push(pathname + '?' + createQueryString('postId', postId))
    }
 
-   useEffect(() => {
-      const currentObserverRef = observerRef.current
-      if (!currentObserverRef) return
-
-      const observer = new IntersectionObserver(
-         entries => {
-            if (entries[0].isIntersecting) {
-               loadMoreHandler()
-            }
-         },
-         { rootMargin: '100px' }
-      )
-
-      observer.observe(currentObserverRef)
-
-      return () => {
-         if (currentObserverRef) {
-            observer.unobserve(currentObserverRef)
-         }
-      }
-   }, [loadMoreHandler])
-
    return (
       <div className={'mt-12'}>
          <div className={'grid grid-cols-[repeat(auto-fill,230px)] gap-4'}>
-            {data
+            {me
                ? privatePosts.map(post => (
                     <PostPreview
                        key={post.postId}
