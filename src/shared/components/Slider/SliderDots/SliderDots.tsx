@@ -36,6 +36,7 @@ export const SliderDots = ({
                return (
                   <button
                      key={idx}
+                     type="button"
                      onClick={() => {
                         onDotClick(idx)
                      }}
