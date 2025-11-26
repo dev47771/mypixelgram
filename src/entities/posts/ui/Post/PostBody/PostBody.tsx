@@ -1,15 +1,19 @@
 import { PostDescription } from '@/entities/posts/ui/Post/PostBody/PostDescription'
-import { PostComments } from '@/entities/posts/ui/Post/PostBody/PostComments'
-import type { Post as PostType } from '@/entities/posts/model'
+// import { PostComments } from '@/entities/posts/ui/Post/PostBody/PostComments'
+import type { UserType } from '@/entities/user'
 
 type Props = {
-   post: PostType
+   description: string
+   user: UserType
+   updatedAt: string
 }
-export const PostBody = ({ post }: Props) => {
+export const PostBody = ({ description, user, updatedAt }: Props) => {
    return (
       <div className={'border-dark-100 min-h-0 grow gap-[15px] overflow-y-auto border-b px-6'}>
-         {post.description && <PostDescription post={post} />}
-         <PostComments comments={post.comments} />
+         {description && (
+            <PostDescription description={description} user={user} updatedAt={updatedAt} />
+         )}
+         {/*<PostComments comments={post.comments} />*/}
       </div>
    )
 }
