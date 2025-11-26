@@ -1,13 +1,19 @@
-import Image from 'next/image'
 import { useGetUserPostsInfiniteQuery, useGetUserPublicPostsQuery } from '@/features/posts/api'
 import { useMeQuery } from '@/features/auth/api'
 import { useCallback, useEffect, useRef } from 'react'
+import { PostPreview } from '@/entities/posts/ui/PostPreview'
+import { usePathname, useRouter } from 'next/navigation'
+import { useCreateQueryString } from '@/shared/hooks'
 
 type Props = {
    login: string
 }
 
 export const ProfilePosts = ({ login }: Props) => {
+   const router = useRouter()
+   const pathname = usePathname()
+   const createQueryString = useCreateQueryString()
+
    const { data } = useMeQuery()
    const { data: publicPosts } = useGetUserPublicPostsQuery(login)
 
@@ -32,15 +38,13 @@ export const ProfilePosts = ({ login }: Props) => {
       }
    }, [hasNextPage, isFetching, fetchNextPage])
 
-   const privatePosts =
-      posts?.pages.flatMap(page =>
-         page.publications.map(pub => ({
-            id: pub.postId,
-            imageUrl: pub.firstFileUrl,
-         }))
-      ) ?? []
+   const privatePosts = posts?.pages.flatMap(page => page.publications.map(pub => pub)) ?? []
 
    console.log(privatePosts)
+
+   const openPostHandler = (postId: string) => {
+      router.push(pathname + '?' + createQueryString('postId', postId))
+   }
 
    useEffect(() => {
       const currentObserverRef = observerRef.current
@@ -69,26 +73,20 @@ export const ProfilePosts = ({ login }: Props) => {
          <div className={'grid grid-cols-[repeat(auto-fill,230px)] gap-4'}>
             {data
                ? privatePosts.map(post => (
-                    <div key={post.id} className="relative h-[228px] w-[234px] cursor-pointer">
-                       <Image
-                          src={post.imageUrl}
-                          alt="post image"
-                          width={234}
-                          height={228}
-                          className="h-full w-full object-cover"
-                       />
-                    </div>
+                    <PostPreview
+                       key={post.postId}
+                       postId={post.postId}
+                       firstFileUrl={post.firstFileUrl}
+                       onOpenPost={openPostHandler}
+                    />
                  ))
                : publicPosts?.map(post => (
-                    <div key={post.postId} className="relative h-[228px] w-[234px] cursor-pointer">
-                       <Image
-                          src={post.files[0].url}
-                          alt="post image"
-                          width={234}
-                          height={228}
-                          className="h-full w-full object-cover"
-                       />
-                    </div>
+                    <PostPreview
+                       key={post.postId}
+                       postId={post.postId}
+                       firstFileUrl={post.files[0].url}
+                       onOpenPost={openPostHandler}
+                    />
                  ))}
          </div>
 
