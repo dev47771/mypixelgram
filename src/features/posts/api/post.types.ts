@@ -34,4 +34,18 @@ export type Post = {
    files: PostFile[]
 }
 
+export type PageInfo = {
+   nextCursor: string
+   hasMore: boolean
+}
+
+export type Publication = {
+   postId: string
+   firstFileUrl: string
+}
+
 export type GetUserPublicPostsResponse = Post[]
+export type GetUserPostsInfiniteResponse = {
+   publications: Publication[]
+   pageInfo: PageInfo
+}
