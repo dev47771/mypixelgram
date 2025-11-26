@@ -1,8 +1,8 @@
-import Image from 'next/image'
 import { Typography } from '@/shared/components/Typography'
+import { Avatar } from '@/shared/components/Avatar'
 
 type Props = {
-   userAvatar: string
+   userAvatar: string | null
    likesCount: number
    dateCreated: string
 }
@@ -11,13 +11,7 @@ export const PostStats = ({ userAvatar, dateCreated, likesCount }: Props) => {
    return (
       <>
          <div className={'mt-5 flex'}>
-            <Image
-               src={userAvatar}
-               alt={'user avatar'}
-               width={'24'}
-               height={'24'}
-               className={'mr-3 rounded-[50%]'}
-            />
+            <Avatar src={userAvatar} size={'sm'} />
             <Typography variant={'captionRegular'}>{likesCount}</Typography>
             <Typography variant={'captionBold'}>&#34;Like&#34;</Typography>
          </div>

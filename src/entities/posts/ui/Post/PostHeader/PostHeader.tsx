@@ -1,23 +1,18 @@
-import Image from 'next/image'
 import { Typography } from '@/shared/components/Typography'
 import { PostMenu } from '@/entities/posts/ui/Post/PostHeader/PostMenu'
-import type { Post as PostType } from '@/entities/posts/model'
+
+import { Avatar } from '@/shared/components/Avatar'
+import type { PostByIdType } from '@/features/posts/api'
 
 type Props = {
-   post: PostType
+   post: PostByIdType
 }
 
 export const PostHeader = ({ post }: Props) => {
    return (
       <div className={'border-dark-100 flex items-center gap-3 border-b px-6 py-[11px]'}>
-         <Image
-            src={post.userAvatar}
-            alt={'user avatar'}
-            width={'36'}
-            height={'36'}
-            className={'rounded-[50%]'}
-         />
-         <Typography variant={'h3'}>{post.userName}</Typography>
+         <Avatar src={post.user.avatar} size={'sm'} />
+         <Typography variant={'h3'}>{post.user.login}</Typography>
          <PostMenu isOwner />
       </div>
    )
