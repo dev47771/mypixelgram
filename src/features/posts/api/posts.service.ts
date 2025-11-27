@@ -26,6 +26,7 @@ export const postService = baseApi.injectEndpoints({
             url: `/posts/${queryArg.login}`,
             params: pageParam ? { cursor: pageParam } : undefined,
          }),
+         providesTags: ['getPosts'],
       }),
       getUserPublicPosts: builder.query<GetUserPublicPostsResponse, string>({
          query: login => `${PostsEndpoints.publicPosts}/${login}`,
@@ -51,6 +52,7 @@ export const postService = baseApi.injectEndpoints({
             method: 'POST',
             body: postData,
          }),
+         invalidatesTags: ['getPosts'],
       }),
 
       getPostById: builder.query<PostByIdType, string>({
@@ -64,6 +66,7 @@ export const postService = baseApi.injectEndpoints({
             url: `/posts/${postId}`,
             method: 'DELETE',
          }),
+         invalidatesTags: ['getPosts'],
       }),
    }),
 })
