@@ -122,7 +122,7 @@ export function croppingReducer(state: CroppingState, action: CroppingAction): C
                [action.payload.index]: {
                   crop: { x: 0, y: 0 },
                   zoomScale: [0],
-                  aspect: undefined,
+                  aspect: action.payload.naturalAspect,
                   naturalAspect: action.payload.naturalAspect,
                   croppedAreaPixels: null,
                },

@@ -10,6 +10,7 @@ import { CloseCreatePostModal } from '@/entities/posts/ui/modals/CloseCreatePost
 import { FilterModal } from '@/entities/posts/ui/modals/FilterModal/FilterModal'
 import { AddPhotoModal } from '@/entities/posts/ui/modals/AddPhotoModal'
 import { CroppingModal } from '@/entities/posts/ui/modals/CroppingModal'
+import { FilterValue } from '@/entities/posts/ui/modals/FilterModal'
 
 export type PhotoState = {
    id: string
@@ -17,7 +18,7 @@ export type PhotoState = {
    previewUrl: string
    modifiedFile: null | File
    modifiedPreviewUrl: string
-   currentFilter: string
+   currentFilter: FilterValue
 }
 
 type Props = {
@@ -50,7 +51,7 @@ export const PostCreator = ({ onCloseAction }: Props) => {
       setPhotos(prev => [...prev, newPhoto])
    }
 
-   const applyFilterToCurrentPhoto = (filter: string) => {
+   const applyFilterToCurrentPhoto = (filter: FilterValue) => {
       setPhotos(prev =>
          prev.map((photo, index) =>
             index === currentPhotoIndex ? { ...photo, currentFilter: filter } : photo
