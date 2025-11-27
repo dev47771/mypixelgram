@@ -64,7 +64,6 @@ export const Sidebar = ({ className, ...rest }: Props) => {
    })
 
    const userId = user?.userId
-   //const userLogin = user?.login
 
    const handleLogoutClick = () => setIsLogoutModalOpen(true)
 
@@ -73,16 +72,6 @@ export const Sidebar = ({ className, ...rest }: Props) => {
       setIsLogoutModalOpen(false)
       router.push(PublicRoutes.signIn)
    }
-
-   // const createQueryString = useCallback(
-   //    (name: string, value: string) => {
-   //       const params = new URLSearchParams(searchParams.toString())
-   //       params.set(name, value)
-
-   //       return params.toString()
-   //    },
-   //    [searchParams]
-   // )
 
    const showAddPhotoModalHandler = () => {
       router.push(pathname + '?' + createQueryString('action', 'create'))

@@ -12,14 +12,9 @@ import { useForm } from 'react-hook-form'
 import z from 'zod'
 import { publicationSchema } from '../../schema'
 import { PostCreatorSlider } from '@/entities/posts/ui/PostCreatorSlider/PostCreatorSlider'
+import { useMeQuery } from '@/features/auth/api'
 
 export type PublicationFormData = z.infer<typeof publicationSchema>
-
-//mock data
-const user = {
-   avatar: null,
-   userName: 'userName',
-}
 
 type PublicationFormProps = {
    onSubmit: (dataPostData: PublicationFormData) => void
@@ -52,9 +47,7 @@ export const PublicationForm = ({
       resolver: zodResolver(publicationSchema),
    })
 
-   //данные для аватара и юзернейма будуд подтягиаваться из me запроса
-   //бек должне добавть avatar и userId в me и переименовать userName на логин
-   //const { data: user} = useMeQuery()
+   const { data: user } = useMeQuery()
 
    useEffect(() => {
       errorsFromApi?.forEach(error => {
@@ -101,9 +94,9 @@ export const PublicationForm = ({
             <div className="flex-1">
                <div className="p-[24px]">
                   <div className="flex items-center gap-3 pb-[24px]">
-                     <Avatar src={user.avatar} alt={user.userName} />
+                     <Avatar src={user?.avatar} alt={user?.login} />
                      <Typography as="span" variant="h3">
-                        {user.userName}
+                        {user?.login}
                      </Typography>
                   </div>
                   <ControlledTextarea
