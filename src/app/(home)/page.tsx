@@ -3,6 +3,7 @@ import { type LastPostProps, lastPostsSchema } from '@/entities/posts/ui/schemas
 import ServerPageContainer from '@/shared/components/PageContainer/ServerPageContainer'
 import { apiUrls } from '@/shared/constants'
 import { UserCounter } from '@/widgets/UserCounter'
+import { Suspense } from 'react'
 
 export const revalidate = 60
 
@@ -48,7 +49,13 @@ export default async function HomePage() {
          {postsData.length > 0 ? (
             <div className="flex max-w-[972px] flex-wrap gap-3">
                {postsData.map(post => (
-                  <CardPost key={post.postId} {...post} />
+                  //<CardPost key={post.postId} {...post} />
+                  <Suspense
+                     key={post.postId}
+                     fallback={<div className="bg-dark-300 h-[391px] w-[234px] animate-pulse" />}
+                  >
+                     <CardPost {...post} />
+                  </Suspense>
                ))}
             </div>
          ) : (
