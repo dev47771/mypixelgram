@@ -5,7 +5,7 @@ import { Label } from '@/shared/components/Label'
 import { clsx } from 'clsx'
 import { Typography } from '@/shared/components/Typography'
 
-type Props = {
+export type TextareaProps = {
    label?: string
    errorMessage?: string
    onValueChange?: (value: string) => void
@@ -23,7 +23,7 @@ export const Textarea = ({
    className,
    showCount,
    ...rest
-}: Props) => {
+}: TextareaProps) => {
    const generateId = useId()
    const textareaId = id ?? generateId
 

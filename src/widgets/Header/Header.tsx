@@ -8,7 +8,7 @@ import {
    SelectTrigger,
    SelectValue,
 } from '@/shared/components/Select'
-import { Typography } from '@/shared/components/Typography'
+import { Typography, variantClasses } from '@/shared/components/Typography'
 import { DropDownMenu, DropDownMenuItem, DropDownSeparator } from '@/shared/components/DropDownMenu'
 import { DropDownMenuArrow } from '@/shared/components/DropDownMenu/DropDownMenuArrow'
 import { DropDownMenuTrigger } from '@/shared/components/DropDownMenu/DropDownMenuTrigger'
@@ -77,9 +77,10 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
    return (
       <header className="border-dark-300 border-b">
          <div className="container flex h-[60px] items-center justify-between">
-            <Typography as={'h1'} variant="large">
+            <Link href={PublicRoutes.main} className={variantClasses.large}>
                Inctagram
-            </Typography>
+            </Link>
+
             {isLoggedIn ? (
                <div className="flex items-center">
                   <div className="mr-[50px]">
