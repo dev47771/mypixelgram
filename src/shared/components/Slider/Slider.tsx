@@ -10,7 +10,7 @@ import {
 } from '@/shared/components/Slider'
 import { ArrowLeftIcon, ArrowRightIcon } from '@/shared/icons'
 import Image from 'next/image'
-import { ReactNode, useEffect } from 'react'
+import React, { ReactNode, useEffect } from 'react'
 
 type Props = {
    images: string[]
@@ -37,8 +37,14 @@ export const Slider = ({
       }
    }, [currentSlide, onSlideChange])
 
-   const onNextSlideHandler = () => instanceRef.current?.next()
-   const onPrevSlideHandler = () => instanceRef.current?.prev()
+   const onNextSlideHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation()
+      instanceRef.current?.next()
+   }
+   const onPrevSlideHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation()
+      instanceRef.current?.prev()
+   }
    const onDotClickHandler = (i: number) => instanceRef.current?.moveToIdx(i)
 
    return (

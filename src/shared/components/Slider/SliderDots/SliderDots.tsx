@@ -36,7 +36,8 @@ export const SliderDots = ({
                return (
                   <button
                      key={idx}
-                     onClick={() => {
+                     onClick={e => {
+                        e.stopPropagation()
                         onDotClick(idx)
                      }}
                      className={cn(

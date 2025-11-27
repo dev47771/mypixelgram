@@ -3,24 +3,28 @@ import { PostHeader } from '@/entities/posts/ui/Post/PostHeader'
 import { PostBody } from '@/entities/posts/ui/Post/PostBody'
 import { PostFooter } from '@/entities/posts/ui/Post/PostFooter'
 import { PostModal } from '@/shared/components/PostModal'
-import type { Post as PostType } from '@/entities/posts/model'
+import type { PostByIdType } from '@/features/posts/api'
 
 type Props = {
-   post: PostType
+   post: PostByIdType
+   onClose?: () => void
 }
 
-export const Post = ({ post }: Props) => {
+export const Post = ({ post, onClose }: Props) => {
    return (
       <PostModal
          size={'post-management'}
          contentColumns={'two'}
-         leftContent={
-            <Slider images={post.images} className={'h-[562px] w-[490px] overflow-hidden'} />
-         }
+         onOpenChange={onClose}
+         leftContent={<Slider images={post.images.map(el => el.url)} className={'h-full w-full'} />}
          rightContent={
             <>
-               <PostHeader post={post} />
-               <PostBody post={post} />
+               <PostHeader user={post.user} postId={post.postId} />
+               <PostBody
+                  user={post.user}
+                  description={post.description}
+                  updatedAt={post.updatedAt}
+               />
                <PostFooter post={post} />
             </>
          }
