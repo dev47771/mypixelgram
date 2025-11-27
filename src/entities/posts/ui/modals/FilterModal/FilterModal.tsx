@@ -1,17 +1,17 @@
 'use client'
 
 import { PostModal } from '@/shared/components/PostModal'
-import { FiltersBlock } from './FilterBlock/FiltersBlock'
 import { PostCreatorSlider } from '../../PostCreatorSlider/PostCreatorSlider'
+import { FiltersBlock, FilterValue } from '.'
 
 type Props = {
    onBack: () => void
    onNext: () => void
    onOpenChange: () => void
    images: string[]
-   filters: string[]
+   filters: FilterValue[]
    onSlideChange: (index: number) => void
-   onFilterChange: (filter: string) => void
+   onFilterChange: (filter: FilterValue) => void
    currentSlide?: number
 }
 

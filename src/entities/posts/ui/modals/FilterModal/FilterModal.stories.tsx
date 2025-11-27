@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { FilterModal } from './FilterModal'
+import { FilterValue } from '.'
 
 const meta = {
    title: 'Modals/FilterModal',
@@ -13,14 +14,11 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-// Mock данные - УПРОЩЁННАЯ КОПИЯ PhotoState из PostCreator
-// В РЕАЛЬНОСТИ: здесь был бы оригинальный File + URL.createObjectURL()
-// В ИСТОРИИ: используем готовые ссылки, т.к. File операции не работают в Storybook
 const createMockPhotoState = (url: string, index: number) => ({
    id: `photo-${index + 1}`,
    // originalFile: File,    // НЕ РАБОТАЕТ В STORYBOOK - операции с File недоступны
    previewUrl: url, // В ИСТОРИИ: готовая ссылка вместо URL.createObjectURL(file)
-   currentFilter: 'filter-none',
+   currentFilter: 'filter-none' as const,
 })
 
 const mockImages = [
@@ -40,20 +38,19 @@ export const FilterModalExample: Story = {
       onOpenChange: () => {},
    },
    render: function Render(args) {
-      // СПЕЦИАЛЬНО ДЛЯ ИСТОРИИ (На основе моковых ссылок на фото создаем массив обектов по типу InteractiveFilters -> совместила стейт photo и функцию handleAddPhotos)
-      // Храним массив фото с их индивидуальными фильтрами
-      // Каждое фото имеет свой currentFilter
-      const [photos, setPhotos] = useState(() =>
+      type PhotoState = {
+         id: string
+         previewUrl: string
+         currentFilter: FilterValue
+      }
+
+      const [photos, setPhotos] = useState<PhotoState[]>(() =>
          mockImages.map((url, index) => createMockPhotoState(url, index))
       )
 
-      // Индекс текущего активного фото в слайдере
-      // Меняется когда пользователь листает слайдер
       const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
 
-      // Применяет фильтр ТОЛЬКО к текущему активному фото
-      // Обновляет photos[currentPhotoIndex].currentFilter
-      const applyFilterToCurrentPhoto = (filter: string) => {
+      const applyFilterToCurrentPhoto = (filter: FilterValue) => {
          setPhotos(prev =>
             prev.map((photo, index) =>
                index === currentPhotoIndex ? { ...photo, currentFilter: filter } : photo

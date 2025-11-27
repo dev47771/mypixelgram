@@ -13,6 +13,7 @@ import z from 'zod'
 import { publicationSchema } from '../../schema'
 import { PostCreatorSlider } from '@/entities/posts/ui/PostCreatorSlider/PostCreatorSlider'
 import { useMeQuery } from '@/features/auth/api'
+import { FilterValue } from '@/entities/posts/ui/modals/FilterModal'
 
 export type PublicationFormData = z.infer<typeof publicationSchema>
 
@@ -21,7 +22,7 @@ type PublicationFormProps = {
    onBack: () => void
    images: string[]
    onSlideChange: (index: number) => void
-   filters: string[]
+   filters: FilterValue[]
    currentSlide?: number
    isLoading: boolean
    errorsFromApi?: { field: string; message: string }[] | undefined
