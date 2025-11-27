@@ -14,10 +14,8 @@ import { DropDownMenuArrow } from '@/shared/components/DropDownMenu/DropDownMenu
 import { DropDownMenuTrigger } from '@/shared/components/DropDownMenu/DropDownMenuTrigger'
 import { FlagRussiaIcon, FlagUKIcon, NotificationIcon } from '@/shared/icons'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 import { PublicRoutes } from '@/shared/enums'
-import { TOKEN } from '@/shared/constants'
-import { usePathname } from 'next/navigation'
+import { useMeQuery } from '@/features/auth/api'
 
 type Props = {
    notificationCount?: number
@@ -25,31 +23,31 @@ type Props = {
 }
 
 export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props) => {
-   const [isLoggedIn, setIsLoggedIn] = useState(false)
-   const [isClient, setIsClient] = useState(false)
-   const pathname = usePathname()
-   const isLoginRoute = pathname === PublicRoutes.signIn
-
+   // const [isLoggedIn, setIsLoggedIn] = useState(false)
+   // const [isClient, setIsClient] = useState(false)
+   // const pathname = usePathname()
+   // const isLoginRoute = pathname === PublicRoutes.signIn
+   const { data, isLoading } = useMeQuery()
    /**
     *setIsClient - flag synchronizes rendering between the server and the client (eliminating blinking on reboot)
     *setIsLoggedIn - authentication token check
     */
-   useEffect(() => {
-      setIsClient(true)
-      setIsLoggedIn(!!localStorage.getItem(TOKEN))
-
-      const handleStorageChange = (e: StorageEvent) => {
-         if (e.key === TOKEN) {
-            setIsLoggedIn(!!localStorage.getItem(TOKEN))
-         }
-      }
-
-      window.addEventListener('storage', handleStorageChange)
-
-      return () => {
-         window.removeEventListener('storage', handleStorageChange)
-      }
-   }, [isLoginRoute])
+   // useEffect(() => {
+   //    setIsClient(true)
+   //    setIsLoggedIn(!!localStorage.getItem(TOKEN))
+   //
+   //    const handleStorageChange = (e: StorageEvent) => {
+   //       if (e.key === TOKEN) {
+   //          setIsLoggedIn(!!localStorage.getItem(TOKEN))
+   //       }
+   //    }
+   //
+   //    window.addEventListener('storage', handleStorageChange)
+   //
+   //    return () => {
+   //       window.removeEventListener('storage', handleStorageChange)
+   //    }
+   // }, [isLoginRoute])
 
    const selectComponent = (
       <Select defaultValue={selectedLanguage}>
@@ -70,9 +68,9 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
    )
 
    //removes the incorrect state (blinking)
-   if (!isClient) {
-      return null
-   }
+   // if (!isClient) {
+   //    return null
+   // }
 
    return (
       <header className="border-dark-300 border-b">
@@ -80,8 +78,9 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
             <Link href={PublicRoutes.main} className={variantClasses.large}>
                Inctagram
             </Link>
-
-            {isLoggedIn ? (
+            {isLoading ? (
+               <div />
+            ) : data ? (
                <div className="flex items-center">
                   <div className="mr-[50px]">
                      {notificationCount > 0 && (
