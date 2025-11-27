@@ -3,10 +3,11 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Slider } from '@/shared/components/Slider'
+import { FilterValue } from '../modals/FilterModal'
 
 type Props = {
    images: string[]
-   filters: string[]
+   filters: FilterValue[]
    onSlideChangeAction: (index: number) => void
    resetOnMount?: boolean
    currentSlide?: number
