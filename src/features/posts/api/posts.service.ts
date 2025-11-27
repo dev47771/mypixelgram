@@ -5,6 +5,7 @@ import {
    GetUserPostsInfiniteResponse,
    GetUserPublicPostsResponse,
    UploadFileResponse,
+   PostByIdType,
 } from './post.types'
 import { PostsEndpoints } from '@/shared/enums'
 
@@ -25,6 +26,7 @@ export const postService = baseApi.injectEndpoints({
             url: `/posts/${queryArg.login}`,
             params: pageParam ? { cursor: pageParam } : undefined,
          }),
+         providesTags: ['getPosts'],
       }),
       getUserPublicPosts: builder.query<GetUserPublicPostsResponse, string>({
          query: login => `${PostsEndpoints.publicPosts}/${login}`,
@@ -50,6 +52,21 @@ export const postService = baseApi.injectEndpoints({
             method: 'POST',
             body: postData,
          }),
+         invalidatesTags: ['getPosts'],
+      }),
+
+      getPostById: builder.query<PostByIdType, string>({
+         query: postId => ({
+            url: `/public/posts/${postId}`,
+         }),
+      }),
+
+      deletePost: builder.mutation<void, string>({
+         query: postId => ({
+            url: `/posts/${postId}`,
+            method: 'DELETE',
+         }),
+         invalidatesTags: ['getPosts'],
       }),
    }),
 })
@@ -57,6 +74,8 @@ export const postService = baseApi.injectEndpoints({
 export const {
    useUploadFileMutation,
    useCreatePostDataMutation,
+   useGetPostByIdQuery,
+   useDeletePostMutation,
    useGetUserPublicPostsQuery,
    useGetUserPostsInfiniteQuery,
 } = postService
