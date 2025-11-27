@@ -8,7 +8,7 @@ import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataRe
 import { alert } from '@/shared/components/Alert'
 import { ErrorResponse } from '@/features/auth/api'
 import { useState } from 'react'
-import { applyFilterToImage } from '@/features/post-creator/utils/applyImageFilter'
+import { useApplyFilters } from '@/features/post-creator/hook/useApplyFilters'
 
 type Props = {
    onBack: () => void
@@ -19,20 +19,21 @@ type Props = {
 
 export const PublicationModal = ({ onBack, photos, onOpenChange, closePostCreator }: Props) => {
    const { publishPost, isLoading, error } = usePublishPost()
+   const { applyFiltersToAllPhotos } = useApplyFilters()
+   const [isProcessing, setIsProcessing] = useState(false)
+
    const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
 
    const handlePublish = async (dataPostData: PublicationFormData) => {
       try {
-         // Ждём обработки всех фото
-         const processedPhotos = await Promise.all(photos.map(photo => applyFilterToImage(photo)))
-
-         // Отправка данных на сервер вместе с обработанными фото
+         setIsProcessing(true)
+         const processedPhotos = await applyFiltersToAllPhotos(photos)
          await publishPost(dataPostData, processedPhotos)
-
-         // Закрываем модалку после успешной публикации
          closePostCreator()
       } catch (error) {
          alert.error((error as ErrorResponse).errorsMessages[0].message || 'Something went wrong')
+      } finally {
+         setIsProcessing(false)
       }
    }
 
@@ -42,7 +43,7 @@ export const PublicationModal = ({ onBack, photos, onOpenChange, closePostCreato
             onSubmit={handlePublish}
             onBack={onBack}
             errorsFromApi={isErrorInDataResponse(error) ? error?.data.errorsMessages : undefined}
-            isLoading={isLoading}
+            isLoading={isLoading || isProcessing}
             images={photos.map(photo =>
                photo.modifiedPreviewUrl && photo.modifiedPreviewUrl !== ''
                   ? photo.modifiedPreviewUrl
