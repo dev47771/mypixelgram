@@ -36,7 +36,19 @@ export const postService = baseApi.injectEndpoints({
             url: `/public/posts/${postId}`,
          }),
       }),
+
+      deletePost: builder.mutation<void, string>({
+         query: postId => ({
+            url: `/posts/${postId}`,
+            method: 'DELETE',
+         }),
+      }),
    }),
 })
 
-export const { useUploadFileMutation, useCreatePostDataMutation, useGetPostByIdQuery } = postService
+export const {
+   useUploadFileMutation,
+   useCreatePostDataMutation,
+   useGetPostByIdQuery,
+   useDeletePostMutation,
+} = postService
