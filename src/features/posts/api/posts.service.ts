@@ -1,8 +1,34 @@
 import { baseApi } from '@/shared/store'
-import { CreatePostResponse, UploadFileResponse, CreatePostRequest } from './post.types'
+import {
+   CreatePostRequest,
+   CreatePostResponse,
+   GetUserPostsInfiniteResponse,
+   GetUserPublicPostsResponse,
+   UploadFileResponse,
+} from './post.types'
+import { PostsEndpoints } from '@/shared/enums'
 
 export const postService = baseApi.injectEndpoints({
    endpoints: builder => ({
+      getUserPosts: builder.infiniteQuery<
+         GetUserPostsInfiniteResponse,
+         { login: string },
+         string | undefined
+      >({
+         infiniteQueryOptions: {
+            initialPageParam: undefined,
+            getNextPageParam: lastPage => {
+               return lastPage?.pageInfo.nextCursor
+            },
+         },
+         query: ({ queryArg, pageParam }) => ({
+            url: `/posts/${queryArg.login}`,
+            params: pageParam ? { cursor: pageParam } : undefined,
+         }),
+      }),
+      getUserPublicPosts: builder.query<GetUserPublicPostsResponse, string>({
+         query: login => `${PostsEndpoints.publicPosts}/${login}`,
+      }),
       uploadFile: builder.mutation<UploadFileResponse, File[]>({
          query: files => {
             const formData = new FormData()
@@ -28,4 +54,9 @@ export const postService = baseApi.injectEndpoints({
    }),
 })
 
-export const { useUploadFileMutation, useCreatePostDataMutation } = postService
+export const {
+   useUploadFileMutation,
+   useCreatePostDataMutation,
+   useGetUserPublicPostsQuery,
+   useGetUserPostsInfiniteQuery,
+} = postService
