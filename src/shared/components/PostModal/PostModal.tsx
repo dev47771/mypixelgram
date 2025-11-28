@@ -63,9 +63,12 @@ export const PostModal = ({
          {/* нет Header */}
          {/* кнопка закрытия находится вне модального окна */}
          {!headerText && (
-            <ModalClose className="absolute -top-[36px] -right-[42px] z-10 cursor-pointer">
-               <CrossIcon />
-            </ModalClose>
+            <>
+               <ModalTitle className={'invisible absolute -z-10'}>dialog window</ModalTitle>
+               <ModalClose className="absolute -top-[36px] -right-[42px] z-10 cursor-pointer">
+                  <CrossIcon />
+               </ModalClose>
+            </>
          )}
 
          {/* есть Header */}
