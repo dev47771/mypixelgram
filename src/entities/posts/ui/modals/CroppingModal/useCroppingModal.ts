@@ -27,6 +27,7 @@ export const useCroppingModal = ({
    const { showZoomScale, showAspectRatio, showImageGallery, isEditingMode, imageStates } = state
    const [isProcessing, setIsProcessing] = useState(false)
    const blobUrlsRef = useRef<Set<string>>(new Set())
+   const fileContainerRef = useRef<HTMLDivElement>(null)
 
    const fileInputRef = useRef<HTMLInputElement | null>(null)
 
@@ -198,6 +199,13 @@ export const useCroppingModal = ({
 
       onPhotosUpdate([...photos, newPhoto])
       e.target.value = ''
+      setCurrentIndex(photos.length)
+      requestAnimationFrame(() => {
+         fileContainerRef.current?.scrollTo({
+            left: fileContainerRef.current.scrollWidth,
+            behavior: 'smooth',
+         })
+      })
    }
 
    const deleteImage = (idxToDelete: number) => {
@@ -311,6 +319,7 @@ export const useCroppingModal = ({
       currentPhoto,
       zoomScale,
       fileInputRef,
+      fileContainerRef,
 
       // Обработчики файлов
       handleAddImageClick,

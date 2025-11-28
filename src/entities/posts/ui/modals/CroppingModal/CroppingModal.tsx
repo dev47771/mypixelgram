@@ -53,6 +53,7 @@ export const CroppingModal = ({
       naturalAspect,
       currentPhoto,
       fileInputRef,
+      fileContainerRef,
       handleAddImageClick,
       handleSet16_9Aspect,
       handleSetOriginalAspect,
@@ -249,7 +250,7 @@ export const CroppingModal = ({
                   'bg-dark-500 absolute right-[11px] bottom-[49px] flex gap-3 rounded-xs pt-4 pr-4 pb-0 pl-4 opacity-80'
                }
             >
-               <Scroll className="max-w-[400px]">
+               <Scroll className="max-w-[400px]" ref={fileContainerRef}>
                   <div className="flex gap-3 pt-0.5 pl-0.5">
                      {photos.map((i, idx) => (
                         <div
