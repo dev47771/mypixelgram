@@ -1,5 +1,7 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { Comment } from './Comment'
+import { Provider } from 'react-redux'
+import { store } from '@/shared/store'
 
 const meta = {
    title: 'Comment',
@@ -11,6 +13,13 @@ const meta = {
    globals: {
       backgrounds: { value: 'dark' },
    },
+   decorators: [
+      Story => (
+         <Provider store={store}>
+            <Story />
+         </Provider>
+      ),
+   ],
 } satisfies Meta<typeof Comment>
 
 export default meta
