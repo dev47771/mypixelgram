@@ -26,7 +26,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
             {data ? <Sidebar /> : null}
             <div
                className={cn(
-                  'border-dark-300 min-h-screen border-l transition-all duration-300',
+                  'transition-all duration-300',
                   data ? 'ml-[162px]' : 'ml-0 flex justify-center border-none'
                )}
             >
