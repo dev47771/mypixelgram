@@ -9,7 +9,9 @@ import { useCreateQueryString } from '@/shared/hooks'
 
 export function usePostController() {
    const { login } = useParams<{ login: string }>()
-   const { data: userProfile, isLoading } = useGetUserByLoginQuery(login)
+   const { data: userProfile, isLoading } = useGetUserByLoginQuery(login, {
+      skip: !login,
+   })
 
    const router = useRouter()
    const pathname = usePathname()
