@@ -1,5 +1,6 @@
 import { useMeQuery } from '@/features/auth/api'
 import { profileRoutes } from '@/shared/enums'
+import { cn } from '@/shared/lib'
 import Link from 'next/link'
 
 type Props = {
@@ -14,7 +15,7 @@ export const ProfileLink = ({ children, login, className }: Props) => {
    return (
       <Link
          href={me ? profileRoutes.private(login) : profileRoutes.public(login)}
-         className={className}
+         className={cn('w-fit', className)}
       >
          {children}
       </Link>
