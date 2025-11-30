@@ -15,6 +15,6 @@ export const PhotoSlider = ({ images, expanded, onToggle }: Props) => (
       )}
       onClick={onToggle}
    >
-      <Slider images={images} disabled={expanded} className="h-[240px] w-[234px]" />
+      <Slider images={images} disabled={expanded} className="h-[240px] w-[234px]" isCrop={true} />
    </div>
 )
