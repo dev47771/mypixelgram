@@ -13,37 +13,28 @@ export const DescriptionBlock = ({
    description,
    isExpanded,
    onToggle,
-   shortLimit = 78,
-   extendedLimit = 255,
+   /*    extendedLimit = 8,
+   shortLimit = 3, */
 }: Props) => {
-   const shouldTruncate = description.length > shortLimit
-   const visibleText = isExpanded
-      ? description.slice(0, extendedLimit)
-      : description.slice(0, shortLimit)
-
    return (
-      <Typography
-         as="p"
-         variant="captionRegular"
-         className="inline break-words whitespace-pre-wrap"
-      >
-         {visibleText}
-         {shouldTruncate && !isExpanded && '...'}
-         {shouldTruncate && isExpanded && '..'}
-         {shouldTruncate && (
-            <>
-               {' '}
-               <button
-                  onClick={onToggle}
-                  className={clsx(
-                     'text-s text-accent-500 leading-m font-regular',
-                     'inline cursor-pointer underline hover:underline'
-                  )}
-               >
-                  {isExpanded ? 'Hide' : 'Show more'}
-               </button>
-            </>
-         )}
-      </Typography>
+      <div className="w-full">
+         <Typography
+            as="p"
+            variant="captionRegular"
+            className={clsx(
+               'break-words whitespace-pre-wrap',
+               isExpanded ? `line-clamp-[8]` : `line-clamp-[3]`
+            )}
+         >
+            {description}
+         </Typography>
+
+         <button
+            onClick={onToggle}
+            className="text-s text-accent-500 leading-m font-regular cursor-pointer underline"
+         >
+            {isExpanded ? 'Hide' : 'Show more'}
+         </button>
+      </div>
    )
 }
