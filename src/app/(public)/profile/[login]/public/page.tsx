@@ -1,41 +1,46 @@
-'use client'
+import { UserProfileHeader} from '@/widgets/UserProfile/UserProfileHeader'
 
-import {withPublicRoute} from '@/shared/HOC/withPublicRoute'
-import {ProfileHeaderPublic} from '@/entities/user/ui/ProfileHeader';
-import {ProfilePublicPosts} from '@/features/posts/ui/ProfilePosts';
-import {useProfilePageBase} from '@/shared/hooks';
-import { useGetPostByIdQuery } from '@/features/posts/api'
-import { Post } from '@/entities/posts/ui/Post'
-import { Loader } from '@/shared/components/Loader'
-import { notFound } from 'next/navigation'
+import {UserProfilePublicPosts} from '@/widgets/UserProfile/UserProfilePosts'
+import {apiUrls} from "@/shared/constants";
+import {serverResponseHandler} from "@/shared/utils";
+import {publicPostsSchema} from "@/entities/posts/ui/schemas";
+import {userProfileSchema} from "@/entities/user/model";
+import {notFound} from "next/navigation";
 
-function ProfilePublicPage() {
-   const { login, userProfile, isLoading, postId, isPostOpen, openPostHandler, closePostHandler } =
-      useProfilePageBase()
-   const { data: post, isLoading: isLoadingPost } = useGetPostByIdQuery(postId!, { skip: !postId })
+type Props = {
+    params: Promise<{
+        login: string
+    }>
+}
 
-   if(isLoading) {
-      return <p>loading...</p>
-   }
 
-   if(!userProfile) {
-      return <div>user not found</div>
-   }
+export default async function ProfilePublicPage({params}: Props) {
+    const {login} = await params
 
-   let postContent = null
-   if (isPostOpen) {
-      if (isLoadingPost) postContent = <Loader />
-      else if (post) postContent = <Post post={post} onClose={closePostHandler} />
-      else return notFound()
-   }
+    const [userProfile, publicPosts] = await Promise.allSettled([
+        fetch(apiUrls.userProfile(login)).then(res => res.json()),
+        fetch(apiUrls.userPublicPosts(login)).then(res => res.json())
+    ])
+
+    const publicPostsResp = serverResponseHandler(publicPosts, publicPostsSchema)
+    const userProfileResp = serverResponseHandler(userProfile, userProfileSchema)
+
+    if (userProfileResp.status !== 'success' || !userProfileResp.data) {
+        return notFound()
+    }
+
+    const userProfileContent = userProfileResp.data
+    const publicPostContent = publicPostsResp.status === 'success'
+        ? publicPostsResp.data
+        : []
 
    return (
       <div className={'flex w-full flex-col pt-[36px] pb-6 pl-6'}>
-         <ProfileHeaderPublic userProfile={userProfile}  />
-         <ProfilePublicPosts login={login} onOpenPost={openPostHandler} />
-         {postContent}
+         <UserProfileHeader
+             userProfile={userProfileContent}
+
+         />
+         <UserProfilePublicPosts data={publicPostContent}/>
       </div>
    )
 }
-
-export default withPublicRoute(ProfilePublicPage)

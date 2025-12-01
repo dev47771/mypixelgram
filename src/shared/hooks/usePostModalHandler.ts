@@ -1,13 +1,10 @@
 'use client'
 
-import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useGetUserByLoginQuery } from '@/entities/user'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+
 import { useCreateQueryString } from '@/shared/hooks'
 
-export function useProfilePageBase() {
-   const { login } = useParams<{ login: string }>()
-   const { data: userProfile, isLoading } = useGetUserByLoginQuery(login)
-
+export function usePostModalHandler() {
    const router = useRouter()
    const pathname = usePathname()
    const searchParams = useSearchParams()
@@ -26,9 +23,6 @@ export function useProfilePageBase() {
    }
 
    return {
-      login,
-      userProfile,
-      isLoading,
       postId,
       isPostOpen,
       openPostHandler,

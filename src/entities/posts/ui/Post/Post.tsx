@@ -6,12 +6,13 @@ import { PostModal } from '@/shared/components/PostModal'
 import type { PostByIdType } from '@/features/posts/api'
 
 type Props = {
-   post: PostByIdType
+   post?: PostByIdType
    onClose?: () => void
 }
 
 export const Post = ({ post, onClose }: Props) => {
-   return (
+   if (!post) return
+    return (
       <PostModal
          size={'post-management'}
          contentColumns={'two'}

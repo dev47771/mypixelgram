@@ -1,14 +1,14 @@
 import { useGetUserPostsInfiniteQuery } from '@/features/posts/api'
 import { useInfiniteScroll } from '@/shared/hooks'
 import { useCallback } from 'react'
-import { PostsGrid } from './PostsGrid'
+import { PostsGrid } from '@/features/posts/ui/ProfilePosts'
 
 type Props = {
    login: string
    onOpenPost: (id: string) => void
 }
 
-export const ProfilePrivatePosts = ({ login, onOpenPost }: Props) => {
+export const UserProfilePrivatePosts = ({ login, onOpenPost }: Props) => {
    const { data, hasNextPage, isFetching, fetchNextPage } = useGetUserPostsInfiniteQuery({ login })
 
    const loadMore = useCallback(() => {

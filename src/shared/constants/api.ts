@@ -9,4 +9,6 @@ export const apiUrls = {
    loginGitHub: `${BASE_URL}${AuthEndpoints.loginGitHub}`,
    lastPosts: `${BASE_URL}${PostsEndpoints.lastPosts}`,
    usersTotalCount: `${BASE_URL}${UserEndpoints.usersTotalCount}`,
+   userProfile: (login: string) => `${BASE_URL}${UserEndpoints.userProfile}/${login}`,
+   userPublicPosts: (login: string) => `${BASE_URL}${PostsEndpoints.publicPosts}/${login}`,
 }

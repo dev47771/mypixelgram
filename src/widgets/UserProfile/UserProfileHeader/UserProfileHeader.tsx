@@ -4,18 +4,19 @@ import { Avatar } from '@/shared/components/Avatar'
 import { UserProfileType, UserStats } from '@/entities/user'
 import { ReactNode } from 'react'
 
-type ProfileHeaderBaseProps = {
-   actions: ReactNode
-} & UserProfileType
+type UserProfileHeaderProps = {
+   actions?: ReactNode
+   userProfile: UserProfileType
+}
 
-export const ProfileHeaderBase = ({
-   user,
-   followers,
-   following,
-   publicationCount,
-   description,
+export const UserProfileHeader = ({
+   userProfile,
    actions,
-}: ProfileHeaderBaseProps) => {
+}: UserProfileHeaderProps) => {
+
+
+    const { user, followers, following, publicationCount, description } = userProfile
+
    return (
       <div className="flex gap-9.5">
          <div>

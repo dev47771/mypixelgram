@@ -42,8 +42,8 @@ export type PostFile = {
 
 export type Post = {
    postId: string
-   description: string
-   location: string
+   description: string | null
+   location: string | null
    createdAt: string
    files: PostFile[]
 }
