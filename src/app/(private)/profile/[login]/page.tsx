@@ -3,7 +3,7 @@ import {UserProfilePrivatePosts} from '@/widgets/UserProfile/UserProfilePosts'
 import {UserProfileHeader} from "@/widgets/UserProfile/UserProfileHeader";
 import {apiUrls} from "@/shared/constants";
 import {serverResponseHandler} from "@/shared/utils";
-import {privatePostsSchema, publicPostsSchema} from "@/entities/posts/ui/schemas";
+import {privatePostsSchema} from "@/entities/posts/ui/schemas";
 import {userProfileSchema} from "@/entities/user/model";
 
 type Props = {
