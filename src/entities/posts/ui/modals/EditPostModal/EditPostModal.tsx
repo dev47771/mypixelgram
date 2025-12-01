@@ -93,6 +93,7 @@ export const EditPostModal = ({ post, onCloseAction }: Props) => {
                         maxLength={500}
                         autoFocus={false}
                         shouldUnregister={false}
+                        className={'min-h-30'}
                      />
                   </div>
 
