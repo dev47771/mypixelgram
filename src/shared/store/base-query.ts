@@ -1,3 +1,4 @@
+'use client'
 import type { SignInResponse } from '@/features/auth/api'
 import { AuthEndpoints, PublicRoutes } from '@/shared/enums'
 import { handleError } from '@/shared/utils'
@@ -12,7 +13,7 @@ import { TOKEN } from '../constants'
 
 const mutex = new Mutex()
 
-export const baseQuery = fetchBaseQuery({
+const baseQuery = fetchBaseQuery({
    baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
    credentials: 'include',
 

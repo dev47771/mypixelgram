@@ -1,3 +1,4 @@
+
 import { Typography } from '@/shared/components/Typography'
 import { PostOutlineIcon } from '@/shared/icons'
 import { Avatar } from '@/shared/components/Avatar'

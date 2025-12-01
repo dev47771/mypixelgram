@@ -1,4 +1,4 @@
-import { baseApi } from '@/shared/store'
+'use client'
 import {
    CreatePostRequest,
    CreatePostResponse,
@@ -7,9 +7,14 @@ import {
    UploadFileResponse,
    PostByIdType,
 } from './post.types'
-import { PostsEndpoints } from '@/shared/enums'
+import { PublicPostsEndpoints } from '@/shared/enums'
+import {PostsEndpoints} from "@/features/posts/api/postsEndpoints";
+import {baseApi} from "@/shared/store";
 
-export const postService = baseApi.injectEndpoints({
+
+
+
+const postService = baseApi.injectEndpoints({
    endpoints: builder => ({
       getUserPosts: builder.infiniteQuery<
          GetUserPostsInfiniteResponse,
@@ -23,13 +28,13 @@ export const postService = baseApi.injectEndpoints({
             },
          },
          query: ({ queryArg, pageParam }) => ({
-            url: `/posts/${queryArg.login}`,
+            url: `${PostsEndpoints.userPosts}/${queryArg.login}`,
             params: pageParam ? { cursor: pageParam } : undefined,
          }),
          providesTags: ['getPosts'],
       }),
       getUserPublicPosts: builder.query<GetUserPublicPostsResponse, string>({
-         query: login => `${PostsEndpoints.publicPosts}/${login}`,
+         query: login => `${PublicPostsEndpoints.publicPosts}/${login}`,
       }),
       uploadFile: builder.mutation<UploadFileResponse, File[]>({
          query: files => {

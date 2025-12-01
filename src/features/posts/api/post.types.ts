@@ -49,13 +49,13 @@ export type Post = {
 }
 
 export type PageInfo = {
-   nextCursor: string
+   nextCursor: string | null
    hasMore: boolean
 }
 
 export type Publication = {
    postId: string
-   firstFileUrl: string
+   firstFileUrl: string | null
 }
 
 export type GetUserPublicPostsResponse = Post[]

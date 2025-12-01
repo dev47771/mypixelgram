@@ -1,10 +1,9 @@
+'use client'
 import { PostPreview } from '@/entities/posts/ui/PostPreview'
+import {Publication} from "@/features/posts/api";
 
 type Props = {
-   posts: Array<{
-      postId: string
-      firstFileUrl: string
-   }>
+   posts: Publication[]
    onOpenPost: (id: string) => void
 }
 

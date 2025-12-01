@@ -1,4 +1,5 @@
-import { baseApi } from '@/shared/store'
+'use client'
+
 import { AuthEndpoints } from '@/shared/enums'
 import type {
    MeResponse,
@@ -14,6 +15,8 @@ import type {
 } from '@/features/auth/api'
 import { TOKEN } from '@/shared/constants'
 import { authChannel } from '@/shared/lib/authBroadcast'
+import {baseApi} from "@/shared/store";
+
 
 export const authService = baseApi.injectEndpoints({
    endpoints: builder => ({

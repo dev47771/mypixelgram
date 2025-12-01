@@ -18,8 +18,14 @@ export default async function ProfilePublicPage({params}: Props) {
     const {login} = await params
 
     const [userProfile, publicPosts] = await Promise.allSettled([
-        fetch(apiUrls.userProfile(login)).then(res => res.json()),
-        fetch(apiUrls.userPublicPosts(login)).then(res => res.json())
+        fetch(apiUrls.userProfile(login)).then(res => {
+            if (!res.ok) throw new Error(`User HTTP error: ${res.status}`)
+            return res.json()
+        }),
+        fetch(apiUrls.userPublicPosts(login)).then(res => {
+            if (!res.ok) throw new Error(`Posts HTTP error: ${res.status}`)
+            return res.json()
+        })
     ])
 
     const publicPostsResp = serverResponseHandler(publicPosts, publicPostsSchema)

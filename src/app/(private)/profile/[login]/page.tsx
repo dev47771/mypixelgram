@@ -1,12 +1,16 @@
-'use client'
-
-import {withPrivateRoute} from '@/shared/HOC'
-import {usePostModalHandler} from '@/shared/hooks'
-import {useGetPostByIdQuery} from '@/features/posts/api'
-import {Post} from '@/entities/posts/ui/Post'
-import {Loader} from '@/shared/components/Loader'
-import {notFound, useParams} from 'next/navigation'
+import {notFound} from 'next/navigation'
 import {UserProfilePrivatePosts} from '@/widgets/UserProfile/UserProfilePosts'
+import {UserProfileHeader} from "@/widgets/UserProfile/UserProfileHeader";
+import {apiUrls} from "@/shared/constants";
+import {serverResponseHandler} from "@/shared/utils";
+import {privatePostsSchema, publicPostsSchema} from "@/entities/posts/ui/schemas";
+import {userProfileSchema} from "@/entities/user/model";
+
+type Props = {
+   params: Promise<{
+      login: string
+   }>
+}
 
 //   <UserProfileHeader
 //             userProfile={userProfile}
@@ -22,33 +26,46 @@ import {UserProfilePrivatePosts} from '@/widgets/UserProfile/UserProfilePosts'
 //                    <Button variant="secondary">Send Message</Button>
 //                 </div>
 
-function ProfilePrivatePage() {
-   const { login } = useParams<{ login: string }>()
-   // const { data: userProfile, isLoading } = useGetUserByLoginQuery(login)
-   const { postId, isPostOpen, openPostHandler, closePostHandler } = usePostModalHandler()
-   const { data: post, isLoading: isLoadingPost } = useGetPostByIdQuery(postId!, { skip: !postId })
+// let postContent = null
+// if (isPostOpen) {
+//    if (isLoadingPost) postContent = <Loader />
+//    else if (post) postContent = <Post post={post} onClose={closePostHandler} />
+//    else return notFound()
+// }
 
-   // if (isLoading) {
-   //    return <p>loading...</p>
-   // }
+// const { data: post, isLoading: isLoadingPost } = useGetPostByIdQuery(postId!, { skip: !postId })
 
-   // if (!userProfile) {
-   //    return <div>user not found</div>
-   // }
+export default async function  ProfilePrivatePage({params}: Props) {
+   const {login} = await params
+   const [userProfile, privatePosts] = await Promise.allSettled([
+      fetch(apiUrls.userProfile(login)).then(res => {
+           if (!res.ok) throw new Error(`Users HTTP error: ${res.status}`)
+           return res.json()
+       }),
+      fetch(apiUrls.userPrivatePosts(login)).then(res => {
+          if (!res.ok) throw new Error(`Posts HTTP error: ${res.status}`)
+          return res.json()
+      })
+   ])
 
-   let postContent = null
-   if (isPostOpen) {
-      if (isLoadingPost) postContent = <Loader />
-      else if (post) postContent = <Post post={post} onClose={closePostHandler} />
-      else return notFound()
+
+
+   const privatePostsResp = serverResponseHandler(privatePosts, privatePostsSchema)
+   const userProfileResp = serverResponseHandler(userProfile, userProfileSchema)
+
+   if (userProfileResp.status !== 'success' || !userProfileResp.data) {
+      return notFound()
    }
 
-   return (
-      <div className={'flex w-full flex-col pt-[36px] pl-6'}>
+   const userProfileContent = userProfileResp.data
 
-         <UserProfilePrivatePosts login={login} onOpenPost={openPostHandler} />
-         {postContent}
+    const privatePostContent = privatePostsResp.status === 'success'
+        ? privatePostsResp.data
+        : { publications: [], pageInfo: { nextCursor: null, hasMore: false } };
+    return (
+      <div className={'flex w-full flex-col pt-[36px] pl-6'}>
+         <UserProfileHeader userProfile={userProfileContent}/>
+         <UserProfilePrivatePosts   postsResponse={privatePostContent}/>
       </div>
    )
 }
-export default withPrivateRoute(ProfilePrivatePage)

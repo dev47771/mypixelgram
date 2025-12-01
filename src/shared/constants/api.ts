@@ -1,5 +1,6 @@
-import { AuthEndpoints, PostsEndpoints } from '../enums'
+import { AuthEndpoints, PublicPostsEndpoints } from '../enums'
 import { UserEndpoints } from '@/entities/user/api'
+import {PostsEndpoints} from "@/features/posts/api";
 
 export const TOKEN = 'accessToken'
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
@@ -7,8 +8,9 @@ export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 export const apiUrls = {
    loginGoogle: `${BASE_URL}${AuthEndpoints.loginGoogle}`,
    loginGitHub: `${BASE_URL}${AuthEndpoints.loginGitHub}`,
-   lastPosts: `${BASE_URL}${PostsEndpoints.lastPosts}`,
+   lastPosts: `${BASE_URL}${PublicPostsEndpoints.lastPosts}`,
    usersTotalCount: `${BASE_URL}${UserEndpoints.usersTotalCount}`,
    userProfile: (login: string) => `${BASE_URL}${UserEndpoints.userProfile}/${login}`,
-   userPublicPosts: (login: string) => `${BASE_URL}${PostsEndpoints.publicPosts}/${login}`,
+   userPublicPosts: (login: string) => `${BASE_URL}${PublicPostsEndpoints.publicPosts}/${login}`,
+   userPrivatePosts: (login: string) => `${BASE_URL}${PostsEndpoints.userPosts}/${login}`,
 }

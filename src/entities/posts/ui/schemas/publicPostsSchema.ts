@@ -26,4 +26,3 @@ const publicPostSchema = z.object({
 
 export const publicPostsSchema = z.array(publicPostSchema)
 
-export type publicPostsType = z.infer<typeof publicPostsSchema>
