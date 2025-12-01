@@ -13,7 +13,9 @@ type Props = {
 }
 
 /* 
-The code measures the text height using ref and lineHeight; if the text exceeds shortLimit lines, it sets isOverflowing to true and displays the Show more/Hide button. The button toggles isExpanded, and line-clamp-[N] limits the visible number of lines of text.
+The code measures the text height using ref and lineHeight; if the text exceeds shortLimit lines, 
+it sets isOverflowing to true and displays the Show more/Hide button. The button toggles isExpanded,
+and line-clamp-[N] limits the visible number of lines of text.
 */
 
 export const DescriptionBlock = ({
