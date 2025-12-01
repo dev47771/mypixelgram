@@ -30,24 +30,13 @@ export const DescriptionBlock = ({
 
    useEffect(() => {
       if (!textRef.current) return
-      const el = textRef.current
-      const computedStyle = getComputedStyle(el)
-      const lineHeight = parseFloat(computedStyle.lineHeight)
-      const paddingTop = parseFloat(computedStyle.paddingTop)
-      const paddingBottom = parseFloat(computedStyle.paddingBottom)
-      const maxHeight = lineHeight * shortLimit + paddingTop + paddingBottom
 
-      const checkOverflow = () => {
-         const overflowing = el.scrollHeight > maxHeight + 1
-         setIsOverflowing(prev => (prev !== overflowing ? overflowing : prev))
-      }
+      const style = getComputedStyle(textRef.current)
+      const lineHeight = parseFloat(style.lineHeight)
+      const maxHeight =
+         lineHeight * shortLimit + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom)
 
-      const observer = new ResizeObserver(checkOverflow)
-      observer.observe(el)
-
-      checkOverflow()
-
-      return () => observer.disconnect()
+      setIsOverflowing(textRef.current.scrollHeight > maxHeight)
    }, [description, shortLimit])
 
    return (
