@@ -3,10 +3,10 @@
 import { withPublicRoute } from '@/shared/HOC/withPublicRoute'
 import { ProfileHeaderPublic } from '@/entities/user/ui/ProfileHeader'
 import { ProfilePublicPosts } from '@/features/posts/ui/ProfilePosts'
-import { usePostController } from '@/shared/hooks'
 import { useGetPostByIdQuery } from '@/features/posts/api'
 import { Post } from '@/entities/posts/ui/Post'
 import { EditPostModal } from '@/entities/posts/ui/modals/EditPostModal'
+import { usePostController } from '@/features/posts/hooks'
 
 
 function ProfilePublicPage() {

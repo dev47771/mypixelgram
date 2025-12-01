@@ -4,7 +4,7 @@ import { DropDownMenuTrigger } from '@/shared/components/DropDownMenu/DropDownMe
 import { Typography } from '@/shared/components/Typography'
 import { POST_MENU_ITEMS } from '@/entities/posts/ui/Post/PostHeader/PostMenu/config'
 import { DeletePostModal } from '@/entities/posts/ui/modals/DeletePostModal/DeletePostModal'
-import { usePostController } from '@/shared/hooks'
+import { usePostController } from '@/features/posts/hooks'
 
 type Props = {
    isOwner: boolean
