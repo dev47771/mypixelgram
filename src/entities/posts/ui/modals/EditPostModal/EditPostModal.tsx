@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 import { PostModal } from '@/shared/components/PostModal'
-import Image from 'next/image'
 import { useForm } from 'react-hook-form'
 import { Typography } from '@/shared/components/Typography'
 import { ControlledTextarea } from '@/shared/components/Controlled'
@@ -12,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { PostByIdType, useUpdatePostDataMutation } from '@/features/posts/api'
 import { CancelEditModal } from '@/entities/posts/ui/modals/CancelEditModal/CancelEditModal'
 import { Avatar } from '@/shared/components/Avatar'
+import { Slider } from '@/shared/components/Slider'
 
 type FormTypes = z.infer<typeof EditPostSchema>
 
@@ -71,7 +71,9 @@ export const EditPostModal = ({ post, onCloseAction }: Props) => {
             headerVariant="close-only"
             onOpenChange={CloseEditModalHandler}
             contentColumns="two"
-            leftContent={<Image fill src={post.images[0].url} alt={'Post Photo'} />}
+            leftContent={
+               <Slider images={post.images.map(i => i.url)} className={'h-full w-full'} />
+            }
             leftContentClassName={'relative'}
             rightContentClassName={'p-6'}
             rightContent={
