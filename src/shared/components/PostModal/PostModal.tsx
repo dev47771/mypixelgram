@@ -64,7 +64,7 @@ export const PostModal = ({
          {/* кнопка закрытия находится вне модального окна */}
          {!headerText && (
             <>
-               <ModalTitle className={'invisible absolute -z-10'}>dialog window</ModalTitle>
+               <ModalTitle className={'sr-only'}>dialog window</ModalTitle>
                <ModalClose className="absolute -top-[36px] -right-[42px] z-10 cursor-pointer">
                   <CrossIcon />
                </ModalClose>
