@@ -14,7 +14,7 @@ type Props = {
 
 export const Post = ({ post, onClose, isFetchingPost }: Props) => {
    if (isFetchingPost) {
-      return <Loader />
+      return <PostModal size={'post-management'} contentColumns={'two'} rightContent={<Loader />} /> // skeleton?
    }
 
    return (
