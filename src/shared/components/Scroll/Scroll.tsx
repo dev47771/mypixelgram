@@ -5,10 +5,12 @@ export type ScrollProps = {
    children: ReactNode
 } & ComponentPropsWithRef<typeof ScrollArea.Root>
 
-export const Scroll = ({ children, className, ...props }: ScrollProps) => {
+export const Scroll = ({ children, className, ref, ...props }: ScrollProps) => {
    return (
       <ScrollArea.Root className={`${className} || ''`} {...props}>
-         <ScrollArea.Viewport className="h-full w-full pb-4">{children}</ScrollArea.Viewport>
+         <ScrollArea.Viewport ref={ref} className="h-full w-full pb-4">
+            {children}
+         </ScrollArea.Viewport>
 
          <ScrollArea.Scrollbar
             orientation="horizontal"
