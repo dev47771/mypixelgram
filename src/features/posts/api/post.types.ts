@@ -35,6 +35,12 @@ export type PostByIdType = {
    images: UploadFileItem[]
 }
 
+export type UpdatePostRequest = {
+   location: string
+   postId: string
+   description: string
+}
+
 export type PostFile = {
    url: string
    fileId: string
