@@ -73,8 +73,8 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
    // }
 
    return (
-      <header className="border-dark-300 border-b">
-         <div className="container flex h-[60px] items-center justify-between">
+      <header className="border-dark-300 bg-dark-700 border-b">
+         <div className="bg-dark-700 relative z-10 container flex h-[60px] items-center justify-between">
             <Link href={PublicRoutes.main} className={variantClasses.large}>
                Inctagram
             </Link>

@@ -90,7 +90,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
       <aside>
          <nav
             {...rest}
-            className={cn('border-dark-300 fixed w-full max-w-[162px] border-r', className)}
+            className={cn('border-dark-300 fixed top-0 w-full max-w-[162px] border-r', className)}
          >
             <ul className={cn('flex h-screen flex-col pt-[132px]')}>
                <SidebarItem
