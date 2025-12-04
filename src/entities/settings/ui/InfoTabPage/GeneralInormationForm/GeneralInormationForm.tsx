@@ -1,7 +1,6 @@
 'use client'
 
-import { CountrySelect, CitySelect } from './CountryCitySelect/CountryCitySelect'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import z from 'zod'
@@ -9,6 +8,7 @@ import { generalInformationSchema } from '@/entities/settings/schema/GeneralInfo
 import { ControlledInput, ControlledTextarea } from '@/shared/components/Controlled'
 import { ControlledDatePicker } from '@/shared/components/Controlled/ControlledDatePicker'
 import { CountriesResponse } from '@/features/settings/api/settings.types'
+import { ControlledSelect } from '@/shared/components/Controlled/ControlledSelect'
 
 type FormTypes = z.infer<typeof generalInformationSchema>
 
@@ -30,6 +30,7 @@ export const GeneralInformationForm = ({
       formState: { errors },
       handleSubmit,
       setError,
+      watch,
    } = useForm<FormTypes>({
       defaultValues: {
          login: '',
@@ -49,8 +50,7 @@ export const GeneralInformationForm = ({
       })
    }, [errorsFromApi, setError])
 
-   const [country, setCountry] = useState<string>('')
-   const [city, setCity] = useState<string>('')
+   const selectedCountry = watch('country')
 
    return (
       <form
@@ -90,7 +90,22 @@ export const GeneralInformationForm = ({
             className="w-full"
          />
          <div className="flex gap-[24px]">
-            <CountrySelect
+            <ControlledSelect
+               name="country"
+               control={control}
+               label="Select your country"
+               placeholder="Country"
+               options={Object.keys(countryCityData)}
+            />
+            <ControlledSelect
+               name="city"
+               control={control}
+               label="Select your city"
+               placeholder="City"
+               options={selectedCountry ? countryCityData[selectedCountry] || [] : []}
+               disabled={!selectedCountry}
+            />
+            {/* <CountrySelect
                coutryCityData={countryCityData}
                value={country}
                onValueChange={value => {
@@ -103,7 +118,7 @@ export const GeneralInformationForm = ({
                country={country}
                value={city}
                onValueChange={setCity}
-            />
+            /> */}
          </div>
          <div className="flex flex-col">
             <ControlledTextarea
