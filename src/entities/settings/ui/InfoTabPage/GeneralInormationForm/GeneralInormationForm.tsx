@@ -9,6 +9,7 @@ import { ControlledInput, ControlledTextarea } from '@/shared/components/Control
 import { ControlledDatePicker } from '@/shared/components/Controlled/ControlledDatePicker'
 import { CountriesResponse } from '@/features/settings/api/settings.types'
 import { ControlledSelect } from '@/shared/components/Controlled/ControlledSelect'
+import { Button } from '@/shared/components/Button'
 
 type FormTypes = z.infer<typeof generalInformationSchema>
 
@@ -27,7 +28,7 @@ export const GeneralInformationForm = ({
 }: Props) => {
    const {
       control,
-      formState: { errors },
+      formState: { isValid, isDirty, errors },
       handleSubmit,
       setError,
       watch,
@@ -42,6 +43,7 @@ export const GeneralInformationForm = ({
          aboutMe: '',
       },
       resolver: zodResolver(generalInformationSchema),
+      mode: 'onChange',
    })
 
    useEffect(() => {
@@ -105,20 +107,6 @@ export const GeneralInformationForm = ({
                options={selectedCountry ? countryCityData[selectedCountry] || [] : []}
                disabled={!selectedCountry}
             />
-            {/* <CountrySelect
-               coutryCityData={countryCityData}
-               value={country}
-               onValueChange={value => {
-                  setCountry(value)
-                  setCity('')
-               }}
-            />
-            <CitySelect
-               coutryCityData={countryCityData}
-               country={country}
-               value={city}
-               onValueChange={setCity}
-            /> */}
          </div>
          <div className="flex flex-col">
             <ControlledTextarea
@@ -130,13 +118,13 @@ export const GeneralInformationForm = ({
                maxLength={200}
             />
          </div>
-         <button
+         <Button
             type="submit"
             className="mt-4 rounded bg-blue-500 px-6 py-2 text-white hover:bg-blue-600"
-            disabled={isLoading}
+            disabled={!isValid || !isDirty || isLoading}
          >
             Save Changes
-         </button>
+         </Button>
       </form>
    )
 }
