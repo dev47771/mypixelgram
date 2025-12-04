@@ -32,7 +32,7 @@ function ProfilePrivatePage() {
 
    return (
       <div className={'flex w-full flex-col pt-[36px] pl-6'}>
-         <ProfileHeaderPrivate userProfile={userProfile} />
+         <ProfileHeaderPrivate userProfile={userProfile} login={login} />
          <ProfilePrivatePosts login={login} onOpenPost={openPostModal} />
          {isPostOpen && !isEditOpen && post && (
             <Post post={post} isFetchingPost={isFetching} onClose={closePostModal} />

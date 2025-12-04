@@ -1,13 +1,33 @@
+'use client'
+
+import { useUserProfile } from '@/entities/user/model/useUserProfile'
+import { Avatar } from '@/shared/components/Avatar'
+import { Button } from '@/shared/components/Button'
+import { PostOutlineIcon } from '@/shared/icons'
+
 export default function ProfileSettingsPage() {
+   const { userProfile } = useUserProfile()
+
    return (
       <div className={'flex w-full flex-col pt-[36px] pl-6'}>
          <div className={'border-dark-100 h-[36px] w-[972px] border'}>Tabs</div>
          <div className={'flex flex-row'}>
-            <div className={'flex flex-col'}>
-               <div className={'border-dark-100 h-[192px] w-[192px] border'}>Avatar</div>
-               <div className={'border-dark-100 h-[36px] w-[201px] border'}>
-                  Select Profile photo
+            <div className={'mt-[48px] mr-[38px] flex flex-col'}>
+               <div className={'mb-[24px] self-center'}>
+                  {userProfile?.user.avatar ? (
+                     <Avatar size="xl" src={userProfile?.user.avatar} alt="user avatar" />
+                  ) : (
+                     <div className="bg-dark-500 flex h-48 w-48 items-center justify-center rounded-full">
+                        <PostOutlineIcon width={48} height={48} />
+                     </div>
+                  )}
                </div>
+               {/* <div className={'border-dark-100 h-[36px] w-[201px] border'}>
+                  Select Profile photo
+               </div> */}
+               <Button variant="outlined" className="max-w-[201px] items-center">
+                  Select Profile photo
+               </Button>
             </div>
             <div className={'border-dark-100 h-[700px] w-[740px] border'}>Form</div>
          </div>
