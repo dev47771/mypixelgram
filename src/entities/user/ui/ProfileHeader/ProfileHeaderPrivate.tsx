@@ -2,6 +2,7 @@ import { ProfileHeaderBase } from './ProfileHeaderBase'
 import { Button } from '@/shared/components/Button'
 import Link from 'next/link'
 import { UserProfileType } from '@/entities/user'
+import { settingsRoutes } from '@/shared/enums'
 
 type Props = {
    userProfile: UserProfileType
@@ -17,7 +18,7 @@ export const ProfileHeaderPrivate = ({ userProfile }: Props) => {
          description={userProfile.description}
          actions={
             <Button variant="secondary" asChild>
-               <Link href="#">Profile Settings</Link>
+               <Link href={settingsRoutes.base}>Profile Settings</Link>
             </Button>
          }
       />

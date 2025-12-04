@@ -22,6 +22,7 @@ export const Input = ({
    errorMessage,
    className,
    disabled,
+   required,
    ...rest
 }: InputProps) => {
    const [showPassword, setShowPassword] = useState(false)
@@ -46,7 +47,7 @@ export const Input = ({
    const inputType = type === 'password' ? (showPassword ? 'text' : 'password') : type
 
    const inputClass = clsx(
-      'w-full rounded-xs border-2 bg-transparent px-3 py-[6px] outline-none peer',
+      'w-full rounded-xs border-[1px] bg-transparent px-3 py-[6px] outline-none peer',
       type === 'search' && 'pl-[38px]',
       errorMessage ? 'border-danger-500' : 'border-dark-100',
       'hover:border-light-900',
@@ -58,7 +59,12 @@ export const Input = ({
 
    return (
       <div className={clsx('flex w-full min-w-[250px] flex-col', className)}>
-         {label && <Label disabled={disabled}>{label}</Label>}
+         {label && (
+            <Label disabled={disabled}>
+               {label}
+               {required && <span className="text-danger-500">*</span>}
+            </Label>
+         )}
          <div className={'relative flex flex-col'}>
             <input
                className={inputClass}

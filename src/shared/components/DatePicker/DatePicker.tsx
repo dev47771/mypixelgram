@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import ReactDatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import './styles/datePicker.css'
+import { cn } from '@/shared/lib'
 
 export type DatePickerInputProps = {
    value?: string
@@ -11,6 +12,7 @@ export type DatePickerInputProps = {
    disabled?: boolean
    isCalendarOpen?: boolean
    selectsRange?: true | undefined
+   classNameInput?: string
 }
 
 export type DatePickerHeaderProps = {
@@ -28,6 +30,7 @@ export type DatePickerWithSingleDateProps = {
    onChange: (date: Date | null) => void
    selectsRange?: undefined
    endDate?: undefined
+   classNameInput?: string
 }
 
 export type DatePickerWithRangeDateProps = {
@@ -37,12 +40,13 @@ export type DatePickerWithRangeDateProps = {
    onChange: (dates: [Date | null, Date | null]) => void
    selectsRange: true
    endDate: Date | null
+   classNameInput?: string
 }
 
 export type DatePickerProps = DatePickerWithSingleDateProps | DatePickerWithRangeDateProps
 
 const DatePickerInput = React.forwardRef<HTMLButtonElement, DatePickerInputProps>(
-   ({ value, onClick, error, disabled, isCalendarOpen, selectsRange }, ref) => {
+   ({ value, onClick, error, disabled, isCalendarOpen, selectsRange, classNameInput }, ref) => {
       return (
          <>
             <button
@@ -54,7 +58,10 @@ const DatePickerInput = React.forwardRef<HTMLButtonElement, DatePickerInputProps
                   ;(e.currentTarget as HTMLButtonElement).blur()
                }}
                disabled={disabled}
-               className={`bg-dark-500 border-dark-300 hover:border-dark-100 focus:border-accent-700 flex h-9 w-fit cursor-pointer items-center gap-[23px] rounded-[2px] border-[1px] px-[12px] py-[6px] transition-all duration-200 ease-in-out focus:border-[2px] focus:ring-0 focus:ring-offset-0 focus:outline-none ${!selectsRange && 'bg-dark-700 hover:bg-dark-500 active:bg-dark-500 focus:bg-dark-500'} ${error && !disabled && 'bg-dark-500 border-danger-500'} `}
+               className={cn(
+                  `bg-dark-500 ${error && !disabled ? 'border-danger-500' : 'border-dark-300'} hover:border-dark-100 focus:border-accent-700 flex h-[36px] cursor-pointer items-center justify-between rounded-[2px] border-[1px] px-[12px] py-[6px] transition-all duration-200 ease-in-out focus:border-[2px] focus:ring-0 focus:ring-offset-0 focus:outline-none ${!selectsRange && 'bg-dark-700 hover:bg-dark-500 active:bg-dark-500 focus:bg-dark-500'}`,
+                  classNameInput
+               )}
             >
                <span
                   className={`font-weight-regular text-font-size-m leading-line-height-m disabled:text-light-900 ${
@@ -73,11 +80,15 @@ const DatePickerInput = React.forwardRef<HTMLButtonElement, DatePickerInputProps
                   />
                )}
             </button>
-            {error && !disabled && !selectsRange && !isCalendarOpen && (
-               <span className="text-danger-500 text-[0.75rem] leading-[16px] font-[400]">
-                  Error!
-               </span>
-            )}
+            {error &&
+               typeof error !== 'string' &&
+               !disabled &&
+               !selectsRange &&
+               !isCalendarOpen && (
+                  <span className="text-danger-500 text-[0.75rem] leading-[16px] font-[400]">
+                     Error!
+                  </span>
+               )}
             {error && !disabled && selectsRange && !isCalendarOpen && (
                <span className="text-danger-500 text-[0.75rem] leading-[16px] font-[400]">
                   Error, select current month or last month
@@ -215,6 +226,7 @@ export const DatePicker = (props: DatePickerProps) => {
                      error={props.error}
                      isCalendarOpen={isOpen}
                      disabled={props.disabled}
+                     classNameInput={props.classNameInput}
                   />
                }
                renderCustomHeader={DatePickerHeader}
