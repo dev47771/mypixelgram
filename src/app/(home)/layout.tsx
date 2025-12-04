@@ -1,17 +1,11 @@
 'use client'
 
+import { ReactNode } from 'react'
 import { useMeQuery } from '@/features/auth/api'
 import { cn } from '@/shared/lib'
 import { Sidebar } from '@/widgets/Sidebar'
-import { createContext, useContext } from 'react'
 
-const AuthContext = createContext<{ isAuthorized: boolean }>({
-   isAuthorized: false,
-})
-
-export const useAuth = () => useContext(AuthContext)
-
-export default function HomeLayout({ children }: { children: React.ReactNode }) {
+export default function HomeLayout({ children }: { children: ReactNode }) {
    const { data } = useMeQuery()
 
    return (
