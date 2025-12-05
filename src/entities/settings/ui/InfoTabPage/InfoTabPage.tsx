@@ -28,14 +28,15 @@ export const InfoTabPage = () => {
    }
 
    return (
-      <div className="flex">
-         <div className="mr-[31px] w-[201px] border-r">Add Profile Photo</div>
+      <div className="relative flex">
+         <div className="border-dark-100 mr-8 w-[201px] pr-6">Add Profile Photo</div>
          <GeneralInformationForm
             countryCityData={countryCityData || {}}
             onSubmitAction={handleSaveGeneralInformation}
             isLoading={isLoading}
             errorsFromApi={isErrorInDataResponse(error) ? error?.data.errorsMessages : undefined}
          />
+         <hr className={'text-dark-100 absolute right-0 bottom-13 left-0 h-[1px] -translate-y-6'} />
       </div>
    )
 }

@@ -121,9 +121,10 @@ export const GeneralInformationForm = ({
                maxLength={200}
             />
          </div>
+
          <Button
             type="submit"
-            className="mt-4 rounded bg-blue-500 px-6 py-2 text-white hover:bg-blue-600"
+            className="mt-[48px] ml-auto w-[159px] rounded bg-blue-500 px-6 py-2 text-white hover:bg-blue-600"
             disabled={!isValid || !isDirty || isLoading}
          >
             Save Changes

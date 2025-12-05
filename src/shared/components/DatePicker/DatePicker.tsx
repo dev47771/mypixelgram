@@ -203,7 +203,7 @@ export const DatePicker = (props: DatePickerProps) => {
                showMonthDropdown
                showYearDropdown
                dropdownMode="select"
-               dateFormat="dd/MM/yyyy"
+               dateFormat="dd.MM.yyyy"
                popperProps={{
                   strategy: 'fixed',
                }}
@@ -249,7 +249,7 @@ export const DatePicker = (props: DatePickerProps) => {
                showMonthDropdown
                showYearDropdown
                dropdownMode="select"
-               dateFormat="dd/MM/yyyy"
+               dateFormat="dd.MM.yyyy"
                popperProps={{
                   strategy: 'fixed',
                }}
