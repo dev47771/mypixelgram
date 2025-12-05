@@ -13,6 +13,7 @@ export type DatePickerInputProps = {
    isCalendarOpen?: boolean
    selectsRange?: true | undefined
    classNameInput?: string
+   customErrorMessage?: boolean
 }
 
 export type DatePickerHeaderProps = {
@@ -31,6 +32,7 @@ export type DatePickerWithSingleDateProps = {
    selectsRange?: undefined
    endDate?: undefined
    classNameInput?: string
+   customErrorMessage?: boolean
 }
 
 export type DatePickerWithRangeDateProps = {
@@ -41,12 +43,25 @@ export type DatePickerWithRangeDateProps = {
    selectsRange: true
    endDate: Date | null
    classNameInput?: string
+   customErrorMessage?: boolean
 }
 
 export type DatePickerProps = DatePickerWithSingleDateProps | DatePickerWithRangeDateProps
 
 const DatePickerInput = React.forwardRef<HTMLButtonElement, DatePickerInputProps>(
-   ({ value, onClick, error, disabled, isCalendarOpen, selectsRange, classNameInput }, ref) => {
+   (
+      {
+         value,
+         onClick,
+         error,
+         disabled,
+         isCalendarOpen,
+         selectsRange,
+         classNameInput,
+         customErrorMessage,
+      },
+      ref
+   ) => {
       return (
          <>
             <button
@@ -68,7 +83,7 @@ const DatePickerInput = React.forwardRef<HTMLButtonElement, DatePickerInputProps
                      error && !disabled ? 'text-danger-500' : 'text-light-100'
                   }`}
                >
-                  {value || 'dd/mm/yyyy'}
+                  {value || 'dd.mm.yyyy'}
                </span>
                {isCalendarOpen ? (
                   <CalendarIcon
@@ -80,16 +95,12 @@ const DatePickerInput = React.forwardRef<HTMLButtonElement, DatePickerInputProps
                   />
                )}
             </button>
-            {error &&
-               typeof error !== 'string' &&
-               !disabled &&
-               !selectsRange &&
-               !isCalendarOpen && (
-                  <span className="text-danger-500 text-[0.75rem] leading-[16px] font-[400]">
-                     Error!
-                  </span>
-               )}
-            {error && !disabled && selectsRange && !isCalendarOpen && (
+            {error && !customErrorMessage && !disabled && !selectsRange && !isCalendarOpen && (
+               <span className="text-danger-500 text-[0.75rem] leading-[16px] font-[400]">
+                  Error!
+               </span>
+            )}
+            {error && !customErrorMessage && !disabled && selectsRange && !isCalendarOpen && (
                <span className="text-danger-500 text-[0.75rem] leading-[16px] font-[400]">
                   Error, select current month or last month
                </span>
@@ -227,6 +238,7 @@ export const DatePicker = (props: DatePickerProps) => {
                      isCalendarOpen={isOpen}
                      disabled={props.disabled}
                      classNameInput={props.classNameInput}
+                     customErrorMessage={props.customErrorMessage}
                   />
                }
                renderCustomHeader={DatePickerHeader}

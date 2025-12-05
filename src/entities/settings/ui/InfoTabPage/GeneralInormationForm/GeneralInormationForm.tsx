@@ -66,6 +66,7 @@ export const GeneralInformationForm = ({
             required
             control={control}
             errorMessage={errors.login?.message}
+            errorPosition="absolute"
          />
          <ControlledInput
             name="firstName"
@@ -74,6 +75,7 @@ export const GeneralInformationForm = ({
             required
             control={control}
             errorMessage={errors.firstName?.message}
+            errorPosition="absolute"
          />
          <ControlledInput
             name="lastName"
@@ -82,6 +84,7 @@ export const GeneralInformationForm = ({
             required
             control={control}
             errorMessage={errors.lastName?.message}
+            errorPosition="absolute"
          />
          <ControlledDatePicker
             name="dateOfBirth"

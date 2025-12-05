@@ -11,6 +11,7 @@ export type InputProps = {
    label?: string
    onValueChange?: (value: string) => void
    type?: 'password' | 'search' | 'text' | 'email' | 'location'
+   errorPosition?: 'inline' | 'absolute'
 } & ComponentPropsWithRef<'input'>
 
 export const Input = ({
@@ -23,6 +24,7 @@ export const Input = ({
    className,
    disabled,
    required,
+   errorPosition = 'inline',
    ...rest
 }: InputProps) => {
    const [showPassword, setShowPassword] = useState(false)
@@ -76,7 +78,13 @@ export const Input = ({
             />
 
             {errorMessage && (
-               <div className={'relative min-h-[24px] w-full'}>
+               <div
+                  className={
+                     errorPosition === 'absolute'
+                        ? 'absolute top-9 right-0 -bottom-6 left-0'
+                        : 'relative min-h-[24px] w-full'
+                  }
+               >
                   {errorMessage && !disabled && (
                      <Typography
                         variant={'captionRegular'}

@@ -3,6 +3,8 @@ import { useController, type UseControllerProps, type FieldValues, Control } fro
 import { Label } from '../Label'
 import { DatePicker, DatePickerProps } from '../DatePicker'
 import { cn } from '@/shared/lib'
+import { PublicRoutes } from '@/shared/enums'
+import Link from 'next/link'
 
 type Props<T extends FieldValues> = Omit<
    UseControllerProps<T>,
@@ -28,7 +30,6 @@ export const ControlledDatePicker = <T extends FieldValues>(props: Props<T>) => 
    })
 
    const displayErrorMessage = errorMessage || fieldState.error?.message
-
    const hasError = !!displayErrorMessage
 
    const stringToDate = (str: string): Date | null => {
@@ -45,8 +46,10 @@ export const ControlledDatePicker = <T extends FieldValues>(props: Props<T>) => 
       return `${day}.${month}.${year}`
    }
 
+   const isAgeError = displayErrorMessage?.includes('A user under 13 cannot create a profile')
+
    return (
-      <div className={cn(className)}>
+      <div className={cn(className, 'relative')}>
          {label && (
             <Label disabled={disabled}>
                {label}
@@ -57,10 +60,20 @@ export const ControlledDatePicker = <T extends FieldValues>(props: Props<T>) => 
             selected={stringToDate(field.value)}
             onChange={date => field.onChange(dateToString(date))}
             error={hasError}
+            customErrorMessage
             disabled={disabled}
             classNameInput="w-full"
          />
-         {displayErrorMessage && <p className="text-sm text-red-500">{displayErrorMessage}</p>}
+         {displayErrorMessage && (
+            <p className="text-danger-500 absolute top-15.5 right-0 -bottom-6 left-0 text-sm">
+               {displayErrorMessage}{' '}
+               {isAgeError && (
+                  <Link href={PublicRoutes.privacyPolicy} className="underline">
+                     Privacy Policy
+                  </Link>
+               )}
+            </p>
+         )}
       </div>
    )
 }

@@ -28,12 +28,23 @@ export const generalInformationSchema = z.object({
             return d.getFullYear() === year && d.getMonth() === month - 1 && d.getDate() === day
          },
          { message: 'Invalid date' }
+      )
+      .refine(
+         date => {
+            const [day, month, year] = date.split('.').map(Number)
+            const birthDate = new Date(year, month - 1, day)
+            const today = new Date()
+            const age = today.getFullYear() - birthDate.getFullYear()
+            const m = today.getMonth() - birthDate.getMonth()
+            return age > 13 || (age === 13 && m >= 0 && today.getDate() >= birthDate.getDate())
+         },
+         { message: 'A user under 13 cannot create a profile.' }
       ),
    country: z.string().optional(),
    city: z.string().optional(),
    aboutMe: z
       .string()
-      .max(200, { message: 'Maximum 200 characters' })
-      .regex(/^[\s\S]{0,200}$/, { message: 'Letters, numbers and special characters allowed' })
+      .max(200)
+      .regex(/^[\s\S]{0,200}$/)
       .optional(),
 })
