@@ -1,5 +1,6 @@
 import { useGetUserPublicPostsQuery } from '@/features/posts/api'
 import { PostsGrid } from './PostsGrid'
+import { LockBlock } from './LockBlock'
 
 type Props = {
    login: string
@@ -18,6 +19,7 @@ export const ProfilePublicPosts = ({ login, onOpenPost }: Props) => {
    return (
       <div className="mt-12">
          <PostsGrid posts={posts} onOpenPost={onOpenPost} />
+         {data && data.length === 8 && <LockBlock />}
       </div>
    )
 }
