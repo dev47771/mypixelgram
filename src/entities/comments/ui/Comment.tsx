@@ -1,15 +1,26 @@
 import Image from 'next/image'
 import { Typography } from '@/shared/components/Typography'
 import { LikeOutlineIcon } from '@/shared/icons'
+import { ProfileLink } from '@/shared/components/ProfileLink'
+
+type CommentProps = {
+   userName: string
+   userAvatar: string
+   text: string
+   date: string
+   likes: number
+}
 
 type Props = {
-   comment: any
+   comment: CommentProps
 }
 export const Comment = ({ comment }: Props) => {
    const { userName, userAvatar, text, date, likes } = comment
+
    return (
       <div className={'mt-[15px] flex justify-between gap-3'}>
          <div className={'flex max-w-[393px] flex-1 items-start gap-3'}>
+            {/* <ProfileLink login={userName}>*/}
             <Image
                src={userAvatar}
                alt={'user avatar'}
@@ -17,10 +28,13 @@ export const Comment = ({ comment }: Props) => {
                height={'36'}
                className={'rounded-[50%]'}
             />
+            {/* </ProfileLink> */}
             <div>
-               <Typography variant={'captionBold'} className={'inline'}>
-                  {userName + ' '}
-               </Typography>
+               <ProfileLink login={userName}>
+                  <Typography variant={'captionBold'} className={'inline'}>
+                     {userName + ' '}
+                  </Typography>
+               </ProfileLink>
                <Typography variant={'captionRegular'} className={'inline'}>
                   {text}
                </Typography>

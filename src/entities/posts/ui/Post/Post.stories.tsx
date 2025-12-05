@@ -1,6 +1,8 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { Post } from './Post'
 import type { PostByIdType } from '@/features/posts/api'
+import { Provider } from 'react-redux'
+import { store } from '@/shared/store'
 
 const meta = {
    title: 'Post',
@@ -8,6 +10,13 @@ const meta = {
    parameters: {
       layout: 'centered',
    },
+   decorators: [
+      Story => (
+         <Provider store={store}>
+            <Story />
+         </Provider>
+      ),
+   ],
 } satisfies Meta<typeof Post>
 
 export default meta
@@ -21,7 +30,7 @@ type Story = StoryObj<typeof meta>
 //    date: '2 Hours ago',
 // }
 
-const mockPost: PostByIdType = {
+export const mockPost: PostByIdType = {
    postId: '1',
    user: {
       id: '23',
@@ -45,7 +54,8 @@ const mockPost: PostByIdType = {
    ],
    description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-   updatedAt: '2 Hours ago',
+   //updatedAt: '2 Hours ago',
+   updatedAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
    // comments: [
    //    mockComment,
    //    {

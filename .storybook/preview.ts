@@ -1,13 +1,9 @@
 import type { Preview } from '@storybook/nextjs-vite'
 import '../src/app/globals.css'
 import '@fontsource-variable/roboto'
-import { themes } from '@storybook/theming'
 
 const preview: Preview = {
    parameters: {
-      docs: {
-         theme: themes.dark,
-      },
       backgrounds: {
          options: {
             light: { name: 'Light', value: 'var(--color-light-100)' },

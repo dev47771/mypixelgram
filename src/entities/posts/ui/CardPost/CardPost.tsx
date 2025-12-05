@@ -14,7 +14,7 @@ export const CardPost = ({ description, file, createdAt, user, postId }: LastPos
    //for relative time, update every 60 sec
    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
    const relativeTime = useRelativeTime(createdAt)
-   const { data: post } = useGetPostByIdQuery(postId)
+   const { data: post, isFetching } = useGetPostByIdQuery(postId)
    const router = useRouter()
    const pathname = usePathname()
    const searchParams = useSearchParams()
@@ -38,7 +38,7 @@ export const CardPost = ({ description, file, createdAt, user, postId }: LastPos
    }
 
    return (
-      <div className="h-[391px] w-[234px] overflow-hidden">
+      <div className="h-[410px] w-[234px] overflow-hidden">
          <PhotoSlider images={images} expanded={isDescriptionExpanded} onToggle={handleOpenPost} />
          <UserBlock avatar={user.avatar} userName={user.login} relativeTime={relativeTime} />
          <DescriptionBlock
@@ -46,7 +46,7 @@ export const CardPost = ({ description, file, createdAt, user, postId }: LastPos
             isExpanded={isDescriptionExpanded}
             onToggle={() => setIsDescriptionExpanded(prev => !prev)}
          />
-         {isPostOpen && <Post post={post} onClose={handleClosePost} />}
+         {isPostOpen && <Post isFetchingPost={isFetching} post={post} onClose={handleClosePost} />}
       </div>
    )
 }

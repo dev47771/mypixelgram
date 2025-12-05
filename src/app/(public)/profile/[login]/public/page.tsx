@@ -1,18 +1,28 @@
 'use client'
 
-import {withPublicRoute} from '@/shared/HOC/withPublicRoute'
-import {ProfileHeaderPublic} from '@/entities/user/ui/ProfileHeader';
-import {ProfilePublicPosts} from '@/features/posts/ui/ProfilePosts';
-import {useProfilePageBase} from '@/shared/hooks';
+import { withPublicRoute } from '@/shared/HOC/withPublicRoute'
+import { ProfileHeaderPublic } from '@/entities/user/ui/ProfileHeader'
+import { ProfilePublicPosts } from '@/features/posts/ui/ProfilePosts'
 import { useGetPostByIdQuery } from '@/features/posts/api'
 import { Post } from '@/entities/posts/ui/Post'
-import { Loader } from '@/shared/components/Loader'
-import { notFound } from 'next/navigation'
+import { EditPostModal } from '@/entities/posts/ui/modals/EditPostModal'
+import { usePostController } from '@/features/posts/hooks'
+
 
 function ProfilePublicPage() {
-   const { login, userProfile, isLoading, postId, isPostOpen, openPostHandler, closePostHandler } =
-      useProfilePageBase()
-   const { data: post, isLoading: isLoadingPost } = useGetPostByIdQuery(postId!, { skip: !postId })
+   const {
+      login,
+      userProfile,
+      isLoading,
+      postId,
+      isPostOpen,
+      isEditOpen,
+      closeEditPostModal,
+      openPostModal,
+      closePostModal,
+   } = usePostController()
+
+   const { data: post, isFetching} = useGetPostByIdQuery(postId!, { skip: !postId })
 
    if(isLoading) {
       return <p>loading...</p>
@@ -22,18 +32,12 @@ function ProfilePublicPage() {
       return <div>user not found</div>
    }
 
-   let postContent = null
-   if (isPostOpen) {
-      if (isLoadingPost) postContent = <Loader />
-      else if (post) postContent = <Post post={post} onClose={closePostHandler} />
-      else return notFound()
-   }
-
    return (
       <div className={'flex w-full flex-col pt-[36px] pb-6 pl-6'}>
          <ProfileHeaderPublic userProfile={userProfile}  />
-         <ProfilePublicPosts login={login} onOpenPost={openPostHandler} />
-         {postContent}
+         <ProfilePublicPosts login={login} onOpenPost={openPostModal} />
+         {isPostOpen && !isEditOpen && post && <Post post={post} onClose={closePostModal} isFetchingPost={isFetching} />}
+         {isEditOpen && post && <EditPostModal post={post} onCloseAction={closeEditPostModal} />}
       </div>
    )
 }

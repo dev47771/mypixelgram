@@ -4,8 +4,9 @@ import {
    CreatePostResponse,
    GetUserPostsInfiniteResponse,
    GetUserPublicPostsResponse,
-   UploadFileResponse,
    PostByIdType,
+   UpdatePostRequest,
+   UploadFileResponse,
 } from './post.types'
 import { PostsEndpoints } from '@/shared/enums'
 
@@ -59,6 +60,7 @@ export const postService = baseApi.injectEndpoints({
          query: postId => ({
             url: `/public/posts/${postId}`,
          }),
+         providesTags: ['getPost'],
       }),
 
       deletePost: builder.mutation<void, string>({
@@ -67,6 +69,15 @@ export const postService = baseApi.injectEndpoints({
             method: 'DELETE',
          }),
          invalidatesTags: ['getPosts'],
+      }),
+
+      updatePostData: builder.mutation<void, UpdatePostRequest>({
+         query: ({ postId, location, description }) => ({
+            url: `/posts/${postId}`,
+            method: 'POST',
+            body: { location, description },
+         }),
+         invalidatesTags: ['getPost'],
       }),
    }),
 })
@@ -78,4 +89,5 @@ export const {
    useDeletePostMutation,
    useGetUserPublicPostsQuery,
    useGetUserPostsInfiniteQuery,
+   useUpdatePostDataMutation,
 } = postService
