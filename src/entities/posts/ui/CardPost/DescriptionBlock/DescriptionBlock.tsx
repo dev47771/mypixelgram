@@ -1,5 +1,8 @@
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
 import { Typography } from '@/shared/components/Typography/Typography'
-import clsx from 'clsx'
+import { cn } from '@/shared/lib'
 
 type Props = {
    description: string
@@ -9,41 +12,55 @@ type Props = {
    extendedLimit?: number
 }
 
+/* 
+The code measures the text height using ref and lineHeight; if the text exceeds shortLimit lines, 
+it sets isOverflowing to true and displays the Show more/Hide button. The button toggles isExpanded,
+and line-clamp-[N] limits the visible number of lines of text.
+*/
+
 export const DescriptionBlock = ({
    description,
    isExpanded,
    onToggle,
-   shortLimit = 78,
-   extendedLimit = 255,
+   shortLimit = 3,
+   extendedLimit = 8,
 }: Props) => {
-   const shouldTruncate = description.length > shortLimit
-   const visibleText = isExpanded
-      ? description.slice(0, extendedLimit)
-      : description.slice(0, shortLimit)
+   const textRef = useRef<HTMLParagraphElement>(null)
+   const [isOverflowing, setIsOverflowing] = useState(false)
+
+   useEffect(() => {
+      if (!textRef.current) return
+
+      const style = getComputedStyle(textRef.current)
+      const lineHeight = parseFloat(style.lineHeight)
+      const maxHeight =
+         lineHeight * shortLimit + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom)
+
+      setIsOverflowing(textRef.current.scrollHeight > maxHeight)
+   }, [description, shortLimit])
 
    return (
-      <Typography
-         as="p"
-         variant="captionRegular"
-         className="inline break-words whitespace-pre-wrap"
-      >
-         {visibleText}
-         {shouldTruncate && !isExpanded && '...'}
-         {shouldTruncate && isExpanded && '..'}
-         {shouldTruncate && (
-            <>
-               {' '}
-               <button
-                  onClick={onToggle}
-                  className={clsx(
-                     'text-s text-accent-500 leading-m font-regular',
-                     'inline cursor-pointer underline hover:underline'
-                  )}
-               >
-                  {isExpanded ? 'Hide' : 'Show more'}
-               </button>
-            </>
+      <div className="w-full">
+         <Typography
+            ref={textRef}
+            as="p"
+            variant="captionRegular"
+            className={cn(
+               'break-words whitespace-pre-wrap',
+               isExpanded ? `line-clamp-[${extendedLimit}]` : `line-clamp-[${shortLimit}]`
+            )}
+         >
+            {description}
+         </Typography>
+
+         {isOverflowing && (
+            <button
+               onClick={onToggle}
+               className="text-s text-accent-500 leading-m font-regular cursor-pointer underline"
+            >
+               {isExpanded ? 'Hide' : 'Show more'}
+            </button>
          )}
-      </Typography>
+      </div>
    )
 }

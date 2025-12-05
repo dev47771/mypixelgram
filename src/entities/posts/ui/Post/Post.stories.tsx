@@ -30,7 +30,7 @@ type Story = StoryObj<typeof meta>
 //    date: '2 Hours ago',
 // }
 
-const mockPost: PostByIdType = {
+export const mockPost: PostByIdType = {
    postId: '1',
    user: {
       id: '23',

@@ -19,6 +19,7 @@ type Props = {
    renderSlideAction?: (src: string, isActive: boolean, currentSlide: number) => ReactNode
    initialSlide?: number
    onSlideChange?: (index: number) => void
+   isCrop?: boolean
 }
 
 export const Slider = ({
@@ -28,6 +29,7 @@ export const Slider = ({
    renderSlideAction,
    initialSlide = 0,
    onSlideChange,
+   isCrop = false,
 }: Props) => {
    const { sliderRef, instanceRef, currentSlide, slides } = useSlider(true, initialSlide)
 
@@ -55,7 +57,12 @@ export const Slider = ({
                   {renderSlideAction ? (
                      renderSlideAction(src, i === currentSlide, currentSlide)
                   ) : (
-                     <Image src={src} fill alt={'slider_element'} className="object-contain" />
+                     <Image
+                        src={src}
+                        fill
+                        alt={'slider_element'}
+                        className={isCrop ? 'object-cover' : 'object-contain'}
+                     />
                   )}
                </SliderSlide>
             ))}
