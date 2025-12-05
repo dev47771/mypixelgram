@@ -18,19 +18,11 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
          {data ? <Sidebar /> : null}
          <div
             className={cn(
-               'border-dark-300 border-l transition-all duration-300',
+               'transition-all duration-300',
                data ? 'ml-[162px]' : 'ml-0 flex justify-center border-none'
             )}
          >
-            {data ? <Sidebar /> : null}
-            <div
-               className={cn(
-                  'transition-all duration-300',
-                  data ? 'ml-[162px]' : 'ml-0 flex justify-center border-none'
-               )}
-            >
-               {children}
-            </div>
+            {children}
          </div>
       </div>
    )
