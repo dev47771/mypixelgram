@@ -13,6 +13,8 @@ export enum PublicRoutes {
 }
 
 export enum PrivateRoutes {
+   profile = '/profile',
+   settings = '/profile/settings',
    favorites = '/favorites',
    feed = '/feed',
    messenger = '/messenger',
@@ -23,10 +25,6 @@ export enum PrivateRoutes {
 export const profileRoutes = {
    private: (login: string) => `/profile/${login}`,
    public: (login: string) => `/profile/${login}/public`,
-   settings: {
-      base: (login: string) => `/profile/${login}/settings`,
-      create: (login: string, part: SettingsTabType) => `/profile/${login}/settings?part=${part}`,
-   },
 }
 
 export const settingsRoutes = {
