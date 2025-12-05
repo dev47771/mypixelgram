@@ -85,11 +85,14 @@ export const Sidebar = ({ className, ...rest }: Props) => {
    }
 
    if (isError || !user) return null
-
+   // top-[72px]
    return (
       <aside>
-         <nav {...rest} className={cn('fixed top-[72px] min-w-[220px]', className)}>
-            <ul className={cn('flex h-screen flex-col pt-[72px]')}>
+         <nav
+            {...rest}
+            className={cn('border-dark-300 fixed top-0 w-full max-w-[162px] border-r', className)}
+         >
+            <ul className={cn('flex h-screen flex-col pt-[132px]')}>
                <SidebarItem
                   id="1"
                   name="Feed"

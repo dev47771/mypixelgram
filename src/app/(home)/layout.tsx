@@ -22,7 +22,15 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
                data ? 'ml-[162px]' : 'ml-0 flex justify-center border-none'
             )}
          >
-            {children}
+            {data ? <Sidebar /> : null}
+            <div
+               className={cn(
+                  'transition-all duration-300',
+                  data ? 'ml-[162px]' : 'ml-0 flex justify-center border-none'
+               )}
+            >
+               {children}
+            </div>
          </div>
       </div>
    )
