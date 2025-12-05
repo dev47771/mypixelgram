@@ -53,8 +53,8 @@ export const ControlledSelect = <T extends FieldValues>(props: Props<T>) => {
                <SelectValue placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent className="max-h-[200px] overflow-y-auto">
-               {options.map(option => (
-                  <SelectItem key={option} value={option}>
+               {options.map((option, index) => (
+                  <SelectItem key={`${option}-${index}`} value={option}>
                      {option}
                   </SelectItem>
                ))}

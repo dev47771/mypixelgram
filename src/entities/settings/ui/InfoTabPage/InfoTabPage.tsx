@@ -22,7 +22,7 @@ export const InfoTabPage = () => {
          alert.success('Your settings are saved!')
       } catch (error) {
          alert.error(
-            (error as ErrorResponse).errorsMessages[0].message || 'Server is not available!'
+            (error as ErrorResponse).errorsMessages?.[0]?.message || 'Server is not available!'
          )
       }
    }
