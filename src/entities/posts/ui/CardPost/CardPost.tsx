@@ -38,7 +38,7 @@ export const CardPost = ({ description, file, createdAt, user, postId }: LastPos
    }
 
    return (
-      <div className="h-[391px] w-[234px] overflow-hidden">
+      <div className="h-[410px] w-[234px] overflow-hidden">
          <PhotoSlider images={images} expanded={isDescriptionExpanded} onToggle={handleOpenPost} />
          <UserBlock avatar={user.avatar} userName={user.login} relativeTime={relativeTime} />
          <DescriptionBlock
