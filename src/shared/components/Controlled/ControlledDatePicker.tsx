@@ -5,6 +5,7 @@ import { DatePicker, DatePickerProps } from '../DatePicker'
 import { cn } from '@/shared/lib'
 import { PublicRoutes } from '@/shared/enums'
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
 
 type Props<T extends FieldValues> = Omit<
    UseControllerProps<T>,
@@ -33,7 +34,7 @@ export const ControlledDatePicker = <T extends FieldValues>(props: Props<T>) => 
    const hasError = !!displayErrorMessage
 
    const stringToDate = (str: string): Date | null => {
-      if (!str) return null
+      if (!str || str.length < 10) return null // Только полные даты
       const [day, month, year] = str.split('.').map(Number)
       return new Date(year, month - 1, day)
    }
@@ -44,6 +45,42 @@ export const ControlledDatePicker = <T extends FieldValues>(props: Props<T>) => 
       const month = (date.getMonth() + 1).toString().padStart(2, '0')
       const year = date.getFullYear()
       return `${day}.${month}.${year}`
+   }
+
+   // Локальное состояние для input
+   const [inputValue, setInputValue] = useState<string>(field.value || '')
+
+   // Синхронизируем с формой
+   useEffect(() => {
+      setInputValue(field.value || '')
+   }, [field.value])
+
+   const handleDateChange = (date: Date | null) => {
+      const dateStr = dateToString(date)
+      setInputValue(dateStr)
+      field.onChange(dateStr)
+   }
+
+   const handleInputChange = (value: string) => {
+      setInputValue(value)
+
+      // Обновляем форму только если это валидная дата
+      if (value.length === 10) {
+         // dd.mm.yyyy
+         const [day, month, year] = value.split('.').map(Number)
+         const date = new Date(year, month - 1, day)
+
+         if (
+            date.getFullYear() === year &&
+            date.getMonth() === month - 1 &&
+            date.getDate() === day
+         ) {
+            field.onChange(value)
+         }
+      } else {
+         // Если не полная дата, очищаем поле в форме
+         field.onChange('')
+      }
    }
 
    const isAgeError = displayErrorMessage?.includes('A user under 13 cannot create a profile')
@@ -58,11 +95,14 @@ export const ControlledDatePicker = <T extends FieldValues>(props: Props<T>) => 
          )}
          <DatePicker
             selected={stringToDate(field.value)}
-            onChange={date => field.onChange(dateToString(date))}
+            onChange={handleDateChange}
             error={hasError}
             customErrorMessage
             disabled={disabled}
             classNameInput="w-full"
+            // Добавляем пропсы для ручного ввода
+            value={inputValue}
+            onInputChange={handleInputChange}
          />
          {displayErrorMessage && (
             <p className="text-danger-500 absolute top-15.5 right-0 -bottom-6 left-0 text-sm">

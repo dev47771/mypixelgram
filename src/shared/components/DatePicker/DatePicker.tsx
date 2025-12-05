@@ -1,5 +1,5 @@
 import { ArrowLeftIcon, ArrowRightIcon, CalendarIcon, CalendarOutlineIcon } from '@/shared/icons'
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import ReactDatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import './styles/datePicker.css'
@@ -8,6 +8,8 @@ import { cn } from '@/shared/lib'
 export type DatePickerInputProps = {
    value?: string
    onClick?: () => void
+   onChange?: (value: string) => void
+   onInputChange?: (value: string) => void
    error?: boolean
    disabled?: boolean
    isCalendarOpen?: boolean
@@ -33,6 +35,8 @@ export type DatePickerWithSingleDateProps = {
    endDate?: undefined
    classNameInput?: string
    customErrorMessage?: boolean
+   value?: string
+   onInputChange?: (value: string) => void
 }
 
 export type DatePickerWithRangeDateProps = {
@@ -48,11 +52,13 @@ export type DatePickerWithRangeDateProps = {
 
 export type DatePickerProps = DatePickerWithSingleDateProps | DatePickerWithRangeDateProps
 
-const DatePickerInput = React.forwardRef<HTMLButtonElement, DatePickerInputProps>(
+const DatePickerInput = React.forwardRef<HTMLDivElement, DatePickerInputProps>(
    (
       {
-         value,
+         value = '',
          onClick,
+         onChange,
+         onInputChange,
          error,
          disabled,
          isCalendarOpen,
@@ -62,39 +68,83 @@ const DatePickerInput = React.forwardRef<HTMLButtonElement, DatePickerInputProps
       },
       ref
    ) => {
+      const [inputValue, setInputValue] = useState(value)
+      const inputRef = useRef<HTMLInputElement>(null)
+
+      useEffect(() => {
+         setInputValue(value)
+      }, [value])
+
+      const formatInput = (val: string): string => {
+         const digits = val.replace(/\D/g, '')
+
+         if (digits.length === 0) return ''
+         if (digits.length <= 2) return digits
+         if (digits.length <= 4) return `${digits.slice(0, 2)}.${digits.slice(2)}`
+         return `${digits.slice(0, 2)}.${digits.slice(2, 4)}.${digits.slice(4, 8)}`
+      }
+
+      const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+         const formattedValue = formatInput(e.target.value)
+         setInputValue(formattedValue)
+         onChange?.(formattedValue) // Для react-datepicker
+         onInputChange?.(formattedValue) // Для родительского компонента
+      }
+
+      const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+         if (!/\d|Backspace|Delete|Tab|ArrowLeft|ArrowRight|ArrowUp|ArrowDown/.test(e.key)) {
+            e.preventDefault()
+         }
+      }
+
+      const handleIconClick = (e: React.MouseEvent) => {
+         e.preventDefault()
+         e.stopPropagation()
+         if (!disabled && onClick) {
+            onClick()
+         }
+      }
+
       return (
          <>
-            <button
-               type="button"
+            <div
                ref={ref}
-               onClick={disabled ? undefined : onClick}
-               onMouseDown={e => {
-                  if (disabled) return e.preventDefault()
-                  ;(e.currentTarget as HTMLButtonElement).blur()
-               }}
-               disabled={disabled}
                className={cn(
-                  `bg-dark-500 ${error && !disabled ? 'border-danger-500' : 'border-dark-300'} hover:border-dark-100 focus:border-accent-700 flex h-[36px] cursor-pointer items-center justify-between rounded-[2px] border-[1px] px-[12px] py-[6px] transition-all duration-200 ease-in-out focus:border-[2px] focus:ring-0 focus:ring-offset-0 focus:outline-none ${!selectsRange && 'bg-dark-700 hover:bg-dark-500 active:bg-dark-500 focus:bg-dark-500'}`,
-                  classNameInput
+                  `bg-dark-500 ${error && !disabled ? 'border-danger-500' : 'border-dark-300'} hover:border-dark-100 focus-within:border-accent-700 flex h-[36px] items-center justify-between rounded-[2px] border-[1px] px-[12px] py-[6px] transition-all duration-200 ease-in-out focus-within:border-[2px] focus-within:ring-0 focus-within:ring-offset-0 focus-within:outline-none ${!selectsRange && 'bg-dark-700 hover:bg-dark-500 active:bg-dark-500 focus-within:bg-dark-500'}`,
+                  classNameInput,
+                  disabled && 'cursor-not-allowed opacity-50'
                )}
             >
-               <span
-                  className={`font-weight-regular text-font-size-m leading-line-height-m disabled:text-light-900 ${
+               <input
+                  ref={inputRef}
+                  type="text"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  onKeyDown={handleInputKeyDown}
+                  onClick={e => e.stopPropagation()}
+                  disabled={disabled}
+                  placeholder="dd.mm.yyyy"
+                  className={`font-weight-regular text-font-size-m leading-line-height-m disabled:text-light-900 w-full cursor-text border-none bg-transparent p-0 outline-none ${
                      error && !disabled ? 'text-danger-500' : 'text-light-100'
                   }`}
+               />
+               <button
+                  type="button"
+                  onClick={handleIconClick}
+                  disabled={disabled}
+                  className="focus:ring-accent-700 ml-2 rounded p-1 focus:ring-2 focus:outline-none"
                >
-                  {value || 'dd.mm.yyyy'}
-               </span>
-               {isCalendarOpen ? (
-                  <CalendarIcon
-                     className={`h-[24px] w-[24px] ${error && !disabled ? 'text-danger-500' : 'text-light-100'}`}
-                  />
-               ) : (
-                  <CalendarOutlineIcon
-                     className={`h-[24px] w-[24px] ${error && !disabled ? 'text-danger-500' : 'text-light-100'}`}
-                  />
-               )}
-            </button>
+                  {isCalendarOpen ? (
+                     <CalendarIcon
+                        className={`h-[24px] w-[24px] ${error && !disabled ? 'text-danger-500' : 'text-light-100'}`}
+                     />
+                  ) : (
+                     <CalendarOutlineIcon
+                        className={`h-[24px] w-[24px] ${error && !disabled ? 'text-danger-500' : 'text-light-100'}`}
+                     />
+                  )}
+               </button>
+            </div>
             {error && !customErrorMessage && !disabled && !selectsRange && !isCalendarOpen && (
                <span className="text-danger-500 text-[0.75rem] leading-[16px] font-[400]">
                   Error!
@@ -141,7 +191,6 @@ const DatePickerHeader = ({
          >
             <ArrowLeftIcon className="text-light-100 h-[20px] w-[20px]" />
          </button>
-
          <button
             onClick={increaseMonth}
             disabled={nextMonthButtonDisabled}
@@ -153,16 +202,122 @@ const DatePickerHeader = ({
    </div>
 )
 
+const parseDateString = (dateString: string): Date | null => {
+   if (!dateString || dateString.length < 10) return null
+
+   const parts = dateString.split('.')
+   if (parts.length !== 3) return null
+
+   const day = parseInt(parts[0], 10)
+   const month = parseInt(parts[1], 10)
+   const year = parseInt(parts[2], 10)
+
+   if (isNaN(day) || isNaN(month) || isNaN(year)) return null
+   if (day < 1 || day > 31) return null
+   if (month < 1 || month > 12) return null
+   if (year < 1900 || year > 2100) return null
+
+   const date = new Date(year, month - 1, day)
+
+   if (date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day) {
+      return date
+   }
+
+   return null
+}
+
+const formatDateToString = (date: Date | null): string => {
+   if (!date || isNaN(date.getTime())) return ''
+
+   const day = date.getDate().toString().padStart(2, '0')
+   const month = (date.getMonth() + 1).toString().padStart(2, '0')
+   const year = date.getFullYear()
+
+   return `${day}.${month}.${year}`
+}
+
 export const DatePicker = (props: DatePickerProps) => {
    const [isOpen, setIsOpen] = useState(false)
+   const [inputValue, setInputValue] = useState<string>('')
+   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
 
-   const handleChange = (dates: Date | [Date | null, Date | null] | null) => {
-      if ('selectsRange' in props && props.selectsRange) {
-         props.onChange(dates as [Date | null, Date | null])
+   // Инициализация из пропсов
+   useEffect(() => {
+      if ('selected' in props && props.selected) {
+         const formatted = formatDateToString(props.selected)
+         setInputValue(formatted)
+         setSelectedDate(props.selected)
+      } else if ('startDate' in props && props.startDate) {
+         const formatted = formatDateToString(props.startDate)
+         setInputValue(formatted)
+         setSelectedDate(props.startDate)
       } else {
-         props.onChange(dates as Date | null)
+         setInputValue('')
+         setSelectedDate(null)
       }
-   }
+   }, [props])
+
+   // Обработчик ручного ввода - ОБНОВЛЕН
+   const handleInputChange = useCallback(
+      (value: string) => {
+         setInputValue(value)
+
+         // Парсим дату независимо от длины
+         const parsedDate = parseDateString(value)
+
+         if (parsedDate) {
+            // Обновляем selectedDate СРАЗУ
+            setSelectedDate(parsedDate)
+
+            // Вызываем onChange родителя
+            if ('selectsRange' in props && props.selectsRange) {
+               props.onChange([parsedDate, props.endDate])
+            } else {
+               props.onChange(parsedDate)
+            }
+         } else {
+            // Если дата невалидна
+            setSelectedDate(null)
+            if ('selectsRange' in props && props.selectsRange) {
+               props.onChange([null, props.endDate])
+            } else {
+               props.onChange(null)
+            }
+         }
+      },
+      [props]
+   )
+
+   // Обработчик выбора в календаре
+   const handleCalendarChange = useCallback(
+      (dates: Date | [Date | null, Date | null] | null) => {
+         if ('selectsRange' in props && props.selectsRange) {
+            const datesArray = dates as [Date | null, Date | null]
+            const newDate = datesArray[0]
+
+            setSelectedDate(newDate)
+            if (newDate) {
+               setInputValue(formatDateToString(newDate))
+            } else {
+               setInputValue('')
+            }
+
+            props.onChange(datesArray)
+         } else {
+            const singleDate = dates as Date | null
+            setSelectedDate(singleDate)
+
+            if (singleDate) {
+               setInputValue(formatDateToString(singleDate))
+            } else {
+               setInputValue('')
+            }
+
+            props.onChange(singleDate)
+         }
+      },
+      [props]
+   )
 
    const getErrorState = () => {
       if ('selectsRange' in props && props.selectsRange) {
@@ -172,23 +327,87 @@ export const DatePicker = (props: DatePickerProps) => {
       }
    }
 
-   if ('selectsRange' in props && props.selectsRange) {
+   // Ключевое: используем onInputChange чтобы передавать изменения из инпута в родительский компонент
+   if (!('selectsRange' in props) || !props.selectsRange) {
+      return (
+         <div className="w-full">
+            <ReactDatePicker
+               selected={selectedDate}
+               onChange={handleCalendarChange}
+               customInput={
+                  <DatePickerInput
+                     value={inputValue}
+                     onChange={value => {
+                        const parsedDate = parseDateString(value)
+                        if (parsedDate) {
+                           handleCalendarChange(parsedDate)
+                        }
+                     }}
+                     onInputChange={handleInputChange}
+                     error={props.error}
+                     isCalendarOpen={isOpen}
+                     disabled={props.disabled}
+                     classNameInput={props.classNameInput}
+                     customErrorMessage={props.customErrorMessage}
+                  />
+               }
+               renderCustomHeader={DatePickerHeader}
+               calendarStartDay={1}
+               calendarClassName="custom-calendar"
+               wrapperClassName="w-full"
+               popperClassName="custom-popper"
+               showMonthDropdown
+               showYearDropdown
+               dropdownMode="select"
+               dateFormat="dd.MM.yyyy"
+               popperProps={{
+                  strategy: 'fixed',
+               }}
+               popperPlacement="bottom-start"
+               monthsShown={1}
+               withPortal={false}
+               onCalendarOpen={() => setIsOpen(true)}
+               onCalendarClose={() => setIsOpen(false)}
+               disabled={props.disabled}
+               selectsMultiple={undefined}
+               allowSameDay={true}
+               shouldCloseOnSelect={true}
+               onChangeRaw={e => {
+                  if (!e) return
+                  const target = e.target as HTMLInputElement | null
+                  if (!target) return
+                  const value = target.value || ''
+                  handleInputChange(value)
+               }}
+            />
+         </div>
+      )
+   } else {
       return (
          <div className="w-full">
             <ReactDatePicker
                selectsRange={true}
-               startDate={props.startDate}
+               startDate={selectedDate}
                endDate={props.endDate}
+               selected={selectedDate}
                filterDate={date => {
-                  if (props.startDate && !props.endDate) {
-                     return date.getTime() !== props.startDate.getTime()
+                  if (selectedDate && !props.endDate) {
+                     return date.getTime() !== selectedDate.getTime()
                   } else {
                      return true
                   }
                }}
-               onChange={handleChange}
+               onChange={handleCalendarChange}
                customInput={
                   <DatePickerInput
+                     value={inputValue}
+                     onChange={value => {
+                        const parsedDate = parseDateString(value)
+                        if (parsedDate) {
+                           handleCalendarChange([parsedDate, props.endDate])
+                        }
+                     }}
+                     onInputChange={handleInputChange}
                      error={getErrorState()}
                      isCalendarOpen={isOpen}
                      disabled={props.disabled}
@@ -197,9 +416,9 @@ export const DatePicker = (props: DatePickerProps) => {
                }
                renderCustomHeader={DatePickerHeader}
                calendarStartDay={1}
-               calendarClassName=""
+               calendarClassName="custom-calendar"
                wrapperClassName="w-full"
-               popperClassName=""
+               popperClassName="custom-popper"
                showMonthDropdown
                showYearDropdown
                dropdownMode="select"
@@ -215,51 +434,23 @@ export const DatePicker = (props: DatePickerProps) => {
                disabled={props.disabled}
                selectsMultiple={undefined}
                dayClassName={date => {
-                  if (props.selectsRange && props.startDate && !props.endDate) {
-                     const isStartDate = date.getTime() === props.startDate.getTime()
+                  if (props.selectsRange && selectedDate && !props.endDate) {
+                     const isStartDate = date.getTime() === selectedDate.getTime()
                      if (isStartDate) {
                         return 'no-border-radius'
                      }
                   }
                   return ''
                }}
-            />
-         </div>
-      )
-   } else {
-      return (
-         <div className="w-full">
-            <ReactDatePicker
-               selected={props.selected}
-               onChange={handleChange}
-               customInput={
-                  <DatePickerInput
-                     error={props.error}
-                     isCalendarOpen={isOpen}
-                     disabled={props.disabled}
-                     classNameInput={props.classNameInput}
-                     customErrorMessage={props.customErrorMessage}
-                  />
-               }
-               renderCustomHeader={DatePickerHeader}
-               calendarStartDay={1}
-               calendarClassName=""
-               wrapperClassName="w-full"
-               popperClassName=""
-               showMonthDropdown
-               showYearDropdown
-               dropdownMode="select"
-               dateFormat="dd.MM.yyyy"
-               popperProps={{
-                  strategy: 'fixed',
+               allowSameDay={true}
+               shouldCloseOnSelect={true}
+               onChangeRaw={e => {
+                  if (!e) return
+                  const target = e.target as HTMLInputElement | null
+                  if (!target) return
+                  const value = target.value || ''
+                  handleInputChange(value)
                }}
-               popperPlacement="bottom-start"
-               monthsShown={1}
-               withPortal={false}
-               onCalendarOpen={() => setIsOpen(true)}
-               onCalendarClose={() => setIsOpen(false)}
-               disabled={props.disabled}
-               selectsMultiple={undefined}
             />
          </div>
       )
