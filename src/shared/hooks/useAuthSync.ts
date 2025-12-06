@@ -6,13 +6,10 @@ import { authChannel } from '@/shared/lib/authBroadcast'
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
 import { PrivateRoutes, PublicRoutes } from '@/shared/enums'
 import { authService } from '@/features/auth/api'
-import {baseApi} from "@/shared/store";
-
-
+import { baseApi } from '@/shared/store'
 
 export const useAuthSync = () => {
-
-    const router = useRouter()
+   const router = useRouter()
    const dispatch = useAppDispatch()
 
    useEffect(() => {
