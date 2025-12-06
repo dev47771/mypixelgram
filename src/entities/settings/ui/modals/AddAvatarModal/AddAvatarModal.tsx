@@ -1,11 +1,16 @@
+'use client'
+
 import { PostOutlineIcon } from '@/shared/icons'
 import { Button } from '@/shared/components/Button'
-import { ChangeEvent, useEffect, useRef } from 'react'
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ACCEPTED_IMAGE_TYPES, imgSchema } from '@/shared/schema'
 import { PostModal } from '@/shared/components/PostModal'
+import { PhotoState } from '@/features/post-creator/PostCreator'
+import { nanoid } from '@reduxjs/toolkit'
+import Image from 'next/image'
 
 const schema = z.object({
    postPhoto: imgSchema('postPhoto').shape['postPhoto'],
@@ -19,7 +24,24 @@ type Props = {
    open: boolean
 }
 
-export const AddAvatarModal = ({ onPhotoSelected, onOpenChange, open }: Props) => {
+export const AddAvatarModal = ({ onOpenChange, open }: Props) => {
+   const [photos, setPhotos] = useState<PhotoState[]>([])
+   const [isCroppingOpen, setIsAvatarModalOpen] = useState(false)
+
+   const handleAddPhotos = useCallback((file: File) => {
+      const newPhoto: PhotoState = {
+         id: nanoid(),
+         originalFile: file,
+         previewUrl: URL.createObjectURL(file),
+         modifiedFile: null,
+         modifiedPreviewUrl: '',
+         currentFilter: 'filter-none',
+      }
+
+      setPhotos(prev => [...prev, newPhoto])
+      setIsAvatarModalOpen(true)
+   }, [])
+
    const fileInputRef = useRef<HTMLInputElement>(null)
 
    const {
@@ -40,9 +62,9 @@ export const AddAvatarModal = ({ onPhotoSelected, onOpenChange, open }: Props) =
       if (postPhotoWatcher && postPhotoWatcher.length > 0 && !errors.postPhoto) {
          const file = postPhotoWatcher[0]
          //onPhotoSelected(file)
-         onPhotoSelected?.(file)
+         handleAddPhotos?.(file)
       }
-   }, [errors.postPhoto, onPhotoSelected, postPhotoWatcher])
+   }, [errors.postPhoto, handleAddPhotos, postPhotoWatcher])
 
    const postPhotoRef = (e: HTMLInputElement | null) => {
       ref(e)
@@ -66,7 +88,7 @@ export const AddAvatarModal = ({ onPhotoSelected, onOpenChange, open }: Props) =
          headerText="Add a Profile Photo"
          headerVariant="close-only"
          contentColumns="one"
-         className={'flex flex-col items-center'}
+         className={'flex flex-col items-center p-[24px]'}
       >
          {errors.postPhoto?.message && (
             <div
@@ -80,17 +102,39 @@ export const AddAvatarModal = ({ onPhotoSelected, onOpenChange, open }: Props) =
                }
             </div>
          )}
-         <div
-            className={`bg-dark-500 ${errors.postPhoto?.message ? '' : 'mt-[72px]'} mb-15 flex h-[228px] w-[222px] items-center justify-center rounded-xs`}
-         >
-            <PostOutlineIcon className={'h-12 w-12'} />
-         </div>
-         <form className={'flex flex-col'}>
-            <div className={'flex max-w-[219px] flex-col gap-6'}>
-               <Button type="button" onClick={addPhotoButtonHandler}>
-                  Select from Computer
-               </Button>
+
+         {isCroppingOpen ? (
+            <div className={'pt-[28px] pb-[36px]'}>
+               <Image
+                  src={photos[0]?.previewUrl || ''}
+                  alt={'avatar'}
+                  className="object-contain"
+                  width={332}
+                  height={340}
+               />
             </div>
+         ) : (
+            <div
+               className={`bg-dark-500 ${errors.postPhoto?.message ? '' : 'mt-[64px]'} mb-[60px] flex h-[228px] w-[222px] items-center justify-center rounded-xs`}
+            >
+               <PostOutlineIcon className={'h-12 w-12'} />
+            </div>
+         )}
+
+         <form className={'flex w-full flex-col'}>
+            {isCroppingOpen ? (
+               <div className={'text-right'}>
+                  <Button type="submit" onClick={() => {}}>
+                     Save
+                  </Button>
+               </div>
+            ) : (
+               <div className={'text-center'}>
+                  <Button type="button" onClick={addPhotoButtonHandler}>
+                     Select from Computer
+                  </Button>
+               </div>
+            )}
             <input
                type="file"
                ref={postPhotoRef}
