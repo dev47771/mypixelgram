@@ -1,16 +1,16 @@
 'use client'
 
-import { PostOutlineIcon } from '@/shared/icons'
-import { Button } from '@/shared/components/Button'
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
-import { z } from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { ACCEPTED_IMAGE_TYPES, imgSchema } from '@/shared/schema'
-import { PostModal } from '@/shared/components/PostModal'
 import { PhotoState } from '@/features/post-creator/PostCreator'
+import { Button } from '@/shared/components/Button'
+import { PostModal } from '@/shared/components/PostModal'
+import { PostOutlineIcon } from '@/shared/icons'
+import { ACCEPTED_IMAGE_TYPES, imgSchema } from '@/shared/schema'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { nanoid } from '@reduxjs/toolkit'
-import Image from 'next/image'
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { AvatarCropper, AvatarCropperRef } from './AvatarCropper'
 
 const schema = z.object({
    postPhoto: imgSchema('postPhoto').shape['postPhoto'],
@@ -27,6 +27,10 @@ type Props = {
 export const AddAvatarModal = ({ onOpenChange, open }: Props) => {
    const [photos, setPhotos] = useState<PhotoState[]>([])
    const [isCroppingOpen, setIsAvatarModalOpen] = useState(false)
+   // eslint-disable-next-line
+   const [finalImage, setFinalImage] = useState<string | null>(null)
+
+   const cropperRef = useRef<AvatarCropperRef>(null)
 
    const handleAddPhotos = useCallback((file: File) => {
       const newPhoto: PhotoState = {
@@ -61,7 +65,6 @@ export const AddAvatarModal = ({ onOpenChange, open }: Props) => {
    useEffect(() => {
       if (postPhotoWatcher && postPhotoWatcher.length > 0 && !errors.postPhoto) {
          const file = postPhotoWatcher[0]
-         //onPhotoSelected(file)
          handleAddPhotos?.(file)
       }
    }, [errors.postPhoto, handleAddPhotos, postPhotoWatcher])
@@ -105,12 +108,17 @@ export const AddAvatarModal = ({ onOpenChange, open }: Props) => {
 
          {isCroppingOpen ? (
             <div className={'pt-[28px] pb-[36px]'}>
-               <Image
+               {/* <Image
                   src={photos[0]?.previewUrl || ''}
                   alt={'avatar'}
                   className="object-contain"
                   width={332}
                   height={340}
+               /> */}
+               <AvatarCropper
+                  ref={cropperRef}
+                  image={photos[0]?.previewUrl || ''}
+                  onFinish={(img: string) => setFinalImage(img)}
                />
             </div>
          ) : (
@@ -124,7 +132,12 @@ export const AddAvatarModal = ({ onOpenChange, open }: Props) => {
          <form className={'flex w-full flex-col'}>
             {isCroppingOpen ? (
                <div className={'text-right'}>
-                  <Button type="submit" onClick={() => {}}>
+                  <Button
+                     type="submit"
+                     onClick={() => {
+                        cropperRef.current?.save() // <-- вызывает обрезку и вернёт dataURL в onFinish
+                     }}
+                  >
                      Save
                   </Button>
                </div>
