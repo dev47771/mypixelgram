@@ -1,4 +1,3 @@
-'use client'
 import type { SignInResponse } from '@/features/auth/api'
 import { AuthEndpoints, PublicRoutes } from '@/shared/enums'
 import { handleError } from '@/shared/utils'
@@ -38,9 +37,9 @@ export const baseQueryWithReAuth: BaseQueryFn<
    let result = await baseQuery(args, api, extraOptions)
 
    if (result.error && result.error.status === 401) {
-      const token = localStorage.getItem(TOKEN)
+      //const token = localStorage.getItem(TOKEN)
 
-      if (!token) return result
+      // if (!token) return result
 
       if (!mutex.isLocked()) {
          const release = await mutex.acquire()

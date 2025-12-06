@@ -1,46 +1,54 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { BASE_URL } from '@/shared/constants'
+import { AuthEndpoints, PublicRoutes } from '@/shared/enums'
 
-const baseUrl = 'https://mypixelgram.ru/api/v1'
+export async function proxy(request: NextRequest) {
+   const refreshToken = request.cookies.get('refreshToken')?.value
 
-const refresh = async (refreshToken: string) => {
-   console.log('TOKEN', refreshToken)
-   const response = await fetch(baseUrl + '/auth/refresh-token', {
-      method: 'POST',
-      headers: { cookie: `refresh-token=${refreshToken}` },
-      credentials: 'include',
-   })
-   console.log('response', response)
-   if (response.status >= 200 && response.status < 300) {
-      const data = await response.json()
-      return {
-         accessToken: data.accessToken,
-         refreshSetCookie: response.headers.get('set-cookie'),
+   if (!refreshToken) {
+      return NextResponse.redirect(new URL(PublicRoutes.signIn, request.url))
+   }
+
+   try {
+      const response = await fetch(`${BASE_URL}${AuthEndpoints.refreshToken}`, {
+         method: 'POST',
+         headers: {
+            Cookie: `refreshToken=${refreshToken}`,
+         },
+      })
+
+      if (!response.ok) {
+         const res = NextResponse.redirect(new URL(PublicRoutes.signIn, request.url))
+         res.cookies.delete('refreshToken')
+         return res
       }
-   } else {
-      // console.log("ERROR: " + response.status)
-      return null
+
+      const data = await response.json()
+      const setCookie = response.headers.get('set-cookie')
+
+      const nextResponse = NextResponse.next()
+
+      if (setCookie) {
+         const newRefreshToken = setCookie.split(';')[0].split('=')[1]
+         nextResponse.cookies.set('refreshToken', newRefreshToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+            path: '/',
+            maxAge: 3600_00,
+            domain: '.mypixelgram.ru',
+         })
+      }
+
+      nextResponse.headers.set('x-access-token', data.accessToken)
+
+      return nextResponse
+   } catch (error) {
+      console.error('Middleware error:', error)
+      return NextResponse.redirect(new URL('/error', request.url))
    }
 }
 
-export async function proxy(request: NextRequest) {
-   //console.log(request.cookies)
-   const cookie = request.cookies.get('refresh-token')
-   const tokens = await refresh(cookie?.value ?? '')
-   const requestHeaders = new Headers(request.headers)
-   if (tokens) {
-      // Clone the request headers and set a new header `x-hello-from-middleware1`
-      requestHeaders.set('Authorization', 'Bearer ' + tokens.accessToken)
-   }
-   // You can also set request headers in NextResponse.next
-   const response = NextResponse.next({
-      request: {
-         // New request headers
-         headers: requestHeaders,
-      },
-   })
-
-   if (tokens) {
-      response.headers.set('Set-Cookie', tokens.refreshSetCookie ?? '')
-   }
-   return response
+export const config = {
+   matcher: ['/profile/:login((?!public).*)?'],
 }

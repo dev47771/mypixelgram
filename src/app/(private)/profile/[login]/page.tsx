@@ -1,10 +1,12 @@
-import {notFound} from 'next/navigation'
-import {UserProfilePrivatePosts} from '@/widgets/UserProfile/UserProfilePosts'
-import {UserProfileHeader} from "@/widgets/UserProfile/UserProfileHeader";
-import {apiUrls} from "@/shared/constants";
-import {serverResponseHandler} from "@/shared/utils";
-import {privatePostsSchema} from "@/entities/posts/ui/schemas";
-import {userProfileSchema} from "@/entities/user/model";
+import { notFound } from 'next/navigation'
+import { UserProfilePrivatePosts } from '@/widgets/UserProfile/UserProfilePosts'
+import { UserProfileHeader } from '@/widgets/UserProfile/UserProfileHeader'
+import { apiUrls } from '@/shared/constants'
+import { serverResponseHandler } from '@/shared/utils'
+import { privatePostsSchema } from '@/entities/posts/ui/schemas'
+import { userProfileSchema } from '@/entities/user/model'
+import { SaveAccessToken } from '@/shared/components/SaveAccessToken'
+import { headers } from 'next/headers'
 
 type Props = {
    params: Promise<{
@@ -12,43 +14,28 @@ type Props = {
    }>
 }
 
-//   <UserProfileHeader
-//             userProfile={userProfile}
-//             actions={
-//                <Button variant="secondary" asChild>
-//                   <Link href="#">Profile Settings</Link>
-//                </Button>
-//             }
-//          />
+export default async function ProfilePrivatePage({ params }: Props) {
+   const headersList = await headers()
+   const accessToken = headersList.get('x-access-token')
 
-//  <div className="flex items-center gap-3">
-//                    <Button>Follow</Button>
-//                    <Button variant="secondary">Send Message</Button>
-//                 </div>
+   if (!accessToken) {
+      return <div>Ошибка: нет access token</div>
+   }
 
-// let postContent = null
-// if (isPostOpen) {
-//    if (isLoadingPost) postContent = <Loader />
-//    else if (post) postContent = <Post post={post} onClose={closePostHandler} />
-//    else return notFound()
-// }
+   const { login } = await params
 
-// const { data: post, isLoading: isLoadingPost } = useGetPostByIdQuery(postId!, { skip: !postId })
-
-export default async function  ProfilePrivatePage({params}: Props) {
-   const {login} = await params
    const [userProfile, privatePosts] = await Promise.allSettled([
       fetch(apiUrls.userProfile(login)).then(res => {
-           if (!res.ok) throw new Error(`Users HTTP error: ${res.status}`)
-           return res.json()
-       }),
-      fetch(apiUrls.userPrivatePosts(login)).then(res => {
-          if (!res.ok) throw new Error(`Posts HTTP error: ${res.status}`)
-          return res.json()
-      })
+         if (!res.ok) throw new Error(`Users HTTP error: ${res.status}`)
+         return res.json()
+      }),
+      fetch(apiUrls.userPrivatePosts(login), {
+         headers: { Authorization: `Bearer ${accessToken}` },
+      }).then(res => {
+         if (!res.ok) throw new Error(`Posts HTTP error: ${res.status}`)
+         return res.json()
+      }),
    ])
-
-
 
    const privatePostsResp = serverResponseHandler(privatePosts, privatePostsSchema)
    const userProfileResp = serverResponseHandler(userProfile, userProfileSchema)
@@ -59,13 +46,16 @@ export default async function  ProfilePrivatePage({params}: Props) {
 
    const userProfileContent = userProfileResp.data
 
-    const privatePostContent = privatePostsResp.status === 'success'
-        ? privatePostsResp.data
-        : { publications: [], pageInfo: { nextCursor: null, hasMore: false } };
-    return (
+   const privatePostContent =
+      privatePostsResp.status === 'success'
+         ? privatePostsResp.data
+         : { publications: [], pageInfo: { nextCursor: null, hasMore: false } }
+
+   return (
       <div className={'flex w-full flex-col pt-[36px] pl-6'}>
-         <UserProfileHeader userProfile={userProfileContent}/>
-         <UserProfilePrivatePosts   postsResponse={privatePostContent}/>
+         <SaveAccessToken accessToken={accessToken} />
+         <UserProfileHeader userProfile={userProfileContent} />
+         <UserProfilePrivatePosts postsResponse={privatePostContent} login={login} />
       </div>
    )
 }

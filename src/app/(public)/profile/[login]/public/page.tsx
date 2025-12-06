@@ -7,6 +7,7 @@ import {publicPostsSchema} from "@/entities/posts/ui/schemas";
 import {userProfileSchema} from "@/entities/user/model";
 import {notFound} from "next/navigation";
 
+
 type Props = {
     params: Promise<{
         login: string
@@ -16,7 +17,6 @@ type Props = {
 
 export default async function ProfilePublicPage({params}: Props) {
     const {login} = await params
-
     const [userProfile, publicPosts] = await Promise.allSettled([
         fetch(apiUrls.userProfile(login)).then(res => {
             if (!res.ok) throw new Error(`User HTTP error: ${res.status}`)

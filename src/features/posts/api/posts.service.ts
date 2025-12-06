@@ -8,13 +8,10 @@ import {
    PostByIdType,
 } from './post.types'
 import { PublicPostsEndpoints } from '@/shared/enums'
-import {PostsEndpoints} from "@/features/posts/api/postsEndpoints";
-import {baseApi} from "@/shared/store";
+import { PostsEndpoints } from '@/features/posts/api/postsEndpoints'
+import { baseApi } from '@/shared/store'
 
-
-
-
-const postService = baseApi.injectEndpoints({
+export const postService = baseApi.injectEndpoints({
    endpoints: builder => ({
       getUserPosts: builder.infiniteQuery<
          GetUserPostsInfiniteResponse,
@@ -24,7 +21,7 @@ const postService = baseApi.injectEndpoints({
          infiniteQueryOptions: {
             initialPageParam: undefined,
             getNextPageParam: lastPage => {
-               return lastPage?.pageInfo.nextCursor
+               return lastPage?.pageInfo?.nextCursor
             },
          },
          query: ({ queryArg, pageParam }) => ({
