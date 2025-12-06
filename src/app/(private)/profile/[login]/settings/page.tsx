@@ -9,6 +9,7 @@ import { useState } from 'react'
 
 export default function ProfileSettingsPage() {
    const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false)
+   //const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
    const { userProfile } = useUserProfile()
 
    const handleAvatarClick = () => setIsAvatarModalOpen(true)
@@ -40,7 +41,10 @@ export default function ProfileSettingsPage() {
             </div>
          </div>
 
-         <AddAvatarModal open={isAvatarModalOpen} />
+         <AddAvatarModal
+            open={isAvatarModalOpen}
+            onOpenChange={() => setIsAvatarModalOpen(false)}
+         />
       </>
    )
 }

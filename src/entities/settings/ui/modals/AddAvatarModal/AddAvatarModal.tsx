@@ -63,7 +63,7 @@ export const AddAvatarModal = ({ onPhotoSelected, onOpenChange, open }: Props) =
          open={open}
          onOpenChange={onOpenChange}
          size="image-upload"
-         headerText="Add Photo"
+         headerText="Add a Profile Photo"
          headerVariant="close-only"
          contentColumns="one"
          className={'flex flex-col items-center'}
@@ -89,9 +89,6 @@ export const AddAvatarModal = ({ onPhotoSelected, onOpenChange, open }: Props) =
             <div className={'flex max-w-[219px] flex-col gap-6'}>
                <Button type="button" onClick={addPhotoButtonHandler}>
                   Select from Computer
-               </Button>
-               <Button type="button" variant={'outlined'} className={'mb-[48px]'}>
-                  Open Draft
                </Button>
             </div>
             <input
