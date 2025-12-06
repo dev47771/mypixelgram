@@ -4,14 +4,20 @@ import { PostBody } from '@/entities/posts/ui/Post/PostBody'
 import { PostFooter } from '@/entities/posts/ui/Post/PostFooter'
 import { PostModal } from '@/shared/components/PostModal'
 import type { PostByIdType } from '@/features/posts/api'
+import { Loader } from '@/shared/components/Loader'
 
 type Props = {
    post: PostByIdType
    onClose?: () => void
+   isFetchingPost?: boolean
 }
 
-export const Post = ({ post, onClose }: Props) => {
-    return (
+export const Post = ({ post, onClose, isFetchingPost }: Props) => {
+   if (isFetchingPost) {
+      return <PostModal size={'post-management'} contentColumns={'two'} rightContent={<Loader />} /> // skeleton?
+   }
+
+   return (
       <PostModal
          size={'post-management'}
          contentColumns={'two'}

@@ -8,7 +8,7 @@ import {
    type FetchBaseQueryError,
 } from '@reduxjs/toolkit/query/react'
 import { Mutex } from 'async-mutex'
-import { TOKEN } from '../constants'
+import { QUERY_PARAMS, TOKEN } from '../constants'
 
 const mutex = new Mutex()
 
@@ -37,9 +37,11 @@ export const baseQueryWithReAuth: BaseQueryFn<
    let result = await baseQuery(args, api, extraOptions)
 
    if (result.error && result.error.status === 401) {
-      //const token = localStorage.getItem(TOKEN)
+      const token = localStorage.getItem(TOKEN)
+      const urlParams = new URLSearchParams(window.location.search)
+      const isOAuthSuccess = urlParams.get(QUERY_PARAMS.oauthSuccess) === 'true'
 
-      // if (!token) return result
+      if (!token && !isOAuthSuccess) return result
 
       if (!mutex.isLocked()) {
          const release = await mutex.acquire()
