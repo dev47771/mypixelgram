@@ -136,6 +136,7 @@ export const AddAvatarModal = ({ onOpenChange, open }: Props) => {
                      type="submit"
                      onClick={() => {
                         cropperRef.current?.save() // <-- вызывает обрезку и вернёт dataURL в onFinish
+                        //save on server
                      }}
                   >
                      Save
