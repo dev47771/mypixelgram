@@ -27,7 +27,7 @@ type Props = {
 export const AddAvatarModal = ({ onOpenChange, open }: Props) => {
    const [photos, setPhotos] = useState<PhotoState[]>([])
    const [isCroppingOpen, setIsAvatarModalOpen] = useState(false)
-   // eslint-disable-next-line
+
    const [finalImage, setFinalImage] = useState<string | null>(null)
 
    const cropperRef = useRef<AvatarCropperRef>(null)
@@ -137,6 +137,14 @@ export const AddAvatarModal = ({ onOpenChange, open }: Props) => {
                      onClick={() => {
                         cropperRef.current?.save() // <-- вызывает обрезку и вернёт dataURL в onFinish
                         //save on server
+                        //console.log(12121)
+
+                        if (finalImage) {
+                           const link = document.createElement('a')
+                           link.href = finalImage
+                           link.download = 'avatar.png'
+                           link.click()
+                        }
                      }}
                   >
                      Save
