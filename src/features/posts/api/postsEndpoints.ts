@@ -1,3 +1,3 @@
 export enum PostsEndpoints {
- userPosts = '/posts'
+   userPosts = '/posts',
 }
