@@ -28,6 +28,7 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
    // const pathname = usePathname()
    // const isLoginRoute = pathname === PublicRoutes.signIn
    const { data, isLoading } = useMeQuery()
+
    /**
     *setIsClient - flag synchronizes rendering between the server and the client (eliminating blinking on reboot)
     *setIsLoggedIn - authentication token check
