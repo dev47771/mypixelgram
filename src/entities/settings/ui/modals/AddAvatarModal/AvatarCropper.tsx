@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, forwardRef, useImperativeHandle, useCallback } from 'react'
+import { useState, forwardRef, useImperativeHandle, useEffect } from 'react'
 import Cropper from 'react-easy-crop'
 
 type AvatarCropperProps = {
@@ -18,14 +18,52 @@ export const AvatarCropper = forwardRef<AvatarCropperRef, AvatarCropperProps>(
 
       const [crop, setCrop] = useState({ x: 0, y: 0 })
       const [zoom, setZoom] = useState(1)
+      const [minZoom, setMinZoom] = useState(1)
       //eslint-disable-next-line
       const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null)
       //eslint-disable-next-line
-      const onCropComplete = useCallback((_: any, croppedPixels: any) => {
-         setCroppedAreaPixels(croppedPixels)
-      }, [])
+      const onCropComplete = (_: any, pixels: any) => {
+         setCroppedAreaPixels(pixels)
+      }
 
-      const createImage = (url: string) =>
+      // ---- LOAD IMAGE & AUTO-SET ZOOM TO COVER CIRCLE ----
+      useEffect(() => {
+         const img = new Image()
+         img.crossOrigin = 'anonymous'
+         img.src = image
+
+         img.onload = () => {
+            const w = img.width
+            const h = img.height
+
+            // размеры вписанной картинки (fit = "contain") при zoom=1
+            const ratio = w / h
+            const box = CIRCLE
+
+            let normW, normH
+
+            if (ratio > 1) {
+               // горизонтальное
+               normW = box
+               normH = box / ratio
+            } else {
+               // вертикальное
+               normH = box
+               normW = box * ratio
+            }
+
+            const neededZoom = box / Math.min(normW, normH)
+
+            setMinZoom(neededZoom)
+            setZoom(neededZoom)
+
+            // центр по X/Y
+            setCrop({ x: 0, y: 0 })
+         }
+      }, [image])
+
+      // -------- Сохранение canvas --------
+      const loadImage = (url: string) =>
          new Promise<HTMLImageElement>((resolve, reject) => {
             const img = new Image()
             img.crossOrigin = 'anonymous'
@@ -34,16 +72,17 @@ export const AvatarCropper = forwardRef<AvatarCropperRef, AvatarCropperProps>(
             img.src = url
          })
 
-      const saveCroppedImage = async () => {
+      const save = async () => {
          if (!croppedAreaPixels) return
 
-         const img = await createImage(image)
+         const img = await loadImage(image)
+
          const canvas = document.createElement('canvas')
          canvas.width = CIRCLE
          canvas.height = CIRCLE
          const ctx = canvas.getContext('2d')!
 
-         // круглый вырез
+         // круглая маска
          ctx.beginPath()
          ctx.arc(CIRCLE / 2, CIRCLE / 2, CIRCLE / 2, 0, Math.PI * 2)
          ctx.closePath()
@@ -64,45 +103,38 @@ export const AvatarCropper = forwardRef<AvatarCropperRef, AvatarCropperProps>(
          onFinish(canvas.toDataURL('image/png'))
       }
 
-      useImperativeHandle(ref, () => ({
-         save: saveCroppedImage,
-      }))
+      useImperativeHandle(ref, () => ({ save }))
 
       return (
          <div className="flex flex-col items-center">
-            {/* Контейнер круга с flex-центрированием */}
             <div
                style={{
                   width: CIRCLE,
                   height: CIRCLE,
-                  borderRadius: '50%',
-                  overflow: 'hidden',
                   position: 'relative',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
                }}
             >
                <Cropper
                   image={image}
                   crop={crop}
                   zoom={zoom}
+                  minZoom={minZoom}
                   aspect={1}
                   cropSize={{ width: CIRCLE, height: CIRCLE }}
                   cropShape="round"
+                  restrictPosition={true}
                   showGrid={false}
                   onCropChange={setCrop}
                   onZoomChange={setZoom}
                   onCropComplete={onCropComplete}
-                  restrictPosition={false} // zoom от центра
                />
             </div>
 
-            {/* Зум */}
+            {/* Зум-ползунок */}
             <input
                type="range"
-               min={1}
-               max={3}
+               min={minZoom}
+               max={minZoom + 3}
                step={0.01}
                value={zoom}
                onChange={e => setZoom(Number(e.target.value))}
@@ -112,6 +144,255 @@ export const AvatarCropper = forwardRef<AvatarCropperRef, AvatarCropperProps>(
       )
    }
 )
+
+//раб вариант 4
+// 'use client'
+
+// import { useState, forwardRef, useImperativeHandle, useEffect } from 'react'
+// import Cropper from 'react-easy-crop'
+
+// type AvatarCropperProps = {
+//    image: string
+//    onFinish: (img: string) => void
+// }
+
+// export type AvatarCropperRef = {
+//    save: () => void
+// }
+
+// export const AvatarCropper = forwardRef<AvatarCropperRef, AvatarCropperProps>(
+//    function AvatarCropper({ image, onFinish }, ref) {
+//       const CIRCLE = 316
+
+//       const [crop, setCrop] = useState({ x: 0, y: 0 })
+//       const [zoom, setZoom] = useState(1)
+//       const [minZoom, setMinZoom] = useState(1)
+//       const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null)
+
+//       const onCropComplete = (_: any, pixels: any) => {
+//          setCroppedAreaPixels(pixels)
+//       }
+
+//       // ---- LOAD IMAGE & AUTO-SET ZOOM TO COVER CIRCLE ----
+//       useEffect(() => {
+//          const img = new Image()
+//          img.crossOrigin = 'anonymous'
+//          img.src = image
+
+//          img.onload = () => {
+//             const w = img.width
+//             const h = img.height
+
+//             // Нормализованная высота изображения при zoom=1
+//             const normH = (h / w) * CIRCLE
+
+//             // Если высота меньше круга → нужно увеличить zoom
+//             let neededZoom = 1
+//             if (normH < CIRCLE) {
+//                neededZoom = CIRCLE / normH
+//             }
+
+//             setMinZoom(neededZoom)
+//             setZoom(neededZoom)
+//          }
+//       }, [image])
+
+//       // -------- Сохранение canvas --------
+//       const loadImage = (url: string) =>
+//          new Promise<HTMLImageElement>((resolve, reject) => {
+//             const img = new Image()
+//             img.crossOrigin = 'anonymous'
+//             img.onload = () => resolve(img)
+//             img.onerror = reject
+//             img.src = url
+//          })
+
+//       const save = async () => {
+//          if (!croppedAreaPixels) return
+
+//          const img = await loadImage(image)
+
+//          const canvas = document.createElement('canvas')
+//          canvas.width = CIRCLE
+//          canvas.height = CIRCLE
+//          const ctx = canvas.getContext('2d')!
+
+//          // круглая маска
+//          ctx.beginPath()
+//          ctx.arc(CIRCLE / 2, CIRCLE / 2, CIRCLE / 2, 0, Math.PI * 2)
+//          ctx.closePath()
+//          ctx.clip()
+
+//          ctx.drawImage(
+//             img,
+//             croppedAreaPixels.x,
+//             croppedAreaPixels.y,
+//             croppedAreaPixels.width,
+//             croppedAreaPixels.height,
+//             0,
+//             0,
+//             CIRCLE,
+//             CIRCLE
+//          )
+
+//          onFinish(canvas.toDataURL('image/png'))
+//       }
+
+//       useImperativeHandle(ref, () => ({ save }))
+
+//       return (
+//          <div className="flex flex-col items-center">
+//             <div
+//                style={{
+//                   width: CIRCLE,
+//                   height: CIRCLE,
+//                   position: 'relative',
+//                }}
+//             >
+//                <Cropper
+//                   image={image}
+//                   crop={crop}
+//                   zoom={zoom}
+//                   minZoom={minZoom}
+//                   aspect={1}
+//                   cropSize={{ width: CIRCLE, height: CIRCLE }}
+//                   cropShape="round"
+//                   restrictPosition={true}
+//                   showGrid={false}
+//                   onCropChange={setCrop}
+//                   onZoomChange={setZoom}
+//                   onCropComplete={onCropComplete}
+//                />
+//             </div>
+
+//             {/* Зум-ползунок */}
+//             <input
+//                type="range"
+//                min={minZoom}
+//                max={minZoom + 3}
+//                step={0.01}
+//                value={zoom}
+//                onChange={e => setZoom(Number(e.target.value))}
+//                className="mt-4 w-64"
+//             />
+//          </div>
+//       )
+//    }
+// )
+
+// //раб вариант 3
+// 'use client'
+
+// import { useState, forwardRef, useImperativeHandle } from 'react'
+// import Cropper from 'react-easy-crop'
+
+// type AvatarCropperProps = {
+//    image: string
+//    onFinish: (img: string) => void
+// }
+
+// export type AvatarCropperRef = {
+//    save: () => void
+// }
+
+// export const AvatarCropper = forwardRef<AvatarCropperRef, AvatarCropperProps>(
+//    function AvatarCropper({ image, onFinish }, ref) {
+//       const CIRCLE = 316
+
+//       const [crop, setCrop] = useState({ x: 0, y: 0 })
+//       const [zoom, setZoom] = useState(1)
+//       const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null)
+
+//       const onCropComplete = (_: any, pixels: any) => {
+//          setCroppedAreaPixels(pixels)
+//       }
+
+//       // Загружаем картинку
+//       const loadImage = (url: string) =>
+//          new Promise<HTMLImageElement>((resolve, reject) => {
+//             const img = new Image()
+//             img.crossOrigin = 'anonymous'
+//             img.onload = () => resolve(img)
+//             img.onerror = reject
+//             img.src = url
+//          })
+
+//       // Обрезка → canvas → dataURL
+//       const save = async () => {
+//          if (!croppedAreaPixels) return
+
+//          const img = await loadImage(image)
+
+//          const canvas = document.createElement('canvas')
+//          canvas.width = CIRCLE
+//          canvas.height = CIRCLE
+//          const ctx = canvas.getContext('2d')!
+
+//          // Круглое окно
+//          ctx.beginPath()
+//          ctx.arc(CIRCLE / 2, CIRCLE / 2, CIRCLE / 2, 0, Math.PI * 2)
+//          ctx.closePath()
+//          ctx.clip()
+
+//          // Обрезка
+//          ctx.drawImage(
+//             img,
+//             croppedAreaPixels.x,
+//             croppedAreaPixels.y,
+//             croppedAreaPixels.width,
+//             croppedAreaPixels.height,
+//             0,
+//             0,
+//             CIRCLE,
+//             CIRCLE
+//          )
+
+//          // Отдаём в родитель
+//          onFinish(canvas.toDataURL('image/png'))
+//       }
+
+//       // Экспортируем save() наружу
+//       useImperativeHandle(ref, () => ({ save }))
+
+//       return (
+//          <div className="flex flex-col items-center">
+//             {/* Обёртка — как в твоём примере */}
+//             <div
+//                style={{
+//                   width: CIRCLE,
+//                   height: CIRCLE,
+//                   position: 'relative',
+//                }}
+//             >
+//                <Cropper
+//                   image={image}
+//                   crop={crop}
+//                   zoom={zoom}
+//                   aspect={1}
+//                   cropSize={{ width: CIRCLE, height: CIRCLE }}
+//                   cropShape="round"
+//                   restrictPosition={true} // ← как во втором примере
+//                   showGrid={false}
+//                   onCropChange={setCrop}
+//                   onZoomChange={setZoom}
+//                   onCropComplete={onCropComplete}
+//                />
+//             </div>
+
+//             {/* Зум */}
+//             <input
+//                type="range"
+//                min={1}
+//                max={3}
+//                step={0.1}
+//                value={zoom}
+//                onChange={e => setZoom(Number(e.target.value))}
+//                className="mt-4 w-64"
+//             />
+//          </div>
+//       )
+//    }
+// )
 
 // //раб вариант 2
 // 'use client'
