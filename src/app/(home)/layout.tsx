@@ -1,28 +1,15 @@
-'use client'
-
 import { ReactNode } from 'react'
-import { useMeQuery } from '@/features/auth/api'
 import { cn } from '@/shared/lib'
-import { Sidebar } from '@/widgets/Sidebar'
+import SidebarClient from '@/app/(home)/SidebarClient'
 
-export default function HomeLayout({ children }: { children: ReactNode }) {
-   const { data } = useMeQuery()
-
+export default function HomeLayout({ children, post }: { children: ReactNode; post: ReactNode }) {
    return (
-      <div
-         className={cn(
-            'mx-auto flex w-full max-w-[1280px] px-[60px]',
-            data ? 'flex-col items-start' : 'justify-center'
-         )}
-      >
-         {data ? <Sidebar /> : null}
-         <div
-            className={cn(
-               'transition-all duration-300',
-               data ? 'ml-[162px]' : 'ml-0 flex justify-center border-none'
-            )}
-         >
+      //здесь стили зависили от data в me запросе, пока что временно убрала, чтобы оставить компонент серверным
+      <div className={cn('mx-auto flex w-full max-w-[1280px] px-[60px]')}>
+         <SidebarClient />
+         <div className={cn('transition-all duration-300')}>
             {children}
+            {post}
          </div>
       </div>
    )
