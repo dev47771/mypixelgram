@@ -1,3 +1,4 @@
+'use client'
 import { Typography } from '@/shared/components/Typography'
 import { Avatar } from '@/shared/components/Avatar'
 import type { UserType } from '@/entities/user'
