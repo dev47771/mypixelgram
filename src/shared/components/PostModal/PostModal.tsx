@@ -1,4 +1,3 @@
-'use client'
 import { ArrowLeftIcon, CrossIcon } from '@/shared/icons'
 import { cn } from '@/shared/lib'
 import * as Dialog from '@radix-ui/react-dialog'
