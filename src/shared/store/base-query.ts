@@ -8,7 +8,7 @@ import {
    type FetchBaseQueryError,
 } from '@reduxjs/toolkit/query/react'
 import { Mutex } from 'async-mutex'
-import { TOKEN } from '../constants'
+import { QUERY_PARAMS, TOKEN } from '../constants'
 
 const mutex = new Mutex()
 
@@ -27,7 +27,7 @@ export const baseQuery = fetchBaseQuery({
    },
 })
 
-export const baseQueryWithReauth: BaseQueryFn<
+export const baseQueryWithReAuth: BaseQueryFn<
    FetchArgs | string,
    unknown,
    FetchBaseQueryError
@@ -37,9 +37,16 @@ export const baseQueryWithReauth: BaseQueryFn<
    let result = await baseQuery(args, api, extraOptions)
 
    if (result.error && result.error.status === 401) {
+      const token = localStorage.getItem(TOKEN)
+      const urlParams = new URLSearchParams(window.location.search)
+      const isOAuthSuccess = urlParams.get(QUERY_PARAMS.oauthSuccess) === 'true'
+
+      if (!token && !isOAuthSuccess) return result
+
       if (!mutex.isLocked()) {
          const release = await mutex.acquire()
          // try to get a new token
+
          const refreshResult = await baseQuery(
             {
                method: 'POST',
@@ -60,8 +67,9 @@ export const baseQueryWithReauth: BaseQueryFn<
             if (typeof window !== 'undefined') {
                localStorage.removeItem(TOKEN)
                const isSignInPage = window.location.pathname === PublicRoutes.signIn
+               const isHomePage = window.location.pathname === PublicRoutes.main
 
-               if (!isSignInPage) {
+               if (!isSignInPage && !isHomePage) {
                   window.location.href = PublicRoutes.signIn
                }
             }

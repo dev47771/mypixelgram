@@ -1,4 +1,12 @@
 import { Config } from 'tailwindcss'
+import forms from '@tailwindcss/forms'
+
+interface TailwindPluginContext {
+   addUtilities: (
+      utilities: Record<string, { filter?: string; transform?: string }>,
+      variants?: string[]
+   ) => void
+}
 
 const config: Config = {
    content: ['./src/app/**/*.{ts,tsx,js,jsx}', './src/components/**/*.{ts,tsx,js,jsx}'],
@@ -53,7 +61,6 @@ const config: Config = {
                },
                secondary: {
                   100: 'var(--color-secondary-100)',
-                  200: 'var(--color-secondary-100)',
                },
                neutral: {
                   100: 'var(--color-neutral-100)',
@@ -111,8 +118,51 @@ const config: Config = {
          },
       },
    },
-
-   plugins: [],
-}
+   plugins: [
+      forms,
+      function ({ addUtilities }: TailwindPluginContext) {
+         const newUtilities = {
+            '.filter-none': {
+               filter: 'none',
+            },
+            '.filter-grayscale': {
+               filter: 'grayscale(100%)',
+            },
+            '.filter-clarendon': {
+               filter: 'contrast(120%) saturate(125%)',
+            },
+            '.filter-moon': {
+               filter: 'grayscale(100%) contrast(110%) brightness(110%)',
+            },
+            '.filter-lark': {
+               filter: 'contrast(90%) saturate(150%)',
+            },
+            '.filter-retro': {
+               filter: 'sepia(50%) contrast(75%) brightness(105%) saturate(120%)',
+            },
+            '.filter-warm': {
+               filter: 'brightness(110%) saturate(150%) sepia(30%)',
+            },
+            '.filter-1970s': {
+               filter: 'sepia(30%) hue-rotate(-10deg) contrast(115%) saturate(120%)',
+            },
+            '.filter-aden': {
+               filter: 'hue-rotate(-20deg) contrast(90%) brightness(120%) saturate(85%)',
+            },
+         }
+         addUtilities(newUtilities, ['responsive', 'hover'])
+      },
+   ],
+   safelist: [
+      'line-clamp-[1]',
+      'line-clamp-[2]',
+      'line-clamp-[3]',
+      'line-clamp-[4]',
+      'line-clamp-[5]',
+      'line-clamp-[6]',
+      'line-clamp-[7]',
+      'line-clamp-[8]',
+   ],
+} as unknown as Config
 
 export default config

@@ -13,6 +13,7 @@ import type {
    VerificationExpiredArgs,
 } from '@/features/auth/api'
 import { TOKEN } from '@/shared/constants'
+import { authChannel } from '@/shared/lib/authBroadcast'
 
 export const authService = baseApi.injectEndpoints({
    endpoints: builder => ({
@@ -35,9 +36,14 @@ export const authService = baseApi.injectEndpoints({
             method: 'POST',
          }),
          async onQueryStarted(_, { dispatch, queryFulfilled }) {
-            await queryFulfilled
-            localStorage.removeItem(TOKEN)
-            dispatch(baseApi.util.resetApiState())
+            try {
+               localStorage.removeItem(TOKEN)
+               dispatch(baseApi.util.resetApiState())
+               authChannel.postMessage({ type: 'LOGOUT' })
+               await queryFulfilled
+            } catch (err) {
+               console.error('Logout failed', err)
+            }
          },
       }),
       passwordRecovery: builder.mutation<void, RecoveryPasswordArgs>({
@@ -63,6 +69,7 @@ export const authService = baseApi.injectEndpoints({
          async onQueryStarted(_, { dispatch, queryFulfilled }) {
             const { data } = await queryFulfilled
             localStorage.setItem(TOKEN, data.accessToken)
+            authChannel.postMessage({ type: 'LOGIN' })
             dispatch(authService.endpoints.me.initiate())
          },
       }),

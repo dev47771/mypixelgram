@@ -16,6 +16,10 @@ export const handleError = (
    let error = 'Some error occurred'
    let flag = true
 
+   //remove the 401 alert for the request me
+   const requestUrl = result.meta?.request.url || ''
+   const isMeRequest = requestUrl.includes('/auth/me')
+
    if (result.error) {
       switch (result.error.status) {
          case 'FETCH_ERROR':
@@ -37,6 +41,11 @@ export const handleError = (
                error = result.error.data.message
             } else {
                error = JSON.stringify(result.error.data)
+            }
+
+            //remove the 401 alert for the request me
+            if (isMeRequest && result.error.status === 401) {
+               flag = false
             }
             break
          default:

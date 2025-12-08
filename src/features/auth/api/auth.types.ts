@@ -1,4 +1,6 @@
 export type MeResponse = {
+   userId: string
+   avatar: string | null
    login: string
    email: string
    createdAt: string

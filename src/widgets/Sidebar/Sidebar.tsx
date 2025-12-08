@@ -1,9 +1,9 @@
 'use client'
 
 import { cn } from '@/shared/lib'
-import { SidebarItemType } from '@/widgets/Sidebar/sidebarData'
+
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { ComponentPropsWithRef, useState } from 'react'
 
 import {
@@ -25,7 +25,20 @@ import {
 import { YesAndNoModal } from '@/entities/common/ui/YesAndNoModal'
 import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
 import { TOKEN } from '@/shared/constants'
-import { PublicRoutes } from '@/shared/enums'
+import { profileRoutes, PublicRoutes } from '@/shared/enums'
+import { useCreateQueryString } from '@/shared/hooks'
+import { PostCreator } from '@/features/post-creator/PostCreator'
+
+type SidebarItemType = {
+   id: string
+   name: string
+   path?: string
+   icon?: React.ElementType
+   activeIcon?: React.ElementType
+   disabled?: boolean
+   onClick?: () => void
+   className?: string
+}
 
 type Props = {
    items?: SidebarItemType[]
@@ -36,13 +49,21 @@ export type SidebarItemProps = SidebarItemType & ComponentPropsWithRef<'li'>
 export const Sidebar = ({ className, ...rest }: Props) => {
    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
    const router = useRouter()
+   const pathname = usePathname()
+   const searchParams = useSearchParams()
+   const createQueryString = useCreateQueryString()
    const [logout] = useLogoutMutation()
+
+   const action = searchParams.get('action')
+   const isOpenPostCreator = action === 'create'
 
    const token = typeof window !== 'undefined' ? localStorage.getItem(TOKEN) : null
 
    const { data: user, isError } = useMeQuery(undefined, {
       skip: !token,
    })
+
+   const userId = user?.userId
 
    const handleLogoutClick = () => setIsLogoutModalOpen(true)
 
@@ -52,12 +73,26 @@ export const Sidebar = ({ className, ...rest }: Props) => {
       router.push(PublicRoutes.signIn)
    }
 
-   if (isError || !user) return null
+   const showAddPhotoModalHandler = () => {
+      router.push(pathname + '?' + createQueryString('action', 'create'))
+   }
 
+   const handleClosePostCreator = () => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.delete('action')
+
+      router.push(pathname + '?' + params.toString())
+   }
+
+   if (isError || !user) return null
+   // top-[72px]
    return (
-      <>
-         <nav {...rest} className={cn('fixed top-[72px] min-w-[220px]', className)}>
-            <ul className={cn('flex h-screen flex-col pt-[72px]')}>
+      <aside>
+         <nav
+            {...rest}
+            className={cn('border-dark-300 fixed top-0 w-full max-w-[162px] border-r', className)}
+         >
+            <ul className={cn('flex h-screen flex-col pt-[132px]')}>
                <SidebarItem
                   id="1"
                   name="Feed"
@@ -70,14 +105,15 @@ export const Sidebar = ({ className, ...rest }: Props) => {
                   name="Create"
                   icon={CreateOutlineIcon}
                   activeIcon={CreateIcon}
-                  path="/create"
+                  path={`/profile/${userId}?action=create`}
+                  onClick={showAddPhotoModalHandler}
                />
                <SidebarItem
                   id="3"
                   name="My Profile"
                   icon={PersonOutlineIcon}
                   activeIcon={PersonIcon}
-                  path="/profile"
+                  path={`${profileRoutes.private(user.login)}`}
                />
                <SidebarItem
                   id="4"
@@ -105,6 +141,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
                <SidebarItem id="8" name="Log Out" icon={LogoutIcon} onClick={handleLogoutClick} />
             </ul>
          </nav>
+
          <YesAndNoModal
             open={isLogoutModalOpen}
             title="Log Out"
@@ -122,7 +159,8 @@ export const Sidebar = ({ className, ...rest }: Props) => {
             onConfirm={handleConfirmLogout}
             onCancel={() => setIsLogoutModalOpen(false)}
          />
-      </>
+         {isOpenPostCreator && <PostCreator onCloseAction={handleClosePostCreator} />}
+      </aside>
    )
 }
 
