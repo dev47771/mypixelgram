@@ -7,13 +7,15 @@ import z from 'zod'
 import { generalInformationSchema } from '@/entities/settings/schema/GeneralInformationSchema'
 import { ControlledInput, ControlledTextarea } from '@/shared/components/Controlled'
 import { ControlledDatePicker } from '@/shared/components/Controlled/ControlledDatePicker'
-import { CountriesResponse } from '@/features/settings/api/settings.types'
+import { CountriesResponse, getProfileResponse } from '@/features/settings/api/settings.types'
 import { ControlledSelect } from '@/shared/components/Controlled/ControlledSelect'
 import { Button } from '@/shared/components/Button'
+import { dateFormatter } from '@/entities/settings/utils/dateFormatter'
 
 type FormTypes = z.infer<typeof generalInformationSchema>
 
 type Props = {
+   profileData?: getProfileResponse
    countryCityData: CountriesResponse
    onSubmitAction: (data: FormTypes) => void
    isLoading: boolean
@@ -21,30 +23,56 @@ type Props = {
 }
 
 export const GeneralInformationForm = ({
+   profileData,
    countryCityData,
    onSubmitAction,
    isLoading,
    errorsFromApi,
 }: Props) => {
+   const safeProfileData = profileData || {
+      login: '',
+      firstName: '',
+      lastName: '',
+      dateOfBirth: '',
+      country: '',
+      city: '',
+      aboutMe: '',
+   }
+
    const {
       control,
-      formState: { isValid, isDirty, errors },
+      reset,
+      formState: { isValid, errors },
       handleSubmit,
       setError,
       watch,
    } = useForm<FormTypes>({
       defaultValues: {
-         login: '',
-         firstName: '',
-         lastName: '',
-         dateOfBirth: '',
-         country: '',
-         city: '',
-         aboutMe: '',
+         login: safeProfileData.login,
+         firstName: safeProfileData.firstName || '',
+         lastName: safeProfileData.lastName || '',
+         dateOfBirth: safeProfileData.dateOfBirth || '',
+         country: safeProfileData.country || '',
+         city: safeProfileData.city || '',
+         aboutMe: safeProfileData.aboutMe || '',
       },
       resolver: zodResolver(generalInformationSchema),
       mode: 'onChange',
    })
+
+   useEffect(() => {
+      if (profileData) {
+         reset({
+            login: profileData.login,
+            firstName: profileData.firstName || '',
+            lastName: profileData.lastName || '',
+            dateOfBirth: dateFormatter.serverToForm(profileData.dateOfBirth || ''),
+            country: profileData.country || '',
+            city: profileData.city || '',
+            aboutMe: profileData.aboutMe || '',
+         })
+      }
+   }, [profileData, reset])
 
    useEffect(() => {
       errorsFromApi?.forEach(error => {
@@ -125,7 +153,7 @@ export const GeneralInformationForm = ({
          <Button
             type="submit"
             className="mt-[48px] ml-auto w-[159px] rounded bg-blue-500 px-6 py-2 text-white hover:bg-blue-600"
-            disabled={!isValid || !isDirty || isLoading}
+            disabled={!isValid || isLoading}
          >
             Save Changes
          </Button>

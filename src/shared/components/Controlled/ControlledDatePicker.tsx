@@ -7,6 +7,7 @@ import { cn } from '@/shared/lib'
 import { PublicRoutes } from '@/shared/enums'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import { dateFormatter } from '@/entities/settings/utils/dateFormatter'
 
 type Props<T extends FieldValues> = Omit<
    UseControllerProps<T>,
@@ -34,57 +35,42 @@ export const ControlledDatePicker = <T extends FieldValues>(props: Props<T>) => 
    const displayErrorMessage = errorMessage || fieldState.error?.message
    const hasError = !!displayErrorMessage
 
-   const stringToDate = (str: string): Date | null => {
-      if (!str || str.length < 10) return null // Только полные даты
-      const [day, month, year] = str.split('.').map(Number)
-      return new Date(year, month - 1, day)
-   }
+   // Используем утилиты вместо локальных функций
+   const [inputValue, setInputValue] = useState<string>(() => {
+      return dateFormatter.serverToForm(field.value || '')
+   })
 
-   const dateToString = (date: Date | null): string => {
-      if (!date) return ''
-      const day = date.getDate().toString().padStart(2, '0')
-      const month = (date.getMonth() + 1).toString().padStart(2, '0')
-      const year = date.getFullYear()
-      return `${day}.${month}.${year}`
-   }
-
-   // Локальное состояние для input
-   const [inputValue, setInputValue] = useState<string>(field.value || '')
-
-   // Синхронизируем с формой
    useEffect(() => {
-      setInputValue(field.value || '')
+      const displayValue = dateFormatter.serverToForm(field.value || '')
+      setInputValue(displayValue)
    }, [field.value])
 
    const handleDateChange = (date: Date | null) => {
-      const dateStr = dateToString(date)
+      const dateStr = dateFormatter.formatDate(date)
       setInputValue(dateStr)
-      field.onChange(dateStr)
+      field.onChange(dateStr) // Сохраняем dd.mm.yyyy
    }
 
    const handleInputChange = (value: string) => {
       setInputValue(value)
 
-      // Обновляем форму только если это валидная дата
-      if (value.length === 10) {
-         // dd.mm.yyyy
+      if (value.length === 10 && /^\d{2}\.\d{2}\.\d{4}$/.test(value)) {
          const [day, month, year] = value.split('.').map(Number)
          const date = new Date(year, month - 1, day)
 
-         if (
-            date.getFullYear() === year &&
-            date.getMonth() === month - 1 &&
-            date.getDate() === day
-         ) {
+         // Упрощённая проверка
+         if (!isNaN(date.getTime())) {
             field.onChange(value)
          }
       } else {
-         // Если не полная дата, очищаем поле в форме
          field.onChange('')
       }
    }
 
    const isAgeError = displayErrorMessage?.includes('A user under 13 cannot create a profile')
+
+   // Используем утилиту для парсинга
+   const selectedDate = dateFormatter.parseToDate(field.value)
 
    return (
       <div className={cn(className, 'relative')}>
@@ -95,13 +81,12 @@ export const ControlledDatePicker = <T extends FieldValues>(props: Props<T>) => 
             </Label>
          )}
          <DatePicker
-            selected={stringToDate(field.value)}
+            selected={selectedDate}
             onChange={handleDateChange}
             error={hasError}
             customErrorMessage
             disabled={disabled}
             classNameInput="w-full"
-            // Добавляем пропсы для ручного ввода
             value={inputValue}
             onInputChange={handleInputChange}
          />
