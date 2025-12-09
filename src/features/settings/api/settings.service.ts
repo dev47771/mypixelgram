@@ -8,14 +8,14 @@ export const settingsService = baseApi.injectEndpoints({
             url: '/users/profile',
             method: 'PUT',
             body: profileData,
-            providesTags: ['Profile', 'UserProfile'],
          }),
+         invalidatesTags: ['Profile'],
       }),
       getProfile: builder.query<getProfileResponse, void>({
          query: () => ({
             url: '/users/profile',
-            providesTags: ['Profile'],
          }),
+         providesTags: ['Profile'],
       }),
       getCountriesWithCities: builder.query<CountriesResponse, void>({
          query: () => ({
