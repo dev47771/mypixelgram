@@ -1,7 +1,7 @@
 import { ArrowLeftIcon, CrossIcon } from '@/shared/icons'
 import { cn } from '@/shared/lib'
 import * as Dialog from '@radix-ui/react-dialog'
-import { ComponentPropsWithRef, ReactNode } from 'react'
+import React, { ComponentPropsWithRef, ReactNode } from 'react'
 import { Button } from '../Button'
 import { Modal, ModalBody, ModalClose, ModalTitle } from '../Modal'
 import { Typography } from '../Typography'
@@ -29,6 +29,8 @@ type Props = {
    publish?: () => void
    //onClose?: () => void
    className?: string
+
+   portal?: React.ElementType
 } & ComponentPropsWithRef<typeof Dialog.Root>
 
 export const PostModal = ({
@@ -46,6 +48,7 @@ export const PostModal = ({
    publish,
    //onClose,
    className,
+   portal,
    ...props
 }: Props) => {
    const sizeClasses = {
@@ -56,7 +59,7 @@ export const PostModal = ({
    }
 
    return (
-      <Modal open {...props} className={cn(sizeClasses[size])}>
+      <Modal open {...props} className={cn(sizeClasses[size])} portal={portal}>
          {/* HEADER*/}
 
          {/* нет Header */}

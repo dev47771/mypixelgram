@@ -5,6 +5,7 @@ import { PostFooter } from '@/entities/posts/ui/Post/PostFooter'
 import { PostModal } from '@/shared/components/PostModal'
 import type { PostByIdType } from '@/features/posts/api'
 import { Loader } from '@/shared/components/Loader'
+import React from 'react'
 
 type Props = {
    post: PostByIdType
@@ -19,6 +20,7 @@ export const Post = ({ post, onClose, isFetchingPost }: Props) => {
 
    return (
       <PostModal
+         portal={React.Fragment}
          size={'post-management'}
          contentColumns={'two'}
          onOpenChange={onClose}
