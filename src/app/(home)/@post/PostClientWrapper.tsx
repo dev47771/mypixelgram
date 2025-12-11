@@ -1,18 +1,10 @@
 'use client'
 import type { PostByIdType } from '@/features/posts/api'
 import { Post } from '@/entities/posts/ui/Post'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePostController } from '@/features/posts/hooks'
 
 export default function PostClientWrapper({ post }: { post: PostByIdType }) {
-   const router = useRouter()
-   const searchParams = useSearchParams()
-   const pathname = usePathname()
+   const { closePostModal } = usePostController()
 
-   const handleClosePost = () => {
-      const params = new URLSearchParams(searchParams.toString())
-      params.delete('postId')
-      router.push(pathname + '?' + params.toString())
-   }
-
-   return <Post post={post} onClose={handleClosePost} />
+   return <Post post={post} onClose={closePostModal} />
 }
