@@ -7,8 +7,8 @@ export const settingsService = baseApi.injectEndpoints({
          query: files => {
             const formData = new FormData()
 
-            files.forEach(file => formData.append('post avatar', file))
-            formData.append('avatar', 'post')
+            formData.append('post images', files[0])
+            formData.append('type', 'avatar')
 
             return {
                url: '/files/upload-file',
@@ -17,7 +17,7 @@ export const settingsService = baseApi.injectEndpoints({
             }
          },
       }),
-      deleteAvatar: builder.mutation<void, string>({
+      deleteAvatar: builder.mutation<void, void>({
          query: () => ({
             url: '/users/profile',
             method: 'DELETE',
@@ -27,4 +27,4 @@ export const settingsService = baseApi.injectEndpoints({
    }),
 })
 
-export const { useUploadAvatarMutation } = settingsService
+export const { useUploadAvatarMutation, useDeleteAvatarMutation } = settingsService
