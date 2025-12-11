@@ -2,8 +2,11 @@
 
 import { YesAndNoModal } from '@/entities/common/ui'
 import { AddAvatarModal } from '@/entities/settings/ui/modals/AddAvatarModal/AddAvatarModal'
-import { useDeleteAvatarMutation } from '@/entities/settings/ui/modals/AddAvatarModal/api'
-import { useUserProfile } from '@/entities/user/model/useUserProfile'
+import {
+   useDeleteAvatarMutation,
+   useGetProfileQuery,
+} from '@/entities/settings/ui/modals/AddAvatarModal/api'
+import { alert } from '@/shared/components/Alert'
 import { Avatar } from '@/shared/components/Avatar'
 import { Button } from '@/shared/components/Button'
 import { CrossIcon, PostOutlineIcon } from '@/shared/icons'
@@ -11,13 +14,20 @@ import clsx from 'clsx'
 import { useState } from 'react'
 
 export default function ProfileSettingsPage() {
+   const { data } = useGetProfileQuery()
+
    const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false)
    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
-   const { userProfile } = useUserProfile()
    const [deleteAvatar] = useDeleteAvatarMutation()
 
-   const handleAvatarClick = () => setIsAvatarModalOpen(true)
+   const handleAvatarClick = () => {
+      if (data?.dateOfBirth) {
+         setIsAvatarModalOpen(true)
+      } else {
+         alert.error('You must complete and save the profile form with required fields.')
+      }
+   }
 
    const handleConfirmDelete = async () => {
       try {
@@ -35,9 +45,9 @@ export default function ProfileSettingsPage() {
             <div className={'flex flex-row'}>
                <div className={'mt-[48px] mr-[38px] flex flex-col'}>
                   <div className={'mb-[24px] flex w-[201px] justify-center'}>
-                     {userProfile?.user.avatar ? (
+                     {data?.avatar ? (
                         <div className="relative">
-                           <Avatar size="xl" src={userProfile?.user.avatar} alt="user avatar" />
+                           <Avatar size="xl" src={data?.avatar} alt="user avatar" />
                            <button
                               className={clsx(
                                  'absolute right-[8px] bottom-[155px] z-0 flex items-center justify-center',

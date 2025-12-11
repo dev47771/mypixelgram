@@ -1,7 +1,10 @@
 import { UploadFileResponse } from '@/features/posts/api'
+import { FilesEndpoints, UsersEndpoints } from '@/shared/enums'
 import { baseApi } from '@/shared/store'
+import { getProfileResponse } from './settings.types'
 
 export const settingsService = baseApi.injectEndpoints({
+   //индвалидация ми запроса ['Profile']?
    endpoints: builder => ({
       uploadAvatar: builder.mutation<UploadFileResponse, File[]>({
          query: files => {
@@ -11,20 +14,28 @@ export const settingsService = baseApi.injectEndpoints({
             formData.append('type', 'avatar')
 
             return {
-               url: '/files/upload-file',
+               url: FilesEndpoints.uploadFiles,
                method: 'POST',
                body: formData,
             }
          },
+         invalidatesTags: ['Profile'],
       }),
       deleteAvatar: builder.mutation<void, void>({
          query: () => ({
-            url: '/users/profile',
+            url: UsersEndpoints.profile,
             method: 'DELETE',
          }),
          invalidatesTags: ['Profile'],
       }),
+      getProfile: builder.query<getProfileResponse, void>({
+         query: () => ({
+            url: UsersEndpoints.profile,
+         }),
+         providesTags: ['Profile'],
+      }),
    }),
 })
 
-export const { useUploadAvatarMutation, useDeleteAvatarMutation } = settingsService
+export const { useUploadAvatarMutation, useDeleteAvatarMutation, useGetProfileQuery } =
+   settingsService
