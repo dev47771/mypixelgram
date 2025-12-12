@@ -65,30 +65,6 @@ export default function ProfileSettingsPage() {
                            <PostOutlineIcon width={48} height={48} />
                         </div>
                      )}
-
-                     {/* <div className="flex w-[201px] justify-center">
-                        <div className="relative">
-                           <Image
-                              src="/logo-light.png"
-                              alt="avatar"
-                              width={192}
-                              height={192}
-                              className="rounded-full"
-                           />
-
-                           <button
-                              className={clsx(
-                                 'absolute right-[8px] bottom-[155px] z-0 flex items-center justify-center',
-                                 'before:absolute before:h-6 before:w-6 before:rounded-full',
-                                 'before:border-dark-900 before:border-4 before:bg-red-500',
-                                 'cursor-pointer before:-z-10 before:box-border'
-                              )}
-                              onClick={() => setIsDeleteModalOpen(true)}
-                           >
-                              <CrossIcon className="h-4 w-4" />
-                           </button>
-                        </div>
-                     </div> */}
                   </div>
                   <Button
                      variant="outlined"

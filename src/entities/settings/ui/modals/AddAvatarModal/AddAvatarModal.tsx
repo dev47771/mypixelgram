@@ -10,6 +10,8 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { AvatarCropper, AvatarCropperRef } from './AvatarCropper'
 import { useUploadAvatarMutation } from './api'
+import { YesAndNoModal } from '@/entities/common/ui'
+import { Loader } from '@/shared/components/Loader'
 
 const schema = z.object({
    postPhoto: imgSchema('postPhoto').shape['postPhoto'],
@@ -30,6 +32,7 @@ type AvatarFile = {
 export const AddAvatarModal = ({ onOpenChange, open }: Props) => {
    const [avatarFile, setAvatarFile] = useState<AvatarFile | null>(null)
    const [isCroppingOpen, setIsCroppingOpen] = useState(false)
+   const [isConfirmCloseOpen, setIsConfirmCloseOpen] = useState(false)
    const cropperRef = useRef<AvatarCropperRef>(null)
    const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -38,6 +41,7 @@ export const AddAvatarModal = ({ onOpenChange, open }: Props) => {
    const {
       register,
       trigger,
+      clearErrors,
       formState: { errors },
       watch,
    } = useForm<FormTypes>({
@@ -79,8 +83,8 @@ export const AddAvatarModal = ({ onOpenChange, open }: Props) => {
          await uploadAvatar([file]).unwrap()
          cleanup()
          onOpenChange?.(false)
-      } catch (err) {
-         console.error('Failed to upload avatar:', err)
+      } catch (e) {
+         console.error('Failed to upload avatar', e)
       }
    }
 
@@ -88,6 +92,7 @@ export const AddAvatarModal = ({ onOpenChange, open }: Props) => {
       if (avatarFile) URL.revokeObjectURL(avatarFile.previewUrl)
       setAvatarFile(null)
       setIsCroppingOpen(false)
+      clearErrors('postPhoto')
       if (fileInputRef.current) fileInputRef.current.value = ''
    }
 
@@ -96,69 +101,103 @@ export const AddAvatarModal = ({ onOpenChange, open }: Props) => {
    }
 
    const handleClose = () => {
+      if (isCroppingOpen) {
+         setIsConfirmCloseOpen(true)
+         return
+      }
+
       cleanup()
       onOpenChange?.(false)
    }
 
+   const confirmClose = () => {
+      cleanup()
+      setIsConfirmCloseOpen(false)
+      onOpenChange?.(false)
+   }
+
+   const cancelClose = () => {
+      setIsConfirmCloseOpen(false)
+   }
+
    return (
-      <PostModal
-         open={open}
-         onOpenChange={handleClose}
-         size="image-upload"
-         headerText="Add a Profile Photo"
-         headerVariant="close-only"
-         contentColumns="one"
-         className="flex flex-col items-center p-[24px]"
-      >
-         {errors.postPhoto?.message && (
-            <div className="border-danger-500 bg-danger-900 text-light-100 text-m my-1.5 flex w-[445px] items-center justify-center rounded-xs border px-10 py-1.25 font-normal">
-               <span className="text-center">
-                  <span className="font-bold">Error! </span>
-                  {errors.postPhoto.message.toString()}
-               </span>
-            </div>
-         )}
-
-         {isCroppingOpen && avatarFile ? (
-            <div className="pt-[28px] pb-[36px]">
-               <AvatarCropper
-                  ref={cropperRef}
-                  image={avatarFile.previewUrl}
-                  onFinish={handleCroppedImage}
-               />
-            </div>
-         ) : (
-            <div
-               className={`bg-dark-500 ${errors.postPhoto ? '' : 'mt-[64px]'} mb-[60px] flex h-[228px] w-[222px] items-center justify-center rounded-xs`}
-            >
-               <PostOutlineIcon className="h-12 w-12" />
-            </div>
-         )}
-
-         <form className="flex w-full flex-col">
-            {isCroppingOpen && avatarFile ? (
-               <div className="text-right">
-                  <Button type="button" onClick={handleSave} disabled={isLoading}>
-                     {isLoading ? 'Saving...' : 'Save'}
-                  </Button>
-               </div>
-            ) : (
-               <div className="text-center">
-                  <Button type="button" onClick={addPhotoButtonHandler}>
-                     Select from Computer
-                  </Button>
+      <>
+         <PostModal
+            open={open}
+            onOpenChange={handleClose}
+            size="image-upload"
+            headerText="Add a Profile Photo"
+            headerVariant="close-only"
+            contentColumns="one"
+            className="flex flex-col items-center p-[24px]"
+         >
+            {errors.postPhoto?.message && (
+               <div className="border-danger-500 bg-danger-900 text-light-100 text-m my-1.5 flex w-[445px] items-center justify-center rounded-xs border px-10 py-1.25 font-normal">
+                  <span className="text-center">
+                     <span className="font-bold">Error! </span>
+                     {errors.postPhoto.message.toString()}
+                  </span>
                </div>
             )}
-            <input
-               type="file"
-               ref={postPhotoRef}
-               accept={ACCEPTED_IMAGE_TYPES.join(',')}
-               className="hidden"
-               onChange={fileLoaderHandler}
-               {...rest}
-            />
-         </form>
-      </PostModal>
+
+            {isCroppingOpen && avatarFile && !errors.postPhoto ? (
+               <div className="pt-[28px] pb-[36px]">
+                  <AvatarCropper
+                     ref={cropperRef}
+                     image={avatarFile.previewUrl}
+                     onFinish={handleCroppedImage}
+                  />
+               </div>
+            ) : (
+               <div
+                  className={`bg-dark-500 ${errors.postPhoto ? 'mt-[16px]' : 'mt-[64px]'} mb-[60px] flex h-[228px] w-[222px] items-center justify-center rounded-xs`}
+               >
+                  <PostOutlineIcon className="h-12 w-12" />
+               </div>
+            )}
+
+            <form className="flex w-full flex-col">
+               {isCroppingOpen && avatarFile && !errors.postPhoto ? (
+                  <div className="text-right">
+                     <Button type="button" onClick={handleSave} disabled={isLoading}>
+                        {isLoading ? (
+                           <Loader
+                              size="24px"
+                              color={'var(--color-light-100)'}
+                              fullscreen={false}
+                           />
+                        ) : (
+                           'Save'
+                        )}
+                     </Button>
+                  </div>
+               ) : (
+                  <div className="text-center">
+                     <Button type="button" onClick={addPhotoButtonHandler}>
+                        Select from Computer
+                     </Button>
+                  </div>
+               )}
+               <input
+                  type="file"
+                  ref={postPhotoRef}
+                  accept={ACCEPTED_IMAGE_TYPES.join(',')}
+                  className="hidden"
+                  onChange={fileLoaderHandler}
+                  {...rest}
+               />
+            </form>
+         </PostModal>
+
+         <YesAndNoModal
+            open={isConfirmCloseOpen}
+            title="Close"
+            description="Do you really want to close the add a Profile Photo?
+If you close photo will be deleted"
+            onConfirm={confirmClose}
+            onCancel={cancelClose}
+         />
+      </>
    )
 }
 
