@@ -9,11 +9,12 @@ import {
 import { alert } from '@/shared/components/Alert'
 import { Avatar } from '@/shared/components/Avatar'
 import { Button } from '@/shared/components/Button'
+import { withPrivateRoute } from '@/shared/HOC'
 import { CrossIcon, PostOutlineIcon } from '@/shared/icons'
 import clsx from 'clsx'
 import { useState } from 'react'
 
-export default function ProfileSettingsPage() {
+function ProfileSettingsPage() {
    const { data } = useGetProfileQuery()
 
    const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false)
@@ -93,3 +94,5 @@ export default function ProfileSettingsPage() {
       </>
    )
 }
+
+export default withPrivateRoute(ProfileSettingsPage)
