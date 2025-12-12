@@ -12,7 +12,7 @@ import { QUERY_PARAMS, TOKEN } from '../constants'
 
 const mutex = new Mutex()
 
-export const baseQuery = fetchBaseQuery({
+const baseQuery = fetchBaseQuery({
    baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
    credentials: 'include',
 
