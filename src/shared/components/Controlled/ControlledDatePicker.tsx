@@ -7,7 +7,7 @@ import { cn } from '@/shared/lib'
 import { PublicRoutes } from '@/shared/enums'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { dateFormatter } from '@/entities/settings/utils/dateFormatter'
+import { dateFormatter } from '@/shared/utils/date/dateFormatter'
 
 type Props<T extends FieldValues> = Omit<
    UseControllerProps<T>,
@@ -35,7 +35,6 @@ export const ControlledDatePicker = <T extends FieldValues>(props: Props<T>) => 
    const displayErrorMessage = errorMessage || fieldState.error?.message
    const hasError = !!displayErrorMessage
 
-   // Используем утилиты вместо локальных функций
    const [inputValue, setInputValue] = useState<string>(() => {
       return dateFormatter.serverToForm(field.value || '')
    })
@@ -48,7 +47,7 @@ export const ControlledDatePicker = <T extends FieldValues>(props: Props<T>) => 
    const handleDateChange = (date: Date | null) => {
       const dateStr = dateFormatter.formatDate(date)
       setInputValue(dateStr)
-      field.onChange(dateStr) // Сохраняем dd.mm.yyyy
+      field.onChange(dateStr)
    }
 
    const handleInputChange = (value: string) => {
@@ -58,7 +57,6 @@ export const ControlledDatePicker = <T extends FieldValues>(props: Props<T>) => 
          const [day, month, year] = value.split('.').map(Number)
          const date = new Date(year, month - 1, day)
 
-         // Упрощённая проверка
          if (!isNaN(date.getTime())) {
             field.onChange(value)
          }
@@ -69,8 +67,7 @@ export const ControlledDatePicker = <T extends FieldValues>(props: Props<T>) => 
 
    const isAgeError = displayErrorMessage?.includes('A user under 13 cannot create a profile')
 
-   // Используем утилиту для парсинга
-   const selectedDate = dateFormatter.parseToDate(field.value)
+   const selectedDate = dateFormatter.parseToDate(field.value || '')
 
    return (
       <div className={cn(className, 'relative')}>

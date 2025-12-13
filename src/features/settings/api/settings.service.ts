@@ -1,11 +1,12 @@
 import { baseApi } from '@/shared/store'
 import { CountriesResponse, getProfileResponse, updateProfileArgs } from './settings.types'
+import { UserEndpoints } from '@/entities/user'
 
 export const settingsService = baseApi.injectEndpoints({
    endpoints: builder => ({
       updateProfile: builder.mutation<void, updateProfileArgs>({
          query: profileData => ({
-            url: '/users/profile',
+            url: UserEndpoints.settings,
             method: 'PUT',
             body: profileData,
          }),
@@ -13,13 +14,13 @@ export const settingsService = baseApi.injectEndpoints({
       }),
       getProfile: builder.query<getProfileResponse, void>({
          query: () => ({
-            url: '/users/profile',
+            url: UserEndpoints.settings,
          }),
          providesTags: ['Profile'],
       }),
       getCountriesWithCities: builder.query<CountriesResponse, void>({
          query: () => ({
-            url: '/public/users/getCountriesWithCities',
+            url: UserEndpoints.countriesWithCities,
          }),
       }),
    }),

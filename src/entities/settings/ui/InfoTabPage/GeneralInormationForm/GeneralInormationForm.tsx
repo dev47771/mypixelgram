@@ -10,7 +10,7 @@ import { ControlledDatePicker } from '@/shared/components/Controlled/ControlledD
 import { CountriesResponse, getProfileResponse } from '@/features/settings/api/settings.types'
 import { ControlledSelect } from '@/shared/components/Controlled/ControlledSelect'
 import { Button } from '@/shared/components/Button'
-import { dateFormatter } from '@/entities/settings/utils/dateFormatter'
+import { dateFormatter } from '@/shared/utils/date/dateFormatter'
 
 type FormTypes = z.infer<typeof generalInformationSchema>
 

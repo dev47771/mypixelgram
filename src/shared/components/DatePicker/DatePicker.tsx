@@ -185,6 +185,7 @@ const DatePickerHeader = ({
       </span>
       <div className="flex items-center justify-center">
          <button
+            type="button"
             onClick={decreaseMonth}
             disabled={prevMonthButtonDisabled}
             className="bg-dark-100 hover:bg-accent-700 active:bg-dark-300 flex h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full"
@@ -192,6 +193,7 @@ const DatePickerHeader = ({
             <ArrowLeftIcon className="text-light-100 h-[20px] w-[20px]" />
          </button>
          <button
+            type="button"
             onClick={increaseMonth}
             disabled={nextMonthButtonDisabled}
             className="bg-dark-100 hover:bg-accent-700 active:bg-dark-300 flex h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full"
