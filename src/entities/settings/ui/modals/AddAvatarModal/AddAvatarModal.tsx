@@ -67,7 +67,7 @@ export const AddAvatarModal = ({ onOpenChange, open }: Props) => {
 
    const fileLoaderHandler = (e: ChangeEvent<HTMLInputElement>) => {
       onChange(e)
-      trigger('postPhoto').catch(() => {})
+      trigger('postPhoto')
    }
 
    const addPhotoButtonHandler = () => {
