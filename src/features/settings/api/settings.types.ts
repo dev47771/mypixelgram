@@ -10,12 +10,13 @@ export type updateProfileArgs = {
 
 export type getProfileResponse = {
    login: string
-   firstName?: string | null
-   lastName?: string | null
-   dateOfBirth?: string | null
-   country?: string | null
-   city?: string | null
-   aboutMe?: string | null
+   firstName: string
+   lastName: string
+   dateOfBirth: string
+   country: string | null
+   city: string | null
+   aboutMe: string | null
+   avatar: string | null
 }
 
 export type CountriesResponse = Record<string, string[]>

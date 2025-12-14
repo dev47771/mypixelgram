@@ -9,7 +9,7 @@ import { isErrorInDataResponse } from '@/shared/utils'
 import { alert } from '@/shared/components/Alert'
 import { ErrorResponse } from '@/features/auth/api'
 import { Loader } from '@/shared/components/Loader'
-import { dateFormatter } from '../../../../shared/utils/date/dateFormatter'
+import { dateFormatter } from '@/shared/utils/date/dateFormatter'
 
 export const InfoTabPage = () => {
    const [updateProfile, { error, isLoading }] = useUpdateProfileMutation()

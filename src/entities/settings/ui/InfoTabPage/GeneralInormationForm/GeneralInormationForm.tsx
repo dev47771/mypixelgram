@@ -29,14 +29,14 @@ export const GeneralInformationForm = ({
    isLoading,
    errorsFromApi,
 }: Props) => {
-   const safeProfileData = profileData || {
-      login: '',
-      firstName: '',
-      lastName: '',
-      dateOfBirth: '',
-      country: '',
-      city: '',
-      aboutMe: '',
+   const safeProfileData = {
+      login: profileData?.login ?? '',
+      firstName: profileData?.firstName ?? '',
+      lastName: profileData?.lastName ?? '',
+      dateOfBirth: profileData?.dateOfBirth ?? '',
+      country: profileData?.country ?? '',
+      city: profileData?.city ?? '',
+      aboutMe: profileData?.aboutMe ?? '',
    }
 
    const {
@@ -64,12 +64,12 @@ export const GeneralInformationForm = ({
       if (profileData) {
          reset({
             login: profileData.login,
-            firstName: profileData.firstName || '',
-            lastName: profileData.lastName || '',
-            dateOfBirth: dateFormatter.serverToForm(profileData.dateOfBirth || ''),
-            country: profileData.country || '',
-            city: profileData.city || '',
-            aboutMe: profileData.aboutMe || '',
+            firstName: profileData.firstName ?? '',
+            lastName: profileData.lastName ?? '',
+            dateOfBirth: dateFormatter.serverToForm(profileData.dateOfBirth ?? ''),
+            country: profileData.country ?? '',
+            city: profileData.city ?? '',
+            aboutMe: profileData.aboutMe ?? '',
          })
       }
    }, [profileData, reset])
