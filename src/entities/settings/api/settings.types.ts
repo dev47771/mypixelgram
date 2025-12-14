@@ -2,7 +2,7 @@ export type getProfileResponse = {
    login: string
    firstName?: string
    lastName?: string
-   dateOfBirth?: string
+   dateOfBirth?: string | null
    country?: string
    city?: string
    aboutMe?: string

@@ -4,7 +4,6 @@ import { baseApi } from '@/shared/store'
 import { getProfileResponse } from './settings.types'
 
 export const settingsService = baseApi.injectEndpoints({
-   //индвалидация ми запроса ['Profile']?
    endpoints: builder => ({
       uploadAvatar: builder.mutation<UploadFileResponse, File[]>({
          query: files => {

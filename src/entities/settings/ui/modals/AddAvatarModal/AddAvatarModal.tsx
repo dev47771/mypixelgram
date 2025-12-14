@@ -9,15 +9,9 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { AvatarCropper, AvatarCropperRef } from './AvatarCropper'
-import { useUploadAvatarMutation } from './api'
 import { YesAndNoModal } from '@/entities/common/ui'
 import { Loader } from '@/shared/components/Loader'
-
-/* 
-The component opens a modal for selecting and cropping an avatar, validating it via zod. After selecting a file, 
-a cropper is displayed, and the user can save the image, which is then sent to the server. 
-If the modal is closed without saving the file, a confirmation window is displayed.
-*/
+import { useUploadAvatarMutation } from '@/entities/settings/api'
 
 const schema = z.object({
    postPhoto: imgSchema('postPhoto').shape['postPhoto'],
@@ -80,11 +74,8 @@ export const AddAvatarModal = ({ onOpenChange, open }: Props) => {
       fileInputRef.current?.click()
    }
 
-   const handleCroppedImage = async (dataURL: string) => {
+   const handleCroppedImage = async (file: File) => {
       try {
-         const resp = await fetch(dataURL)
-         const blob = await resp.blob()
-         const file = new File([blob], 'avatar.png', { type: 'image/png' })
          await uploadAvatar([file]).unwrap()
          cleanup()
          onOpenChange?.(false)
