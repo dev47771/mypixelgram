@@ -512,3 +512,9 @@ h2.react-datepicker__current-month {
    background-color: var(--color-accent-700) !important;
    color: var(--color-light-100) !important;
 }
+
+/* Или еще лучше - только для скрытого инпута react-datepicker */
+.react-datepicker__input-container input {
+  outline: none !important;
+  box-shadow: none !important;
+}

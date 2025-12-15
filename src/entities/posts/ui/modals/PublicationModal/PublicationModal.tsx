@@ -31,7 +31,9 @@ export const PublicationModal = ({ onBack, photos, onOpenChange, closePostCreato
          await publishPost(dataPostData, processedPhotos)
          closePostCreator()
       } catch (error) {
-         alert.error((error as ErrorResponse).errorsMessages[0].message || 'Something went wrong')
+         alert.error(
+            (error as ErrorResponse).errorsMessages?.[0]?.message || 'Something went wrong'
+         )
       } finally {
          setIsProcessing(false)
       }

@@ -8,6 +8,7 @@ import { MeResponse, useMeQuery } from '@/features/auth/api'
 import { usePathname } from 'next/navigation'
 import { Button } from '@/shared/components/Button'
 import Link from 'next/link'
+import { settingsRoutes } from '@/shared/enums'
 
 type UserProfileHeaderProps = {
    actions?: ReactNode
@@ -71,7 +72,7 @@ function getActions(data: MeResponse | undefined, userLogin: string) {
 
    return (
       <Button variant="secondary" asChild>
-         <Link href="#">Profile Settings</Link>
+         <Link href={settingsRoutes.base}>Profile Settings</Link>
       </Button>
    )
 }

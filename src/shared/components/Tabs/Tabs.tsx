@@ -30,9 +30,9 @@ const TabsTrigger = ({
          className={clsx(
             'leading-m text-m border-b-dark-100 text-dark-100 w-1/4 cursor-pointer border-b py-1 font-semibold',
 
-            'hover:[&:not([data-state=active]):not([data-disabled])]:bg-accent-900',
-            'hover:data-[state=active]:[&:not([data-disabled])]:bg-accent-900',
-            'active:data-[state=active]:[&:not([data-disabled])]:bg-accent-100',
+            'hover:[&:not([data-state=active]):not([data-disabled])]:bg-accent-900/15',
+            'hover:data-[state=active]:[&:not([data-disabled])]:bg-accent-900/15',
+            'active:data-[state=active]:[&:not([data-disabled])]:bg-accent-100/15',
             'data-[state=active]:text-accent-500 data-[state=active]:border-b-accent-500',
             'focus-visible:ring-accent-700 focus-visible:rounded-xs focus-visible:ring-2 focus-visible:outline-none',
             'data-[disabled]:text-dark-300 data-[disabled]:border-b-dark-300 data-[disabled]:cursor-not-allowed',
