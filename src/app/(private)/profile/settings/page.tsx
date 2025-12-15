@@ -1,5 +1,3 @@
-import { redirect } from 'next/navigation'
-import { settingsRoutes } from '@/shared/enums'
 import { TabsBlock } from '@/entities/settings'
 
 interface PageProps {
@@ -8,10 +6,7 @@ interface PageProps {
 
 export default async function ProfileSettingsPage({ searchParams }: PageProps) {
    const { part } = await searchParams
+   const initialPart = part ?? 'info'
 
-   if (!part) {
-      redirect(settingsRoutes.create('info'))
-   }
-
-   return <TabsBlock initialPart={part} />
+   return <TabsBlock initialPart={initialPart} />
 }
