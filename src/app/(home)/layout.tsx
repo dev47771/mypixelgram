@@ -1,11 +1,10 @@
 'use client'
-
 import { ReactNode } from 'react'
-import { useMeQuery } from '@/features/auth/api'
 import { cn } from '@/shared/lib'
+import { useMeQuery } from '@/features/auth/api'
 import { Sidebar } from '@/widgets/Sidebar'
 
-export default function HomeLayout({ children }: { children: ReactNode }) {
+export default function HomeLayout({ children, post }: { children: ReactNode; post: ReactNode }) {
    const { data } = useMeQuery()
 
    return (
@@ -23,6 +22,7 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
             )}
          >
             {children}
+            {post}
          </div>
       </div>
    )

@@ -1,3 +1,4 @@
+'use client'
 import { useMeQuery } from '@/features/auth/api'
 import { profileRoutes } from '@/shared/enums'
 import { cn } from '@/shared/lib'
