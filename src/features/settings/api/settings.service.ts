@@ -1,6 +1,8 @@
 import { baseApi } from '@/shared/store'
 import { CountriesResponse, getProfileResponse, updateProfileArgs } from './settings.types'
 import { UserEndpoints } from '@/entities/user'
+import { FilesEndpoints, UsersEndpoints } from '@/shared/enums'
+import { UploadFileResponse } from '@/features/posts/api'
 
 export const settingsService = baseApi.injectEndpoints({
    endpoints: builder => ({
@@ -23,8 +25,35 @@ export const settingsService = baseApi.injectEndpoints({
             url: UserEndpoints.countriesWithCities,
          }),
       }),
+      uploadAvatar: builder.mutation<UploadFileResponse, File[]>({
+         query: files => {
+            const formData = new FormData()
+
+            formData.append('post images', files[0])
+            formData.append('type', 'avatar')
+
+            return {
+               url: FilesEndpoints.uploadFiles,
+               method: 'POST',
+               body: formData,
+            }
+         },
+         invalidatesTags: ['Profile'],
+      }),
+      deleteAvatar: builder.mutation<void, void>({
+         query: () => ({
+            url: UsersEndpoints.profile,
+            method: 'DELETE',
+         }),
+         invalidatesTags: ['Profile'],
+      }),
    }),
 })
 
-export const { useUpdateProfileMutation, useGetProfileQuery, useGetCountriesWithCitiesQuery } =
-   settingsService
+export const {
+   useUpdateProfileMutation,
+   useGetProfileQuery,
+   useGetCountriesWithCitiesQuery,
+   useDeleteAvatarMutation,
+   useUploadAvatarMutation,
+} = settingsService

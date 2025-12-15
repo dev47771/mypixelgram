@@ -1,8 +1,8 @@
-import { ProfileHeaderBase } from './ProfileHeaderBase'
-import { Button } from '@/shared/components/Button'
-import Link from 'next/link'
 import { UserProfileType } from '@/entities/user'
 import { settingsRoutes } from '@/shared/enums'
+import { Button } from '@/shared/components/Button'
+import Link from 'next/link'
+import { ProfileHeaderBase } from './ProfileHeaderBase'
 
 type Props = {
    userProfile: UserProfileType

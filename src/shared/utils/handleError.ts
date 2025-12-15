@@ -48,6 +48,9 @@ export const handleError = (
                flag = false
             }
             break
+         case 404:
+            error = 'User not found'
+            break
          default:
             if (
                typeof result.error.status === 'number' &&
