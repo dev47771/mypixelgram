@@ -1,21 +1,25 @@
+'use client'
 import { Typography } from '@/shared/components/Typography'
 import { PostOutlineIcon } from '@/shared/icons'
 import { Avatar } from '@/shared/components/Avatar'
 import { UserProfileType, UserStats } from '@/entities/user'
 import { ReactNode } from 'react'
+import { MeResponse, useMeQuery } from '@/features/auth/api'
+import { usePathname } from 'next/navigation'
+import { Button } from '@/shared/components/Button'
+import Link from 'next/link'
+import { settingsRoutes } from '@/shared/enums'
 
-type ProfileHeaderBaseProps = {
-   actions: ReactNode
-} & UserProfileType
+type UserProfileHeaderProps = {
+   actions?: ReactNode
+   userProfile: UserProfileType
+}
 
-export const ProfileHeaderBase = ({
-   user,
-   followers,
-   following,
-   publicationCount,
-   description,
-   actions,
-}: ProfileHeaderBaseProps) => {
+export const UserProfileHeader = ({ userProfile }: UserProfileHeaderProps) => {
+   const { data: meData } = useMeQuery()
+   const { user, followers, following, publicationCount, description } = userProfile
+   const pathname = usePathname()
+   const userLogin = pathname.split('/')[2]
    return (
       <div className="flex gap-9.5">
          <div>
@@ -34,8 +38,7 @@ export const ProfileHeaderBase = ({
                   <div className="flex items-center gap-3">
                      <Typography variant="h1">{user.login}</Typography>
                   </div>
-
-                  {actions}
+                  {getActions(meData, userLogin)}
                </div>
 
                <div className="mt-[25px] mb-[23px]">
@@ -50,5 +53,26 @@ export const ProfileHeaderBase = ({
             <Typography>{description}</Typography>
          </div>
       </div>
+   )
+}
+
+function getActions(data: MeResponse | undefined, userLogin: string) {
+   if (!data) {
+      return null
+   }
+
+   if (data.login !== userLogin) {
+      return (
+         <div className="flex items-center gap-3">
+            <Button>Follow</Button>
+            <Button variant="secondary">Send Message</Button>
+         </div>
+      )
+   }
+
+   return (
+      <Button variant="secondary" asChild>
+         <Link href={settingsRoutes.base}>Profile Settings</Link>
+      </Button>
    )
 }

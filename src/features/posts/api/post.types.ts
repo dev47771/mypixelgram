@@ -48,20 +48,20 @@ export type PostFile = {
 
 export type Post = {
    postId: string
-   description: string
-   location: string
+   description: string | null
+   location: string | null
    createdAt: string
    files: PostFile[]
 }
 
 export type PageInfo = {
-   nextCursor: string
+   nextCursor: string | null
    hasMore: boolean
 }
 
 export type Publication = {
    postId: string
-   firstFileUrl: string
+   firstFileUrl: string | null
 }
 
 export type GetUserPublicPostsResponse = Post[]
