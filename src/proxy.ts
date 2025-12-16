@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { BASE_URL } from '@/shared/constants'
-import { AuthEndpoints, PublicRoutes } from '@/shared/enums'
+import { AuthEndpoints, PrivateRoutes, PublicRoutes } from '@/shared/enums'
 
 export async function proxy(request: NextRequest) {
+   const { pathname } = request.nextUrl
+
+   if (pathname.endsWith(PrivateRoutes.settings)) {
+      return NextResponse.next()
+   }
+
    const refreshToken = request.cookies.get('refreshToken')?.value
 
    if (!refreshToken) {
