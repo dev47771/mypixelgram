@@ -4,7 +4,7 @@ import { cn } from '@/shared/lib'
 
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { ComponentPropsWithRef, Suspense, useState } from 'react'
+import { ComponentPropsWithRef, useState } from 'react'
 
 import {
    CreateIcon,
@@ -87,90 +87,80 @@ export const Sidebar = ({ className, ...rest }: Props) => {
    if (isError || !user) return null
    // top-[72px]
    return (
-      <Suspense>
-         <aside>
-            <nav
-               {...rest}
-               className={cn(
-                  'border-dark-300 fixed top-0 w-full max-w-[162px] border-r',
-                  className
-               )}
-            >
-               <ul className={cn('flex h-screen flex-col pt-[132px]')}>
-                  <SidebarItem
-                     id="1"
-                     name="Feed"
-                     icon={HomeOutlineIcon}
-                     activeIcon={HomeIcon}
-                     path="/feed"
-                  />
-                  <SidebarItem
-                     id="2"
-                     name="Create"
-                     icon={CreateOutlineIcon}
-                     activeIcon={CreateIcon}
-                     path={`/profile/${userId}?action=create`}
-                     onClick={showAddPhotoModalHandler}
-                  />
-                  <SidebarItem
-                     id="3"
-                     name="My Profile"
-                     icon={PersonOutlineIcon}
-                     activeIcon={PersonIcon}
-                     path={`${profileRoutes.private(user.login)}`}
-                  />
-                  <SidebarItem
-                     id="4"
-                     name="Messenger"
-                     icon={MessageOutlineIcon}
-                     activeIcon={MessageIcon}
-                     path="/messenger"
-                  />
-                  <SidebarItem
-                     id="5"
-                     name="Search"
-                     icon={SearchIcon}
-                     path="/search"
-                     className="mb-15"
-                  />
-                  <SidebarItem id="6" name="Statistics" icon={StatisticIcon} path="/statistics" />
-                  <SidebarItem
-                     id="7"
-                     name="Favorites"
-                     icon={FavoriteOutlineIcon}
-                     activeIcon={FavoriteIcon}
-                     path="/favorites"
-                     className="mb-45"
-                  />
-                  <SidebarItem
-                     id="8"
-                     name="Log Out"
-                     icon={LogoutIcon}
-                     onClick={handleLogoutClick}
-                  />
-               </ul>
-            </nav>
+      <aside>
+         <nav
+            {...rest}
+            className={cn('border-dark-300 fixed top-0 w-full max-w-[162px] border-r', className)}
+         >
+            <ul className={cn('flex h-screen flex-col pt-[132px]')}>
+               <SidebarItem
+                  id="1"
+                  name="Feed"
+                  icon={HomeOutlineIcon}
+                  activeIcon={HomeIcon}
+                  path="/feed"
+               />
+               <SidebarItem
+                  id="2"
+                  name="Create"
+                  icon={CreateOutlineIcon}
+                  activeIcon={CreateIcon}
+                  path={`/profile/${userId}?action=create`}
+                  onClick={showAddPhotoModalHandler}
+               />
+               <SidebarItem
+                  id="3"
+                  name="My Profile"
+                  icon={PersonOutlineIcon}
+                  activeIcon={PersonIcon}
+                  path={`${profileRoutes.private(user.login)}`}
+               />
+               <SidebarItem
+                  id="4"
+                  name="Messenger"
+                  icon={MessageOutlineIcon}
+                  activeIcon={MessageIcon}
+                  path="/messenger"
+               />
+               <SidebarItem
+                  id="5"
+                  name="Search"
+                  icon={SearchIcon}
+                  path="/search"
+                  className="mb-15"
+               />
+               <SidebarItem id="6" name="Statistics" icon={StatisticIcon} path="/statistics" />
+               <SidebarItem
+                  id="7"
+                  name="Favorites"
+                  icon={FavoriteOutlineIcon}
+                  activeIcon={FavoriteIcon}
+                  path="/favorites"
+                  className="mb-45"
+               />
+               <SidebarItem id="8" name="Log Out" icon={LogoutIcon} onClick={handleLogoutClick} />
+            </ul>
+         </nav>
 
-            <YesAndNoModal
-               open={isLogoutModalOpen}
-               title="Log Out"
-               description={
-                  <>
-                     Are you really want to log out of your account{' '}
-                     {user?.email && (
-                        <>
-                           &quot;<strong className="font-bold">{user?.email}</strong>&quot;
-                        </>
-                     )}
-                     ?
-                  </>
-               }
-               onConfirm={handleConfirmLogout}
-               onCancel={() => setIsLogoutModalOpen(false)}
-            />
-            {isOpenPostCreator && <PostCreator onCloseAction={handleClosePostCreator} />}
-         </aside>
-      </Suspense>
+         <YesAndNoModal
+            open={isLogoutModalOpen}
+            title="Log Out"
+            description={
+               <>
+                  Are you really want to log out of your account{' '}
+                  {user?.email && (
+                     <>
+                        &quot;<strong className="font-bold">{user?.email}</strong>&quot;
+                     </>
+                  )}
+                  ?
+               </>
+            }
+            onConfirm={handleConfirmLogout}
+            onCancel={() => setIsLogoutModalOpen(false)}
+         />
+         {isOpenPostCreator && <PostCreator onCloseAction={handleClosePostCreator} />}
+      </aside>
    )
 }
 
