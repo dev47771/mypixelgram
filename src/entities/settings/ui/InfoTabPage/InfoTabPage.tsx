@@ -16,10 +16,10 @@ import { dateFormatter } from '@/shared/utils/date/dateFormatter'
 import { useState } from 'react'
 import { Button } from '@/shared/components/Button'
 import { CrossIcon, PostOutlineIcon } from '@/shared/icons'
-import clsx from 'clsx'
 import { YesAndNoModal } from '@/entities/common/ui'
 import { Avatar } from '@/shared/components/Avatar'
 import { AddAvatarModal } from '../modals/AddAvatarModal'
+import { cn } from '@/shared/lib'
 
 export const InfoTabPage = () => {
    const [updateProfile, { error, isLoading }] = useUpdateProfileMutation()
@@ -71,9 +71,9 @@ export const InfoTabPage = () => {
                <div className={'mb-[24px] flex w-[201px] justify-center'}>
                   {profileData?.avatar ? (
                      <div className="relative">
-                        <Avatar size="xl" src={profileData?.avatar} alt="user avatar" />
+                        <Avatar size="profile" src={profileData?.avatar} alt="user avatar" />
                         <button
-                           className={clsx(
+                           className={cn(
                               'absolute right-[8px] bottom-[155px] z-0 flex items-center justify-center',
                               'before:absolute before:h-6 before:w-6 before:rounded-full',
                               'before:border-dark-900 before:border-4 before:bg-red-500',
