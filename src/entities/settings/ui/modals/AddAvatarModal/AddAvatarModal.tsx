@@ -12,12 +12,7 @@ import { AvatarCropper, AvatarCropperRef } from './AvatarCropper'
 import { YesAndNoModal } from '@/entities/common/ui'
 import { Loader } from '@/shared/components/Loader'
 import { useUploadAvatarMutation } from '@/features/settings/api/settings.service'
-
-/* 
-The component opens a modal for selecting and cropping an avatar, validating it via zod. After selecting a file, 
-a cropper is displayed, and the user can save the image, which is then sent to the server. 
-If the modal is closed without saving the file, a confirmation window is displayed.
-*/
+import { cn } from '@/shared/lib'
 
 const schema = z.object({
    postPhoto: imgSchema('postPhoto').shape['postPhoto'],
@@ -73,18 +68,15 @@ export const AddAvatarModal = ({ onOpenChange, open }: Props) => {
 
    const fileLoaderHandler = (e: ChangeEvent<HTMLInputElement>) => {
       onChange(e)
-      trigger('postPhoto').catch(() => {})
+      trigger('postPhoto')
    }
 
    const addPhotoButtonHandler = () => {
       fileInputRef.current?.click()
    }
 
-   const handleCroppedImage = async (dataURL: string) => {
+   const handleCroppedImage = async (file: File) => {
       try {
-         const resp = await fetch(dataURL)
-         const blob = await resp.blob()
-         const file = new File([blob], 'avatar.png', { type: 'image/png' })
          await uploadAvatar([file]).unwrap()
          cleanup()
          onOpenChange?.(false)
@@ -137,7 +129,13 @@ export const AddAvatarModal = ({ onOpenChange, open }: Props) => {
             className="flex flex-col items-center p-[24px]"
          >
             {errors.postPhoto?.message && (
-               <div className="border-danger-500 bg-danger-900 text-light-100 text-m my-1.5 flex w-[445px] items-center justify-center rounded-xs border px-10 py-1.25 font-normal">
+               <div
+                  className={cn(
+                     'my-1.5 flex w-[445px] items-center justify-center px-10 py-1.25',
+                     'border-danger-500 bg-danger-900 text-light-100 rounded-xs border',
+                     'text-m font-normal'
+                  )}
+               >
                   <span className="text-center">
                      <span className="font-bold">Error! </span>
                      {errors.postPhoto.message.toString()}
@@ -155,7 +153,10 @@ export const AddAvatarModal = ({ onOpenChange, open }: Props) => {
                </div>
             ) : (
                <div
-                  className={`bg-dark-500 ${errors.postPhoto ? 'mt-[16px]' : 'mt-[64px]'} mb-[60px] flex h-[228px] w-[222px] items-center justify-center rounded-xs`}
+                  className={cn(
+                     'bg-dark-500 mb-[60px] flex h-[228px] w-[222px] items-center justify-center rounded-xs',
+                     errors.postPhoto ? 'mt-[16px]' : 'mt-[64px]'
+                  )}
                >
                   <PostOutlineIcon className="h-12 w-12" />
                </div>

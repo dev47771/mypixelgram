@@ -1,16 +1,10 @@
+import { createImage } from '@/shared/utils'
 import { useState, forwardRef, useImperativeHandle, useEffect, useCallback } from 'react'
 import Cropper, { Area } from 'react-easy-crop'
 
-/* 
-The AvatarCropper component displays an image that can be cropped into a 
-circular area and scaled using a slider. The user changes the position and zoom, 
-and the crop coordinates are stored in the croppedAreaPixels state. When the save method 
-is called via ref, a canvas with the cropped image is created and returned as a PNG via onFinish.
-*/
-
 type AvatarCropperProps = {
    image: string
-   onFinish: (img: string) => void
+   onFinish: (img: File) => void
    size?: number
 }
 
@@ -24,17 +18,6 @@ export const AvatarCropper = forwardRef<AvatarCropperRef, AvatarCropperProps>(
       const [zoom, setZoom] = useState(1)
       const [minZoom, setMinZoom] = useState(1)
       const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null)
-
-      // Function for loading an image into HTMLImageElement
-      const loadImage = useCallback((url: string) => {
-         return new Promise<HTMLImageElement>((resolve, reject) => {
-            const img = new Image()
-            img.crossOrigin = 'anonymous'
-            img.onload = () => resolve(img)
-            img.onerror = reject
-            img.src = url
-         })
-      }, [])
 
       const onCropComplete = useCallback((_croppedArea: Area, pixels: Area) => {
          setCroppedAreaPixels(pixels)
@@ -72,13 +55,15 @@ export const AvatarCropper = forwardRef<AvatarCropperRef, AvatarCropperProps>(
       const save = useCallback(async () => {
          if (!croppedAreaPixels) return
 
-         const img = await loadImage(image)
+         //createImage export in cropImage
+         //createImage - image URL into an HTMLImageElement object using a Promise
+         const img = await createImage(image)
          const canvas = document.createElement('canvas')
          canvas.width = size
          canvas.height = size
          const ctx = canvas.getContext('2d')!
 
-         // Круглая маска
+         // Round mask
          ctx.beginPath()
          ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2)
          ctx.closePath()
@@ -96,8 +81,12 @@ export const AvatarCropper = forwardRef<AvatarCropperRef, AvatarCropperProps>(
             size
          )
 
-         onFinish(canvas.toDataURL('image/png'))
-      }, [croppedAreaPixels, image, onFinish, loadImage, size])
+         canvas.toBlob(blob => {
+            if (!blob) return
+            const file = new File([blob], 'avatar.png', { type: 'image/png' })
+            onFinish(file)
+         }, 'image/png')
+      }, [croppedAreaPixels, image, onFinish, size])
 
       // Exporting func save through ref
       useImperativeHandle(ref, () => ({ save }), [save])
