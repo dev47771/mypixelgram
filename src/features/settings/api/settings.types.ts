@@ -24,3 +24,17 @@ export type CountriesResponse = Record<string, string[]>
 export type Country = keyof CountriesResponse
 
 export type City = CountriesResponse[Country][number]
+
+export type getSessionResponse = {
+   sessionId: string
+   deviceName: string
+   deviceType: 'mobile' | 'desktop' | 'tablet'
+   browser: string
+   os: string
+   lastActiveAt: string
+   isCurrent: boolean
+}
+
+export type getDevicesResponse = {
+   sessions: getSessionResponse[]
+}

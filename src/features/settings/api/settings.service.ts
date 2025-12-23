@@ -1,5 +1,10 @@
 import { baseApi } from '@/shared/store'
-import { CountriesResponse, getProfileResponse, updateProfileArgs } from './settings.types'
+import {
+   CountriesResponse,
+   getDevicesResponse,
+   getProfileResponse,
+   updateProfileArgs,
+} from './settings.types'
 import { UserEndpoints } from '@/entities/user'
 import { FilesEndpoints, UsersEndpoints } from '@/shared/enums'
 import { UploadFileResponse } from '@/features/posts/api'
@@ -47,6 +52,26 @@ export const settingsService = baseApi.injectEndpoints({
          }),
          invalidatesTags: ['Profile'],
       }),
+      getDevices: builder.query<getDevicesResponse, void>({
+         query: () => ({
+            url: UserEndpoints.devices,
+         }),
+         providesTags: ['Device'],
+      }),
+      deleteDeviceById: builder.mutation<void, { deviceId: string }>({
+         query: ({ deviceId }) => ({
+            url: `${UserEndpoints.devices}/${deviceId}`,
+            method: 'DELETE',
+         }),
+         invalidatesTags: ['Device'],
+      }),
+      deleteOtherDevices: builder.mutation<void, void>({
+         query: () => ({
+            url: UserEndpoints.devices,
+            method: 'DELETE',
+         }),
+         invalidatesTags: ['Device'],
+      }),
    }),
 })
 
@@ -56,4 +81,7 @@ export const {
    useGetCountriesWithCitiesQuery,
    useDeleteAvatarMutation,
    useUploadAvatarMutation,
+   useGetDevicesQuery,
+   useDeleteDeviceByIdMutation,
+   useDeleteOtherDevicesMutation,
 } = settingsService
