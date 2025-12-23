@@ -9,18 +9,28 @@ type Props = {
 export const ActiveSessions = ({ otherSessions }: Props) => {
    return (
       <div>
-         <Typography variant="h3">Active sessions</Typography>
-         {otherSessions?.map(s => (
-            <DevicesCard
-               key={s.sessionId}
-               deviceName={s.deviceName}
-               deviceType={s.deviceType}
-               ip={s.sessionId}
-               lastVisit={s.lastActiveAt}
-               sessionId={s.sessionId}
-               isCurrent={s.isCurrent}
-            />
-         ))}
+         <Typography variant="h3" className="mb-[18px]">
+            Active sessions
+         </Typography>
+         {otherSessions && otherSessions.length > 0 ? (
+            <div className="flex flex-col gap-[12px]">
+               {otherSessions?.map(s => (
+                  <DevicesCard
+                     key={s.sessionId}
+                     deviceName={s.deviceName}
+                     deviceType={s.deviceType}
+                     ip={s.ip}
+                     lastVisit={s.lastActiveAt}
+                     deviceId={s.deviceId}
+                     isCurrent={s.isCurrent}
+                  />
+               ))}
+            </div>
+         ) : (
+            <Typography variant="h1" className="mt-[84px] mb-[40px] text-center">
+               You have not yet logged in from other devices
+            </Typography>
+         )}
       </div>
    )
 }

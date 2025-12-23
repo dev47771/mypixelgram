@@ -25,23 +25,23 @@ export const DevicesTabPage = () => {
    return (
       <div className="flex flex-col">
          <CurrentDevice currentSession={currentSession} />
-         {otherSessions.length > 0 && (
-            <>
-               <Button
-                  variant="outlined"
-                  className="pl-auto pr-auto mb-[18px] ml-auto min-w-[257px]"
-                  onClick={handleDelete}
-                  disabled={isLoading}
-               >
-                  {isLoading ? (
-                     <Loader size="24px" color={'var(--color-light-100)'} fullscreen={false} />
-                  ) : (
-                     'Terminate all other session'
-                  )}
-               </Button>
-               <ActiveSessions otherSessions={otherSessions} />
-            </>
-         )}
+         <Button
+            variant="outlined"
+            className={`pl-auto pr-auto mb-[18px] ml-auto min-w-[257px] transition-all duration-200 ${
+               otherSessions.length > 0
+                  ? 'pointer-events-auto visible opacity-100'
+                  : 'pointer-events-none invisible opacity-0'
+            }`}
+            onClick={handleDelete}
+            disabled={isLoading || otherSessions.length === 0}
+         >
+            {isLoading ? (
+               <Loader size="24px" color={'var(--color-light-100)'} fullscreen={false} />
+            ) : (
+               'Terminate all other session'
+            )}
+         </Button>
+         <ActiveSessions otherSessions={otherSessions} />
       </div>
    )
 }

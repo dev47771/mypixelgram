@@ -13,10 +13,10 @@ export const CurrentDevice = ({ currentSession }: Props) => {
          <DevicesCard
             deviceName={currentSession?.deviceName}
             deviceType={currentSession?.deviceType}
-            ip={currentSession?.sessionId}
+            ip={currentSession?.ip}
             lastVisit={currentSession?.lastActiveAt}
-            sessionId={currentSession?.sessionId}
             isCurrent={currentSession?.isCurrent}
+            browser={currentSession?.browser}
             className="mt-[6px] mb-[24px]"
          />
       </div>

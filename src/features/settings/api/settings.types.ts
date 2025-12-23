@@ -27,10 +27,11 @@ export type City = CountriesResponse[Country][number]
 
 export type getSessionResponse = {
    sessionId: string
+   deviceId: string
    deviceName: string
    deviceType: 'mobile' | 'desktop' | 'tablet'
    browser: string
-   os: string
+   ip: string
    lastActiveAt: string
    isCurrent: boolean
 }
