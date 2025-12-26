@@ -24,6 +24,33 @@ type Payment = {
    payments: Payment[]
 } */
 
+/* {
+  "items": [
+    {
+      "id": "1",
+      "paymentDate": "2024-12-12",
+      "endDate": "2025-01-12",
+      "price": 10,
+      "subscriptionType": "1 month",
+      "paymentType": "Stripe"
+    }
+  ],
+  "totalCount": 83
+}
+
+GET /payments?page=3&pageSize=5
+
+getPayments: builder.query<
+  { items: Payment[]; totalCount: number },
+  { page: number; pageSize: number }
+>({
+  query: ({ page, pageSize }) => ({
+    url: 'payments',
+    params: { page, pageSize },
+  }),
+})
+ */
+
 const paymentsMock: Payment[] = [
    {
       id: '1',
@@ -157,136 +184,3 @@ export const PaymentTabPage = () => {
       </div>
    )
 }
-
-// import {
-//    Table,
-//    TableBody,
-//    TableCell,
-//    TableHead,
-//    TableHeadCell,
-//    TableRow,
-// } from '@/shared/components/Table'
-
-// type Payment = {
-//    id: string
-//    paymentDate: string
-//    endDate: string
-//    price: number
-//    subscriptionType: string
-//    paymentType: string
-// }
-
-// /* type Props = {
-//    payments: Payment[]
-// } */
-
-// const paymentsMock: Payment[] = [
-//    {
-//       id: '1',
-//       paymentDate: '12.12.2024',
-//       endDate: '12.01.2025',
-//       price: 10,
-//       subscriptionType: '1 month',
-//       paymentType: 'Stripe',
-//    },
-//    {
-//       id: '2',
-//       paymentDate: '12.11.2024',
-//       endDate: '12.12.2024',
-//       price: 10,
-//       subscriptionType: '1 month',
-//       paymentType: 'Stripe',
-//    },
-//    {
-//       id: '3',
-//       paymentDate: '12.10.2024',
-//       endDate: '12.11.2024',
-//       price: 10,
-//       subscriptionType: '1 month',
-//       paymentType: 'PayPal',
-//    },
-//    {
-//       id: '4',
-//       paymentDate: '12.09.2024',
-//       endDate: '12.10.2024',
-//       price: 25,
-//       subscriptionType: '3 months',
-//       paymentType: 'Stripe',
-//    },
-//    {
-//       id: '5',
-//       paymentDate: '12.06.2024',
-//       endDate: '12.09.2024',
-//       price: 25,
-//       subscriptionType: '3 months',
-//       paymentType: 'PayPal',
-//    },
-//    {
-//       id: '6',
-//       paymentDate: '12.03.2024',
-//       endDate: '12.06.2024',
-//       price: 50,
-//       subscriptionType: '6 months',
-//       paymentType: 'Stripe',
-//    },
-//    {
-//       id: '7',
-//       paymentDate: '12.09.2023',
-//       endDate: '12.03.2024',
-//       price: 50,
-//       subscriptionType: '6 months',
-//       paymentType: 'PayPal',
-//    },
-//    {
-//       id: '8',
-//       paymentDate: '12.09.2022',
-//       endDate: '12.09.2023',
-//       price: 90,
-//       subscriptionType: '1 year',
-//       paymentType: 'Stripe',
-//    },
-// ]
-
-// export const PaymentTabPage = () => {
-//    /* const { data, isLoading, isError } = useGetPaymentsQuery()
-
-//    if (isLoading) return <Loader />
-//    if (isError || !data) return <Typography>Failed to load payments</Typography>
-//  */
-
-//    const payments = paymentsMock
-
-//    return (
-//       <Table>
-//          <TableHead>
-//             <TableRow>
-//                <TableHeadCell>Date of Payment</TableHeadCell>
-//                <TableHeadCell>End date of subscription</TableHeadCell>
-//                <TableHeadCell>Price</TableHeadCell>
-//                <TableHeadCell>Subscription Type</TableHeadCell>
-//                <TableHeadCell>Payment Type</TableHeadCell>
-//             </TableRow>
-//          </TableHead>
-
-//          <TableBody>
-//             {payments.length > 0 ? (
-//                payments.map(payment => (
-//                   <TableRow key={payment.id}>
-//                      <TableCell>{payment.paymentDate}</TableCell>
-//                      <TableCell>{payment.endDate}</TableCell>
-//                      <TableCell>${payment.price}</TableCell>
-//                      <TableCell>{payment.subscriptionType}</TableCell>
-//                      <TableCell>{payment.paymentType}</TableCell>
-//                   </TableRow>
-//                ))
-//             ) : (
-//                <TableRow>
-//                   <TableCell colSpan={5} className="py-8 text-center">
-//                      No payments yet
-//                   </TableCell>
-//                </TableRow>
-//             )}
-//          </TableBody>
-//       </Table>
-//    )
-// }
