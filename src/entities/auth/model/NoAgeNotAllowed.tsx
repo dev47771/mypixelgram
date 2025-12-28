@@ -2,7 +2,8 @@
 import { useEffect } from 'react'
 import { useMeQuery } from '@/features/auth/api'
 import { usePathname, useRouter } from 'next/navigation'
-import { PrivateRoutes } from '@/shared/enums'
+import { settingsRoutes } from '@/shared/enums'
+import { alert } from '@/shared/components/Alert'
 
 export const NoAgeNotAllowed = () => {
    const router = useRouter()
@@ -11,7 +12,8 @@ export const NoAgeNotAllowed = () => {
 
    useEffect(() => {
       if (meData && !isLoading && meData.dateOfBirth === null) {
-         router.push(PrivateRoutes.settings(meData.login))
+         alert.error('Please ❤🙌 set you age !')
+         router.push(settingsRoutes.base)
       }
    }, [isLoading, meData, router, pathname])
 

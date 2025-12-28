@@ -2,7 +2,7 @@ import { PostOutlineIcon } from '@/shared/icons'
 import { cn } from '@/shared/lib'
 import Image from 'next/image'
 
-type AvatarSize = 'sm' | 'md' | 'lg'
+type AvatarSize = 'sm' | 'md' | 'lg' | 'profile'
 
 type Props = {
    src?: string | null
@@ -14,6 +14,7 @@ const variantSize: Record<AvatarSize, { px: number; class: string }> = {
    sm: { px: 36, class: 'w-[36px] h-[36px]' },
    md: { px: 54, class: 'w-[54px] h-[54px]' },
    lg: { px: 204, class: 'w-[204px] h-[204px]' },
+   profile: { px: 192, class: 'w-[192px] h-[192px]' },
 }
 
 export const Avatar = ({ src, alt = 'Avatar', size = 'sm' }: Props) => {

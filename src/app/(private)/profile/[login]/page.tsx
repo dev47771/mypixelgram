@@ -1,44 +1,61 @@
-'use client'
+import { notFound } from 'next/navigation'
+import { UserProfilePrivatePosts } from '@/widgets/UserProfile/UserProfilePosts'
+import { UserProfileHeader } from '@/widgets/UserProfile/UserProfileHeader'
+import { apiUrls } from '@/shared/constants'
+import { serverResponseHandler } from '@/shared/utils'
+import { privatePostsSchema } from '@/entities/posts/ui/schemas'
+import { userProfileSchema } from '@/entities/user/model'
+import { SaveAccessToken } from '@/shared/components/SaveAccessToken'
+import { headers } from 'next/headers'
 
-import { withPrivateRoute } from '@/shared/HOC'
-import { ProfileHeaderPrivate } from '@/entities/user/ui/ProfileHeader'
-import { ProfilePrivatePosts } from '@/features/posts/ui/ProfilePosts'
-import { useGetPostByIdQuery } from '@/features/posts/api'
-import { Post } from '@/entities/posts/ui/Post'
-import { EditPostModal } from '@/entities/posts/ui/modals/EditPostModal'
-import { usePostController } from '@/features/posts/hooks'
+type Props = {
+   params: Promise<{
+      login: string
+   }>
+}
 
-function ProfilePrivatePage() {
-   const {
-      login,
-      userProfile,
-      isLoading,
-      postId,
-      isPostOpen,
-      isEditOpen,
-      closeEditPostModal,
-      openPostModal,
-      closePostModal,
-   } = usePostController()
-   const { data: post, isFetching } = useGetPostByIdQuery(postId!, { skip: !postId })
+export default async function ProfilePrivatePage({ params }: Props) {
+   const headersList = await headers()
+   const accessToken = headersList.get('x-access-token')
 
-   if (isLoading) {
-      return <p>loading...</p>
+   if (!accessToken) {
+      return <div>Ошибка: нет access token</div>
    }
 
-   if (!userProfile) {
-      return <div>user not found</div>
+   const { login } = await params
+
+   const [userProfile, privatePosts] = await Promise.allSettled([
+      fetch(apiUrls.userProfile(login)).then(res => {
+         if (!res.ok) throw new Error(`Users HTTP error: ${res.status}`)
+         return res.json()
+      }),
+      fetch(apiUrls.userPrivatePosts(login), {
+         headers: { Authorization: `Bearer ${accessToken}` },
+      }).then(res => {
+         if (!res.ok) throw new Error(`Posts HTTP error: ${res.status}`)
+         return res.json()
+      }),
+   ])
+
+   const privatePostsResp = serverResponseHandler(privatePosts, privatePostsSchema)
+   const userProfileResp = serverResponseHandler(userProfile, userProfileSchema)
+
+   if (userProfileResp.status !== 'success' || !userProfileResp.data) {
+      return notFound()
    }
+
+   const userProfileContent = userProfileResp.data
+
+   const privatePostContent =
+      privatePostsResp.status === 'success'
+         ? privatePostsResp.data
+         : { publications: [], pageInfo: { nextCursor: null, hasMore: false } }
 
    return (
       <div className={'flex w-full flex-col pt-[36px] pl-6'}>
-         <ProfileHeaderPrivate userProfile={userProfile} />
-         <ProfilePrivatePosts login={login} onOpenPost={openPostModal} />
-         {isPostOpen && !isEditOpen && post && (
-            <Post post={post} isFetchingPost={isFetching} onClose={closePostModal} />
-         )}
-         {isEditOpen && post && <EditPostModal post={post} onCloseAction={closeEditPostModal} />}
+         <SaveAccessToken accessToken={accessToken} />
+         <UserProfileHeader userProfile={userProfileContent} />
+         <UserProfilePrivatePosts postsResponse={privatePostContent} login={login} />
       </div>
    )
 }
-export default withPrivateRoute(ProfilePrivatePage)

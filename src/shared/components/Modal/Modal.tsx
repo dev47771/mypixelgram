@@ -4,6 +4,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 
 type Props = {
    className?: string
+   portal?: React.ElementType
 } & ComponentPropsWithRef<typeof Dialog.Root>
 
 const ModalTitle = ({
@@ -42,10 +43,10 @@ const ModalBody = ({
    )
 }
 
-const Modal = ({ children, className, ...rest }: Props) => {
+const Modal = ({ portal: Portal = Dialog.Portal, children, className, ...rest }: Props) => {
    return (
       <Dialog.Root {...rest}>
-         <Dialog.Portal>
+         <Portal>
             <Dialog.Overlay className={'bg-dark-900/50 fixed inset-0'} />
 
             <Dialog.Content
@@ -57,7 +58,7 @@ const Modal = ({ children, className, ...rest }: Props) => {
             >
                {children}
             </Dialog.Content>
-         </Dialog.Portal>
+         </Portal>
       </Dialog.Root>
    )
 }

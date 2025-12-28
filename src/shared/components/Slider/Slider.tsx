@@ -11,6 +11,7 @@ import {
 import { ArrowLeftIcon, ArrowRightIcon } from '@/shared/icons'
 import Image from 'next/image'
 import React, { ReactNode, useEffect } from 'react'
+import { cn } from '@/shared/lib'
 
 type Props = {
    images: string[]
@@ -61,7 +62,7 @@ export const Slider = ({
                         src={src}
                         fill
                         alt={'slider_element'}
-                        className={isCrop ? 'object-cover' : 'object-contain'}
+                        className={cn(isCrop ? 'object-cover' : 'object-contain', 'cursor-pointer')}
                      />
                   )}
                </SliderSlide>
