@@ -5,6 +5,7 @@ import { settingsRoutes } from '@/shared/enums'
 import { useRouter } from 'next/navigation'
 import { SettingsTabType, settingsTabValues } from '../../constants/settingTabValues'
 import { InfoTabPage } from '../InfoTabPage/InfoTabPage'
+import { DevicesTabPage } from '../DevicesTabPage/DevicesTabPage'
 
 interface TabsBlockProps {
    initialPart: string
@@ -29,7 +30,9 @@ export function TabsBlock({ initialPart }: TabsBlockProps) {
             <TabsContent value={settingsTabValues.info}>
                <InfoTabPage />
             </TabsContent>
-            <TabsContent value={settingsTabValues.devices}>Devices content</TabsContent>
+            <TabsContent value={settingsTabValues.devices}>
+               <DevicesTabPage />
+            </TabsContent>
             <TabsContent value={settingsTabValues.subscriptions}>Subscriptions content</TabsContent>
             <TabsContent value={settingsTabValues.payments}>Payment info goes here</TabsContent>
          </Tabs>
