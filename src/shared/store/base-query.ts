@@ -41,7 +41,11 @@ export const baseQueryWithReAuth: BaseQueryFn<
       const urlParams = new URLSearchParams(window.location.search)
       const isOAuthSuccess = urlParams.get(QUERY_PARAMS.oauthSuccess) === 'true'
 
-      if (!token && !isOAuthSuccess) return result
+      //alert error for 401
+      if (!token && !isOAuthSuccess) {
+         handleError(api, result)
+         return result
+      }
 
       if (!mutex.isLocked()) {
          const release = await mutex.acquire()
