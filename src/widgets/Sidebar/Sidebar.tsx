@@ -63,6 +63,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
       skip: !token,
    })
 
+   const ageNotSet = user?.dateOfBirth === null
    const userId = user?.userId
 
    const handleLogoutClick = () => setIsLogoutModalOpen(true)
@@ -101,6 +102,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
                   path="/feed"
                />
                <SidebarItem
+                  disabled={ageNotSet}
                   id="2"
                   name="Create"
                   icon={CreateOutlineIcon}
