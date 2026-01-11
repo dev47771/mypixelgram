@@ -1,8 +1,13 @@
-import { baseApi } from '@/shared/store'
-import { CountriesResponse, getProfileResponse, updateProfileArgs } from './settings.types'
 import { UserEndpoints } from '@/entities/user'
-import { FilesEndpoints, UsersEndpoints } from '@/shared/enums'
 import { UploadFileResponse } from '@/features/posts/api'
+import { FilesEndpoints, UsersEndpoints } from '@/shared/enums'
+import { baseApi } from '@/shared/store'
+import {
+   CountriesResponse,
+   getProfileResponse,
+   PaymentsResponse,
+   updateProfileArgs,
+} from './settings.types'
 
 export const settingsService = baseApi.injectEndpoints({
    endpoints: builder => ({
@@ -47,8 +52,24 @@ export const settingsService = baseApi.injectEndpoints({
          }),
          invalidatesTags: ['Profile'],
       }),
+      getPayments: builder.query<PaymentsResponse, { page: number; limit: number }>({
+         query: ({ page, limit }) => ({
+            url: 'payment/payments',
+            params: { page, limit },
+         }),
+      }),
    }),
 })
+
+/* getPayments: builder.query<
+  { items: Payment[]; totalCount: number },
+  { page: number; pageSize: number }
+>({
+  query: ({ page, pageSize }) => ({
+    url: 'payments',
+    params: { page, pageSize },
+  }),
+}) */
 
 export const {
    useUpdateProfileMutation,
@@ -56,4 +77,5 @@ export const {
    useGetCountriesWithCitiesQuery,
    useDeleteAvatarMutation,
    useUploadAvatarMutation,
+   useGetPaymentsQuery,
 } = settingsService

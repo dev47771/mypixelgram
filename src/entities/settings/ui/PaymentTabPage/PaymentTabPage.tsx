@@ -1,5 +1,6 @@
 'use client'
 
+import { useGetPaymentsQuery } from '@/features/settings/api/settings.service'
 import { Pagination } from '@/shared/components/Pagination'
 import {
    Table,
@@ -11,130 +12,26 @@ import {
 } from '@/shared/components/Table'
 import { useState } from 'react'
 
-type Payment = {
-   id: string
-   paymentDate: string
-   endDate: string
-   price: number
-   subscriptionType: string
-   paymentType: string
-}
-
-/* type Props = {
-   payments: Payment[]
-} */
-
-/* {
-  "items": [
-    {
-      "id": "1",
-      "paymentDate": "2024-12-12",
-      "endDate": "2025-01-12",
-      "price": 10,
-      "subscriptionType": "1 month",
-      "paymentType": "Stripe"
-    }
-  ],
-  "totalCount": 83
-}
-
-GET /payments?page=3&pageSize=5
-
-getPayments: builder.query<
-  { items: Payment[]; totalCount: number },
-  { page: number; pageSize: number }
->({
-  query: ({ page, pageSize }) => ({
-    url: 'payments',
-    params: { page, pageSize },
-  }),
-})
- */
-
-const paymentsMock: Payment[] = [
-   {
-      id: '1',
-      paymentDate: '12.12.2024',
-      endDate: '12.01.2025',
-      price: 10,
-      subscriptionType: '1 month',
-      paymentType: 'Stripe',
-   },
-   {
-      id: '2',
-      paymentDate: '12.11.2024',
-      endDate: '12.12.2024',
-      price: 10,
-      subscriptionType: '1 month',
-      paymentType: 'Stripe',
-   },
-   {
-      id: '3',
-      paymentDate: '12.10.2024',
-      endDate: '12.11.2024',
-      price: 10,
-      subscriptionType: '1 month',
-      paymentType: 'PayPal',
-   },
-   {
-      id: '4',
-      paymentDate: '12.09.2024',
-      endDate: '12.10.2024',
-      price: 25,
-      subscriptionType: '3 months',
-      paymentType: 'Stripe',
-   },
-   {
-      id: '5',
-      paymentDate: '12.06.2024',
-      endDate: '12.09.2024',
-      price: 25,
-      subscriptionType: '3 months',
-      paymentType: 'PayPal',
-   },
-   {
-      id: '6',
-      paymentDate: '12.03.2024',
-      endDate: '12.06.2024',
-      price: 50,
-      subscriptionType: '6 months',
-      paymentType: 'Stripe',
-   },
-   {
-      id: '7',
-      paymentDate: '12.09.2023',
-      endDate: '12.03.2024',
-      price: 50,
-      subscriptionType: '6 months',
-      paymentType: 'PayPal',
-   },
-   {
-      id: '8',
-      paymentDate: '12.09.2022',
-      endDate: '12.09.2023',
-      price: 90,
-      subscriptionType: '1 year',
-      paymentType: 'Stripe',
-   },
-]
-
 const selectOptions = [
-   { label: '5', value: '5' },
+   //{ label: '5', value: '5' },
    { label: '10', value: '10' },
    { label: '20', value: '20' },
 ]
 
 export const PaymentTabPage = () => {
-   const payments = paymentsMock
-
    const [currentPage, setCurrentPage] = useState(1)
-   const [pageSize, setPageSize] = useState(5)
+   const [pageSize, setPageSize] = useState(10)
 
-   const totalCount = payments.length
+   const { data, isLoading, isError } = useGetPaymentsQuery({
+      page: currentPage,
+      limit: pageSize,
+   })
 
-   const startIndex = (currentPage - 1) * pageSize
-   const endIndex = startIndex + pageSize
-   const currentPayments = payments.slice(startIndex, endIndex)
+   if (isLoading) return <div>Loading...</div>
+   if (isError) return <div>Failed to load payments</div>
+
+   const payments = data?.payments ?? []
+   const totalCount = data?.pagination.total ?? 0
 
    return (
       <div className="flex flex-col gap-4">
@@ -150,12 +47,12 @@ export const PaymentTabPage = () => {
             </TableHead>
 
             <TableBody>
-               {currentPayments.length > 0 ? (
-                  currentPayments.map(payment => (
-                     <TableRow key={payment.id}>
+               {payments.length > 0 ? (
+                  payments.map((payment, index) => (
+                     <TableRow key={index}>
                         <TableCell>{payment.paymentDate}</TableCell>
                         <TableCell>{payment.endDate}</TableCell>
-                        <TableCell>${payment.price}</TableCell>
+                        <TableCell>${payment.amount}</TableCell>
                         <TableCell>{payment.subscriptionType}</TableCell>
                         <TableCell>{payment.paymentType}</TableCell>
                      </TableRow>
