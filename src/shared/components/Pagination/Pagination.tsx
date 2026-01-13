@@ -17,7 +17,7 @@ type Props = {
    currentPage: number
    onChangePage: (page: number) => void
    onPageSizeChange: (item: string) => void
-   selectOptions: SelectOptionsType[]
+   selectOptions: readonly SelectOptionsType[]
    pageSize: number
    siblingCount?: number
    totalCount: number

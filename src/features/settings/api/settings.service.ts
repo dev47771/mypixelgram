@@ -61,16 +61,6 @@ export const settingsService = baseApi.injectEndpoints({
    }),
 })
 
-/* getPayments: builder.query<
-  { items: Payment[]; totalCount: number },
-  { page: number; pageSize: number }
->({
-  query: ({ page, pageSize }) => ({
-    url: 'payments',
-    params: { page, pageSize },
-  }),
-}) */
-
 export const {
    useUpdateProfileMutation,
    useGetProfileQuery,

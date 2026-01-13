@@ -10,13 +10,9 @@ import {
    TableHeadCell,
    TableRow,
 } from '@/shared/components/Table'
-import { useState } from 'react'
+import { PAGE_SIZE_OPTIONS } from '@/shared/constants/pageSizeOptions'
 
-const selectOptions = [
-   { label: '10', value: '10' },
-   { label: '20', value: '20' },
-   { label: '50', value: '50' },
-]
+import { useState } from 'react'
 
 export const PaymentTabPage = () => {
    const [currentPage, setCurrentPage] = useState(1)
@@ -75,7 +71,7 @@ export const PaymentTabPage = () => {
                   setPageSize(Number(value))
                   setCurrentPage(1) // When changing the pageSize, jumps to first page
                }}
-               selectOptions={selectOptions}
+               selectOptions={PAGE_SIZE_OPTIONS}
                pageSize={pageSize}
                totalCount={totalCount}
             />
