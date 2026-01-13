@@ -13,9 +13,9 @@ import {
 import { useState } from 'react'
 
 const selectOptions = [
-   //{ label: '5', value: '5' },
    { label: '10', value: '10' },
    { label: '20', value: '20' },
+   { label: '50', value: '50' },
 ]
 
 export const PaymentTabPage = () => {
@@ -52,7 +52,7 @@ export const PaymentTabPage = () => {
                      <TableRow key={index}>
                         <TableCell>{payment.paymentDate}</TableCell>
                         <TableCell>{payment.endDate}</TableCell>
-                        <TableCell>${payment.amount}</TableCell>
+                        <TableCell>{payment.amount}</TableCell>
                         <TableCell>{payment.subscriptionType}</TableCell>
                         <TableCell>{payment.paymentType}</TableCell>
                      </TableRow>
@@ -67,17 +67,19 @@ export const PaymentTabPage = () => {
             </TableBody>
          </Table>
 
-         <Pagination
-            currentPage={currentPage}
-            onChangePage={setCurrentPage}
-            onPageSizeChange={value => {
-               setPageSize(Number(value))
-               setCurrentPage(1) // ⚠️ обязательно
-            }}
-            selectOptions={selectOptions}
-            pageSize={pageSize}
-            totalCount={totalCount}
-         />
+         {totalCount > pageSize && (
+            <Pagination
+               currentPage={currentPage}
+               onChangePage={setCurrentPage}
+               onPageSizeChange={value => {
+                  setPageSize(Number(value))
+                  setCurrentPage(1) // When changing the pageSize, jumps to first page
+               }}
+               selectOptions={selectOptions}
+               pageSize={pageSize}
+               totalCount={totalCount}
+            />
+         )}
       </div>
    )
 }
