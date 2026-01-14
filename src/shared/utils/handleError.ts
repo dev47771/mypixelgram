@@ -49,7 +49,7 @@ export const handleError = (
             }
             break
          case 404:
-            error = 'User not found'
+            error = 'Not found'
             break
          default:
             if (

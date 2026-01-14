@@ -1,6 +1,7 @@
 'use client'
 
 import { useGetPaymentsQuery } from '@/features/settings/api/settings.service'
+import { Loader } from '@/shared/components/Loader'
 import { Pagination } from '@/shared/components/Pagination'
 import {
    Table,
@@ -10,7 +11,7 @@ import {
    TableHeadCell,
    TableRow,
 } from '@/shared/components/Table'
-import { PAGE_SIZE_OPTIONS } from '@/shared/constants/pageSizeOptions'
+import { PAGE_SIZE_OPTIONS } from '@/entities/settings/constants/pageSizeOptions'
 
 import { useState } from 'react'
 
@@ -23,8 +24,14 @@ export const PaymentTabPage = () => {
       limit: pageSize,
    })
 
-   if (isLoading) return <div>Loading...</div>
-   if (isError) return <div>Failed to load payments</div>
+   if (isLoading) return <Loader />
+   if (isError) {
+      return (
+         <div className="bg-dark-500 border-dark-300 mx-auto w-fit border p-4">
+            Failed to payments. Please try again later.
+         </div>
+      )
+   }
 
    const payments = data?.payments ?? []
    const totalCount = data?.pagination.total ?? 0

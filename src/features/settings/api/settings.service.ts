@@ -8,6 +8,7 @@ import {
    PaymentsResponse,
    updateProfileArgs,
 } from './settings.types'
+import { PaymentsEndpoints } from '@/shared/enums/paymentsEndpoints'
 
 export const settingsService = baseApi.injectEndpoints({
    endpoints: builder => ({
@@ -54,9 +55,10 @@ export const settingsService = baseApi.injectEndpoints({
       }),
       getPayments: builder.query<PaymentsResponse, { page: number; limit: number }>({
          query: ({ page, limit }) => ({
-            url: 'payment/payments',
+            url: PaymentsEndpoints.profile,
             params: { page, limit },
          }),
+         providesTags: ['Payments'],
       }),
    }),
 })

@@ -1,5 +1,3 @@
-import z from 'zod'
-
 export type updateProfileArgs = {
    login: string
    firstName: string
@@ -29,28 +27,26 @@ export type City = CountriesResponse[Country][number]
 
 //payments
 
-export const SubscriptionTypeSchema = z.enum(['DAY', 'WEEK', 'MONTH', 'YEAR'])
+export type SubscriptionType = 'DAY' | 'WEEK' | 'MONTH' | 'YEAR'
 
-export const PaymentTypeSchema = z.enum(['Stripe', 'PayPal'])
+export type PaymentType = 'Stripe' | 'PayPal'
 
-export const PaymentSchema = z.object({
-   paymentDate: z.string(),
-   endDate: z.string(),
-   amount: z.string(),
-   subscriptionType: SubscriptionTypeSchema,
-   paymentType: PaymentTypeSchema,
-})
+export type Payment = {
+   paymentDate: string
+   endDate: string
+   amount: string
+   subscriptionType: SubscriptionType
+   paymentType: PaymentType
+}
 
-export const PaginationSchema = z.object({
-   page: z.number(),
-   limit: z.number(),
-   total: z.number(),
-   pages: z.number(),
-})
+export type Pagination = {
+   page: number
+   limit: number
+   total: number
+   pages: number
+}
 
-export const PaymentsResponseSchema = z.object({
-   payments: z.array(PaymentSchema),
-   pagination: PaginationSchema,
-})
-
-export type PaymentsResponse = z.infer<typeof PaymentsResponseSchema>
+export type PaymentsResponse = {
+   payments: Payment[]
+   pagination: Pagination
+}
