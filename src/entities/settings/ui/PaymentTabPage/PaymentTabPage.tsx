@@ -12,23 +12,26 @@ import {
    TableRow,
 } from '@/shared/components/Table'
 import { PAGE_SIZE_OPTIONS } from '@/entities/settings/constants/pageSizeOptions'
-
 import { useState } from 'react'
+import { Button } from '@/shared/components/Button'
 
 export const PaymentTabPage = () => {
    const [currentPage, setCurrentPage] = useState(1)
    const [pageSize, setPageSize] = useState(10)
 
-   const { data, isLoading, isError } = useGetPaymentsQuery({
+   const { data, isLoading, isError, isFetching, refetch } = useGetPaymentsQuery({
       page: currentPage,
       limit: pageSize,
    })
 
-   if (isLoading) return <Loader />
+   if (isLoading || isFetching) return <Loader />
    if (isError) {
       return (
          <div className="bg-dark-500 border-dark-300 mx-auto w-fit border p-4">
             Failed to payments. Please try again later.
+            <Button onClick={() => refetch()} className="ml-8">
+               Try again
+            </Button>
          </div>
       )
    }
