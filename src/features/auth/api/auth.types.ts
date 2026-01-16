@@ -1,3 +1,5 @@
+import { SubscriptionPlanName } from '@/entities/settings/ui/SubscriptionTabPage'
+
 export type MeResponse = {
    userId: string
    avatar: string | null
@@ -5,6 +7,12 @@ export type MeResponse = {
    email: string
    createdAt: string
    dateOfBirth: string | null
+   accountType: 'PERSONAL' | 'BUSINESS'
+   currentSubscription: null | {
+      planName: SubscriptionPlanName
+      expiresAt: string
+      nextPayment: string
+   }
 }
 
 export type SignUpArgs = {

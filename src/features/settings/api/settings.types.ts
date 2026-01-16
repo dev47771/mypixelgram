@@ -1,3 +1,5 @@
+import { SubscriptionPlanName } from '@/entities/settings/ui/SubscriptionTabPage'
+
 export type updateProfileArgs = {
    login: string
    firstName: string
@@ -8,6 +10,12 @@ export type updateProfileArgs = {
    aboutMe?: string
 }
 
+export type CreateSubscriptionArgs = {
+   planId: SubscriptionPlanName
+}
+export type CreateSubscriptionResponse = {
+   paymentUrl: string
+}
 export type getProfileResponse = {
    login: string
    firstName: string

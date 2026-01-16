@@ -1,6 +1,8 @@
 import { baseApi } from '@/shared/store'
 import {
    CountriesResponse,
+   CreateSubscriptionArgs,
+   CreateSubscriptionResponse,
    getDevicesResponse,
    getProfileResponse,
    updateProfileArgs,
@@ -72,6 +74,14 @@ export const settingsService = baseApi.injectEndpoints({
          }),
          invalidatesTags: ['Device'],
       }),
+      createSubscription: builder.mutation<CreateSubscriptionResponse, CreateSubscriptionArgs>({
+         query: body => ({
+            url: `${UserEndpoints.subscription}/checkout`,
+            method: 'POST',
+            body,
+         }),
+         invalidatesTags: ['Device'],
+      }),
    }),
 })
 
@@ -84,4 +94,5 @@ export const {
    useGetDevicesQuery,
    useDeleteDeviceByIdMutation,
    useDeleteOtherDevicesMutation,
+   useCreateSubscriptionMutation,
 } = settingsService

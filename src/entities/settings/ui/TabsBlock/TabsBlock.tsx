@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { SettingsTabType, settingsTabValues } from '../../constants/settingTabValues'
 import { InfoTabPage } from '../InfoTabPage/InfoTabPage'
 import { DevicesTabPage } from '../DevicesTabPage/DevicesTabPage'
+import { SubscriptionTabPage } from '@/entities/settings/ui/SubscriptionTabPage'
 
 interface TabsBlockProps {
    initialPart: string
@@ -33,7 +34,9 @@ export function TabsBlock({ initialPart }: TabsBlockProps) {
             <TabsContent value={settingsTabValues.devices}>
                <DevicesTabPage />
             </TabsContent>
-            <TabsContent value={settingsTabValues.subscriptions}>Subscriptions content</TabsContent>
+            <TabsContent value={settingsTabValues.subscriptions}>
+               <SubscriptionTabPage />
+            </TabsContent>
             <TabsContent value={settingsTabValues.payments}>Payment info goes here</TabsContent>
          </Tabs>
       </div>
