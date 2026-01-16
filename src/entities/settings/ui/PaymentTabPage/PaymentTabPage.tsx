@@ -11,13 +11,18 @@ import {
    TableHeadCell,
    TableRow,
 } from '@/shared/components/Table'
-import { PAGE_SIZE_OPTIONS } from '@/entities/settings/constants/pageSizeOptions'
+import {
+   PAGE_SIZE_OPTIONS,
+   PageSize,
+   START_CURRENT_PAGE,
+   START_PAGE_SIZE,
+} from '@/entities/settings/constants/pageSizeOptions'
 import { useState } from 'react'
 import { Button } from '@/shared/components/Button'
 
 export const PaymentTabPage = () => {
-   const [currentPage, setCurrentPage] = useState(1)
-   const [pageSize, setPageSize] = useState(10)
+   const [currentPage, setCurrentPage] = useState(START_CURRENT_PAGE)
+   const [pageSize, setPageSize] = useState<PageSize>(START_PAGE_SIZE)
 
    const { data, isLoading, isError, isFetching, refetch } = useGetPaymentsQuery({
       page: currentPage,
@@ -54,8 +59,8 @@ export const PaymentTabPage = () => {
 
             <TableBody>
                {payments.length > 0 ? (
-                  payments.map((payment, index) => (
-                     <TableRow key={index}>
+                  payments.map(payment => (
+                     <TableRow key={payment.id}>
                         <TableCell>{payment.paymentDate}</TableCell>
                         <TableCell>{payment.endDate}</TableCell>
                         <TableCell>{payment.amount}</TableCell>
@@ -78,11 +83,11 @@ export const PaymentTabPage = () => {
                currentPage={currentPage}
                onChangePage={setCurrentPage}
                onPageSizeChange={value => {
-                  setPageSize(Number(value))
+                  setPageSize(Number(value) as PageSize)
                   setCurrentPage(1) // When changing the pageSize, jumps to first page
                }}
                selectOptions={PAGE_SIZE_OPTIONS}
-               pageSize={pageSize}
+               pageSize={Number(pageSize)}
                totalCount={totalCount}
             />
          )}

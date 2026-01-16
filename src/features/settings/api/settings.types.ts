@@ -32,6 +32,7 @@ export type SubscriptionType = 'DAY' | 'WEEK' | 'MONTH' | 'YEAR'
 export type PaymentType = 'Stripe' | 'PayPal'
 
 export type Payment = {
+   id: string
    paymentDate: string
    endDate: string
    amount: string
