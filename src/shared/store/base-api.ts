@@ -5,6 +5,6 @@ import { baseQueryWithReAuth } from '@/shared/store/base-query'
 export const baseApi = createApi({
    reducerPath: 'baseApi',
    baseQuery: baseQueryWithReAuth,
-   tagTypes: ['getPosts', 'getPost', 'Profile', 'Device'],
+   tagTypes: ['getPosts', 'getPost', 'Profile', 'Device', 'Payments'],
    endpoints: () => ({}),
 })

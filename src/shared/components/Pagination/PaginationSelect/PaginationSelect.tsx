@@ -13,7 +13,7 @@ export type SelectOptionsType = {
 }
 
 type Props = {
-   selectOptions: SelectOptionsType[]
+   selectOptions: readonly SelectOptionsType[]
    onPageSizeChange: (item: string) => void
    defaultValue?: string
 }

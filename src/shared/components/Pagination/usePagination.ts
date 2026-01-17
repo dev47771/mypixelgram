@@ -15,19 +15,19 @@ const range = (start: number, end: number) => {
 
 type PaginationParams = {
    currentPage: number
-   // pageSize: number
+   pageSize: number
    siblingCount: number
    totalCount: number
 }
 export const usePagination = ({
    currentPage,
-   // pageSize,
+   pageSize,
    siblingCount = 1,
    totalCount,
 }: PaginationParams): ('...' | number)[] => {
    return useMemo(() => {
       // As a first step, we shall go about calculating the total pages from totalCount and pageSize  as follows:
-      const totalPageCount = Math.ceil(totalCount)
+      const totalPageCount = Math.ceil(totalCount / pageSize)
       // Pages count is determined as siblingCount + firstPage + lastPage + currentPage + 2*DOTS
       const totalPageNumbers = siblingCount + 5
 

@@ -17,7 +17,7 @@ type Props = {
    currentPage: number
    onChangePage: (page: number) => void
    onPageSizeChange: (item: string) => void
-   selectOptions: SelectOptionsType[]
+   selectOptions: readonly SelectOptionsType[]
    pageSize: number
    siblingCount?: number
    totalCount: number
@@ -37,7 +37,7 @@ export const Pagination = ({
 
    const paginationRange = usePagination({
       currentPage,
-      // pageSize,
+      pageSize,
       siblingCount,
       totalCount,
    })

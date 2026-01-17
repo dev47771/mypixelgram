@@ -39,3 +39,29 @@ export type getSessionResponse = {
 export type getDevicesResponse = {
    sessions: getSessionResponse[]
 }
+
+//payments
+export type SubscriptionType = 'DAY' | 'WEEK' | 'MONTH' | 'YEAR'
+
+export type PaymentType = 'Stripe' | 'PayPal'
+
+export type Payment = {
+   id: string
+   paymentDate: string
+   endDate: string
+   amount: string
+   subscriptionType: SubscriptionType
+   paymentType: PaymentType
+}
+
+export type Pagination = {
+   page: number
+   limit: number
+   total: number
+   pages: number
+}
+
+export type PaymentsResponse = {
+   payments: Payment[]
+   pagination: Pagination
+}

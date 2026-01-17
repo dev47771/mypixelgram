@@ -1,13 +1,15 @@
+import { UserEndpoints } from '@/entities/user'
+import { UploadFileResponse } from '@/features/posts/api'
+import { FilesEndpoints, UsersEndpoints } from '@/shared/enums'
 import { baseApi } from '@/shared/store'
 import {
    CountriesResponse,
+   PaymentsResponse,
+   updateProfileArgs,
    getDevicesResponse,
    getProfileResponse,
-   updateProfileArgs,
 } from './settings.types'
-import { UserEndpoints } from '@/entities/user'
-import { FilesEndpoints, UsersEndpoints } from '@/shared/enums'
-import { UploadFileResponse } from '@/features/posts/api'
+import { PaymentsEndpoints } from '@/shared/enums/paymentsEndpoints'
 
 export const settingsService = baseApi.injectEndpoints({
    endpoints: builder => ({
@@ -72,6 +74,22 @@ export const settingsService = baseApi.injectEndpoints({
          }),
          invalidatesTags: ['Device'],
       }),
+      //createSubscription заглушка запроса на подписку
+      createSubscription: builder.mutation<{ paymentUrl: string }, { planId: string }>({
+         query: body => ({
+            method: 'POST',
+            url: 'payment/subscriptions/checkout',
+            body,
+         }),
+         invalidatesTags: ['Payments'],
+      }),
+      getPayments: builder.query<PaymentsResponse, { page: number; limit: number }>({
+         query: ({ page, limit }) => ({
+            url: PaymentsEndpoints.profile,
+            params: { page, limit },
+         }),
+         providesTags: ['Payments'],
+      }),
    }),
 })
 
@@ -84,4 +102,5 @@ export const {
    useGetDevicesQuery,
    useDeleteDeviceByIdMutation,
    useDeleteOtherDevicesMutation,
+   useGetPaymentsQuery,
 } = settingsService
