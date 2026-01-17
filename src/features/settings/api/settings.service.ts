@@ -53,6 +53,15 @@ export const settingsService = baseApi.injectEndpoints({
          }),
          invalidatesTags: ['Profile'],
       }),
+      //createSubscription заглушка запроса на подписку
+      createSubscription: builder.mutation<{ paymentUrl: string }, { planId: string }>({
+         query: body => ({
+            method: 'POST',
+            url: 'payment/subscriptions/checkout',
+            body,
+         }),
+         invalidatesTags: ['Payments'],
+      }),
       getPayments: builder.query<PaymentsResponse, { page: number; limit: number }>({
          query: ({ page, limit }) => ({
             url: PaymentsEndpoints.profile,
