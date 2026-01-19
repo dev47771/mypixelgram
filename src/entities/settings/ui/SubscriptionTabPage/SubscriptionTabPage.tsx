@@ -8,19 +8,31 @@ import { PayPalIcon, StripeIcon } from '@/shared/icons'
 import { useCreateSubscriptionMutation } from '@/features/settings/api/settings.service'
 import { alert } from '@/shared/components/Alert'
 import { Loader } from '@/shared/components/Loader'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { prettifyDate } from '@/shared/utils/date/prettifyDate'
+import { OkModal } from '@/entities/common/ui'
+import { clearQueryParam } from '@/shared/utils'
 
 export type SubscriptionPlanName = 'DAY' | 'WEEK' | 'MONTH' | 'YEAR'
 
 export const SubscriptionTabPage = () => {
    const { data } = useMeQuery()
    const [createSubscriptionReq] = useCreateSubscriptionMutation()
-   const router = useRouter()
 
+   const router = useRouter()
+   const searchParams = useSearchParams()
+   const pathname = usePathname()
+
+   const paymentStatus = searchParams.get('payment_status')
    const [changeAccountType, setChangeAccountType] = useState('PERSONAL')
    const [changeSubscription, setChangeSubscription] = useState('DAY')
 
    const businessAccount = changeAccountType === 'BUSINESS'
+   const successfulPaymentStatus = paymentStatus === 'success'
+   const errorPaymentStatus = paymentStatus === 'error'
+
+   const [isSuccessfulModalOpen, setIsSuccessfulModalOpen] = useState(successfulPaymentStatus)
+   const [isErrorModalOpen, setIsErrorModalOpen] = useState(errorPaymentStatus)
 
    useEffect(() => {
       if (data?.accountType) {
@@ -45,6 +57,12 @@ export const SubscriptionTabPage = () => {
       }
    }
 
+   const modalButtonHandler = (setter: (value: boolean) => void) => {
+      setter(false)
+      const newParams = clearQueryParam(searchParams, 'payment_status')
+      router.replace(pathname + '?' + newParams)
+   }
+
    if (!data) {
       return <Loader />
    }
@@ -66,9 +84,7 @@ export const SubscriptionTabPage = () => {
                         Expire at
                      </Typography>
                      <Typography variant={'captionBold'}>
-                        {new Date(data?.currentSubscription?.expiresAt).toLocaleDateString('ru', {
-                           dateStyle: 'short',
-                        })}
+                        {prettifyDate(data?.currentSubscription?.expiresAt)}
                      </Typography>
                   </div>
                   <div className={'flex flex-col gap-3'}>
@@ -80,9 +96,7 @@ export const SubscriptionTabPage = () => {
                         Next payment
                      </Typography>
                      <Typography variant={'captionBold'}>
-                        {new Date(data?.currentSubscription?.nextPayment).toLocaleDateString('ru', {
-                           dateStyle: 'short',
-                        })}
+                        {prettifyDate(data?.currentSubscription?.nextPayment)}
                      </Typography>
                   </div>
                </Card>
@@ -132,6 +146,21 @@ export const SubscriptionTabPage = () => {
                </div>
             </>
          )}
+         <OkModal
+            open={isSuccessfulModalOpen}
+            title={'Success'}
+            description={'Payment was successful!'}
+            buttonText={'OK'}
+            onOpenChangeAction={() => modalButtonHandler(setIsSuccessfulModalOpen)}
+         />
+         <OkModal
+            open={isErrorModalOpen}
+            className={'min-w-[376px]'}
+            title={'Error'}
+            description={'Transaction failed. Please, write to support'}
+            buttonText={'Back to payment'}
+            onOpenChangeAction={() => modalButtonHandler(setIsErrorModalOpen)}
+         />
       </section>
    )
 }
