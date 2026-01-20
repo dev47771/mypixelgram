@@ -80,7 +80,6 @@ export const settingsService = baseApi.injectEndpoints({
             method: 'POST',
             body,
          }),
-         invalidatesTags: ['Device'],
       }),
    }),
 })
