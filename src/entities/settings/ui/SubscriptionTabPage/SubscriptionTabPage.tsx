@@ -12,8 +12,10 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { prettifyDate } from '@/shared/utils/date/prettifyDate'
 import { OkModal } from '@/entities/common/ui'
 import { clearQueryParam } from '@/shared/utils'
+import { ACCOUNT_TYPE, PAYMENT_RESULT } from '@/shared/constants'
 
 export type SubscriptionPlanName = 'DAY' | 'WEEK' | 'MONTH' | 'YEAR'
+type AccountType = (typeof ACCOUNT_TYPE)[keyof typeof ACCOUNT_TYPE]
 
 export const SubscriptionTabPage = () => {
    const { data } = useMeQuery()
@@ -24,19 +26,22 @@ export const SubscriptionTabPage = () => {
    const pathname = usePathname()
 
    const paymentStatus = searchParams.get('payment_status')
-   const [changeAccountType, setChangeAccountType] = useState('PERSONAL')
+   const [changeAccountType, setChangeAccountType] = useState<AccountType>(ACCOUNT_TYPE.PERSONAL)
+   const [userAccountType, setUserAccountType] = useState<AccountType>(ACCOUNT_TYPE.PERSONAL)
    const [changeSubscription, setChangeSubscription] = useState('DAY')
 
-   const businessAccount = changeAccountType === 'BUSINESS'
-   const successfulPaymentStatus = paymentStatus === 'success'
-   const errorPaymentStatus = paymentStatus === 'error'
+   const isUserHaveAlreadyBusinessAccount = userAccountType === ACCOUNT_TYPE.BUSINESS
+   const isBusinessAccount = changeAccountType === ACCOUNT_TYPE.BUSINESS
+   const isSuccessfulPaymentStatus = paymentStatus === PAYMENT_RESULT.success
+   const isErrorPaymentStatus = paymentStatus === PAYMENT_RESULT.error
 
-   const [isSuccessfulModalOpen, setIsSuccessfulModalOpen] = useState(successfulPaymentStatus)
-   const [isErrorModalOpen, setIsErrorModalOpen] = useState(errorPaymentStatus)
+   const [isSuccessfulModalOpen, setIsSuccessfulModalOpen] = useState(isSuccessfulPaymentStatus)
+   const [isErrorModalOpen, setIsErrorModalOpen] = useState(isErrorPaymentStatus)
 
    useEffect(() => {
       if (data?.accountType) {
          setChangeAccountType(data.accountType)
+         setUserAccountType(data.accountType)
       }
       if (data?.accountType && data?.currentSubscription?.planName) {
          setChangeSubscription(data?.currentSubscription?.planName)
@@ -63,13 +68,19 @@ export const SubscriptionTabPage = () => {
       router.replace(pathname + '?' + newParams)
    }
 
+   const onAccountTypeChange = (value: string) => {
+      if (value === ACCOUNT_TYPE.BUSINESS || value === ACCOUNT_TYPE.PERSONAL) {
+         setChangeAccountType(value)
+      }
+   }
+
    if (!data) {
       return <Loader />
    }
 
    return (
       <section>
-         {businessAccount && data.currentSubscription && (
+         {isBusinessAccount && data.currentSubscription && (
             <>
                <Typography variant={'h3'} className={'mb-4.5'}>
                   Current Subscription:
@@ -106,12 +117,16 @@ export const SubscriptionTabPage = () => {
             Account type:
          </Typography>
          <Card className={'mb-10.5 px-3 py-1.5'}>
-            <RadioGroup value={changeAccountType} onValueChange={setChangeAccountType}>
-               <RadioItem disabled={businessAccount} value={'PERSONAL'} label={'Personal'} />
+            <RadioGroup value={changeAccountType} onValueChange={onAccountTypeChange}>
+               <RadioItem
+                  disabled={isUserHaveAlreadyBusinessAccount}
+                  value={'PERSONAL'}
+                  label={'Personal'}
+               />
                <RadioItem value={'BUSINESS'} label={'Business'} />
             </RadioGroup>
          </Card>
-         {businessAccount && (
+         {isBusinessAccount && (
             <>
                <Typography variant={'h3'} className={'mb-4.5'}>
                   Your subscription costs:
