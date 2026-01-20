@@ -120,10 +120,10 @@ export const SubscriptionTabPage = () => {
             <RadioGroup value={changeAccountType} onValueChange={onAccountTypeChange}>
                <RadioItem
                   disabled={isUserHaveAlreadyBusinessAccount}
-                  value={'PERSONAL'}
+                  value={ACCOUNT_TYPE.PERSONAL}
                   label={'Personal'}
                />
-               <RadioItem value={'BUSINESS'} label={'Business'} />
+               <RadioItem value={ACCOUNT_TYPE.BUSINESS} label={'Business'} />
             </RadioGroup>
          </Card>
          {isBusinessAccount && (
