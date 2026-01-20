@@ -64,7 +64,7 @@ export const Pagination = ({
    const isLastPage = currentPage === paginationRange[paginationRange.length - 1]
 
    return (
-      <div className={twMerge(clsx('m-[5px] flex items-center gap-3', className))}>
+      <div className={twMerge(clsx('text-s m-[5px] flex items-center gap-3', className))}>
          <div className={'flex items-center gap-3'}>
             {paginationRange.length < 2 ? null : (
                <>
@@ -120,7 +120,7 @@ export const Pagination = ({
                </>
             )}
 
-            <div className={'flex items-center gap-2.5 whitespace-nowrap'}>
+            <div className={'text-s flex items-center gap-2.5 whitespace-nowrap'}>
                Show
                <PaginationSelect
                   selectOptions={selectOptions}

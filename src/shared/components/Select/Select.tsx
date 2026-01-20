@@ -36,7 +36,7 @@ function SelectTrigger({ id, label, className, isPagination = false, children, .
             id={selectId}
             data-slot="select-trigger"
             className={twMerge(
-               'group text-light-100 border-dark-100 flex w-fit cursor-pointer items-center justify-between rounded-xs border py-1.5 text-base outline-none',
+               'group text-light-100 border-dark-100 text-s flex w-fit cursor-pointer items-center justify-between rounded-xs border py-1.5 outline-none',
 
                'focus-visible:text-light-900 focus-visible:border-accent-500',
                'disabled:border-dark-100 disabled:text-dark-100 disabled:cursor-not-allowed',
@@ -117,7 +117,7 @@ function SelectItem({
       <SelectPrimitive.Item
          data-slot="select-item"
          className={clsx(
-            'relative flex w-full cursor-pointer items-center gap-2 py-1.5 text-base outline-hidden select-none',
+            'text-s relative flex w-full cursor-pointer items-center gap-2 py-1.5 outline-hidden select-none',
 
             'focus:bg-accent active:text-light-100 focus:text-accent-foreground',
 
