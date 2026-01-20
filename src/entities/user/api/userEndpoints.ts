@@ -4,5 +4,5 @@ export enum UserEndpoints {
    settings = '/users/profile',
    countriesWithCities = '/public/users/getCountriesWithCities',
    devices = '/security/devices',
-   subscription = '/payment/subscriptions',
+   subscription = '/payment/subscriptions/checkout',
 }

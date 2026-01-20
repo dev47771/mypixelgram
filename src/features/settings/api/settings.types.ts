@@ -1,4 +1,4 @@
-import { SubscriptionPlanName } from '@/entities/settings/ui/SubscriptionTabPage'
+import { SubscriptionPlanName } from '@/entities/settings'
 
 export type updateProfileArgs = {
    login: string

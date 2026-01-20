@@ -7,7 +7,7 @@ import { CrossIcon } from '@/shared/icons'
 import { ReactNode } from 'react'
 import { cn } from '@/shared/lib'
 
-export type YesAndNoModalProps = {
+type Props = {
    open: boolean
    title: string
    description: ReactNode
@@ -23,7 +23,7 @@ export const OkModal = ({
    onOpenChangeAction,
    buttonText,
    className,
-}: YesAndNoModalProps) => {
+}: Props) => {
    return (
       <Modal open={open} onOpenChange={onOpenChangeAction}>
          <ModalTitle className="flex items-center justify-between">

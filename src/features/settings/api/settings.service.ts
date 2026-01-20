@@ -76,7 +76,7 @@ export const settingsService = baseApi.injectEndpoints({
       }),
       createSubscription: builder.mutation<CreateSubscriptionResponse, CreateSubscriptionArgs>({
          query: body => ({
-            url: `${UserEndpoints.subscription}/checkout`,
+            url: UserEndpoints.subscription,
             method: 'POST',
             body,
          }),
