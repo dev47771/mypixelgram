@@ -78,19 +78,17 @@ export const PaymentTabPage = () => {
             </TableBody>
          </Table>
 
-         {totalCount > pageSize && (
-            <Pagination
-               currentPage={currentPage}
-               onChangePage={setCurrentPage}
-               onPageSizeChange={value => {
-                  setPageSize(Number(value) as PageSize)
-                  setCurrentPage(1) // When changing the pageSize, jumps to first page
-               }}
-               selectOptions={PAGE_SIZE_OPTIONS}
-               pageSize={Number(pageSize)}
-               totalCount={totalCount}
-            />
-         )}
+         <Pagination
+            currentPage={currentPage}
+            onChangePage={setCurrentPage}
+            onPageSizeChange={value => {
+               setPageSize(Number(value) as PageSize)
+               setCurrentPage(1) // When changing the pageSize, jumps to first page
+            }}
+            selectOptions={PAGE_SIZE_OPTIONS}
+            pageSize={Number(pageSize)}
+            totalCount={totalCount}
+         />
       </div>
    )
 }
