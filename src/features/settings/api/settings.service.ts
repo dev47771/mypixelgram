@@ -79,7 +79,6 @@ export const settingsService = baseApi.injectEndpoints({
             url: PaymentsEndpoints.paymentsList,
             params: { page, limit },
          }),
-         providesTags: ['Payments'],
       }),
    }),
 })
