@@ -1,3 +1,4 @@
+'use client'
 import { baseApi } from '@/shared/store'
 import {
    CountriesResponse,
