@@ -1,7 +1,7 @@
 'use client'
 
 import { Loader } from '@/shared/components/Loader'
-import { OkModal } from '@/entities/common/ui'
+import { OkModal, YesAndNoModal } from '@/entities/common/ui'
 import {
    CurrentSubscription,
    SubscriptionOptions,
@@ -22,11 +22,15 @@ export const SubscriptionTabPage = () => {
       onAccountTypeChange,
       setChangeSubscription,
       createSubscription,
+      onCancelSubscription,
 
       isSuccessfulModalOpen,
       isErrorModalOpen,
+      isCancelModalOpen,
       closeSuccessModal,
       closeErrorModal,
+      closeCancelModal,
+      openCancelModal,
    } = useSubscription()
 
    if (!data) {
@@ -39,6 +43,7 @@ export const SubscriptionTabPage = () => {
             <CurrentSubscription
                expiresAt={data.currentSubscription.expiresAt}
                nextPayment={data.currentSubscription.nextPayment}
+               onCancelClick={openCancelModal}
             />
          )}
 
@@ -53,6 +58,7 @@ export const SubscriptionTabPage = () => {
                value={changeSubscription}
                onChange={setChangeSubscription}
                onPay={createSubscription}
+               isActiveSubscription={!!data.currentSubscription}
             />
          )}
 
@@ -71,6 +77,14 @@ export const SubscriptionTabPage = () => {
             description="Transaction failed. Please, write to support"
             buttonText="Back to payment"
             onOpenChangeAction={closeErrorModal}
+         />
+
+         <YesAndNoModal
+            open={isCancelModalOpen}
+            onCancel={closeCancelModal}
+            onConfirm={onCancelSubscription}
+            title="Cancel subscription"
+            description="Are you sure you want to cancel your subscription?"
          />
       </section>
    )

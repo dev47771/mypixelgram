@@ -90,6 +90,13 @@ export const settingsService = baseApi.injectEndpoints({
             params: { page, limit },
          }),
       }),
+      deleteSubscription: builder.mutation<void, void>({
+         query: () => ({
+            url: PaymentsEndpoints.deleteSubscription,
+            method: 'DELETE',
+         }),
+         invalidatesTags: ['Me'],
+      }),
    }),
 })
 
@@ -104,4 +111,5 @@ export const {
    useDeleteOtherDevicesMutation,
    useCreateSubscriptionMutation,
    useGetPaymentsQuery,
+   useDeleteSubscriptionMutation,
 } = settingsService

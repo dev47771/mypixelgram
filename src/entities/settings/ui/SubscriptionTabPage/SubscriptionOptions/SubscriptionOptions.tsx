@@ -8,13 +8,14 @@ type Props = {
    value: SubscriptionPlanName
    onChange: (value: SubscriptionPlanName) => void
    onPay: () => void
+   isActiveSubscription: boolean
 }
 
-export const SubscriptionOptions = ({ value, onChange, onPay }: Props) => {
+export const SubscriptionOptions = ({ value, onChange, onPay, isActiveSubscription }: Props) => {
    return (
       <>
          <Typography variant="h3" className="mb-4.5">
-            Your subscription costs:
+            {isActiveSubscription ? 'Change your subscription:' : 'Your subscription costs:'}
          </Typography>
 
          <Card className="mb-6 px-3 py-1.5">
