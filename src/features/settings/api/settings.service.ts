@@ -1,14 +1,17 @@
-import { UserEndpoints } from '@/entities/user'
-import { UploadFileResponse } from '@/features/posts/api'
-import { FilesEndpoints, UsersEndpoints } from '@/shared/enums'
+'use client'
 import { baseApi } from '@/shared/store'
 import {
    CountriesResponse,
-   PaymentsResponse,
-   updateProfileArgs,
+   CreateSubscriptionArgs,
+   CreateSubscriptionResponse,
    getDevicesResponse,
    getProfileResponse,
+   PaymentsResponse,
+   updateProfileArgs,
 } from './settings.types'
+import { UserEndpoints } from '@/entities/user'
+import { UploadFileResponse } from '@/features/posts/api'
+import { FilesEndpoints, UsersEndpoints } from '@/shared/enums'
 import { PaymentsEndpoints } from '@/shared/enums/paymentsEndpoints'
 
 export const settingsService = baseApi.injectEndpoints({
@@ -74,6 +77,13 @@ export const settingsService = baseApi.injectEndpoints({
          }),
          invalidatesTags: ['Device'],
       }),
+      createSubscription: builder.mutation<CreateSubscriptionResponse, CreateSubscriptionArgs>({
+         query: body => ({
+            url: UserEndpoints.subscription,
+            method: 'POST',
+            body,
+         }),
+      }),
       getPayments: builder.query<PaymentsResponse, { page: number; limit: number }>({
          query: ({ page, limit }) => ({
             url: PaymentsEndpoints.paymentsList,
@@ -92,5 +102,6 @@ export const {
    useGetDevicesQuery,
    useDeleteDeviceByIdMutation,
    useDeleteOtherDevicesMutation,
+   useCreateSubscriptionMutation,
    useGetPaymentsQuery,
 } = settingsService

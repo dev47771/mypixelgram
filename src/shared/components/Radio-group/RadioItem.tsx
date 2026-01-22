@@ -30,7 +30,7 @@ export const RadioItem = (props: Props) => {
    const isDisabled = disabled || groupDisabled
 
    return (
-      <div className="group flex items-center gap-3">
+      <div className="group flex items-center gap-3 p-1.5">
          <div
             className={clsx(
                'relative',
