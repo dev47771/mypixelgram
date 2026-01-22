@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation'
 import { Button } from '@/shared/components/Button'
 import Link from 'next/link'
 import { settingsRoutes } from '@/shared/enums'
+import { PaidIcon } from '@/shared/icons/PaidIcon'
 
 type UserProfileHeaderProps = {
    actions?: ReactNode
@@ -37,6 +38,7 @@ export const UserProfileHeader = ({ userProfile }: UserProfileHeaderProps) => {
                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                      <Typography variant="h1">{user.login}</Typography>
+                     {meData?.currentSubscription && <PaidIcon />}
                   </div>
                   {getActions(meData, userLogin)}
                </div>
