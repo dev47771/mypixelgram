@@ -3,7 +3,10 @@
 import { useEffect, useState } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { useMeQuery } from '@/features/auth/api'
-import { useCreateSubscriptionMutation } from '@/features/settings/api/settings.service'
+import {
+   useCreateSubscriptionMutation,
+   useDeleteSubscriptionMutation,
+} from '@/features/settings/api/settings.service'
 import { alert } from '@/shared/components/Alert'
 import { clearQueryParam } from '@/shared/utils'
 import { ACCOUNT_TYPE, PAYMENT_RESULT } from '@/entities/settings'
@@ -15,6 +18,7 @@ export type AccountType = (typeof ACCOUNT_TYPE)[keyof typeof ACCOUNT_TYPE]
 export const useSubscription = () => {
    const { data } = useMeQuery()
    const [createSubscriptionReq] = useCreateSubscriptionMutation()
+   const [cancelSubscription] = useDeleteSubscriptionMutation()
 
    const router = useRouter()
    const pathname = usePathname()
@@ -34,6 +38,7 @@ export const useSubscription = () => {
 
    const [isSuccessfulModalOpen, setIsSuccessfulModalOpen] = useState(isSuccessfulPaymentStatus)
    const [isErrorModalOpen, setIsErrorModalOpen] = useState(isErrorPaymentStatus)
+   const [isCancelModalOpen, setCancelModalOpen] = useState(false)
 
    useEffect(() => {
       if (!data) return
@@ -69,6 +74,20 @@ export const useSubscription = () => {
       }
    }
 
+   const onCancelSubscription = async () => {
+      try {
+         await cancelSubscription().unwrap()
+         setCancelModalOpen(false)
+         alert.success('Subscription successfully canceled')
+      } catch (error) {
+         console.error(error)
+         alert.error('Something went wrong, please try again 💊')
+      }
+   }
+
+   const closeCancelModal = () => setCancelModalOpen(false)
+   const openCancelModal = () => setCancelModalOpen(true)
+
    const closeSuccessModal = () => {
       setIsSuccessfulModalOpen(false)
       const newParams = clearQueryParam(searchParams, QUERY_PARAMS.paymentStatus)
@@ -93,10 +112,14 @@ export const useSubscription = () => {
       onAccountTypeChange,
       setChangeSubscription,
       createSubscription,
+      onCancelSubscription,
 
       isSuccessfulModalOpen,
       isErrorModalOpen,
+      isCancelModalOpen,
       closeSuccessModal,
       closeErrorModal,
+      closeCancelModal,
+      openCancelModal,
    }
 }

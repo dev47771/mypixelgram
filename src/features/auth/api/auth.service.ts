@@ -23,6 +23,7 @@ export const authService = baseApi.injectEndpoints({
             method: 'GET',
             url: AuthEndpoints.me,
          }),
+         providesTags: ['Me'],
       }),
       signUp: builder.mutation<void, SignUpArgs>({
          query: args => ({
