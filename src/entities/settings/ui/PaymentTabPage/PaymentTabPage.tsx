@@ -44,16 +44,18 @@ export const PaymentTabPage = () => {
    const payments = data?.payments ?? []
    const totalCount = data?.pagination.total ?? 0
 
+   const paddingClass = 'py-2'
+
    return (
       <div className="flex flex-col gap-4">
-         <Table>
+         <Table className="table-fixed">
             <TableHead>
                <TableRow>
-                  <TableHeadCell>Date of Payment</TableHeadCell>
-                  <TableHeadCell>End date of subscription</TableHeadCell>
-                  <TableHeadCell>Price</TableHeadCell>
-                  <TableHeadCell>Subscription Type</TableHeadCell>
-                  <TableHeadCell>Payment Type</TableHeadCell>
+                  <TableHeadCell className={paddingClass}>Date of Payment</TableHeadCell>
+                  <TableHeadCell className={paddingClass}>End date of subscription</TableHeadCell>
+                  <TableHeadCell className={paddingClass}>Price</TableHeadCell>
+                  <TableHeadCell className={paddingClass}>Subscription Type</TableHeadCell>
+                  <TableHeadCell className={paddingClass}>Payment Type</TableHeadCell>
                </TableRow>
             </TableHead>
 
@@ -61,11 +63,11 @@ export const PaymentTabPage = () => {
                {payments.length > 0 ? (
                   payments.map(payment => (
                      <TableRow key={payment.id}>
-                        <TableCell>{payment.paymentDate}</TableCell>
-                        <TableCell>{payment.endDate}</TableCell>
-                        <TableCell>{payment.amount}</TableCell>
-                        <TableCell>{payment.subscriptionType}</TableCell>
-                        <TableCell>{payment.paymentType}</TableCell>
+                        <TableCell className={paddingClass}>{payment.paymentDate}</TableCell>
+                        <TableCell className={paddingClass}>{payment.endDate}</TableCell>
+                        <TableCell className={paddingClass}>{payment.amount}</TableCell>
+                        <TableCell className={paddingClass}>{payment.subscriptionType}</TableCell>
+                        <TableCell className={paddingClass}>{payment.paymentType}</TableCell>
                      </TableRow>
                   ))
                ) : (
@@ -78,19 +80,17 @@ export const PaymentTabPage = () => {
             </TableBody>
          </Table>
 
-         {totalCount > pageSize && (
-            <Pagination
-               currentPage={currentPage}
-               onChangePage={setCurrentPage}
-               onPageSizeChange={value => {
-                  setPageSize(Number(value) as PageSize)
-                  setCurrentPage(1) // When changing the pageSize, jumps to first page
-               }}
-               selectOptions={PAGE_SIZE_OPTIONS}
-               pageSize={Number(pageSize)}
-               totalCount={totalCount}
-            />
-         )}
+         <Pagination
+            currentPage={currentPage}
+            onChangePage={setCurrentPage}
+            onPageSizeChange={value => {
+               setPageSize(Number(value) as PageSize)
+               setCurrentPage(1) // When changing the pageSize, jumps to first page
+            }}
+            selectOptions={PAGE_SIZE_OPTIONS}
+            pageSize={Number(pageSize)}
+            totalCount={totalCount}
+         />
       </div>
    )
 }
