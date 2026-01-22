@@ -1,5 +1,6 @@
 import type { ComponentPropsWithRef } from 'react'
 import { clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
 const Table = ({ className, ...rest }: ComponentPropsWithRef<'table'>) => {
    return (
@@ -27,9 +28,11 @@ TableBody.displayName = 'TableBody'
 const TableCell = ({ className, ...rest }: ComponentPropsWithRef<'td'>) => {
    return (
       <td
-         className={clsx(
-            'border-dark-500 font-regular leading-m text-s h-full border-b-1 px-4 py-6',
-            className
+         className={twMerge(
+            clsx(
+               'border-dark-500 font-regular leading-m text-s h-full border-b-1 px-4 py-6',
+               className
+            )
          )}
          {...rest}
       />
@@ -45,7 +48,7 @@ TableRow.displayName = 'TableRow'
 const TableHeadCell = ({ className, ...rest }: ComponentPropsWithRef<'th'>) => {
    return (
       <th
-         className={clsx('leading-m text-s px-4 py-6 text-left font-semibold', className)}
+         className={twMerge(clsx('leading-m text-s px-4 py-6 text-left font-semibold', className))}
          {...rest}
       />
    )

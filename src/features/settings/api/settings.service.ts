@@ -6,11 +6,13 @@ import {
    CreateSubscriptionResponse,
    getDevicesResponse,
    getProfileResponse,
+   PaymentsResponse,
    updateProfileArgs,
 } from './settings.types'
 import { UserEndpoints } from '@/entities/user'
-import { FilesEndpoints, UsersEndpoints } from '@/shared/enums'
 import { UploadFileResponse } from '@/features/posts/api'
+import { FilesEndpoints, UsersEndpoints } from '@/shared/enums'
+import { PaymentsEndpoints } from '@/shared/enums/paymentsEndpoints'
 
 export const settingsService = baseApi.injectEndpoints({
    endpoints: builder => ({
@@ -82,6 +84,12 @@ export const settingsService = baseApi.injectEndpoints({
             body,
          }),
       }),
+      getPayments: builder.query<PaymentsResponse, { page: number; limit: number }>({
+         query: ({ page, limit }) => ({
+            url: PaymentsEndpoints.paymentsList,
+            params: { page, limit },
+         }),
+      }),
    }),
 })
 
@@ -95,4 +103,5 @@ export const {
    useDeleteDeviceByIdMutation,
    useDeleteOtherDevicesMutation,
    useCreateSubscriptionMutation,
+   useGetPaymentsQuery,
 } = settingsService

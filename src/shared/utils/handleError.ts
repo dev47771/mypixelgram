@@ -8,6 +8,7 @@ import {
 import { isErrorWithMessage } from '.'
 import { alert } from '@/shared/components/Alert'
 import { isErrorInArray } from '@/shared/utils/typeguards/isErrorInArray'
+import { AuthEndpoints } from '../enums'
 
 export const handleError = (
    api: BaseQueryApi,
@@ -18,7 +19,9 @@ export const handleError = (
 
    //remove the 401 alert for the request me
    const requestUrl = result.meta?.request.url || ''
-   const isMeRequest = requestUrl.includes('/auth/me')
+   //const isMeRequest = requestUrl.includes('/auth/me')
+   const isSilentAuthRequest =
+      requestUrl.includes(AuthEndpoints.me) || requestUrl.includes(AuthEndpoints.logout)
 
    if (result.error) {
       switch (result.error.status) {
@@ -43,13 +46,13 @@ export const handleError = (
                error = JSON.stringify(result.error.data)
             }
 
-            //remove the 401 alert for the request me
-            if (isMeRequest && result.error.status === 401) {
+            //remove the 401 alert for the request me/logout
+            if (isSilentAuthRequest && result.error.status === 401) {
                flag = false
             }
             break
          case 404:
-            error = 'User not found'
+            error = 'Not found'
             break
          default:
             if (
