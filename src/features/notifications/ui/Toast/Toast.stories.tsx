@@ -14,24 +14,28 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-   render: () => {
-      return (
-         <div>
-            <Toast
-               id="1"
-               onClose={id => {
-                  console.log(id)
-               }}
-               onSoundChange={() => {}}
-               isMuted
-               title="Новое уведомление!"
-               message="Следующая оплата спишется через 7 дней. Все понятно? Надеюсь, да, не забудь заплатить)"
-            />
-            {/* <ToastContainer /> */}
-            {/* <Button className="bg-success-700 mr-4">
-               Send message :)
-            </Button> */}
-         </div>
-      )
+   args: {
+      id: "1",
+      onClose: () => {},
+      onSoundChange: () => {},
+      onOpenNotifications: () => {},
+      isMuted: false,
+      title: "Новое уведомление!",
+      message: "Следующая оплата спишется через 7 дней. Все понятно? Надеюсь, да, не забудь заплатить)"
+   },
+}
+
+export const Muted: Story = {
+   args: {
+      ...Default.args,
+      isMuted: true,
+   },
+}
+
+export const LongMessage: Story = {
+   args: {
+      ...Default.args,
+      title: "Важное обновление",
+      message: "Дорогой пользователь! Мы выпустили важное обновление безопасности. Пожалуйста, обновите свои данные для продолжения работы с сервисом. Это займет не более 2 минут."
    },
 }

@@ -5,20 +5,23 @@ import { VolumeMuteIcon } from '@/shared/icons/VolumeMuteIcon'
 
 type Props = {
    id: string
-   onClose: (id: string) => void
+   onClose: () => void
    onSoundChange: () => void
+   onOpenNotifications: () => void
    isMuted: boolean
    title: string
    message: string
 }
 
-export const Toast = ({ id, onClose, onSoundChange, isMuted, title, message }: Props) => {
-   const handleCloseToast = () => onClose(id)
+export const Toast = ({ id, onClose, onSoundChange, onOpenNotifications, isMuted, title, message }: Props) => {
+   const handleCloseToast = () => onClose()
    const toggleNotificationSound = () => onSoundChange()
+   const handleNotificationClick = () => onOpenNotifications()
 
    return (
       <div
          key={id}
+         onClick={handleNotificationClick}
          className="text-light-100 bg-dark-500 border-dark-300 hover:border-dark-100 z-20 max-w-[400px] cursor-pointer border-2 px-4 py-5 wrap-break-word transition-all"
       >
          <div className="mb-4 flex content-center items-center justify-between">
