@@ -8,12 +8,20 @@ type Props = {
    onClose: () => void
    onSoundChange: () => void
    onOpenNotifications: () => void
-   isMuted: boolean
+   isSoundEnabled: boolean
    title: string
    message: string
 }
 
-export const Toast = ({ id, onClose, onSoundChange, onOpenNotifications, isMuted, title, message }: Props) => {
+export const Toast = ({
+   id,
+   onClose,
+   onSoundChange,
+   onOpenNotifications,
+   isSoundEnabled,
+   title,
+   message,
+}: Props) => {
    const handleCloseToast = () => onClose()
    const toggleNotificationSound = () => onSoundChange()
    const handleNotificationClick = () => onOpenNotifications()
@@ -31,7 +39,7 @@ export const Toast = ({ id, onClose, onSoundChange, onOpenNotifications, isMuted
                   onClick={toggleNotificationSound}
                   className="hover:text-accent-300 cursor-pointer"
                >
-                  {isMuted ? <VolumeMuteIcon /> : <VolumeIcon />}
+                  {isSoundEnabled ? <VolumeIcon /> : <VolumeMuteIcon />}
                </button>
                <button onClick={handleCloseToast} className="hover:text-accent-300 cursor-pointer">
                   <CrossIcon />
