@@ -1,3 +1,4 @@
+'use client'
 import { Button } from '@/shared/components/Button'
 import { Typography } from '@/shared/components/Typography'
 import { PublicRoutes } from '@/shared/enums'

@@ -15,7 +15,12 @@ export const withPublicRoute = <P extends object>(WrappedComponent: ComponentTyp
       const { data, isLoading } = useMeQuery()
 
       useEffect(() => {
-         if (data && !pathname.includes(PublicRoutes.createNewPassword)) {
+         if (
+            data &&
+            !pathname.includes(PublicRoutes.createNewPassword) &&
+            !pathname.includes(PublicRoutes.privacyPolicy) &&
+            !pathname.includes(PublicRoutes.termsOfService)
+         ) {
             router.replace(PrivateRoutes.feed)
          }
       }, [data, pathname, router])
@@ -24,7 +29,11 @@ export const withPublicRoute = <P extends object>(WrappedComponent: ComponentTyp
          return <Loader />
       }
 
-      if (data) {
+      if (
+         data &&
+         !pathname.includes(PublicRoutes.privacyPolicy) &&
+         !pathname.includes(PublicRoutes.termsOfService)
+      ) {
          return null
       }
 

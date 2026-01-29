@@ -46,6 +46,7 @@ const eslintConfig = [
          'react-hooks/rules-of-hooks': 'error',
          'react-hooks/exhaustive-deps': 'warn',
          'no-console': ['warn', { allow: ['warn', 'error'] }],
+         '@typescript-eslint/no-non-null-assertion': 'error',
       },
    },
    {

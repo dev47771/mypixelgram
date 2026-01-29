@@ -4,6 +4,7 @@ import { Header } from '@/widgets/Header'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { NoAgeNotAllowed } from '@/entities/auth'
 
 const inter = Inter({
    variable: '--font-inter',
@@ -53,6 +54,7 @@ export default function RootLayout({
                <Header notificationCount={4} />
                {children}
                <Alert />
+               <NoAgeNotAllowed />
             </body>
          </html>
       </StoreProvider>

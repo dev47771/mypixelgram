@@ -1,3 +1,5 @@
+import { SettingsTabType } from '@/entities/settings/model/constants/settingTabValues'
+
 export enum PublicRoutes {
    createNewPassword = '/create-new-password',
    forgotPassword = '/forgot-password',
@@ -11,7 +13,7 @@ export enum PublicRoutes {
 }
 
 export enum PrivateRoutes {
-   profile = '/profile', //нужно будет удалить
+   profile = '/profile',
    settings = '/profile/settings',
    favorites = '/favorites',
    feed = '/feed',
@@ -23,4 +25,9 @@ export enum PrivateRoutes {
 export const profileRoutes = {
    private: (login: string) => `/profile/${login}`,
    public: (login: string) => `/profile/${login}/public`,
+}
+
+export const settingsRoutes = {
+   base: `/profile/settings`,
+   create: (part: SettingsTabType) => `/profile/settings?part=${part}`,
 }

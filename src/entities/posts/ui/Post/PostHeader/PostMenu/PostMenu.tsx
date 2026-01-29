@@ -1,3 +1,4 @@
+'use client'
 import { MoreIcon } from '@/shared/icons'
 import { DropDownMenu, DropDownMenuItem } from '@/shared/components/DropDownMenu'
 import { DropDownMenuTrigger } from '@/shared/components/DropDownMenu/DropDownMenuTrigger'
@@ -5,13 +6,17 @@ import { Typography } from '@/shared/components/Typography'
 import { POST_MENU_ITEMS } from '@/entities/posts/ui/Post/PostHeader/PostMenu/config'
 import { DeletePostModal } from '@/entities/posts/ui/modals/DeletePostModal/DeletePostModal'
 import { usePostController } from '@/features/posts/hooks'
+import { useMeQuery } from '@/features/auth/api'
 
 type Props = {
-   isOwner: boolean
+   userId: string
    postId: string
 }
 
-export const PostMenu = ({ isOwner }: Props) => {
+export const PostMenu = ({ userId }: Props) => {
+   const { data: me } = useMeQuery()
+   const isOwner = me?.userId === userId
+
    const dropDownItems = isOwner ? POST_MENU_ITEMS.owner : POST_MENU_ITEMS.viewer
    const { handleMenuAction, isDeleteModalOpen, confirmDelete, closeDeletePostModal } =
       usePostController()
