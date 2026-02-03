@@ -3,7 +3,7 @@
 import { PageContainer } from '@/shared/components/PageContainer'
 import { useState } from 'react'
 import { SignUpForm } from '@/features/auth/forms/SignUpForm'
-import { EmailSentModal } from '@/entities/auth/ui/EmailSentModal'
+import { EmailSentModal } from '@/features/auth/ui/EmailSentModal'
 import { SignUpArgs, useSignUpMutation } from '@/features/auth/api'
 import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataResponse'
 import { useOAuthErrorModal } from '@/features/auth/hooks/useOAuthErrorModal'

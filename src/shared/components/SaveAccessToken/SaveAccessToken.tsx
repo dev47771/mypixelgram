@@ -1,6 +1,6 @@
 'use client'
 
-import { authStorage } from '@/entities/auth/model/authStorage'
+import { authStorage } from '@/features/auth/model/authStorage'
 import { useLayoutEffect } from 'react'
 type Props = {
    accessToken: string

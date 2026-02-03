@@ -1,5 +1,5 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { OAuthErrorModal } from '@/entities/auth/ui/OAuthErrorModal'
+import { OAuthErrorModal } from '@/features/auth/ui/OAuthErrorModal'
 import { useState } from 'react'
 
 export const useOAuthErrorModal = () => {
