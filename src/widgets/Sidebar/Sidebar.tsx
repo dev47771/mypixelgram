@@ -21,7 +21,7 @@ import {
    SearchIcon,
    StatisticIcon,
 } from '@/shared/icons'
-import { YesAndNoModal } from '@/shared/ui/YesAndNoModal'
+import { YesAndNoModal } from '@/shared/ui/modals/YesAndNoModal'
 import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
 import { TOKEN } from '@/shared/constants'
 import { profileRoutes, PublicRoutes } from '@/shared/enums'

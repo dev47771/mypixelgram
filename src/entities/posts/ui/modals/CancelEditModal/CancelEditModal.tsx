@@ -1,4 +1,4 @@
-import { YesAndNoModal, YesAndNoModalProps } from '@/shared/ui/YesAndNoModal/YesAndNoModal'
+import { YesAndNoModal, YesAndNoModalProps } from '@/shared/ui/modals/YesAndNoModal/YesAndNoModal'
 
 type Props = YesAndNoModalProps
 

@@ -7,8 +7,8 @@ import {
    UserAccountType,
    useSubscription,
 } from '@/entities/settings'
-import { OkModal } from '@/shared/ui/OkModal'
-import { YesAndNoModal } from '@/shared/ui/YesAndNoModal'
+import { OkModal } from '@/shared/ui/modals/OkModal'
+import { YesAndNoModal } from '@/shared/ui/modals/YesAndNoModal'
 
 export const SubscriptionTabPage = () => {
    const {
