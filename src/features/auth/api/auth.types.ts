@@ -1,4 +1,4 @@
-import { SubscriptionPlanName } from '@/entities/settings'
+import { SubscriptionPlanName } from '@/features/settings'
 
 export type MeResponse = {
    userId: string

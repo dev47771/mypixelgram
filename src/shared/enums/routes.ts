@@ -1,4 +1,4 @@
-import { SettingsTabType } from '@/entities/settings/model/constants/settingTabValues'
+import { SettingsTabType } from '@/features/settings/model/constants/settingTabValues'
 
 export enum PublicRoutes {
    createNewPassword = '/create-new-password',

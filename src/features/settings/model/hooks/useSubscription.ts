@@ -9,7 +9,7 @@ import {
 } from '@/features/settings/api/settings.service'
 import { alert } from '@/shared/components/Alert'
 import { clearQueryParam } from '@/shared/utils'
-import { ACCOUNT_TYPE, PAYMENT_RESULT } from '@/entities/settings'
+import { ACCOUNT_TYPE, PAYMENT_RESULT } from '@/features/settings'
 import { QUERY_PARAMS } from '@/shared/constants'
 
 export type SubscriptionPlanName = 'DAY' | 'WEEK' | 'MONTH' | 'YEAR'

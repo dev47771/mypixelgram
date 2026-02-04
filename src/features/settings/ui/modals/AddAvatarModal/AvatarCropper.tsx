@@ -61,7 +61,12 @@ export const AvatarCropper = forwardRef<AvatarCropperRef, AvatarCropperProps>(
          const canvas = document.createElement('canvas')
          canvas.width = size
          canvas.height = size
-         const ctx = canvas.getContext('2d')!
+         const ctx = canvas.getContext('2d')
+
+         if (!ctx) {
+            console.error('Canvas 2D context is not supported')
+            return
+         }
 
          // Round mask
          ctx.beginPath()

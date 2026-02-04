@@ -10,8 +10,8 @@ import {
    SETTINGS_TAB_VALUES,
    SettingsTabType,
    SubscriptionTabPage,
-} from '@/entities/settings'
-import { PaymentTabPage } from '../../entities/settings/ui/PaymentTabPage/PaymentTabPage'
+} from '@/features/settings'
+import { PaymentTabPage } from '@/features/settings/ui/PaymentTabPage'
 
 interface TabsBlockProps {
    initialPart: string

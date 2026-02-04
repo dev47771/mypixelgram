@@ -6,7 +6,7 @@ import {
    SubscriptionOptions,
    UserAccountType,
    useSubscription,
-} from '@/entities/settings'
+} from '@/features/settings'
 import { OkModal } from '@/shared/ui/modals/OkModal'
 import { YesAndNoModal } from '@/shared/ui/modals/YesAndNoModal'
 

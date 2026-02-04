@@ -2,7 +2,7 @@ import { Typography } from '@/shared/components/Typography'
 import { RadioGroup, RadioItem } from '@/shared/components/Radio-group'
 import { Card } from '@/shared/components/Card'
 import { PayPalIcon, StripeIcon } from '@/shared/icons'
-import { SubscriptionPlanName } from '@/entities/settings'
+import { SubscriptionPlanName } from '@/features/settings'
 
 type Props = {
    value: SubscriptionPlanName
