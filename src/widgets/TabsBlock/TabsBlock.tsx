@@ -11,7 +11,7 @@ import {
    SettingsTabType,
    SubscriptionTabPage,
 } from '@/entities/settings'
-import { PaymentTabPage } from '../PaymentTabPage/PaymentTabPage'
+import { PaymentTabPage } from '../../entities/settings/ui/PaymentTabPage/PaymentTabPage'
 
 interface TabsBlockProps {
    initialPart: string
@@ -44,7 +44,7 @@ export function TabsBlock({ initialPart }: TabsBlockProps) {
             </TabsContent>
             <TabsContent value={SETTINGS_TAB_VALUES.payments}>
                <PaymentTabPage />
-             </TabsContent>
+            </TabsContent>
          </Tabs>
       </div>
    )

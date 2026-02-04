@@ -1,4 +1,3 @@
-export { TabsBlock } from './ui/TabsBlock/TabsBlock'
 export { ACCOUNT_TYPE } from './model/constants/accountType'
 export { PAYMENT_RESULT } from './model/constants/paymentResult'
 export { SubscriptionTabPage } from './ui/SubscriptionTabPage/SubscriptionTabPage'
