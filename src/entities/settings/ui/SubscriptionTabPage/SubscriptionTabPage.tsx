@@ -1,13 +1,14 @@
 'use client'
 
 import { Loader } from '@/shared/components/Loader'
-import { OkModal, YesAndNoModal } from '@/entities/common/ui'
 import {
    CurrentSubscription,
    SubscriptionOptions,
    UserAccountType,
    useSubscription,
 } from '@/entities/settings'
+import { OkModal } from '@/shared/ui/OkModal'
+import { YesAndNoModal } from '@/shared/ui/YesAndNoModal'
 
 export const SubscriptionTabPage = () => {
    const {

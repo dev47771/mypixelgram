@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { OkModal } from '@/entities/common/ui'
+import { OkModal } from './OkModal'
 
 const meta: Meta<typeof OkModal> = {
    title: 'Modals/OkModal',
