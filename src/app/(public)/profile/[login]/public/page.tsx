@@ -3,7 +3,7 @@ import { UserProfileHeader} from '@/widgets/UserProfile/UserProfileHeader'
 import {UserProfilePublicPosts} from '@/widgets/UserProfile/UserProfilePosts'
 import {apiUrls} from "@/shared/constants";
 import {serverResponseHandler} from "@/shared/utils";
-import {publicPostsSchema} from "@/entities/posts/ui/schemas";
+import {publicPostsSchema} from "@/entities/post/model/schemas";
 import {userProfileSchema} from "@/entities/user/model";
 import {notFound} from "next/navigation";
 

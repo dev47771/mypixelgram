@@ -1,6 +1,6 @@
 import { apiUrls } from '@/shared/constants'
-import type { PostByIdType } from '@/features/posts/api'
-import { PostClientWrapper } from '@/entities/posts/ui/Post'
+import type { PostByIdType } from '@/features/post/api'
+import { PostClientWrapper } from '@/entities/post/ui/Post'
 import { PostNotFound } from './PostNotFound'
 
 export async function PostPageWrapper({ postId }: { postId: string }) {

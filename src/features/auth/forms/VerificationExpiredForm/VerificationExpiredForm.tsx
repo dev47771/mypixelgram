@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import clsx from 'clsx'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { verificationExpiredSchema } from '../../schema/authSchemas'
+import { verificationExpiredSchema } from '../../model/schemas/authSchemas'
 
 type FormTypes = z.infer<typeof verificationExpiredSchema>
 

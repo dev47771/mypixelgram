@@ -2,7 +2,7 @@
 import { baseApi } from '@/shared/store'
 import { CountriesResponse, getProfileResponse, updateProfileArgs } from './settings.types'
 import { UserEndpoints } from '@/entities/user'
-import { UploadFileResponse } from '@/features/posts/api'
+import { UploadFileResponse } from '@/features/post/api'
 import { FilesEndpoints, UsersEndpoints } from '@/shared/enums'
 
 export const profileService = baseApi.injectEndpoints({

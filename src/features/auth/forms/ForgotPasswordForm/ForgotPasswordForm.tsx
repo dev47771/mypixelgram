@@ -11,7 +11,7 @@ import { PublicRoutes } from '@/shared/enums'
 import { ControlledInput } from '@/shared/components/Controlled/ControlledInput'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { forgotPasswordSchema } from '../../schema/authSchemas'
+import { forgotPasswordSchema } from '../../model/schemas/authSchemas'
 
 type FormTypes = z.infer<typeof forgotPasswordSchema>
 type Props = {

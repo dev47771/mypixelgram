@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { createNewPasswordSchema } from '../../schema/authSchemas'
+import { createNewPasswordSchema } from '../../model/schemas/authSchemas'
 
 type FormTypes = z.infer<typeof createNewPasswordSchema>
 type Props = {

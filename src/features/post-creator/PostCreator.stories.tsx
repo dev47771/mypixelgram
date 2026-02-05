@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, ReactNode } from 'react'
-import { useModalStack } from './hook/useModalStack'
+import { useModalStack } from './hooks/useModalStack'
 import { PostCreator } from './PostCreator'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { Provider } from 'react-redux'

@@ -1,7 +1,7 @@
 'use client'
-import { GetUserPublicPostsResponse } from '@/features/posts/api'
-import { PostsGrid } from '@/features/posts/ui/ProfilePosts'
-import { LockBlock } from '@/features/posts/ui/ProfilePosts/LockBlock'
+import { GetUserPublicPostsResponse } from '@/features/post/api'
+import { PostsGrid } from '@/features/post/ui/ProfilePosts'
+import { LockBlock } from '@/features/post/ui/ProfilePosts/LockBlock'
 
 type Props = {
    data: GetUserPublicPostsResponse

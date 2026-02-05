@@ -5,12 +5,12 @@ import { useEffect, useState, useRef } from 'react'
 import { MODALS, useModalStack } from '.'
 import { nanoid } from '@reduxjs/toolkit'
 //import { useSearchParams } from 'next/navigation'
-import { PublicationModal } from '@/entities/posts/ui/modals/PublicationModal'
-import { CloseCreatePostModal } from '@/entities/posts/ui/modals/CloseCreatePostModal'
-import { FilterModal } from '@/entities/posts/ui/modals/FilterModal/FilterModal'
-import { AddPhotoModal } from '@/entities/posts/ui/modals/AddPhotoModal'
-import { CroppingModal } from '@/entities/posts/ui/modals/CroppingModal'
-import { FilterValue } from '@/entities/posts/ui/modals/FilterModal'
+import { PublicationModal } from '@/entities/post/ui/modals/PublicationModal'
+import { CloseCreatePostModal } from '@/entities/post/ui/modals/CloseCreatePostModal'
+import { FilterModal } from '@/entities/post/ui/modals/FilterModal/FilterModal'
+import { AddPhotoModal } from '@/entities/post/ui/modals/AddPhotoModal'
+import { CroppingModal } from '@/entities/post/ui/modals/CroppingModal'
+import { FilterValue } from '@/entities/post/ui/modals/FilterModal'
 
 export type PhotoState = {
    id: string

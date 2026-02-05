@@ -1,3 +1,3 @@
 export * from './constants/postCreatorConstants'
-export * from './hook/useModalStack'
+export * from './hooks/useModalStack'
 export * from './'

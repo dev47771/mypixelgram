@@ -12,7 +12,7 @@ import Link from 'next/link'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { signUpSchema } from '../../schema/authSchemas'
+import { signUpSchema } from '../../model/schemas/authSchemas'
 import { GitHubOAuthButton } from '@/features/auth/oauth/GitHubOAuthButton'
 
 type FormTypes = z.infer<typeof signUpSchema>
