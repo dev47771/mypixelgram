@@ -4,7 +4,7 @@ import { CheckedCheckboxIcon } from '@/shared/icons/CheckedCheckboxIcon'
 import { Typography } from '../Typography'
 import type { CheckedState } from '@radix-ui/react-checkbox'
 import { RecaptchaSuccessIcon } from '@/shared/icons'
-import { RecaptchaSpinner } from '@/entities/Recaptcha/RecaptchaSpinner'
+import { RecaptchaSpinner } from '@/shared/ui/Recaptcha/RecaptchaSpinner'
 import { clsx } from 'clsx'
 
 export type CheckboxProps = {

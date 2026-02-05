@@ -22,8 +22,14 @@ export const Recaptcha = ({ onVerificationComplete }: Props) => {
       setStatus('loading')
 
       try {
+         const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+
+         if (!siteKey) {
+            throw new Error('reCAPTCHA site key is not configured')
+         }
+
          const recaptchaToken = await window.grecaptcha.execute(
-            process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!,
+            siteKey, // ← Без !
             { action: 'forgot_password' }
          )
 
