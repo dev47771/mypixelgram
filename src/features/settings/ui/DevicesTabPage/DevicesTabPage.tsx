@@ -1,11 +1,9 @@
 import { Button } from '@/shared/components/Button'
 import { ActiveSessions, CurrentDevice } from '.'
-import {
-   useDeleteOtherDevicesMutation,
-   useGetDevicesQuery,
-} from '@/features/settings/api/settings.service'
+
 import { alert } from '@/shared/components/Alert'
 import { Loader } from '@/shared/components/Loader'
+import { useDeleteOtherDevicesMutation, useGetDevicesQuery } from '@/features/settings/api'
 
 export const DevicesTabPage = () => {
    const { data, isLoading: isLoadingGetProfile } = useGetDevicesQuery()

@@ -11,8 +11,9 @@ import { z } from 'zod'
 import { AvatarCropper, AvatarCropperRef } from './AvatarCropper'
 import { YesAndNoModal } from '@/shared/ui/modals/YesAndNoModal'
 import { Loader } from '@/shared/components/Loader'
-import { useUploadAvatarMutation } from '@/features/settings/api/settings.service'
+
 import { cn } from '@/shared/lib'
+import { useUploadAvatarMutation } from '@/features/settings/api'
 
 const schema = z.object({
    postPhoto: imgSchema('postPhoto').shape['postPhoto'],

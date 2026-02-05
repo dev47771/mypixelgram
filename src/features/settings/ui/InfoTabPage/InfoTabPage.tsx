@@ -5,7 +5,7 @@ import {
    useGetCountriesWithCitiesQuery,
    useGetProfileQuery,
    useUpdateProfileMutation,
-} from '@/features/settings/api/settings.service'
+} from '@/features/settings/api'
 import { GeneralInformationForm } from './GeneralInormationForm/GeneralInormationForm'
 import { updateProfileArgs } from '@/features/settings/api/settings.types'
 import { isErrorInDataResponse } from '@/shared/utils'

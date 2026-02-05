@@ -3,14 +3,15 @@
 import { useEffect, useState } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { useMeQuery } from '@/features/auth/api'
-import {
-   useCreateSubscriptionMutation,
-   useDeleteSubscriptionMutation,
-} from '@/features/settings/api/settings.service'
+
 import { alert } from '@/shared/components/Alert'
 import { clearQueryParam } from '@/shared/utils'
 import { ACCOUNT_TYPE, PAYMENT_RESULT } from '@/features/settings'
 import { QUERY_PARAMS } from '@/shared/constants'
+import {
+   useCreateSubscriptionMutation,
+   useDeleteSubscriptionMutation,
+} from '@/features/settings/api'
 
 export type SubscriptionPlanName = 'DAY' | 'WEEK' | 'MONTH' | 'YEAR'
 export type AccountType = (typeof ACCOUNT_TYPE)[keyof typeof ACCOUNT_TYPE]

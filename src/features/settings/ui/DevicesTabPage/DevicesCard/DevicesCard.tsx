@@ -1,4 +1,3 @@
-import { useDeleteDeviceByIdMutation } from '@/features/settings/api/settings.service'
 import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
 import { Typography } from '@/shared/components/Typography'
@@ -19,6 +18,7 @@ import { OperaIcon } from '@/shared/icons/browsers/OperaIcon'
 import { SafariIcon } from '@/shared/icons/browsers/SafariIcon'
 import { UcBrowserIcon } from '@/shared/icons/browsers/UcBrowserIcon'
 import { YandexIcon } from '@/shared/icons/browsers/YandexIcon'
+import { useDeleteDeviceByIdMutation } from '@/features/settings/api'
 
 type Props = {
    deviceName?: string

@@ -1,6 +1,6 @@
 'use client'
 
-import { useGetPaymentsQuery } from '@/features/settings/api/settings.service'
+import { useGetPaymentsQuery } from '@/features/settings/api'
 import { Loader } from '@/shared/components/Loader'
 import { Pagination } from '@/shared/components/Pagination'
 import {
