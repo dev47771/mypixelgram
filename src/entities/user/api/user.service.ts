@@ -1,6 +1,7 @@
 'use client'
 import { baseApi } from '@/shared/store'
-import { UserEndpoints, UserProfileType } from '@/entities/user'
+import { UserEndpoints } from '@/shared/enums'
+import { UserProfileType } from '@/entities/user/api'
 
 export const userService = baseApi.injectEndpoints({
    endpoints: builder => ({

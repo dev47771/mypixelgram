@@ -1,6 +1,6 @@
 import { PostDescription } from '@/entities/post/ui/Post/PostBody/PostDescription'
+import { UserType } from '@/entities/user/api'
 // import { PostComments } from '@/entities/posts/ui/Post/PostBody/PostComments'
-import type { UserType } from '@/entities/user'
 
 type Props = {
    description: string

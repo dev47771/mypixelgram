@@ -2,7 +2,6 @@
 import { Typography } from '@/shared/components/Typography'
 import { PostOutlineIcon } from '@/shared/icons'
 import { Avatar } from '@/shared/components/Avatar'
-import { UserProfileType, UserStats } from '@/entities/user'
 import { ReactNode } from 'react'
 import { MeResponse, useMeQuery } from '@/features/auth/api'
 import { usePathname } from 'next/navigation'
@@ -10,6 +9,8 @@ import { Button } from '@/shared/components/Button'
 import Link from 'next/link'
 import { settingsRoutes } from '@/shared/enums'
 import { PaidIcon } from '@/shared/icons/PaidIcon'
+import { UserStats } from '@/entities/user/ui'
+import { UserProfileType } from '@/entities/user/api'
 
 type UserProfileHeaderProps = {
    actions?: ReactNode

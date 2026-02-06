@@ -1,7 +1,7 @@
 'use client'
 import { baseApi } from '@/shared/store'
 import { getDevicesResponse } from './settings.types'
-import { UserEndpoints } from '@/entities/user'
+import { UserEndpoints } from '@/shared/enums'
 
 export const devicesService = baseApi.injectEndpoints({
    endpoints: builder => ({

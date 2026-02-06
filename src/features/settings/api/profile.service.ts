@@ -1,9 +1,8 @@
 'use client'
 import { baseApi } from '@/shared/store'
 import { CountriesResponse, getProfileResponse, updateProfileArgs } from './settings.types'
-import { UserEndpoints } from '@/entities/user'
 import { UploadFileResponse } from '@/features/post/api'
-import { FilesEndpoints, UsersEndpoints } from '@/shared/enums'
+import { FilesEndpoints, UserEndpoints } from '@/shared/enums'
 
 export const profileService = baseApi.injectEndpoints({
    endpoints: builder => ({
@@ -43,7 +42,7 @@ export const profileService = baseApi.injectEndpoints({
       }),
       deleteAvatar: builder.mutation<void, void>({
          query: () => ({
-            url: UsersEndpoints.profile,
+            url: UserEndpoints.settings,
             method: 'DELETE',
          }),
          invalidatesTags: ['Profile'],

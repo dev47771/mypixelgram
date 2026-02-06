@@ -1,5 +1,4 @@
-import { AuthEndpoints, PublicPostsEndpoints } from '../enums'
-import { UserEndpoints } from '@/entities/user/api'
+import { AuthEndpoints, PublicPostsEndpoints, UserEndpoints } from '../enums'
 import { PostsEndpoints } from '@/features/post/api'
 
 export const TOKEN = 'accessToken'

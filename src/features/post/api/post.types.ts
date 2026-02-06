@@ -1,4 +1,4 @@
-import type { UserType } from '@/entities/user'
+import { UserType } from '@/entities/user/api'
 
 export type CreatePostRequest = {
    description?: string

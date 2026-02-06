@@ -5,7 +5,7 @@ import {
    CreateSubscriptionResponse,
    PaymentsResponse,
 } from './settings.types'
-import { UserEndpoints } from '@/entities/user'
+import { UserEndpoints } from '@/shared/enums'
 import { PaymentsEndpoints } from '@/shared/enums/paymentsEndpoints'
 
 export const paymentsService = baseApi.injectEndpoints({

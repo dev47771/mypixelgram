@@ -2,7 +2,7 @@ import { Typography } from '@/shared/components/Typography'
 import { PostMenu } from '@/entities/post/ui/Post/PostHeader/PostMenu'
 
 import { Avatar } from '@/shared/components/Avatar'
-import type { UserType } from '@/entities/user'
+import { UserType } from '@/entities/user/api'
 import { ProfileLink } from '@/shared/components/ProfileLink'
 
 type Props = {
