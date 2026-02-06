@@ -31,7 +31,7 @@ export const PostCreatorSlider = ({
          setInternalSlide(currentSlide)
          onSlideChangeAction(currentSlide)
       }
-   }, [resetOnMount])
+   }, [resetOnMount, currentSlide, onSlideChangeAction])
 
    const handleInternalSlideChange = (newSlide: number) => {
       setInternalSlide(newSlide)

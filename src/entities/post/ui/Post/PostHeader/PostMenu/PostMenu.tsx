@@ -4,7 +4,7 @@ import { DropDownMenu, DropDownMenuItem } from '@/shared/components/DropDownMenu
 import { DropDownMenuTrigger } from '@/shared/components/DropDownMenu/DropDownMenuTrigger'
 import { Typography } from '@/shared/components/Typography'
 import { POST_MENU_ITEMS } from '@/entities/post/ui/Post/PostHeader/PostMenu/config'
-import { DeletePostModal } from '@/entities/post/ui/modals/DeletePostModal/DeletePostModal'
+import { DeletePostModal } from '@/features/post-creator/ui/modals/DeletePostModal/DeletePostModal'
 import { usePostController } from '@/features/post/hooks'
 import { useMeQuery } from '@/features/auth/api'
 

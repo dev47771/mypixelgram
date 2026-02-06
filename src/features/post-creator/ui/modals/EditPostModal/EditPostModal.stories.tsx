@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { EditPostModal } from '@/entities/post/ui/modals/EditPostModal'
+import { EditPostModal } from '@/features/post-creator/ui/modals/EditPostModal'
 import { mockPost } from '@/entities/post/ui/Post/Post.stories'
 
 const meta = {

@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { CloseCreatePostModal } from '@/entities/post/ui/modals/CloseCreatePostModal/CloseCreatePostModal'
+import { CloseCreatePostModal } from '@/features/post-creator/ui/modals/CloseCreatePostModal/CloseCreatePostModal'
 
 const meta: Meta<typeof CloseCreatePostModal> = {
    title: 'Modals/CloseCreatePostModal',

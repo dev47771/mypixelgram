@@ -11,9 +11,9 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 import { publicationSchema } from '../../model/schemas'
-import { PostCreatorSlider } from '@/entities/post/ui/PostCreatorSlider/PostCreatorSlider'
+import { PostCreatorSlider } from '@/features/post-creator/ui/PostCreatorSlider/PostCreatorSlider'
 import { useMeQuery } from '@/features/auth/api'
-import { FilterValue } from '@/entities/post/ui/modals/FilterModal'
+import { FilterValue } from '@/features/post-creator/ui/modals/FilterModal'
 
 export type PublicationFormData = z.infer<typeof publicationSchema>
 

@@ -9,7 +9,7 @@ import { Button } from '@/shared/components/Button'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { PostByIdType, useUpdatePostDataMutation } from '@/features/post/api'
-import { CancelEditModal } from '@/entities/post/ui/modals/CancelEditModal/CancelEditModal'
+import { CancelEditModal } from '@/features/post-creator/ui/modals/CancelEditModal/CancelEditModal'
 import { Avatar } from '@/shared/components/Avatar'
 import { Slider } from '@/shared/components/Slider'
 
