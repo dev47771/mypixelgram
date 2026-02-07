@@ -1,7 +1,7 @@
 import { PhotoState } from '@/features/post-creator/PostCreator'
 import { PublicationForm } from '@/features/post/forms/PublicationForm'
 import { Modal } from '@/shared/components/Modal'
-import { store } from '@/shared/store'
+import { store } from '@/app/store'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { useState } from 'react'
 import { Provider } from 'react-redux'

@@ -9,7 +9,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { PostsGrid } from '@/features/post/ui/ProfilePosts'
 import { Button } from '@/shared/components/Button'
 import { cn } from '@/shared/lib'
-import { useAppSelector } from '@/shared/store'
+import { useAppSelector } from '@/app/store'
 
 type Props = {
    postsResponse: GetUserPostsInfiniteResponse

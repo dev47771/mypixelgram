@@ -1,5 +1,5 @@
 import { Recaptcha } from '@/shared/ui/Recaptcha/Recaptcha'
-import { store } from '@/shared/store'
+import { store } from '@/app/store'
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { Provider } from 'react-redux'
 

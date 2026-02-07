@@ -1,5 +1,5 @@
 'use client'
-import { baseApi } from '@/shared/store'
+import { baseApi } from '@/app/store'
 import { CountriesResponse, getProfileResponse, updateProfileArgs } from './settings.types'
 import { UploadFileResponse } from '@/features/post/api'
 import { FilesEndpoints, UserEndpoints } from '@/shared/enums'

@@ -1,6 +1,6 @@
 'use client'
 import { configureStore } from '@reduxjs/toolkit'
-import { baseApi } from '@/shared/store/base-api'
+import { baseApi } from '@/app/store/base-api'
 import { TypedUseSelectorHook, useSelector } from 'react-redux'
 
 export const store = configureStore({

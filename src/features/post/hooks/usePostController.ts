@@ -1,7 +1,7 @@
 'use client'
 
 import { usePostDelete, usePostUrlState } from '@/features/post/hooks'
-import { useUserProfile } from '@/entities/user/model/useUserProfile'
+import { useUserProfile } from '@/entities/user/hooks/useUserProfile'
 
 export function usePostController() {
    const { login, userProfile, isLoading } = useUserProfile()

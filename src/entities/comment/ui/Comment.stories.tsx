@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { Comment } from './Comment'
 import { Provider } from 'react-redux'
-import { store } from '@/shared/store'
+import { store } from '@/app/store'
 
 const meta = {
    title: 'Comment',

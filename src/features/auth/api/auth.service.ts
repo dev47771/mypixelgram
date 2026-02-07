@@ -14,7 +14,7 @@ import type {
 } from '@/features/auth/api'
 import { TOKEN } from '@/shared/constants'
 import { authChannel } from '@/shared/lib/authBroadcast'
-import { baseApi } from '@/shared/store'
+import { baseApi } from '@/app/store'
 
 export const authService = baseApi.injectEndpoints({
    endpoints: builder => ({

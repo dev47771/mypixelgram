@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { ReactNode } from 'react'
 
 import { useAuthSync } from '@/shared/hooks/useAuthSync'
-import { store } from '@/shared/store'
+import { store } from '@/app/store'
 
 export const StoreProvider = ({ children }: { children: ReactNode }) => {
    return (

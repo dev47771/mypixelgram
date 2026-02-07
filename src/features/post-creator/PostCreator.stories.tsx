@@ -5,7 +5,7 @@ import { useModalStack } from './hooks/useModalStack'
 import { PostCreator } from './PostCreator'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { Provider } from 'react-redux'
-import { store } from '@/shared/store'
+import { store } from '@/app/store'
 
 type ModalStackContextType = ReturnType<typeof useModalStack>
 

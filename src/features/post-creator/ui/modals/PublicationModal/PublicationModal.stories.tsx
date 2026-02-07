@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { PublicationModal } from './PublicationModal'
 import { PhotoState } from '@/features/post-creator/PostCreator'
 import { Provider } from 'react-redux'
-import { store } from '@/shared/store'
+import { store } from '@/app/store'
 
 const meta: Meta = {
    title: 'Modals/PublicationModal',

@@ -10,7 +10,7 @@ import {
 } from './post.types'
 import { PublicPostsEndpoints } from '@/shared/enums'
 import { PostsEndpoints } from '@/features/post/api/postsEndpoints'
-import { baseApi } from '@/shared/store'
+import { baseApi } from '@/app/store'
 
 export const postService = baseApi.injectEndpoints({
    endpoints: builder => ({

@@ -1,4 +1,5 @@
 import type { SignInResponse } from '@/features/auth/api'
+import { QUERY_PARAMS, TOKEN } from '@/shared/constants'
 import { AuthEndpoints, PublicRoutes } from '@/shared/enums'
 import { handleError } from '@/shared/utils'
 import {
@@ -8,7 +9,6 @@ import {
    type FetchBaseQueryError,
 } from '@reduxjs/toolkit/query/react'
 import { Mutex } from 'async-mutex'
-import { QUERY_PARAMS, TOKEN } from '../constants'
 
 const mutex = new Mutex()
 

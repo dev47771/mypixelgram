@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { Post } from './Post'
 import type { PostByIdType } from '@/features/post/api'
 import { Provider } from 'react-redux'
-import { store } from '@/shared/store'
+import { store } from '@/app/store'
 
 const meta = {
    title: 'Post',
