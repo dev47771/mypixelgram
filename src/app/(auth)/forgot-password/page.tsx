@@ -2,7 +2,7 @@
 import { ForgotPasswordForm } from '@/features/auth/forms/ForgotPasswordForm'
 import { type RecoveryPasswordArgs, usePasswordRecoveryMutation } from '@/features/auth/api'
 import { useState } from 'react'
-import { EmailSentModal } from '@/features/auth/ui/EmailSentModal'
+import { EmailSentModal } from '@/features/auth/ui/modals/EmailSentModal'
 import { PageContainer } from '@/shared/components/PageContainer'
 import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataResponse'
 
