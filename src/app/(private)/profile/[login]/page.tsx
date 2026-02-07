@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { UserProfilePrivatePosts } from '@/widgets/UserProfile/UserProfilePosts'
 import { UserProfileHeader } from '@/widgets/UserProfile/UserProfileHeader'
-import { apiUrls } from '@/shared/constants'
+import { API_URLS } from '@/shared/constants'
 import { serverResponseHandler } from '@/shared/utils'
 import { privatePostsSchema } from '@/entities/post/model/schemas'
 import { userProfileSchema } from '@/entities/user/model'
@@ -25,11 +25,11 @@ export default async function ProfilePrivatePage({ params }: Props) {
    const { login } = await params
 
    const [userProfile, privatePosts] = await Promise.allSettled([
-      fetch(apiUrls.userProfile(login)).then(res => {
+      fetch(API_URLS.userProfile(login)).then(res => {
          if (!res.ok) throw new Error(`Users HTTP error: ${res.status}`)
          return res.json()
       }),
-      fetch(apiUrls.userPrivatePosts(login), {
+      fetch(API_URLS.userPrivatePosts(login), {
          headers: { Authorization: `Bearer ${accessToken}` },
       }).then(res => {
          if (!res.ok) throw new Error(`Posts HTTP error: ${res.status}`)

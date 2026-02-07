@@ -1,7 +1,7 @@
 import { CardPost } from '@/entities/post/ui/CardPost'
 import { type LastPostProps, lastPostsSchema } from '@/entities/post/model/schemas'
 import ServerPageContainer from '@/shared/components/PageContainer/ServerPageContainer'
-import { apiUrls } from '@/shared/constants'
+import { API_URLS } from '@/shared/constants'
 import { UserCounter } from '@/widgets/UserCounter'
 import { Suspense } from 'react'
 
@@ -9,11 +9,11 @@ export const revalidate = 60
 
 export default async function HomePage() {
    const [postsRes, usersRes] = await Promise.allSettled([
-      fetch(apiUrls.lastPosts).then(res => {
+      fetch(API_URLS.lastPosts).then(res => {
          if (!res.ok) throw new Error(`Posts HTTP error: ${res.status}`)
          return res.json()
       }),
-      fetch(apiUrls.usersTotalCount).then(res => {
+      fetch(API_URLS.usersTotalCount).then(res => {
          if (!res.ok) throw new Error(`Users HTTP error: ${res.status}`)
          return res.json()
       }),

@@ -1,12 +1,12 @@
 import { Button } from '@/shared/components/Button'
-import { apiUrls } from '@/shared/constants'
+import { API_URLS } from '@/shared/constants'
 import { GoogleIcon } from '@/shared/icons'
 import { useRouter } from 'next/navigation'
 
 export const GoogleOAuthButton = () => {
    const router = useRouter()
    const onAuthWithGoogle = () => {
-      router.push(apiUrls.loginGoogle)
+      router.push(API_URLS.loginGoogle)
    }
    return (
       <Button variant={'textButton'} onClick={onAuthWithGoogle} className={'p-0'}>
