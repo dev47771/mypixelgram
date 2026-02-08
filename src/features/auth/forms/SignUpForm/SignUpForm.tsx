@@ -5,7 +5,7 @@ import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
 import { ControlledCheckbox, ControlledInput } from '@/shared/components/Controlled'
 import { Typography } from '@/shared/components/Typography'
-import { PublicRoutes } from '@/shared/enums'
+import { ROUTES } from '@/shared/constants'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { clsx } from 'clsx'
 import Link from 'next/link'
@@ -107,14 +107,14 @@ export const SignUpForm = ({ onSubmitAction, errorsFromApi }: Props) => {
                   <Typography variant={'smallRegular'}>
                      I agree to the{' '}
                      <Link
-                        href={PublicRoutes.termsOfService}
+                        href={ROUTES.public.termsOfService}
                         className={'text-accent-500 underline'}
                      >
                         Terms of Service
                      </Link>{' '}
                      and{' '}
                      <Link
-                        href={PublicRoutes.privacyPolicy}
+                        href={ROUTES.public.privacyPolicy}
                         className={'text-accent-500 underline'}
                      >
                         Privacy Policy
@@ -136,7 +136,7 @@ export const SignUpForm = ({ onSubmitAction, errorsFromApi }: Props) => {
             <div>
                <Typography className={'mb-[6px] text-center'}>Do you have an account?</Typography>
                <Button className={'border-0'} variant={'outlined'} fullWidth asChild>
-                  <Link href={PublicRoutes.signIn}>Sign In</Link>
+                  <Link href={ROUTES.public.signIn}>Sign In</Link>
                </Button>
             </div>
          </div>

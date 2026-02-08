@@ -14,7 +14,7 @@ import { DropDownMenuArrow } from '@/shared/components/DropDownMenu/DropDownMenu
 import { DropDownMenuTrigger } from '@/shared/components/DropDownMenu/DropDownMenuTrigger'
 import { FlagRussiaIcon, FlagUKIcon, NotificationIcon } from '@/shared/icons'
 import Link from 'next/link'
-import { PublicRoutes } from '@/shared/enums'
+import { ROUTES } from '@/shared/constants'
 import { useMeQuery } from '@/features/auth/api'
 
 type Props = {
@@ -26,7 +26,7 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
    // const [isLoggedIn, setIsLoggedIn] = useState(false)
    // const [isClient, setIsClient] = useState(false)
    // const pathname = usePathname()
-   // const isLoginRoute = pathname === PublicRoutes.signIn
+   // const isLoginRoute = pathname === ROUTES.public.signIn
    const { data, isLoading } = useMeQuery()
    /**
     *setIsClient - flag synchronizes rendering between the server and the client (eliminating blinking on reboot)
@@ -75,7 +75,7 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
    return (
       <header className="border-dark-300 bg-dark-700 border-b">
          <div className="bg-dark-700 relative z-10 container flex h-[60px] items-center justify-between">
-            <Link href={PublicRoutes.main} className={variantClasses.large}>
+            <Link href={ROUTES.public.main} className={variantClasses.large}>
                Inctagram
             </Link>
             {isLoading ? (
@@ -116,10 +116,10 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
                <div className="flex gap-[24px]">
                   {selectComponent}
                   <Button asChild variant="textButton">
-                     <Link href={PublicRoutes.signIn}>Log in</Link>
+                     <Link href={ROUTES.public.signIn}>Log in</Link>
                   </Button>
                   <Button asChild variant="primary">
-                     <Link href={PublicRoutes.signUp}>Sign up</Link>
+                     <Link href={ROUTES.public.signUp}>Sign up</Link>
                   </Button>
                </div>
             )}

@@ -2,11 +2,11 @@
 
 import { type ComponentPropsWithRef } from 'react'
 import { cn } from '@/shared/lib'
-import { PublicRoutes } from '@/shared/enums'
+import { ROUTES } from '@/shared/constants'
 import { usePathname } from 'next/navigation'
 import { useMeQuery } from '@/features/auth/api'
 
-const PUBLIC_ROUTES = Object.values(PublicRoutes) as string[]
+const PUBLIC_ROUTES = Object.values(ROUTES.public) as string[]
 
 export function PageContainer({ className, ...rest }: ComponentPropsWithRef<'main'>) {
    const pathname = usePathname()
@@ -14,7 +14,7 @@ export function PageContainer({ className, ...rest }: ComponentPropsWithRef<'mai
    const isAuthorized = !!data && !isLoading
 
    const isPublic = PUBLIC_ROUTES.includes(pathname)
-   const isHomePage = pathname === PublicRoutes.main
+   const isHomePage = pathname === ROUTES.public.main
 
    return (
       <main

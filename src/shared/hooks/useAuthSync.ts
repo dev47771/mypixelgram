@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { authChannel } from '@/shared/lib/authBroadcast'
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
-import { PrivateRoutes, PublicRoutes } from '@/shared/enums'
+import { ROUTES } from '@/shared/constants'
 import { authService } from '@/features/auth/api'
 import { baseApi } from '@/app/store'
 
@@ -18,12 +18,12 @@ export const useAuthSync = () => {
 
          if (type === 'LOGOUT') {
             dispatch(baseApi.util.resetApiState())
-            router.replace(PublicRoutes.signIn)
+            router.replace(ROUTES.public.signIn)
          }
 
          if (type === 'LOGIN') {
             dispatch(authService.endpoints.me.initiate())
-            router.replace(PrivateRoutes.feed)
+            router.replace(ROUTES.private.feed)
          }
       }
 

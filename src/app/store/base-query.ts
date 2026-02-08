@@ -1,6 +1,7 @@
 import type { SignInResponse } from '@/features/auth/api'
 import { QUERY_PARAMS, TOKEN } from '@/shared/constants'
-import { AuthEndpoints, PublicRoutes } from '@/shared/enums'
+import { AuthEndpoints } from '@/shared/enums'
+import { ROUTES } from '@/shared/constants'
 import { handleError } from '@/shared/utils'
 import {
    type BaseQueryFn,
@@ -70,11 +71,11 @@ export const baseQueryWithReAuth: BaseQueryFn<
          } else {
             if (typeof window !== 'undefined') {
                localStorage.removeItem(TOKEN)
-               const isSignInPage = window.location.pathname === PublicRoutes.signIn
-               const isHomePage = window.location.pathname === PublicRoutes.main
+               const isSignInPage = window.location.pathname === ROUTES.public.signIn
+               const isHomePage = window.location.pathname === ROUTES.public.main
 
                if (!isSignInPage && !isHomePage) {
-                  window.location.href = PublicRoutes.signIn
+                  window.location.href = ROUTES.public.signIn
                }
             }
          }

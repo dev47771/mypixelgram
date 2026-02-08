@@ -9,7 +9,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/shared/components/Button'
 import Link from 'next/link'
-import { PublicRoutes } from '@/shared/enums'
+import { ROUTES } from '@/shared/constants'
 import { Loader } from '@/shared/components/Loader'
 import { GoogleOAuthButton } from '@/features/auth/oauth'
 import { signInSchema } from '../../model/schemas/authSchemas'
@@ -71,7 +71,7 @@ export const SignInForm = ({ onSubmitAction, isLoading, errorsFromApi }: Props) 
                   'text-light-900 hover:text-light-700 mt-9 mb-6 self-end transition-colors duration-200'
                }
             >
-               <Link href={PublicRoutes.forgotPassword}>Forgot Password</Link>
+               <Link href={ROUTES.public.forgotPassword}>Forgot Password</Link>
             </Typography>
 
             <Button type="submit" fullWidth disabled={isLoading} className="h-[36px]">
@@ -84,7 +84,7 @@ export const SignInForm = ({ onSubmitAction, isLoading, errorsFromApi }: Props) 
 
             <Typography className={'my-4.5'}>Don’t have an account?</Typography>
             <Button asChild variant={'textButton'}>
-               <Link href={PublicRoutes.signUp}>Sign Up</Link>
+               <Link href={ROUTES.public.signUp}>Sign Up</Link>
             </Button>
          </form>
       </Card>

@@ -5,8 +5,8 @@ import { useCheckRecoveryCodeMutation, useNewPasswordMutation } from '@/features
 import { useEffect, useState } from 'react'
 import { Loader } from '@/shared/components/Loader'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { PublicRoutes } from '@/shared/enums'
 import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataResponse'
+import { ROUTES } from '@/shared/constants'
 
 export default function CreateNewPasswordPage() {
    const router = useRouter()
@@ -24,14 +24,14 @@ export default function CreateNewPasswordPage() {
             await checkCode({ code: recoveryCode }).unwrap()
             setRecoveryCodeCertificated(true)
          } catch {
-            router.push(PublicRoutes.verificationExpired)
+            router.push(ROUTES.public.verificationExpired)
          }
       })()
    }, [checkCode, recoveryCode, router])
 
    const createNewPasswordFormHandler = async (data: { password: string }) => {
       await newPassword({ newPassword: data.password, recoveryCode }).unwrap()
-      router.push(PublicRoutes.signIn)
+      router.push(ROUTES.public.signIn)
    }
 
    if (checkCodeLoading || !recoveryCodeCertificated) {

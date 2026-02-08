@@ -1,9 +1,10 @@
 'use client'
 import { usePathname, useRouter } from 'next/navigation'
 import { ComponentType, useEffect } from 'react'
-import { PublicRoutes } from '@/shared/enums'
+
 import { Loader } from '@/shared/components/Loader'
 import { useMeQuery } from '@/features/auth/api'
+import { ROUTES } from '@/shared/constants'
 
 //если пользователь не авторизован — не пускать на приватные страницы
 export const withPrivateRoute = <P extends object>(WrappedComponent: ComponentType<P>) => {
@@ -16,7 +17,7 @@ export const withPrivateRoute = <P extends object>(WrappedComponent: ComponentTy
 
       useEffect(() => {
          if (!data && !isFetching) {
-            router.replace(PublicRoutes.signIn)
+            router.replace(ROUTES.public.signIn)
          }
       }, [data, isFetching, pathname, router])
 

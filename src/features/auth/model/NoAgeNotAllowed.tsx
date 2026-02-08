@@ -2,7 +2,7 @@
 import { useEffect } from 'react'
 import { useMeQuery } from '@/features/auth/api'
 import { usePathname, useRouter } from 'next/navigation'
-import { settingsRoutes } from '@/shared/enums'
+import { ROUTES } from '@/shared/constants'
 import { alert } from '@/shared/components/Alert'
 
 export const NoAgeNotAllowed = () => {
@@ -13,7 +13,7 @@ export const NoAgeNotAllowed = () => {
    useEffect(() => {
       if (meData && !isLoading && meData.dateOfBirth === null) {
          alert.error('Please ❤🙌 set you age !')
-         router.push(settingsRoutes.base)
+         router.push(ROUTES.settings.base)
       }
    }, [isLoading, meData, router, pathname])
 

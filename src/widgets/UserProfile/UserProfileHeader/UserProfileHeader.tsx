@@ -7,7 +7,7 @@ import { MeResponse, useMeQuery } from '@/features/auth/api'
 import { usePathname } from 'next/navigation'
 import { Button } from '@/shared/components/Button'
 import Link from 'next/link'
-import { settingsRoutes } from '@/shared/enums'
+import { ROUTES } from '@/shared/constants'
 import { PaidIcon } from '@/shared/icons/PaidIcon'
 import { UserStats } from '@/entities/user/ui'
 import { UserProfileType } from '@/entities/user/api'
@@ -75,7 +75,7 @@ function getActions(data: MeResponse | undefined, userLogin: string) {
 
    return (
       <Button variant="secondary" asChild>
-         <Link href={settingsRoutes.base}>Profile Settings</Link>
+         <Link href={ROUTES.settings.base}>Profile Settings</Link>
       </Button>
    )
 }

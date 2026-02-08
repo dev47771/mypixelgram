@@ -1,17 +1,17 @@
 'use client'
 import { Button } from '@/shared/components/Button'
 import { Typography } from '@/shared/components/Typography'
-import { PublicRoutes } from '@/shared/enums'
+import { ROUTES } from '@/shared/constants'
 import { CloseLock } from '@/shared/icons/CloseLock'
 import { useRouter } from 'next/navigation'
 
 export const LockBlock = () => {
    const router = useRouter()
    const toSingIn = () => {
-      router.push(PublicRoutes.signIn)
+      router.push(ROUTES.public.signIn)
    }
    const toSingUp = () => {
-      router.push(PublicRoutes.signUp)
+      router.push(ROUTES.public.signUp)
    }
 
    return (

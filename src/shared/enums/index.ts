@@ -1,4 +1,3 @@
-export * from './routes'
 export * from './authEndpoints'
 export * from './filesEndpoints'
 export * from './userEndpoints'

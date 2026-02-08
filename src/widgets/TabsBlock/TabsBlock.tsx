@@ -1,7 +1,7 @@
 'use client'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/Tabs'
-import { settingsRoutes } from '@/shared/enums'
+import { ROUTES } from '@/shared/constants'
 import { useRouter } from 'next/navigation'
 
 import {
@@ -21,7 +21,7 @@ export function TabsBlock({ initialPart }: TabsBlockProps) {
    const router = useRouter()
 
    const handleTabChange = (value: string) => {
-      router.push(settingsRoutes.create(value as SettingsTabType), { scroll: false })
+      router.push(ROUTES.settings.create(value as SettingsTabType), { scroll: false })
    }
 
    return (

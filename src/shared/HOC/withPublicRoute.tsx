@@ -1,7 +1,7 @@
 'use client'
 import { usePathname, useRouter } from 'next/navigation'
 import { ComponentType, useEffect } from 'react'
-import { PrivateRoutes, PublicRoutes } from '@/shared/enums'
+import { ROUTES } from '@/shared/constants'
 import { Loader } from '@/shared/components/Loader'
 import { useMeQuery } from '@/features/auth/api'
 
@@ -17,11 +17,11 @@ export const withPublicRoute = <P extends object>(WrappedComponent: ComponentTyp
       useEffect(() => {
          if (
             data &&
-            !pathname.includes(PublicRoutes.createNewPassword) &&
-            !pathname.includes(PublicRoutes.privacyPolicy) &&
-            !pathname.includes(PublicRoutes.termsOfService)
+            !pathname.includes(ROUTES.public.createNewPassword) &&
+            !pathname.includes(ROUTES.public.privacyPolicy) &&
+            !pathname.includes(ROUTES.public.termsOfService)
          ) {
-            router.replace(PrivateRoutes.feed)
+            router.replace(ROUTES.private.feed)
          }
       }, [data, pathname, router])
 
@@ -31,8 +31,8 @@ export const withPublicRoute = <P extends object>(WrappedComponent: ComponentTyp
 
       if (
          data &&
-         !pathname.includes(PublicRoutes.privacyPolicy) &&
-         !pathname.includes(PublicRoutes.termsOfService)
+         !pathname.includes(ROUTES.public.privacyPolicy) &&
+         !pathname.includes(ROUTES.public.termsOfService)
       ) {
          return null
       }

@@ -4,7 +4,7 @@ import { useController, type UseControllerProps, type FieldValues, Control } fro
 import { Label } from '../Label'
 import { DatePicker, DatePickerProps } from '../DatePicker'
 import { cn } from '@/shared/lib'
-import { PublicRoutes } from '@/shared/enums'
+import { ROUTES } from '@/shared/constants'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { dateFormatter } from '@/shared/utils/date/dateFormatter'
@@ -91,7 +91,7 @@ export const ControlledDatePicker = <T extends FieldValues>(props: Props<T>) => 
             <p className="text-danger-500 absolute top-15.5 right-0 -bottom-6 left-0 text-sm">
                {displayErrorMessage}{' '}
                {isAgeError && (
-                  <Link href={PublicRoutes.privacyPolicy} className="underline">
+                  <Link href={ROUTES.public.privacyPolicy} className="underline">
                      Privacy Policy
                   </Link>
                )}
