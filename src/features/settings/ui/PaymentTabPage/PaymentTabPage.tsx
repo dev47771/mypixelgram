@@ -16,7 +16,7 @@ import {
    PageSize,
    START_CURRENT_PAGE,
    START_PAGE_SIZE,
-} from '@/features/settings/model/constants/pageSizeOptions'
+} from '@/features/settings/constants/pageSizeOptions'
 import { useState } from 'react'
 import { Button } from '@/shared/components/Button'
 

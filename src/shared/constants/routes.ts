@@ -1,4 +1,4 @@
-import { SettingsTabType } from '@/features/settings/model/constants/settingTabValues'
+import { SettingsTabType } from '@/features/settings/constants/settingTabValues'
 
 export const ROUTES = {
    public: {

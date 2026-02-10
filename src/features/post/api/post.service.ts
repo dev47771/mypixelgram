@@ -8,8 +8,7 @@ import {
    UpdatePostRequest,
    UploadFileResponse,
 } from './post.types'
-import { PublicPostsEndpoints } from '@/shared/enums'
-import { PostsEndpoints } from '@/features/post/api/postsEndpoints'
+import { FilesEndpoints, PostsEndpoints, PublicPostsEndpoints } from '@/shared/enums'
 import { baseApi } from '@/app/store'
 
 export const postService = baseApi.injectEndpoints({
@@ -42,7 +41,7 @@ export const postService = baseApi.injectEndpoints({
             formData.append('type', 'post')
 
             return {
-               url: '/files/upload-file',
+               url: FilesEndpoints.uploadFiles,
                method: 'POST',
                body: formData,
             }
@@ -51,7 +50,7 @@ export const postService = baseApi.injectEndpoints({
 
       createPostData: builder.mutation<CreatePostResponse, CreatePostRequest>({
          query: postData => ({
-            url: '/posts',
+            url: PostsEndpoints.userPosts,
             method: 'POST',
             body: postData,
          }),
@@ -60,14 +59,14 @@ export const postService = baseApi.injectEndpoints({
 
       getPostById: builder.query<PostByIdType, string>({
          query: postId => ({
-            url: `/public/posts/${postId}`,
+            url: `${PublicPostsEndpoints.publicPost}/${postId}`,
          }),
          providesTags: ['getPost'],
       }),
 
       deletePost: builder.mutation<void, string>({
          query: postId => ({
-            url: `/posts/${postId}`,
+            url: `${PostsEndpoints.userPosts}/${postId}`,
             method: 'DELETE',
          }),
          invalidatesTags: ['getPosts'],
@@ -75,7 +74,7 @@ export const postService = baseApi.injectEndpoints({
 
       updatePostData: builder.mutation<void, UpdatePostRequest>({
          query: ({ postId, location, description }) => ({
-            url: `/posts/${postId}`,
+            url: `${PostsEndpoints.userPosts}/${postId}`,
             method: 'POST',
             body: { location, description },
          }),

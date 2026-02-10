@@ -1,5 +1,4 @@
-import { AuthEndpoints, PublicPostsEndpoints, UserEndpoints } from '../enums'
-import { PostsEndpoints } from '@/features/post/api'
+import { AuthEndpoints, PostsEndpoints, PublicPostsEndpoints, UserEndpoints } from '@/shared/enums'
 
 export const TOKEN = 'accessToken'
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL

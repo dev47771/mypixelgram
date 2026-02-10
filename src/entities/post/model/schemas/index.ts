@@ -1,3 +1,3 @@
-export * from './lastPostsSchema'
-export * from './publicPostsSchema'
-export * from './privatePostsSchema'
+export * from './lastPostSchema'
+export * from './publicPostSchema'
+export * from './privatePostSchema'
