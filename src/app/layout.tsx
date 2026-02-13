@@ -52,7 +52,7 @@ export default function RootLayout({
       <StoreProvider>
          <html lang="en">
             <body className={`${inter.variable} min-h-screen`}>
-               <Header notificationCount={4} />
+               <Header />
                {children}
                <Alert />
                <NoAgeNotAllowed />

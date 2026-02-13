@@ -5,19 +5,25 @@ import { clsx } from 'clsx'
 
 export type DropDownMenuProps = {
    trigger: ReactNode
+   open?: boolean
+   onOpenChange?: (open: boolean) => void
+   headerContent?: ReactNode
    label?: string
 } & ComponentPropsWithRef<typeof DropdownMenu.Content>
 
 export const DropDownMenu = ({
+   open,
+   onOpenChange,
    trigger,
    children,
    align = 'end',
    label,
+   headerContent,
    className,
    ...rest
 }: DropDownMenuProps) => {
    return (
-      <DropdownMenu.Root>
+      <DropdownMenu.Root open={open} onOpenChange={onOpenChange}>
          {trigger}
 
          <DropdownMenu.Portal>
@@ -31,9 +37,14 @@ export const DropDownMenu = ({
                sideOffset={5}
                {...rest}
             >
-               {label && <DropDownMenuLabel>{label}</DropDownMenuLabel>}
+               {(label || headerContent) && (
+                  <div className="flex items-center justify-between gap-2 py-1">
+                     {label && <DropDownMenuLabel>{label}</DropDownMenuLabel>}
+                     {headerContent}
+                  </div>
+               )}
 
-               <div className={'scrollbar-custom max-h-[376px] overflow-y-auto'}>{children}</div>
+               {children}
             </DropdownMenu.Content>
          </DropdownMenu.Portal>
       </DropdownMenu.Root>
