@@ -1,9 +1,11 @@
-import { Toast, useToast } from '..'
+'use client'
+
+import { Toast, useToast, useToastNotifications } from '..'
 
 export const ToastContainer = () => {
-   const { toasts, removeToast, isSoundEnabled, toggleSound } = useToast()
+   const { toasts, removeToast, isSoundEnabled, toggleSound, addToast } = useToast()
 
-   //useWebSocket(addToast) //РАСКОММЕНТИТЬ ПОТОМ и добавить addToast в useToast
+   useToastNotifications(addToast)
 
    //функция добавления в массив +
    //функция удаления из массива после 30 секунд +
@@ -11,7 +13,7 @@ export const ToastContainer = () => {
    //функция открытия попап при клике
    //добавить звук +
    //в localStorage поместить состояние по звуку +
-   //работа с WebSocket
+   //работа с WebSocket +
    //тестирование
 
    return (
