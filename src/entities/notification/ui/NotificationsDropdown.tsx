@@ -41,7 +41,11 @@ export const NotificationsDropdown = () => {
          sideOffset={-4}
          label="Notifications"
          headerContent={
-            <Button variant={'textButton'} onClick={onReadAllClick}>
+            <Button
+               variant={'textButton'}
+               onClick={onReadAllClick}
+               disabled={unreadNotificationCount === 0}
+            >
                Read all
             </Button>
          }
