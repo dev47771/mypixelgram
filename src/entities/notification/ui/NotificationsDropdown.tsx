@@ -3,6 +3,7 @@ import { DropDownMenuTrigger } from '@/shared/components/DropDownMenu/DropDownMe
 import { NotificationIcon } from '@/shared/icons'
 import { Button } from '@/shared/components/Button'
 import {
+   updateUnreadCount,
    useMarkAllNotificationsReadMutation,
    useNotificationsSocket,
 } from '@/entities/notification'
@@ -10,17 +11,19 @@ import { useState } from 'react'
 import { DropDownMenuArrow } from '@/shared/components/DropDownMenu/DropDownMenuArrow'
 import { NotificationsList } from './NotificationsList'
 import { alert } from '@/shared/components/Alert'
+import { useAppDispatch } from '@/shared/hooks'
 
 export const NotificationsDropdown = () => {
+   const dispatch = useAppDispatch()
+
    const [openMenu, setOpenMenu] = useState(false)
-
    const { unreadNotificationCount } = useNotificationsSocket()
-
    const [markAllRead] = useMarkAllNotificationsReadMutation()
 
    const onReadAllClick = async () => {
       try {
          await markAllRead().unwrap()
+         dispatch(updateUnreadCount(0))
       } catch {
          alert.error('Failed to mark notifications as read')
       }
