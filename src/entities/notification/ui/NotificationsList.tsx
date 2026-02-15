@@ -55,6 +55,9 @@ export const NotificationsList = ({ open }: Props) => {
    return (
       <Scroll ref={scrollRef} className={'h-[376px]'}>
          <DropDownSeparator />
+         {!isLoading && allNotifications?.length === 0 && (
+            <div className="py-4 text-center text-gray-500">No notifications yet</div>
+         )}
          {allNotifications?.map(n => (
             <Notification
                key={n.id}
