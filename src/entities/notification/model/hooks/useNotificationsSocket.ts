@@ -15,6 +15,7 @@ export const useNotificationsSocket = () => {
 
       const handleUnreadCount = (data: { unreadCount: number }) => {
          setUnreadNotificationCount(data.unreadCount)
+         console.log(data)
       }
 
       const handleNewNotification = (data: NewNotificationSocketPayload) => {
