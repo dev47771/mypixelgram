@@ -95,7 +95,7 @@ export const settingsService = baseApi.injectEndpoints({
             url: PaymentsEndpoints.deleteSubscription,
             method: 'DELETE',
          }),
-         invalidatesTags: ['Me', 'Notification'],
+         invalidatesTags: ['Me', 'Notifications'],
       }),
    }),
 })

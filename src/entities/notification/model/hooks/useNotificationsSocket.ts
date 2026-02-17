@@ -1,6 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { createSocketConnect, SocketNamespace } from '@/shared/socket'
-import type { NewNotificationSocketPayload } from '@/entities/notification'
+import {
+   updateUnreadCount,
+   NewNotificationSocketPayload,
+   selectUnreadCount,
+} from '@/entities/notification'
+import { useAppSelector } from '@/shared/store'
+import { useAppDispatch } from '@/shared/hooks'
 
 const NotificationSocketEvent = {
    NEW: 'notifications:new',
@@ -8,13 +14,15 @@ const NotificationSocketEvent = {
 } as const
 
 export const useNotificationsSocket = () => {
-   const [unreadNotificationCount, setUnreadNotificationCount] = useState<number>(0)
+   const dispatch = useAppDispatch()
+
+   const unreadNotificationCount = useAppSelector(selectUnreadCount)
 
    useEffect(() => {
       const socket = createSocketConnect(SocketNamespace.NOTIFICATIONS)
 
       const handleUnreadCount = (data: { unreadCount: number }) => {
-         setUnreadNotificationCount(data.unreadCount)
+         dispatch(updateUnreadCount(data.unreadCount))
       }
 
       const handleNewNotification = (data: NewNotificationSocketPayload) => {

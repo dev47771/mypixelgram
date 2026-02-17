@@ -13,21 +13,21 @@ export const notificationService = baseApi.injectEndpoints({
             url: NotificationsEndpoints.list,
             params: { cursor: pageParam },
          }),
-         providesTags: ['Notification'],
+         providesTags: ['Notifications'],
       }),
       markAllNotificationsRead: builder.mutation<void, void>({
          query: () => ({
             url: NotificationsEndpoints.markAllRead,
             method: 'POST',
          }),
-         invalidatesTags: ['Notification'],
+         invalidatesTags: ['Notifications'],
       }),
       markNotificationRead: builder.mutation<void, string>({
          query: id => ({
             url: NotificationsEndpoints.markRead(id),
             method: 'POST',
          }),
-         invalidatesTags: ['Notification'],
+         invalidatesTags: ['Notifications'],
       }),
    }),
 })

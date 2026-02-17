@@ -1,13 +1,15 @@
 import { Scroll } from '@/shared/components/Scroll'
 import { DropDownSeparator } from '@/shared/components/DropDownMenu'
 import { Loader } from '@/shared/components/Loader'
-import { useInfiniteScroll } from '@/shared/hooks'
-import { useCallback, useEffect, useRef } from 'react'
+import { useAppDispatch, useInfiniteScroll } from '@/shared/hooks'
+import { useCallback, useRef } from 'react'
 import {
+   decrementUnreadCount,
    useGetNotificationsInfiniteQuery,
    useMarkNotificationReadMutation,
 } from '@/entities/notification'
 import { Notification } from './Notification'
+import { alert } from '@/shared/components/Alert'
 
 type Props = {
    open: boolean
@@ -15,9 +17,10 @@ type Props = {
 
 export const NotificationsList = ({ open }: Props) => {
    const [markRead] = useMarkNotificationReadMutation()
+   const dispatch = useAppDispatch()
 
-   const { data, isLoading, hasNextPage, fetchNextPage, isFetching, isFetchingNextPage, refetch } =
-      useGetNotificationsInfiniteQuery(undefined, { skip: !open })
+   const { data, isLoading, hasNextPage, fetchNextPage, isFetching, isFetchingNextPage } =
+      useGetNotificationsInfiniteQuery(undefined, { skip: !open, refetchOnMountOrArgChange: true })
 
    const loadMore = useCallback(() => {
       if (hasNextPage && !isFetching) {
@@ -29,17 +32,16 @@ export const NotificationsList = ({ open }: Props) => {
    const observerRef = useInfiniteScroll(loadMore, { root: scrollRef.current, rootMargin: '100px' })
    const allNotifications = data?.pages.flatMap(page => page.items)
 
-   const onReadSelect = (id: string, status: 'readed' | 'unreaded') => {
+   const onReadSelect = async (id: string, status: 'readed' | 'unreaded') => {
       if (status !== 'readed') {
-         markRead(id)
+         try {
+            await markRead(id).unwrap()
+            dispatch(decrementUnreadCount())
+         } catch {
+            alert.error('Failed to mark notification as read')
+         }
       }
    }
-
-   useEffect(() => {
-      if (open) {
-         // refetch()
-      }
-   }, [open, refetch])
 
    if (isLoading) {
       return (
@@ -53,6 +55,9 @@ export const NotificationsList = ({ open }: Props) => {
    return (
       <Scroll ref={scrollRef} className={'h-[376px]'}>
          <DropDownSeparator />
+         {!isLoading && allNotifications?.length === 0 && (
+            <div className="py-4 text-center text-gray-500">No notifications yet</div>
+         )}
          {allNotifications?.map(n => (
             <Notification
                key={n.id}
