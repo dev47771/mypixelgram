@@ -7,5 +7,5 @@ export type ToastType = {
 }
 
 export type ToastUIType = ToastType & {
-  timerId?: NodeJS.Timeout
+   timerId?: NodeJS.Timeout
 }

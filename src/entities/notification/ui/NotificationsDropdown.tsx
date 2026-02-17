@@ -6,17 +6,19 @@ import {
    updateUnreadCount,
    useMarkAllNotificationsReadMutation,
    useNotificationsSocket,
+   setDropdownOpen,
+   selectIsDropdownOpen,
 } from '@/entities/notification'
-import { useState } from 'react'
 import { DropDownMenuArrow } from '@/shared/components/DropDownMenu/DropDownMenuArrow'
 import { NotificationsList } from './NotificationsList'
 import { alert } from '@/shared/components/Alert'
 import { useAppDispatch } from '@/shared/hooks'
+import { useAppSelector } from '@/shared/store'
 
 export const NotificationsDropdown = () => {
    const dispatch = useAppDispatch()
+   const isDropdownOpen = useAppSelector(selectIsDropdownOpen)
 
-   const [openMenu, setOpenMenu] = useState(false)
    const { unreadNotificationCount } = useNotificationsSocket()
    const [markAllRead] = useMarkAllNotificationsReadMutation()
 
@@ -49,14 +51,14 @@ export const NotificationsDropdown = () => {
                Read all
             </Button>
          }
-         open={openMenu}
-         onOpenChange={open => setOpenMenu(open)}
+         open={isDropdownOpen} //
+         onOpenChange={open => dispatch(setDropdownOpen(open))}
       >
          <DropDownMenuArrow>
             <span></span>
          </DropDownMenuArrow>
 
-         <NotificationsList open={openMenu} />
+         <NotificationsList open={isDropdownOpen} />
       </DropDownMenu>
    )
 }

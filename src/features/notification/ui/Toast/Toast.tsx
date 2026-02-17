@@ -22,9 +22,18 @@ export const Toast = ({
    title,
    message,
 }: Props) => {
-   const handleCloseToast = () => onClose()
-   const toggleNotificationSound = () => onSoundChange()
-   const handleNotificationClick = () => onOpenNotifications()
+   const handleCloseToast = (e: React.MouseEvent) => {
+      e.stopPropagation()
+      onClose()
+   }
+   const toggleNotificationSound = (e: React.MouseEvent) => {
+      e.stopPropagation()
+      onSoundChange()
+   }
+   const handleNotificationClick = () => {
+      onOpenNotifications()
+      onClose()
+   }
 
    return (
       <div

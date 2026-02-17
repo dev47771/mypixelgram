@@ -6,7 +6,9 @@ export { NotificationsDropdown } from './ui/NotificationsDropdown'
 export {
    notificationSlice,
    selectUnreadCount,
+   selectIsDropdownOpen,
    updateUnreadCount,
    decrementUnreadCount,
+   setDropdownOpen,
    notificationReducer,
 } from './model/notificationSlice'

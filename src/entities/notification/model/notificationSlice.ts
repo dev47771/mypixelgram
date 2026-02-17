@@ -3,10 +3,12 @@ import { RootState } from '@/shared/store'
 
 type NotificationState = {
    unreadCount: number
+   isDropdownOpen: boolean
 }
 
 const initialState: NotificationState = {
    unreadCount: 0,
+   isDropdownOpen: false,
 }
 
 export const notificationSlice = createSlice({
@@ -21,10 +23,15 @@ export const notificationSlice = createSlice({
             state.unreadCount -= 1
          }
       },
+      setDropdownOpen: (state, action: PayloadAction<boolean>) => {
+         state.isDropdownOpen = action.payload
+      },
    },
 })
 
 export const notificationReducer = notificationSlice.reducer
-export const { updateUnreadCount, decrementUnreadCount } = notificationSlice.actions
+export const { updateUnreadCount, decrementUnreadCount, setDropdownOpen } =
+   notificationSlice.actions
 
 export const selectUnreadCount = (state: RootState) => state.notification.unreadCount
+export const selectIsDropdownOpen = (state: RootState) => state.notification.isDropdownOpen

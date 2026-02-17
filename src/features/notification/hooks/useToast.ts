@@ -9,8 +9,12 @@ export const useToast = () => {
    const soundRef = useRef<HTMLAudioElement | null>(null)
 
    const [isSoundEnabled, setIsSoundEnabled] = useState(() => {
-      const saved = localStorage.getItem('notificationSoundEnabled')
-      return saved !== null ? JSON.parse(saved) : true
+      if (typeof window === 'undefined') {
+         return null
+      } else {
+         const saved = localStorage.getItem('notificationSoundEnabled')
+         return saved !== null ? JSON.parse(saved) : true
+      }
    })
 
    const addToast = (newToast: ToastType) => {
