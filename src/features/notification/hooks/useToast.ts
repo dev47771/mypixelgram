@@ -1,7 +1,8 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { ToastType, ToastUIType } from '..'
+import { ToastUIType } from '..'
+import { NewNotificationSocketPayload } from '@/entities/notification'
 
 export const useToast = () => {
    const [toasts, setToasts] = useState<ToastUIType[]>([])
@@ -17,7 +18,7 @@ export const useToast = () => {
       }
    })
 
-   const addToast = (newToast: ToastType) => {
+   const addToast = (newToast: NewNotificationSocketPayload) => {
       if (isSoundEnabled) {
          playNotificationSound()
       }

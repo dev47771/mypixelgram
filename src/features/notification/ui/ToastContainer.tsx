@@ -1,13 +1,13 @@
 'use client'
 
 import { useAppDispatch } from '@/shared/hooks'
-import { Toast, useToast, useToastNotifications } from '..'
-import { setDropdownOpen } from '@/entities/notification'
+import { Toast, useToast } from '..'
+import { setDropdownOpen, useNotificationsSocket } from '@/entities/notification'
 
 export const ToastContainer = () => {
    const { toasts, removeToast, isSoundEnabled, toggleSound, addToast } = useToast()
 
-   useToastNotifications(addToast)
+   useNotificationsSocket(addToast)
 
    const dispatch = useAppDispatch()
 

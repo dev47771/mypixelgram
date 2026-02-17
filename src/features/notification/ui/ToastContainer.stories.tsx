@@ -22,7 +22,6 @@ const ToastTest = () => {
    const handleAddToast = () => {
       addToast({
          id: `test-${Date.now()}`,
-         status: 'unread',
          title: `Уведомление #${counter}`,
          description: `Тестовое сообщение номер ${counter}. Следующая оплата спишется через 7 дней. Все понятно? Надеюсь, да, не забудь заплатить)`,
          createdAt: new Date().toISOString(),
