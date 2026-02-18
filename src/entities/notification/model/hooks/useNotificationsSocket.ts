@@ -13,7 +13,9 @@ const NotificationSocketEvent = {
    UNREAD_COUNT: 'notifications:unread-count',
 } as const
 
-export const useNotificationsSocket = () => {
+export const useNotificationsSocket = (
+   addToast?: (toast: NewNotificationSocketPayload) => void
+) => {
    const dispatch = useAppDispatch()
 
    const unreadNotificationCount = useAppSelector(selectUnreadCount)
@@ -26,7 +28,9 @@ export const useNotificationsSocket = () => {
       }
 
       const handleNewNotification = (data: NewNotificationSocketPayload) => {
-         console.log('notifications', data)
+         if (addToast) {
+            addToast(data)
+         }
       }
 
       socket?.on(NotificationSocketEvent.UNREAD_COUNT, handleUnreadCount)
@@ -36,7 +40,7 @@ export const useNotificationsSocket = () => {
          socket?.off(NotificationSocketEvent.UNREAD_COUNT, handleUnreadCount)
          socket?.off(NotificationSocketEvent.NEW, handleNewNotification)
       }
-   }, [])
+   }, [addToast, dispatch])
 
    return { unreadNotificationCount }
 }

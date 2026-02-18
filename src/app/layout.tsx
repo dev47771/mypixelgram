@@ -5,6 +5,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { NoAgeNotAllowed } from '@/entities/auth'
+import { ToastContainer } from '@/features/notification'
 
 const inter = Inter({
    variable: '--font-inter',
@@ -55,6 +56,7 @@ export default function RootLayout({
                {children}
                <Alert />
                <NoAgeNotAllowed />
+               <ToastContainer />
             </body>
          </html>
       </StoreProvider>
