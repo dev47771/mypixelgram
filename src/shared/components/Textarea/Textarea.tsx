@@ -2,11 +2,12 @@
 
 import React, { ChangeEvent, ComponentPropsWithRef, useId } from 'react'
 import { Label } from '@/shared/components/Label'
-import { clsx } from 'clsx'
 import { Typography } from '@/shared/components/Typography'
+import { cn } from '@/shared/lib'
 
 export type TextareaProps = {
    label?: string
+   resize?: 'none' | 'vertical' | 'horizontal' | 'both'
    errorMessage?: string
    onValueChange?: (value: string) => void
    showCount?: boolean
@@ -15,6 +16,7 @@ export type TextareaProps = {
 
 export const Textarea = ({
    label,
+   resize = 'both',
    errorMessage,
    onValueChange,
    onChange,
@@ -47,15 +49,21 @@ export const Textarea = ({
             </Label>
          )}
          <textarea
-            className={clsx(
-               'bg-dark-500 min-h-21 w-full min-w-71 resize-none rounded-xs border px-3 pt-1.5 outline-none focus:ring-0',
+            className={cn(
+               'bg-dark-500 min-h-21 w-full rounded-xs border px-3 pt-1.5 outline-none focus:ring-0',
                errorMessage
                   ? 'border-danger-500 focus:border-danger-500'
                   : 'border-dark-100 focus:border-accent-700 active:border-light-100 focus:border-2',
                disabled
                   ? 'placeholder-dark-100 text-dark-100'
                   : 'text-light-100 placeholder-light-900',
-               className || ''
+               {
+                  'resize-none': resize === 'none',
+                  'resize-x': resize === 'horizontal',
+                  'resize-y': resize === 'vertical',
+                  resize: resize === 'both',
+               },
+               className
             )}
             disabled={disabled}
             id={textareaId}

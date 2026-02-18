@@ -95,6 +95,7 @@ export const EditPostModal = ({ post, onCloseAction }: Props) => {
                         maxLength={500}
                         autoFocus={false}
                         shouldUnregister={false}
+                        resize={'vertical'}
                         className={'min-h-30'}
                      />
                   </div>
