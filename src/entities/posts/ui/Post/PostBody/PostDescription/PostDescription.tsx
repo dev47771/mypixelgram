@@ -25,7 +25,7 @@ export const PostDescription = ({ user, description, updatedAt }: Props) => {
                      {user.login + ' '}
                   </Typography>
                </ProfileLink>
-               <Typography variant={'captionRegular'} className={'inline'}>
+               <Typography variant={'captionRegular'} className={'inline break-all'}>
                   {description}
                </Typography>
                <div className={'mt-[5px] flex gap-3'}>
