@@ -8,21 +8,18 @@ import {
    SelectTrigger,
    SelectValue,
 } from '@/shared/components/Select'
-import { Typography, variantClasses } from '@/shared/components/Typography'
-import { DropDownMenu, DropDownMenuItem, DropDownSeparator } from '@/shared/components/DropDownMenu'
-import { DropDownMenuArrow } from '@/shared/components/DropDownMenu/DropDownMenuArrow'
-import { DropDownMenuTrigger } from '@/shared/components/DropDownMenu/DropDownMenuTrigger'
-import { FlagRussiaIcon, FlagUKIcon, NotificationIcon } from '@/shared/icons'
+import { variantClasses } from '@/shared/components/Typography'
+import { FlagRussiaIcon, FlagUKIcon } from '@/shared/icons'
 import Link from 'next/link'
 import { ROUTES } from '@/shared/constants'
 import { useMeQuery } from '@/features/auth/api'
-
+import { NotificationsDropdown } from '@/entities/notification'
+import React from 'react'
 type Props = {
-   notificationCount?: number
    selectedLanguage?: string
 }
 
-export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props) => {
+export const Header = ({ selectedLanguage = 'EN' }: Props) => {
    // const [isLoggedIn, setIsLoggedIn] = useState(false)
    // const [isClient, setIsClient] = useState(false)
    // const pathname = usePathname()
@@ -83,32 +80,7 @@ export const Header = ({ notificationCount = 0, selectedLanguage = 'EN' }: Props
             ) : data ? (
                <div className="flex items-center">
                   <div className="mr-[50px]">
-                     {notificationCount > 0 && (
-                        <DropDownMenu
-                           trigger={
-                              <DropDownMenuTrigger>
-                                 <NotificationIcon count={notificationCount} />
-                              </DropDownMenuTrigger>
-                           }
-                           align={'end'}
-                           className={'px-2 py-1'}
-                           sideOffset={-4}
-                           label="Notification"
-                        >
-                           <DropDownMenuArrow>
-                              <span></span>
-                           </DropDownMenuArrow>
-
-                           <DropDownSeparator />
-
-                           <DropDownMenuItem>
-                              <Typography variant="h3"> Новое уведомление!</Typography>
-                              <Typography as="span">новое</Typography>
-                              <Typography>Следующий платеж у вас спишется через 1 день</Typography>
-                              <Typography variant="captionRegular">1 час назад</Typography>
-                           </DropDownMenuItem>
-                        </DropDownMenu>
-                     )}
+                     <NotificationsDropdown />
                   </div>
                   {selectComponent}
                </div>
