@@ -7,6 +7,7 @@ import {
 } from '@/entities/notification'
 import { useAppSelector } from '@/shared/store'
 import { useAppDispatch } from '@/shared/hooks'
+import { useMeQuery } from '@/features/auth/api'
 
 const NotificationSocketEvent = {
    NEW: 'notifications:new',
@@ -20,7 +21,11 @@ export const useNotificationsSocket = (
 
    const unreadNotificationCount = useAppSelector(selectUnreadCount)
 
+   const { data: me } = useMeQuery()
+
    useEffect(() => {
+      if (!me) return
+
       const socket = createSocketConnect(SocketNamespace.NOTIFICATIONS)
 
       const handleUnreadCount = (data: { unreadCount: number }) => {
@@ -40,7 +45,7 @@ export const useNotificationsSocket = (
          socket?.off(NotificationSocketEvent.UNREAD_COUNT, handleUnreadCount)
          socket?.off(NotificationSocketEvent.NEW, handleNewNotification)
       }
-   }, [addToast, dispatch])
+   }, [addToast, dispatch, me])
 
    return { unreadNotificationCount }
 }
