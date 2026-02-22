@@ -9,7 +9,7 @@ import { Button } from '@/shared/components/Button'
 import Link from 'next/link'
 import { ROUTES } from '@/shared/constants'
 import { PaidIcon } from '@/shared/icons/PaidIcon'
-import { UserStats } from '@/entities/user/ui'
+import { UserStats } from '@/entities/user'
 import { UserProfileType } from '@/entities/user/api'
 
 type UserProfileHeaderProps = {

@@ -11,4 +11,4 @@ export {
    useSubscription,
    type SubscriptionPlanName,
    type AccountType,
-} from './hooks/useSubscription'
+} from './model/hooks/useSubscription'

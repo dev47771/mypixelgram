@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { MODALS } from '..'
+import { MODALS } from '../../constants/postCreatorConstants'
 
 export const useModalStack = (initialModal: string = MODALS.ADD_PHOTO) => {
    const [modalStack, setModalStack] = useState([initialModal])

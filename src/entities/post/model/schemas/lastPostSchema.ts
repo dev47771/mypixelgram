@@ -6,7 +6,7 @@ export const userSchema = z.object({
    avatar: z.string().nullable(),
 })
 
-export const fileSchema = z.object({
+const fileSchema = z.object({
    url: z.string().refine(
       val => {
          try {
@@ -21,7 +21,7 @@ export const fileSchema = z.object({
    fileId: z.string(),
 })
 
-export const lastPostSchema = z.object({
+const lastPostSchema = z.object({
    postId: z.string(),
    description: z.string().nullable(),
    location: z.string().nullable(),

@@ -1,7 +1,7 @@
 'use client'
 import type { PostByIdType } from '@/features/post/api'
 import { Post } from '@/entities/post/ui/Post'
-import { usePostController } from '@/features/post/hooks'
+import { usePostController } from '@/features/post/model/hooks'
 import { EditPostModal } from '@/features/post-creator/ui/modals/EditPostModal'
 
 export function PostClientWrapper({ post }: { post: PostByIdType }) {

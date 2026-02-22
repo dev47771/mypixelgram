@@ -1,5 +1,5 @@
 import { CardPost } from '@/entities/post/ui/CardPost'
-import { type LastPostProps, lastPostsSchema } from '@/entities/post/model/schemas'
+import { type LastPostProps, lastPostsSchema } from '@/entities/post'
 import ServerPageContainer from '@/shared/components/PageContainer/ServerPageContainer'
 import { API_URLS } from '@/shared/constants'
 import { UserCounter } from '@/widgets/UserCounter'

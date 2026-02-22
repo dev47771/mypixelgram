@@ -4,9 +4,9 @@ import { useState } from 'react'
 import { PhotoSlider } from './PhotoSlider'
 import { UserBlock } from './UserBlock'
 import { DescriptionBlock } from './DescriptionBlock'
-import { LastPostProps } from '../../model/schemas'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCreateQueryString, useRelativeTime } from '@/shared/hooks'
+import { LastPostProps } from '@/entities/post'
 
 export const CardPost = ({ description, file, createdAt, user, postId }: LastPostProps) => {
    //for relative time, update every 60 sec

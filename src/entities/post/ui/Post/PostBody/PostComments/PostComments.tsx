@@ -1,4 +1,4 @@
-import { Comment } from '@/entities/comment/ui'
+import { Comment } from '@/entities/comment'
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type Props = {
    comments: any

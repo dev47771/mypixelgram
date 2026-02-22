@@ -3,8 +3,8 @@ import { UserProfileHeader} from '@/widgets/UserProfile/UserProfileHeader'
 import {UserProfilePublicPosts} from '@/widgets/UserProfile/UserProfilePosts'
 import {API_URLS} from "@/shared/constants";
 import {serverResponseHandler} from "@/shared/utils";
-import {publicPostsSchema} from "@/entities/post/model/schemas";
-import {userProfileSchema} from "@/entities/user/model";
+import {publicPostsSchema} from "@/entities/post";
+import {userProfileSchema} from "@/entities/user";
 import {notFound} from "next/navigation";
 
 

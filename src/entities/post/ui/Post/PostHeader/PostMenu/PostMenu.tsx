@@ -5,7 +5,7 @@ import { DropDownMenuTrigger } from '@/shared/components/DropDownMenu/DropDownMe
 import { Typography } from '@/shared/components/Typography'
 import { POST_MENU_ITEMS } from '@/entities/post/ui/Post/PostHeader/PostMenu/config'
 import { DeletePostModal } from '@/features/post-creator/ui/modals/DeletePostModal/DeletePostModal'
-import { usePostController } from '@/features/post/hooks'
+import { usePostController } from '@/features/post/model/hooks'
 import { useMeQuery } from '@/features/auth/api'
 
 type Props = {

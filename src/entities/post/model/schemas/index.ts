@@ -1,3 +1,3 @@
-export * from './lastPostSchema'
-export * from './publicPostSchema'
-export * from './privatePostSchema'
+export { type LastPostProps, lastPostsSchema } from './lastPostSchema'
+export { publicPostsSchema } from './publicPostSchema'
+export { privatePostsSchema } from './privatePostSchema'

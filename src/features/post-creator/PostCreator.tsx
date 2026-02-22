@@ -2,7 +2,7 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
-import { MODALS, useModalStack } from '.'
+
 import { nanoid } from '@reduxjs/toolkit'
 //import { useSearchParams } from 'next/navigation'
 import { PublicationModal } from '@/features/post-creator/ui/modals/PublicationModal'
@@ -11,6 +11,8 @@ import { FilterModal } from '@/features/post-creator/ui/modals/FilterModal/Filte
 import { AddPhotoModal } from '@/features/post-creator/ui/modals/AddPhotoModal'
 import { CroppingModal } from '@/features/post-creator/ui/modals/CroppingModal'
 import { FilterValue } from '@/features/post-creator/ui/modals/FilterModal'
+import { useModalStack } from './model/hooks/useModalStack'
+import { MODALS } from './constants/postCreatorConstants'
 
 export type PhotoState = {
    id: string

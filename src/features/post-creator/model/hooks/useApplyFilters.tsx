@@ -1,8 +1,8 @@
 'use client'
 
 import { useCallback } from 'react'
-import { PhotoState } from '../PostCreator'
-import { applyFilterToImage } from '../utils/applyImageFilter'
+import { PhotoState } from '../../PostCreator'
+import { applyFilterToImage } from '../../utils/applyImageFilter'
 
 export const useApplyFilters = () => {
    const applyFiltersToAllPhotos = useCallback(async (photos: PhotoState[]): Promise<File[]> => {

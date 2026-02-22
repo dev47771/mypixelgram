@@ -2,7 +2,7 @@ import { Typography } from '@/shared/components/Typography'
 import { RadioGroup, RadioItem } from '@/shared/components/Radio-group'
 import { Card } from '@/shared/components/Card'
 import { ACCOUNT_TYPE } from '@/features/settings'
-import { AccountType } from '@/features/settings/hooks/useSubscription'
+import { AccountType } from '@/features/settings/model/hooks/useSubscription'
 
 type Props = {
    value: AccountType

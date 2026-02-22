@@ -1,6 +1,6 @@
 import { CardPost } from '@/entities/post/ui/CardPost'
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { LastPostProps } from '../../model/schemas'
+import { LastPostProps } from '@/entities/post'
 
 const samplePost: LastPostProps = {
    postId: '1',

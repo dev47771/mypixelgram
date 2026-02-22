@@ -2,13 +2,13 @@
 
 import { PhotoState } from '@/features/post-creator/PostCreator'
 import { PublicationForm, PublicationFormData } from '@/features/post/forms/PublicationForm'
-import { usePublishPost } from '@/features/post/hooks'
+import { usePublishPost } from '@/features/post/model/hooks'
 import { Modal } from '@/shared/components/Modal'
 import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataResponse'
 import { alert } from '@/shared/components/Alert'
 import { ErrorResponse } from '@/features/auth/api'
 import { useState } from 'react'
-import { useApplyFilters } from '@/features/post-creator/hooks/useApplyFilters'
+import { useApplyFilters } from '@/features/post-creator/model/hooks/useApplyFilters'
 
 type Props = {
    onBack: () => void
