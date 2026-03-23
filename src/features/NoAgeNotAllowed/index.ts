@@ -1,1 +1,0 @@
-export { NoAgeNotAllowed } from './NoAgeNotAllowed'
