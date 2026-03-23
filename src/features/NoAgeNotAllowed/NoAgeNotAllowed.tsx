@@ -1,6 +1,6 @@
 'use client'
 import { useEffect } from 'react'
-import { useMeQuery } from '@/features/auth/api'
+import { useMeQuery } from '@/entities/user/api'
 import { usePathname, useRouter } from 'next/navigation'
 import { ROUTES } from '@/shared/constants'
 import { alert } from '@/shared/components/Alert'

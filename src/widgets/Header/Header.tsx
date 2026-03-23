@@ -1,5 +1,7 @@
 'use client'
 
+import { NotificationsDropdown } from '@/entities/notification'
+import { useMeQuery } from '@/entities/user/api'
 import { Button } from '@/shared/components/Button'
 import {
    Select,
@@ -9,12 +11,9 @@ import {
    SelectValue,
 } from '@/shared/components/Select'
 import { variantClasses } from '@/shared/components/Typography'
+import { ROUTES } from '@/shared/constants'
 import { FlagRussiaIcon, FlagUKIcon } from '@/shared/icons'
 import Link from 'next/link'
-import { ROUTES } from '@/shared/constants'
-import { useMeQuery } from '@/features/auth/api'
-import { NotificationsDropdown } from '@/entities/notification'
-import React from 'react'
 type Props = {
    selectedLanguage?: string
 }

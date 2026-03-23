@@ -1,6 +1,6 @@
 'use client'
 import { FavoriteOutlineIcon, LikeOutlineIcon, ShareIcon } from '@/shared/icons'
-import { useMeQuery } from '@/features/auth/api'
+import { useMeQuery } from '@/entities/user/api'
 
 export const PostActions = () => {
    const { data: me } = useMeQuery()

@@ -3,7 +3,7 @@
 import { GoogleOAuthButton } from '@/features/auth/oauth'
 import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
-import { ControlledCheckbox, ControlledInput } from '@/shared/components/Controlled'
+import { ControlledCheckbox, ControlledInput } from '@/shared/lib/Controlled'
 import { Typography } from '@/shared/components/Typography'
 import { ROUTES } from '@/shared/constants'
 import { zodResolver } from '@hookform/resolvers/zod'

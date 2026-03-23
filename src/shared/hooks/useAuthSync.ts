@@ -1,12 +1,12 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { authChannel } from '@/shared/lib/authBroadcast'
-import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
-import { ROUTES } from '@/shared/constants'
-import { authService } from '@/features/auth/api'
 import { baseApi } from '@/app/store'
+import { userService } from '@/entities/user'
+import { ROUTES } from '@/shared/constants'
+import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
+import { authChannel } from '@/shared/lib/authBroadcast'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 export const useAuthSync = () => {
    const router = useRouter()
@@ -22,7 +22,7 @@ export const useAuthSync = () => {
          }
 
          if (type === 'LOGIN') {
-            dispatch(authService.endpoints.me.initiate())
+            dispatch(userService.endpoints.me.initiate())
             router.replace(ROUTES.private.feed)
          }
       }

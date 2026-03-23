@@ -3,14 +3,13 @@ import { Typography } from '@/shared/components/Typography'
 import { PostOutlineIcon } from '@/shared/icons'
 import { Avatar } from '@/shared/components/Avatar'
 import { ReactNode } from 'react'
-import { MeResponse, useMeQuery } from '@/features/auth/api'
 import { usePathname } from 'next/navigation'
 import { Button } from '@/shared/components/Button'
 import Link from 'next/link'
 import { ROUTES } from '@/shared/constants'
 import { PaidIcon } from '@/shared/icons/PaidIcon'
 import { UserStats } from '@/entities/user'
-import { UserProfileType } from '@/entities/user/api'
+import { MeResponse, UserProfileType, useMeQuery } from '@/entities/user/api'
 
 type UserProfileHeaderProps = {
    actions?: ReactNode

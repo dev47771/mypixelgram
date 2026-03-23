@@ -22,11 +22,12 @@ import {
    StatisticIcon,
 } from '@/shared/icons'
 import { YesAndNoModal } from '@/shared/ui/modals/YesAndNoModal'
-import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
+import { useLogoutMutation } from '@/features/auth/api'
 import { TOKEN } from '@/shared/constants'
 import { ROUTES } from '@/shared/constants'
 import { useCreateQueryString } from '@/shared/hooks'
 import { PostCreator } from '@/features/post-creator/PostCreator'
+import { useMeQuery } from '@/entities/user/api'
 
 type SidebarItemType = {
    id: string

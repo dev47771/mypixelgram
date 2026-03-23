@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
-import { useMeQuery } from '@/features/auth/api'
+import { useMeQuery } from '@/entities/user/api'
 
 import { alert } from '@/shared/components/Alert'
 import { clearQueryParam } from '@/shared/utils'

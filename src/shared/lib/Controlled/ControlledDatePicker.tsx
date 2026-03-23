@@ -1,8 +1,8 @@
 'use client'
 
 import { useController, type UseControllerProps, type FieldValues, Control } from 'react-hook-form'
-import { Label } from '../Label'
-import { DatePicker, DatePickerProps } from '../DatePicker'
+import { Label } from '../../components/Label'
+import { DatePicker, DatePickerProps } from '../../components/DatePicker'
 import { cn } from '@/shared/lib'
 import { ROUTES } from '@/shared/constants'
 import Link from 'next/link'

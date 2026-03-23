@@ -3,7 +3,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { ComponentType, useEffect } from 'react'
 
 import { Loader } from '@/shared/components/Loader'
-import { useMeQuery } from '@/features/auth/api'
+import { useMeQuery } from '@/entities/user/api'
 import { ROUTES } from '@/shared/constants'
 
 //если пользователь не авторизован — не пускать на приватные страницы

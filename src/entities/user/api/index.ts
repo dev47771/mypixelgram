@@ -1,2 +1,2 @@
-export { userService, useGetUserByLoginQuery } from './user.service'
-export type { UserType, UserProfileType } from './user.types'
+export { userService, useMeQuery, useGetUserByLoginQuery } from './user.service'
+export type { UserType, UserProfileType, MeResponse } from './user.types'

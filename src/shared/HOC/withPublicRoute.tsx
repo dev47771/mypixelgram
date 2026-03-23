@@ -3,7 +3,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { ComponentType, useEffect } from 'react'
 import { ROUTES } from '@/shared/constants'
 import { Loader } from '@/shared/components/Loader'
-import { useMeQuery } from '@/features/auth/api'
+import { useMeQuery } from '@/entities/user/api'
 
 //если пользователь авторизован — не пускать на публичные страницы
 export const withPublicRoute = <P extends object>(WrappedComponent: ComponentType<P>) => {

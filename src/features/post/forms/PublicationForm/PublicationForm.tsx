@@ -2,7 +2,7 @@
 
 import { Avatar } from '@/shared/components/Avatar'
 import { Button } from '@/shared/components/Button'
-import { ControlledInput, ControlledTextarea } from '@/shared/components/Controlled'
+import { ControlledInput, ControlledTextarea } from '@/shared/lib/Controlled'
 import { ModalBody, ModalTitle } from '@/shared/components/Modal'
 import { Typography } from '@/shared/components/Typography'
 import { ArrowLeftIcon } from '@/shared/icons'
@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form'
 import z from 'zod'
 import { publicationSchema } from '../../model/schemas'
 import { PostCreatorSlider } from '@/features/post-creator/ui/PostCreatorSlider/PostCreatorSlider'
-import { useMeQuery } from '@/features/auth/api'
+import { useMeQuery } from '@/entities/user/api'
 import { FilterValue } from '@/features/post-creator/ui/modals/FilterModal'
 
 export type PublicationFormData = z.infer<typeof publicationSchema>

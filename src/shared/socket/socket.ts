@@ -1,6 +1,5 @@
-import { authStorage } from '@/features/auth/model'
 import { io, Socket } from 'socket.io-client'
-//authStorage нужно перенести в shared
+import { authStorage } from '../lib'
 
 export enum SocketNamespace {
    NOTIFICATIONS = 'notifications',

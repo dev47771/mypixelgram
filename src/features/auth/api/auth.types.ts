@@ -1,20 +1,3 @@
-import { SubscriptionPlanName } from '@/features/settings'
-
-export type MeResponse = {
-   userId: string
-   avatar: string | null
-   login: string
-   email: string
-   createdAt: string
-   dateOfBirth: string | null
-   accountType: 'PERSONAL' | 'BUSINESS'
-   currentSubscription: null | {
-      planName: SubscriptionPlanName
-      expiresAt: string
-      nextPayment: string
-   }
-}
-
 export type SignUpArgs = {
    login: string
    email: string

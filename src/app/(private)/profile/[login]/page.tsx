@@ -5,8 +5,8 @@ import { API_URLS } from '@/shared/constants'
 import { serverResponseHandler } from '@/shared/utils'
 import { privatePostsSchema } from '@/entities/post'
 import { userProfileSchema } from '@/entities/user'
-import { SaveAccessToken } from '@/shared/components/SaveAccessToken'
 import { headers } from 'next/headers'
+import { SaveAccessToken } from '@/shared/lib'
 
 type Props = {
    params: Promise<{

@@ -1,5 +1,5 @@
 'use client'
-import { useMeQuery } from '@/features/auth/api'
+import { useMeQuery } from '@/entities/user/api'
 import { ROUTES } from '@/shared/constants'
 import { cn } from '@/shared/lib'
 import Link from 'next/link'

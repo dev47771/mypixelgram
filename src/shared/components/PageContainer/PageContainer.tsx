@@ -4,7 +4,7 @@ import { type ComponentPropsWithRef } from 'react'
 import { cn } from '@/shared/lib'
 import { ROUTES } from '@/shared/constants'
 import { usePathname } from 'next/navigation'
-import { useMeQuery } from '@/features/auth/api'
+import { useMeQuery } from '@/entities/user/api'
 
 const PUBLIC_ROUTES = Object.values(ROUTES.public) as string[]
 

@@ -7,7 +7,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 
-import { ControlledInput } from '@/shared/components/Controlled/ControlledInput'
+import { ControlledInput } from '@/shared/lib/Controlled/ControlledInput'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { forgotPasswordSchema } from '../../model/schemas/authSchemas'

@@ -1,8 +1,8 @@
 'use client'
 import { ReactNode } from 'react'
 import { cn } from '@/shared/lib'
-import { useMeQuery } from '@/features/auth/api'
 import { Sidebar } from '@/widgets/Sidebar'
+import { useMeQuery } from '@/entities/user/api'
 
 export default function HomeLayout({ children, post }: { children: ReactNode; post: ReactNode }) {
    const { data } = useMeQuery()

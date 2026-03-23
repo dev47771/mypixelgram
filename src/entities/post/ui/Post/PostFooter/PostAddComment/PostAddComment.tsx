@@ -1,7 +1,7 @@
 'use client'
 import { Typography } from '@/shared/components/Typography'
 import { Button } from '@/shared/components/Button'
-import { useMeQuery } from '@/features/auth/api'
+import { useMeQuery } from '@/entities/user/api'
 
 export const PostAddComment = () => {
    const { data: me } = useMeQuery()

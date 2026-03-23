@@ -1,7 +1,7 @@
 'use client'
 import { Button } from '@/shared/components/Button'
 import { Card } from '@/shared/components/Card'
-import { ControlledInput } from '@/shared/components/Controlled'
+import { ControlledInput } from '@/shared/lib/Controlled'
 import { Typography } from '@/shared/components/Typography'
 import { zodResolver } from '@hookform/resolvers/zod'
 import clsx from 'clsx'
