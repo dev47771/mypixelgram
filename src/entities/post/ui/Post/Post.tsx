@@ -3,9 +3,9 @@ import { PostHeader } from '@/entities/post/ui/Post/PostHeader'
 import { PostBody } from '@/entities/post/ui/Post/PostBody'
 import { PostFooter } from '@/entities/post/ui/Post/PostFooter'
 import { PostModal } from '@/shared/components/PostModal'
-import type { PostByIdType } from '@/features/post/api'
 import { Loader } from '@/shared/components/Loader'
 import React from 'react'
+import { PostByIdType } from '@/entities/post/model'
 
 type Props = {
    post: PostByIdType

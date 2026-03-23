@@ -1,4 +1,4 @@
-import { Recaptcha } from '@/shared/ui/Recaptcha/Recaptcha'
+import { Recaptcha } from './Recaptcha'
 import { store } from '@/app/store'
 import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { Provider } from 'react-redux'

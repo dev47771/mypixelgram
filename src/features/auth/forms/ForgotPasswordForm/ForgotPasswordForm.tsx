@@ -6,12 +6,13 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
-import { Recaptcha } from '@/shared/ui/Recaptcha'
+
 import { ControlledInput } from '@/shared/components/Controlled/ControlledInput'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { forgotPasswordSchema } from '../../model/schemas/authSchemas'
 import { ROUTES } from '@/shared/constants'
+import { Recaptcha } from '@/features/auth/ui/Recaptcha'
 
 type FormTypes = z.infer<typeof forgotPasswordSchema>
 type Props = {

@@ -1,18 +1,9 @@
-import { UserType } from '@/entities/user/api'
+import { UploadFileResponse } from '@/shared/api'
 
 export type CreatePostRequest = {
    description?: string
    location?: string
    filesId: string[]
-}
-
-export type UploadFileItem = {
-   url: string
-   fileId: string
-}
-
-export type UploadFileResponse = {
-   data: UploadFileItem[]
 }
 
 export type CreatePostResponse = {
@@ -21,18 +12,6 @@ export type CreatePostResponse = {
    location: string | null
    createdAt: string
    files: UploadFileResponse[]
-}
-
-export type PostByIdType = {
-   postId: string
-   user: UserType
-   description: string
-   location: string | null
-   likesCount: number
-   userLikeStatus: 'None' | 'Like'
-   createdAt: string
-   updatedAt: string
-   images: UploadFileItem[]
 }
 
 export type UpdatePostRequest = {

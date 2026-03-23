@@ -8,10 +8,11 @@ import { ControlledTextarea } from '@/shared/components/Controlled'
 import { Button } from '@/shared/components/Button'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { PostByIdType, useUpdatePostDataMutation } from '@/features/post/api'
+import { useUpdatePostDataMutation } from '@/features/post/api'
 import { CancelEditModal } from '@/features/post-creator/ui/modals/CancelEditModal/CancelEditModal'
 import { Avatar } from '@/shared/components/Avatar'
 import { Slider } from '@/shared/components/Slider'
+import { PostByIdType } from '@/entities/post/model'
 
 type FormTypes = z.infer<typeof EditPostSchema>
 

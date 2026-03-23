@@ -4,12 +4,12 @@ import {
    CreatePostResponse,
    GetUserPostsInfiniteResponse,
    GetUserPublicPostsResponse,
-   PostByIdType,
    UpdatePostRequest,
-   UploadFileResponse,
 } from './post.types'
 import { FilesEndpoints, PostsEndpoints, PublicPostsEndpoints } from '@/shared/enums'
 import { baseApi } from '@/app/store'
+import { UploadFileResponse } from '@/shared/api'
+import { PostByIdType } from '@/entities/post/model'
 
 export const postService = baseApi.injectEndpoints({
    endpoints: builder => ({

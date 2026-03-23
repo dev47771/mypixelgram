@@ -11,7 +11,7 @@ import type {
    verifyReCaptchaArgs,
    verifyReCaptchaResponse,
    VerificationExpiredArgs,
-} from '@/features/auth/api'
+} from './auth.types'
 import { TOKEN } from '@/shared/constants'
 import { authChannel } from '@/shared/lib/authBroadcast'
 import { baseApi } from '@/app/store'

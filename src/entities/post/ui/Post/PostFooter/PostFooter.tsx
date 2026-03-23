@@ -1,7 +1,7 @@
 import { PostActions } from '@/entities/post/ui/Post/PostFooter/PostActions'
 import { PostStats } from '@/entities/post/ui/Post/PostFooter/PostStats'
 import { PostAddComment } from '@/entities/post/ui/Post/PostFooter/PostAddComment'
-import type { PostByIdType } from '@/features/post/api'
+import { PostByIdType } from '@/entities/post/model'
 
 type Props = {
    post: PostByIdType

@@ -4,7 +4,7 @@ import { Header } from '@/widgets/Header'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { NoAgeNotAllowed } from '@/features/auth/model'
+import { NoAgeNotAllowed } from '@/features/NoAgeNotAllowed'
 import { ToastContainer } from '@/features/notification'
 
 const inter = Inter({

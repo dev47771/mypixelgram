@@ -1,8 +1,8 @@
 'use client'
 import { baseApi } from '@/app/store'
 import { CountriesResponse, getProfileResponse, updateProfileArgs } from './settings.types'
-import { UploadFileResponse } from '@/features/post/api'
 import { FilesEndpoints, UserEndpoints } from '@/shared/enums'
+import { UploadFileResponse } from '@/shared/api'
 
 export const profileService = baseApi.injectEndpoints({
    endpoints: builder => ({

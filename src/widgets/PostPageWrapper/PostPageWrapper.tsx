@@ -1,7 +1,7 @@
 import { API_URLS } from '@/shared/constants'
-import type { PostByIdType } from '@/features/post/api'
 import { PostClientWrapper } from '@/entities/post/ui/Post'
 import { PostNotFound } from './PostNotFound'
+import { PostByIdType } from '@/entities/post/model'
 
 export async function PostPageWrapper({ postId }: { postId: string }) {
    const postResponse = await fetch(API_URLS.getPostById(postId))

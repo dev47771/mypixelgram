@@ -1,0 +1,1 @@
+export { NoAgeNotAllowed } from './NoAgeNotAllowed'
