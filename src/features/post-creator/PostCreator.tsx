@@ -2,15 +2,17 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
-import { MODALS, useModalStack } from '.'
+
 import { nanoid } from '@reduxjs/toolkit'
 //import { useSearchParams } from 'next/navigation'
-import { PublicationModal } from '@/entities/posts/ui/modals/PublicationModal'
-import { CloseCreatePostModal } from '@/entities/posts/ui/modals/CloseCreatePostModal'
-import { FilterModal } from '@/entities/posts/ui/modals/FilterModal/FilterModal'
-import { AddPhotoModal } from '@/entities/posts/ui/modals/AddPhotoModal'
-import { CroppingModal } from '@/entities/posts/ui/modals/CroppingModal'
-import { FilterValue } from '@/entities/posts/ui/modals/FilterModal'
+import { PublicationModal } from '@/features/post-creator/ui/modals/PublicationModal'
+import { CloseCreatePostModal } from '@/features/post-creator/ui/modals/CloseCreatePostModal'
+import { FilterModal } from '@/features/post-creator/ui/modals/FilterModal/FilterModal'
+import { AddPhotoModal } from '@/features/post-creator/ui/modals/AddPhotoModal'
+import { CroppingModal } from '@/features/post-creator/ui/modals/CroppingModal'
+import { FilterValue } from '@/features/post-creator/ui/modals/FilterModal'
+import { useModalStack } from './model/hooks/useModalStack'
+import { MODALS } from './constants/postCreatorConstants'
 
 export type PhotoState = {
    id: string

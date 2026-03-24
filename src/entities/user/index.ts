@@ -1,4 +1,4 @@
-export { UserStats } from './ui/UserStats'
-export * from './api/user.types'
-export * from './api/user.service'
-export * from './api/userEndpoints'
+export { userProfileSchema, useUserProfile } from './model'
+export { userService, useGetUserByLoginQuery } from './api'
+export type { UserType, UserProfileType } from './api'
+export { UserStats } from './ui'

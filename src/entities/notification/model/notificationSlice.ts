@@ -1,5 +1,5 @@
+import { RootState } from '@/app/store'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { RootState } from '@/shared/store'
 
 type NotificationState = {
    unreadCount: number

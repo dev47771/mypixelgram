@@ -1,4 +1,4 @@
-import { TabsBlock } from '@/entities/settings'
+import { TabsBlock } from '@/widgets/TabsBlock'
 
 interface PageProps {
    searchParams: Promise<{ part?: string }>

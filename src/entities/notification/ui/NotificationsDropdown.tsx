@@ -13,7 +13,7 @@ import { DropDownMenuArrow } from '@/shared/components/DropDownMenu/DropDownMenu
 import { NotificationsList } from './NotificationsList'
 import { alert } from '@/shared/components/Alert'
 import { useAppDispatch } from '@/shared/hooks'
-import { useAppSelector } from '@/shared/store'
+import { useAppSelector } from '@/app/store'
 
 export const NotificationsDropdown = () => {
    const dispatch = useAppDispatch()

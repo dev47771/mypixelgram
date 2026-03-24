@@ -1,5 +1,5 @@
 'use client'
-import { withPrivateRoute } from '@/shared/HOC/withPrivateRoute'
+import { withPrivateRoute } from '@/features/auth/HOC/withPrivateRoute'
 
 function StatisticsPage() {
    return <div>StatisticsPage</div>

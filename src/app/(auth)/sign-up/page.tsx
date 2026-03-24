@@ -3,10 +3,10 @@
 import { PageContainer } from '@/shared/components/PageContainer'
 import { useState } from 'react'
 import { SignUpForm } from '@/features/auth/forms/SignUpForm'
-import { EmailSentModal } from '@/entities/auth/ui/EmailSentModal'
+import { EmailSentModal } from '@/features/auth/ui/modals/EmailSentModal'
 import { SignUpArgs, useSignUpMutation } from '@/features/auth/api'
 import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataResponse'
-import { useOAuthErrorModal } from '@/features/auth/hooks/useOAuthErrorModal'
+import { useOAuthErrorModal } from '@/features/auth/model/hooks/useOAuthErrorModal'
 
 export default function SignUpPage() {
    const [confirmationEmail, setConfirmationEmail] = useState<string | null>(null)

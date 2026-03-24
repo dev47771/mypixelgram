@@ -1,18 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { BASE_URL } from '@/shared/constants'
-import { AuthEndpoints, PrivateRoutes, PublicRoutes } from '@/shared/enums'
+import { BASE_URL, ROUTES } from '@/shared/constants'
+import { AuthEndpoints } from '@/shared/enums'
 
 export async function proxy(request: NextRequest) {
    const { pathname } = request.nextUrl
 
-   if (pathname.endsWith(PrivateRoutes.settings)) {
+   if (pathname.endsWith(ROUTES.private.settings)) {
       return NextResponse.next()
    }
 
    const refreshToken = request.cookies.get('refreshToken')?.value
 
    if (!refreshToken) {
-      return NextResponse.redirect(new URL(PublicRoutes.signIn, request.url))
+      return NextResponse.redirect(new URL(ROUTES.public.signIn, request.url))
    }
 
    try {
@@ -24,7 +24,7 @@ export async function proxy(request: NextRequest) {
       })
 
       if (!response.ok) {
-         const res = NextResponse.redirect(new URL(PublicRoutes.signIn, request.url))
+         const res = NextResponse.redirect(new URL(ROUTES.public.signIn, request.url))
          res.cookies.delete('refreshToken')
          return res
       }

@@ -1,4 +1,4 @@
-import { baseApi } from '@/shared/store'
+import { baseApi } from '@/app/store'
 import type { NotificationsResponse } from '@/entities/notification'
 import { NotificationsEndpoints } from '@/shared/enums'
 

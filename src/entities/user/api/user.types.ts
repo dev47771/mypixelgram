@@ -1,3 +1,5 @@
+import { SubscriptionPlanName } from '@/features/settings'
+
 export type UserType = {
    id: string
    login: string
@@ -10,4 +12,19 @@ export type UserProfileType = {
    followers: number
    following: number
    description: string | null
+}
+
+export type MeResponse = {
+   userId: string
+   avatar: string | null
+   login: string
+   email: string
+   createdAt: string
+   dateOfBirth: string | null
+   accountType: 'PERSONAL' | 'BUSINESS'
+   currentSubscription: null | {
+      planName: SubscriptionPlanName
+      expiresAt: string
+      nextPayment: string
+   }
 }

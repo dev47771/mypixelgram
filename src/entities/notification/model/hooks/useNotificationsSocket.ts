@@ -5,9 +5,10 @@ import {
    NewNotificationSocketPayload,
    selectUnreadCount,
 } from '@/entities/notification'
-import { useAppSelector } from '@/shared/store'
+
 import { useAppDispatch } from '@/shared/hooks'
-import { useMeQuery } from '@/features/auth/api'
+import { useAppSelector } from '@/app/store'
+import { useMeQuery } from '@/entities/user/api'
 
 const NotificationSocketEvent = {
    NEW: 'notifications:new',

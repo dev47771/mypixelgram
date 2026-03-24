@@ -1,0 +1,16 @@
+import { YesAndNoModal, YesAndNoModalProps } from '@/shared/ui/modals/YesAndNoModal/YesAndNoModal'
+
+type Props = YesAndNoModalProps
+
+export const DeletePostModal = ({ open, onConfirm, onCancel }: Props) => {
+   return (
+      <YesAndNoModal
+         open={open} //true по нажатию на delete post
+         title="Delete Post"
+         description="Are you sure you want to delete this post?"
+         onConfirm={onConfirm} //yes, отправляем запрос на удаление поста и закрываем все модальные окна, переадрессовываем пользователя на его домашнюю страницу
+         onCancel={onCancel} //no, закрываем DeletePostModal
+         className="max-w-[378px]"
+      />
+   )
+}

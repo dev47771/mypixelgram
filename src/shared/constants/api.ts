@@ -1,11 +1,9 @@
-import { AuthEndpoints, PublicPostsEndpoints } from '../enums'
-import { UserEndpoints } from '@/entities/user/api'
-import { PostsEndpoints } from '@/features/posts/api'
+import { AuthEndpoints, PostsEndpoints, PublicPostsEndpoints, UserEndpoints } from '@/shared/enums'
 
 export const TOKEN = 'accessToken'
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
-export const apiUrls = {
+export const API_URLS = {
    loginGoogle: `${BASE_URL}${AuthEndpoints.loginGoogle}`,
    loginGitHub: `${BASE_URL}${AuthEndpoints.loginGitHub}`,
    lastPosts: `${BASE_URL}${PublicPostsEndpoints.lastPosts}`,
