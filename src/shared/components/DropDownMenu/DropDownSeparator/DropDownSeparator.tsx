@@ -7,9 +7,6 @@ export const DropDownSeparator = ({
    ...rest
 }: ComponentPropsWithRef<typeof DropdownMenu.Separator>) => {
    return (
-      <DropdownMenu.Separator
-         className={clsx('border-dark-100 mr-2 ml-2 border', className)}
-         {...rest}
-      />
+      <DropdownMenu.Separator className={clsx('border-dark-100 border-t', className)} {...rest} />
    )
 }

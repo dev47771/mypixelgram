@@ -6,12 +6,13 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
-import { Recaptcha } from '@/entities/Recaptcha'
-import { PublicRoutes } from '@/shared/enums'
-import { ControlledInput } from '@/shared/components/Controlled/ControlledInput'
+
+import { ControlledInput } from '@/shared/lib/Controlled/ControlledInput'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { forgotPasswordSchema } from '../../schema/authSchemas'
+import { forgotPasswordSchema } from '../../model/schemas/authSchemas'
+import { ROUTES } from '@/shared/constants'
+import { Recaptcha } from '@/features/auth/ui/Recaptcha'
 
 type FormTypes = z.infer<typeof forgotPasswordSchema>
 type Props = {
@@ -68,7 +69,7 @@ export const ForgotPasswordForm = ({ onSubmitAction, errorsFromApi }: Props) => 
                Send Link
             </Button>
             <Button fullWidth asChild variant="textButton" className={'mb-6'}>
-               <Link href={PublicRoutes.signIn}>Back to Sign In</Link>
+               <Link href={ROUTES.public.signIn}>Back to Sign In</Link>
             </Button>
          </form>
          <Recaptcha onVerificationComplete={setRecaptchaReady} />

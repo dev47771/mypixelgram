@@ -21,13 +21,13 @@ import {
    SearchIcon,
    StatisticIcon,
 } from '@/shared/icons'
-
-import { YesAndNoModal } from '@/entities/common/ui/YesAndNoModal'
-import { useLogoutMutation, useMeQuery } from '@/features/auth/api'
+import { YesAndNoModal } from '@/shared/ui/modals/YesAndNoModal'
+import { useLogoutMutation } from '@/features/auth/api'
 import { TOKEN } from '@/shared/constants'
-import { profileRoutes, PublicRoutes } from '@/shared/enums'
+import { ROUTES } from '@/shared/constants'
 import { useCreateQueryString } from '@/shared/hooks'
 import { PostCreator } from '@/features/post-creator/PostCreator'
+import { useMeQuery } from '@/entities/user/api'
 
 type SidebarItemType = {
    id: string
@@ -71,7 +71,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
    const handleConfirmLogout = async () => {
       await logout().unwrap()
       setIsLogoutModalOpen(false)
-      router.push(PublicRoutes.signIn)
+      router.push(ROUTES.public.signIn)
    }
 
    const showAddPhotoModalHandler = () => {
@@ -115,7 +115,7 @@ export const Sidebar = ({ className, ...rest }: Props) => {
                   name="My Profile"
                   icon={PersonOutlineIcon}
                   activeIcon={PersonIcon}
-                  path={`${profileRoutes.private(user.login)}`}
+                  path={`${ROUTES.profile.private(user.login)}`}
                />
                <SidebarItem
                   id="4"

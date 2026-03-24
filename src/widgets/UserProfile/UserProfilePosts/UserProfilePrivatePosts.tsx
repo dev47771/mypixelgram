@@ -3,13 +3,13 @@ import {
    GetUserPostsInfiniteResponse,
    postService,
    useGetUserPostsInfiniteQuery,
-} from '@/features/posts/api'
+} from '@/features/post/api'
 import { useAppDispatch, useInfiniteScroll } from '@/shared/hooks'
 import { useCallback, useEffect, useState } from 'react'
-import { PostsGrid } from '@/features/posts/ui/ProfilePosts'
+import { PostsGrid } from '@/features/post/ui/ProfilePosts'
 import { Button } from '@/shared/components/Button'
 import { cn } from '@/shared/lib'
-import { useAppSelector } from '@/shared/store'
+import { useAppSelector } from '@/app/store'
 
 type Props = {
    postsResponse: GetUserPostsInfiniteResponse

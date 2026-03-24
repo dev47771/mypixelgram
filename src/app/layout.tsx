@@ -1,10 +1,11 @@
 import { Alert } from '@/shared/components/Alert'
-import { StoreProvider } from '@/shared/store/providers'
+import { StoreProvider } from '@/app/store/providers'
 import { Header } from '@/widgets/Header'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { NoAgeNotAllowed } from '@/entities/auth'
+import { ToastContainer } from '@/features/notification'
+import { NoAgeGuard } from '@/features/user'
 
 const inter = Inter({
    variable: '--font-inter',
@@ -51,10 +52,11 @@ export default function RootLayout({
       <StoreProvider>
          <html lang="en">
             <body className={`${inter.variable} min-h-screen`}>
-               <Header notificationCount={4} />
+               <Header />
                {children}
                <Alert />
-               <NoAgeNotAllowed />
+               <NoAgeGuard />
+               <ToastContainer />
             </body>
          </html>
       </StoreProvider>

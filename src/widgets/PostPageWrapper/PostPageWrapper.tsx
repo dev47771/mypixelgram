@@ -1,10 +1,10 @@
-import { apiUrls } from '@/shared/constants'
-import type { PostByIdType } from '@/features/posts/api'
-import { PostClientWrapper } from '@/entities/posts/ui/Post'
+import { API_URLS } from '@/shared/constants'
+import { PostClientWrapper } from '@/entities/post/ui/Post'
 import { PostNotFound } from './PostNotFound'
+import { PostByIdType } from '@/entities/post/model'
 
 export async function PostPageWrapper({ postId }: { postId: string }) {
-   const postResponse = await fetch(apiUrls.getPostById(postId))
+   const postResponse = await fetch(API_URLS.getPostById(postId))
 
    if (!postResponse.ok) {
       if (postResponse.status === 404) return <PostNotFound />

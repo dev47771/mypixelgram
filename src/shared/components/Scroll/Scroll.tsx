@@ -21,7 +21,7 @@ export const Scroll = ({ children, className, ref, ...props }: ScrollProps) => {
 
          <ScrollArea.Scrollbar
             orientation="vertical"
-            className="flex w-4 touch-none bg-transparent p-1.5 transition-colors duration-150 select-none"
+            className="absolute top-2 right-0 bottom-2 flex w-1 touch-none p-0 select-none"
          >
             <ScrollArea.Thumb className="bg-dark-300 hover:bg-light-900 w-1 flex-1 rounded-full" />
          </ScrollArea.Scrollbar>

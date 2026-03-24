@@ -1,7 +1,6 @@
 'use client'
 import { AuthEndpoints } from '@/shared/enums'
 import type {
-   MeResponse,
    SignInArgs,
    SignInResponse,
    RecoveryPasswordArgs,
@@ -11,20 +10,15 @@ import type {
    verifyReCaptchaArgs,
    verifyReCaptchaResponse,
    VerificationExpiredArgs,
-} from '@/features/auth/api'
+} from './auth.types'
 import { TOKEN } from '@/shared/constants'
 import { authChannel } from '@/shared/lib/authBroadcast'
-import { baseApi } from '@/shared/store'
+import { baseApi } from '@/app/store'
+import { userService } from '@/entities/user'
+import { disconnectAllSockets } from '@/shared/socket'
 
 export const authService = baseApi.injectEndpoints({
    endpoints: builder => ({
-      me: builder.query<MeResponse, void>({
-         query: () => ({
-            method: 'GET',
-            url: AuthEndpoints.me,
-         }),
-         providesTags: ['Me'],
-      }),
       signUp: builder.mutation<void, SignUpArgs>({
          query: args => ({
             method: 'POST',
@@ -43,6 +37,7 @@ export const authService = baseApi.injectEndpoints({
                dispatch(baseApi.util.resetApiState())
                authChannel.postMessage({ type: 'LOGOUT' })
                await queryFulfilled
+               disconnectAllSockets()
             } catch (err) {
                console.error('Logout failed', err)
             }
@@ -72,7 +67,7 @@ export const authService = baseApi.injectEndpoints({
             const { data } = await queryFulfilled
             localStorage.setItem(TOKEN, data.accessToken)
             authChannel.postMessage({ type: 'LOGIN' })
-            dispatch(authService.endpoints.me.initiate())
+            dispatch(userService.endpoints.me.initiate())
          },
       }),
       resendEmail: builder.mutation<void, VerificationExpiredArgs>({
@@ -114,7 +109,6 @@ export const authService = baseApi.injectEndpoints({
 })
 
 export const {
-   useMeQuery,
    useSignUpMutation,
    useLogoutMutation,
    useConfirmEmailMutation,

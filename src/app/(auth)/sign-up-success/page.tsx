@@ -8,8 +8,8 @@ import Link from 'next/link'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useConfirmEmailMutation } from '@/features/auth/api'
 import { useEffect, useState } from 'react'
-import { PublicRoutes } from '@/shared/enums'
 import { Loader } from '@/shared/components/Loader'
+import { ROUTES } from '@/shared/constants'
 
 export default function SignUpSuccessPage() {
    const [confirmEmail, { isLoading }] = useConfirmEmailMutation()
@@ -21,7 +21,7 @@ export default function SignUpSuccessPage() {
 
    useEffect(() => {
       if (!code) {
-         router.replace(PublicRoutes.signIn)
+         router.replace(ROUTES.public.signIn)
          return
       }
 
@@ -32,7 +32,7 @@ export default function SignUpSuccessPage() {
                setIsPendingConfirmation(false)
             }
          } catch {
-            router.replace(PublicRoutes.verificationExpired)
+            router.replace(ROUTES.public.verificationExpired)
          }
       }
 
@@ -54,7 +54,7 @@ export default function SignUpSuccessPage() {
          </Typography>
          <Typography className={'mt-5 mb-[54px]'}>Your email has been confirmed</Typography>
          <Button asChild className={'w-full max-w-[182px]'}>
-            <Link href={PublicRoutes.signIn}>Sign In</Link>
+            <Link href={ROUTES.public.signIn}>Sign In</Link>
          </Button>
          <Image
             src={confirmed}

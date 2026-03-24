@@ -1,9 +1,17 @@
 'use client'
-import { baseApi } from '@/shared/store'
-import { UserEndpoints, UserProfileType } from '@/entities/user'
+import { baseApi } from '@/app/store'
+import { AuthEndpoints, UserEndpoints } from '@/shared/enums'
+import { MeResponse, UserProfileType } from './user.types'
 
 export const userService = baseApi.injectEndpoints({
    endpoints: builder => ({
+      me: builder.query<MeResponse, void>({
+         query: () => ({
+            method: 'GET',
+            url: AuthEndpoints.me,
+         }),
+         providesTags: ['Me'],
+      }),
       getUserByLogin: builder.query<UserProfileType, string>({
          query: login => ({
             method: 'GET',
@@ -13,4 +21,4 @@ export const userService = baseApi.injectEndpoints({
    }),
 })
 
-export const { useGetUserByLoginQuery } = userService
+export const { useMeQuery, useGetUserByLoginQuery } = userService

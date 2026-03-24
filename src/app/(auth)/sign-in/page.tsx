@@ -4,9 +4,9 @@ import { SignInForm } from '@/features/auth/forms/SignInForm'
 import { PageContainer } from '@/shared/components/PageContainer'
 import { type SignInArgs, useLoginMutation } from '@/features/auth/api'
 import { useRouter } from 'next/navigation'
-import { PrivateRoutes } from '@/shared/enums'
+import { ROUTES } from '@/shared/constants'
 import { isErrorInDataResponse } from '@/shared/utils/typeguards/isErrorInDataResponse'
-import { useOAuthErrorModal } from '@/features/auth/hooks/useOAuthErrorModal'
+import { useOAuthErrorModal } from '@/features/auth/model/hooks/useOAuthErrorModal'
 
 export default function SignInPage() {
    const [login, { error, isLoading }] = useLoginMutation()
@@ -15,7 +15,7 @@ export default function SignInPage() {
 
    const handleLogin = async (data: SignInArgs) => {
       await login(data).unwrap()
-      router.push(PrivateRoutes.feed)
+      router.push(ROUTES.private.feed)
    }
 
    return (

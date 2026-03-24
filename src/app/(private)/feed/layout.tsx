@@ -1,7 +1,7 @@
 'use client'
 import { Sidebar } from '@/widgets/Sidebar'
 import { ReactNode } from 'react'
-import { withPrivateRoute } from '@/shared/HOC/withPrivateRoute'
+import { withPrivateRoute } from '@/features/auth/HOC/withPrivateRoute'
 
 function FeedLayout({ children }: { children: ReactNode }) {
    return (

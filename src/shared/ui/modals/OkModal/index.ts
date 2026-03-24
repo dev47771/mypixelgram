@@ -1,0 +1,1 @@
+export { OkModal } from './OkModal'

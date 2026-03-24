@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux'
 import { ForgotPasswordForm } from './ForgotPasswordForm'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { store } from '@/shared/store'
+import { store } from '@/app/store'
 
 const meta = {
    component: ForgotPasswordForm,
