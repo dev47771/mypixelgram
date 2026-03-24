@@ -1,3 +1,5 @@
+'use client'
+
 import { useController, type FieldValues, type UseControllerProps } from 'react-hook-form'
 import { Textarea } from '@/shared/components/Textarea'
 import type { ComponentPropsWithoutRef } from 'react'
