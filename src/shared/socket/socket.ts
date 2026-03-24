@@ -24,3 +24,11 @@ export const createSocketConnect = (namespace: SocketNamespace) => {
 
    return sockets.get(namespace)
 }
+
+export const disconnectAllSockets = () => {
+   sockets.forEach(socket => {
+      socket.disconnect()
+   })
+
+   sockets.clear()
+}

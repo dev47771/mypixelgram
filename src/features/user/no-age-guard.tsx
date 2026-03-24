@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { ROUTES } from '@/shared/constants'
 import { alert } from '@/shared/components/Alert'
 
-export const NoAgeNotAllowed = () => {
+export const NoAgeGuard = () => {
    const router = useRouter()
    const pathname = usePathname()
    const { data: meData, isLoading } = useMeQuery()

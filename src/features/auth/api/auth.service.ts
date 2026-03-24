@@ -15,6 +15,7 @@ import { TOKEN } from '@/shared/constants'
 import { authChannel } from '@/shared/lib/authBroadcast'
 import { baseApi } from '@/app/store'
 import { userService } from '@/entities/user'
+import { disconnectAllSockets } from '@/shared/socket'
 
 export const authService = baseApi.injectEndpoints({
    endpoints: builder => ({
@@ -36,6 +37,7 @@ export const authService = baseApi.injectEndpoints({
                dispatch(baseApi.util.resetApiState())
                authChannel.postMessage({ type: 'LOGOUT' })
                await queryFulfilled
+               disconnectAllSockets()
             } catch (err) {
                console.error('Logout failed', err)
             }
