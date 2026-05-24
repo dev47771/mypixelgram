@@ -1,42 +1,55 @@
-# Установка зависимостей
-FROM node:20.11-alpine AS dependencies
+﻿# пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+FROM node:20-alpine AS dependencies
 WORKDIR /app
 
-# Установка pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ pnpm (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ v10 пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ Node 20)
+RUN corepack enable && corepack prepare pnpm@10 --activate
 
-# Копируем lock-файл и package.json для кеширования
+# пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ lock-пїЅпїЅпїЅпїЅпїЅ пїЅ package.json пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 COPY package.json pnpm-lock.yaml ./
 
-# Устанавливаем зависимости
+# пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 RUN pnpm install --frozen-lockfile
 
-# Билдим приложение
-FROM node:20.11-alpine AS builder
+# пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+FROM node:20-alpine AS builder
 WORKDIR /app
 
-# Установка pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ pnpm
+RUN corepack enable && corepack prepare pnpm@10 --activate
 
-# Копируем исходники
+# пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 COPY . .
 
-# Копируем зависимости из предыдущего стейджа
+# пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 COPY --from=dependencies /app/node_modules ./node_modules
-# COPY --from=dependencies /app/.pnpm-store /app/.pnpm-store
 
-# Билдим
+# Рў.Рє. @post РїР°СЂР°Р»Р»РµР»СЊРЅС‹Р№ СЂРѕСѓС‚ СЃС‚Р°С‚РёС‡РµСЃРєРё РіРµРЅРµСЂРёСЂСѓРµС‚ fetch-Р·Р°РїСЂРѕСЃ Р±РµР· Р±СЌРєРµРЅРґР°
+# РЅСѓР¶РЅРѕ РїСЂРёРЅСѓРґРёС‚РµР»СЊРЅРѕ СЃРґРµР»Р°С‚СЊ СЃС‚СЂР°РЅРёС†Сѓ РґРёРЅР°РјРёС‡РµСЃРєРѕР№ РґР»СЏ РёР·Р±РµР¶Р°РЅРёСЏ Р·Р°РІРёСЃР°РЅРёСЏ
+RUN sed -i '1iexport const dynamic = "force-dynamic";' 'src/app/(home)/@post/page.tsx'
+
+
+# Абсолютный URL для сборки — чтобы fetch в серверных компонентах работал
+ENV NEXT_PUBLIC_BASE_URL=http://main:3000/api/v1
+# URL для сокетов (клиентская сторона, встраивается в бандл)
+ENV NEXT_PUBLIC_APP_URL=http://localhost
+
+# Сборка
 RUN pnpm run build:production
 
-# Финальный стейдж
-FROM node:20.11-alpine AS runner
+# В собранном клиентском коде заменяем абсолютный URL на относительный
+# Серверные чанки НЕ трогаем — им нужен абсолютный URL для SSR fetch
+RUN find .next/static -type f -name "*.js" -exec sed -i 's|http://main:3000/api/v1|/api/v1|g' {} +
+
+# пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
-# Установка pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ pnpm
+RUN corepack enable && corepack prepare pnpm@10 --activate
 
-# Копируем билд
+# пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 COPY --from=builder /app ./
 
 EXPOSE 3000

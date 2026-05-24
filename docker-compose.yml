@@ -1,0 +1,46 @@
+name: main-frontend
+services:
+  # ============================================================
+  # Main Frontend (mypixelgram)
+  # ============================================================
+  main-frontend:
+    image: just2beeandrew/main-frontend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mypixelgram-main-frontend
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_BASE_URL: http://main:3000/api/v1
+      NEXT_PUBLIC_APP_URL: http://localhost
+    expose:
+      - "3000"
+    restart: unless-stopped
+    networks:
+      - main-network
+      - mypixelgram-network
+
+  # ============================================================
+  # Nginx Reverse Proxy (Main)
+  # ============================================================
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: mypixelgram-main-nginx
+    ports:
+      - "3666:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - main-frontend
+    restart: unless-stopped
+    networks:
+      - main-network
+      - mypixelgram-network
+
+networks:
+  main-network:
+    driver: bridge
+
+  mypixelgram-network:
+    external: true
+    name: mypixelgram-network
