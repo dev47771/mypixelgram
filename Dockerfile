@@ -32,7 +32,7 @@ RUN sed -i '1iexport const dynamic = "force-dynamic";' 'src/app/(home)/@post/pag
 # Абсолютный URL для сборки — чтобы fetch в серверных компонентах работал
 ENV NEXT_PUBLIC_BASE_URL=http://main:3000/api/v1
 # URL для сокетов (клиентская сторона, встраивается в бандл)
-ENV NEXT_PUBLIC_APP_URL=http://localhost
+ENV NEXT_PUBLIC_APP_URL=https://mypixelgram.ru
 
 # Сборка
 RUN pnpm run build:production

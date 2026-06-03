@@ -1,8 +1,6 @@
 name: main-frontend
+
 services:
-  # ============================================================
-  # Main Frontend (mypixelgram)
-  # ============================================================
   main-frontend:
     image: just2beeandrew/main-frontend:latest
     build:
@@ -12,17 +10,31 @@ services:
     environment:
       NODE_ENV: production
       NEXT_PUBLIC_BASE_URL: http://main:3000/api/v1
-      NEXT_PUBLIC_APP_URL: http://localhost
+      NEXT_PUBLIC_APP_URL: https://mypixelgram.ru
     expose:
       - "3000"
     restart: unless-stopped
+
+    tmpfs:
+      - /tmp:size=256m
+      - /var/tmp:size=64m
+
+    security_opt:
+      - no-new-privileges:true
+
+    cap_drop:
+      - ALL
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "3"
+
     networks:
       - main-network
       - mypixelgram-network
 
-  # ============================================================
-  # Nginx Reverse Proxy (Main)
-  # ============================================================
   nginx:
     image: nginx:1.27-alpine
     container_name: mypixelgram-main-nginx
@@ -33,6 +45,13 @@ services:
     depends_on:
       - main-frontend
     restart: unless-stopped
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "3"
+
     networks:
       - main-network
       - mypixelgram-network
