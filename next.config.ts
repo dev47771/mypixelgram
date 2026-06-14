@@ -28,6 +28,16 @@ const nextConfig: NextConfig = {
             hostname: 'mypixelgram.s3.eu-north-1.amazonaws.com',
             pathname: '/**',
          },
+         {
+            protocol: 'https',
+            hostname: 'bb-app-post-images.s3.eu-north-1.amazonaws.com',
+            pathname: '/**',
+         },
+         {
+            protocol: 'https',
+            hostname: 'dr3t41r0wbrb8.cloudfront.net',
+            pathname: '/**',
+         },
       ],
 
       //проверить на необходимость, изза изображений Image при обрезке в кропе
