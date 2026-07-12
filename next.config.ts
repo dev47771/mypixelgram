@@ -33,6 +33,11 @@ const nextConfig: NextConfig = {
             hostname: 'dr3t41r0wbrb8.cloudfront.net',
             pathname: '/**',
          },
+         {
+            protocol: 'https',
+            hostname: 'storage.yandexcloud.net',
+            pathname: '/**',
+         },
       ],
 
       //проверить на необходимость, изза изображений Image при обрезке в кропе
